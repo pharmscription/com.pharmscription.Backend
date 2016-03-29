@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace com.pharmscription.Infrastructure
+namespace com.pharmscription.business
 {
-    public class Class1
+    public class Context
     {
+        public String username { get; set; }
+
+
     }
 }

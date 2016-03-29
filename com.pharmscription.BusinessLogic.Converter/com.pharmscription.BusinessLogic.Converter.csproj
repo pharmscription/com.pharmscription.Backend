@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{28EE2EB7-85F9-4A53-AF37-3CE2F3D1776F}</ProjectGuid>
+    <ProjectGuid>{7BE7799A-2AB7-4A59-BE2B-6364EA6C9BD0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>com.pharmscription.DataAccess.Insurance</RootNamespace>
-    <AssemblyName>com.pharmscription.DataAccess.Insurance</AssemblyName>
+    <RootNamespace>com.pharmscription.BusinessLogic.Converter</RootNamespace>
+    <AssemblyName>com.pharmscription.BusinessLogic.Converter</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,10 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IInsurance.cs" />
-    <Compile Include="Insurance.cs" />
-    <Compile Include="IPatientStore.cs" />
-    <Compile Include="PatientStore.cs" />
+    <Compile Include="PatientConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

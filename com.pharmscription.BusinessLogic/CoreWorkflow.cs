@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace com.pharmscription.DataAccess.Insurance
+namespace com.pharmscription.business
 {
-    public class Class1
+    public class CoreWorkflow
     {
+        public Context context { get; set; }
+
     }
 }

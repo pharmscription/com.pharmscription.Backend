@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{52E3A842-2B8E-45CF-BC81-98D064D154DA}</ProjectGuid>
+    <ProjectGuid>{530E1F21-9813-4FA1-BC35-8B146A18EDCE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>com.pharmscription.DataAccess.Insurance.Tests</RootNamespace>
-    <AssemblyName>com.pharmscription.DataAccess.Insurance.Tests</AssemblyName>
+    <RootNamespace>com.pharmscription.BusinessLogic.Converter.Tests</RootNamespace>
+    <AssemblyName>com.pharmscription.BusinessLogic.Converter.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -50,19 +50,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="PatientStoreTest.cs" />
-    <Compile Include="InsurancePatientTest.cs" />
+    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\com.pharmscription.DataAccess.Insurance\com.pharmscription.DataAccess.Insurance.csproj">
-      <Project>{28EE2EB7-85F9-4A53-AF37-3CE2F3D1776F}</Project>
-      <Name>com.pharmscription.DataAccess.Insurance</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\com.pharmscription.Infrastructure\com.pharmscription.Infrastructure.csproj">
-      <Project>{B53CE84A-9F8A-41C2-97FB-8AA14635CCBF}</Project>
-      <Name>com.pharmscription.Infrastructure</Name>
-    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
