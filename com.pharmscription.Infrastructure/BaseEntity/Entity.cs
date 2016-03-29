@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using com.pharmscription.Infrastructure.EntityHelper;
 using com.pharmscription.Infrastructure.SharedInterfaces;
 
 namespace com.pharmscription.Infrastructure.BaseEntity
