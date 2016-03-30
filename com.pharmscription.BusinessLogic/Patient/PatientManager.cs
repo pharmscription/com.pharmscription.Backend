@@ -1,5 +1,6 @@
 ﻿using System;
 using com.pharmscription.BusinessLogic.Converter;
+using com.pharmscription.DataAccess.Repositories.Patient;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
 
@@ -7,7 +8,13 @@ namespace com.pharmscription.BusinessLogic.Patient
 {
     public class PatientManager : CoreWorkflow, IPatientManager
     {
-      
+        private IPatientRepository _patientRepository;
+
+        public PatientManager(IPatientRepository patientRepository)
+        {
+            _patientRepository = patientRepository;
+        }
+
         public PatientDto Lookup(String ahvNumber)
         {
             InsuranceConnector connector = new InsuranceConnector();
@@ -27,7 +34,12 @@ namespace com.pharmscription.BusinessLogic.Patient
 
         public PatientDto Find(string ahvNumber)
         {
-            throw new NotImplementedException();
+            if (_patientRepository.Exists(ahvNumber))
+            {
+                return PatientConverter.Convert(_patientRepository.GetByAhvNumber(ahvNumber));
+            }
+
+            return null;
         }
     }
 }

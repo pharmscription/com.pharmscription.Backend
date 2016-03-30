@@ -2,7 +2,7 @@
 
 namespace com.pharmscription.Infrastructure.Dto
 {
-    public class PatientDto
+    public class PatientDto : BaseDto
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -11,5 +11,6 @@ namespace com.pharmscription.Infrastructure.Dto
         public DateTime BirthDate { get; set; }
         public string PhoneNumber { get; set; }
         public string InsuranceNumber { get; set; }
+        public string Insurance { get; set; }
     }
 }
