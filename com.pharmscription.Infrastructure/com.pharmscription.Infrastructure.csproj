@@ -51,7 +51,7 @@
   <ItemGroup>
     <Compile Include="Dto\AddressDto.cs" />
     <Compile Include="Dto\PatientDTO.cs" />
-    <Compile Include="Insurance\InsurancePatient.cs" />
+    <Compile Include="ExternalDto\InsuranceDto\InsurancePatient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

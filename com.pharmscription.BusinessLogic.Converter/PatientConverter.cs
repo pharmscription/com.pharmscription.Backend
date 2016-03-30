@@ -1,5 +1,5 @@
 ﻿using com.pharmscription.Infrastructure.Dto;
-using com.pharmscription.Infrastructure.Insurance;
+using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
 
 namespace com.pharmscription.BusinessLogic.Converter
 {

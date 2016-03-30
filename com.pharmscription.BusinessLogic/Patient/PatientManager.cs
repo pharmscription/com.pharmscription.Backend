@@ -1,7 +1,7 @@
 ﻿using System;
 using com.pharmscription.BusinessLogic.Converter;
 using com.pharmscription.Infrastructure.Dto;
-using com.pharmscription.Infrastructure.Insurance;
+using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
 
 namespace com.pharmscription.BusinessLogic.Patient
 {

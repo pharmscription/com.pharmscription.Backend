@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace com.pharmscription.Infrastructure.Insurance
+namespace com.pharmscription.Infrastructure.ExternalDto.InsuranceDto
 {
     public class InsurancePatient
     {
@@ -14,5 +14,6 @@ namespace com.pharmscription.Infrastructure.Insurance
         public DateTime BirthDate { get; set; }
         public string PhoneNumber { get; set; }
         public string InsuranceNumber { get; set; }
+        public string Insurance { get; set; }
     }
 }
