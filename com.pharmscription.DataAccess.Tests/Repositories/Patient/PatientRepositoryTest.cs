@@ -13,14 +13,16 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.Patient
         {
             IPharmscriptionUnitOfWork puow = new PharmscriptionUnitOfWork();
             IPatientRepository _patientRepository = new PatientRepository(puow);
-            var patient = new Entities.PatientEntity.Patient
+            var patient = new DataAccess.Entities.PatientEntity.Patient
             {
                 AhvNumber = "123",
                 FirstName = "Rafael",
                 LastName = "Krucker"
             };
             _patientRepository.Add(patient);
+            puow.Commit();
             var patientFount = _patientRepository.GetByAhvNumber("123");
+            
             Assert.AreEqual(patient.LastName, patientFount.LastName);
         }
     }
