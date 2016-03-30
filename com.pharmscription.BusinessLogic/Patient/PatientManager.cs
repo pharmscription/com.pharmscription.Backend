@@ -8,14 +8,14 @@ namespace com.pharmscription.BusinessLogic.Patient
 {
     public class PatientManager : CoreWorkflow, IPatientManager
     {
-        private IPatientRepository _patientRepository;
+        private readonly IPatientRepository _patientRepository;
 
         public PatientManager(IPatientRepository patientRepository)
         {
             _patientRepository = patientRepository;
         }
 
-        public PatientDto Lookup(String ahvNumber)
+        public PatientDto Lookup(string ahvNumber)
         {
             InsuranceConnector connector = new InsuranceConnector();
             InsurancePatient insurancePatient = connector.GetInsuranceConnection().FindPatient(ahvNumber);
