@@ -1,6 +1,8 @@
 ﻿using System;
 using com.pharmscription.BusinessLogic.Converter;
+using com.pharmscription.DataAccess;
 using com.pharmscription.DataAccess.Repositories.Patient;
+using com.pharmscription.DataAccess.UnitOfWork;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
 
@@ -24,6 +26,11 @@ namespace com.pharmscription.BusinessLogic.Patient
 
         public PatientDto Add(PatientDto patient)
         {
+            IPharmscriptionUnitOfWork puow = new PharmscriptionDataAccess().UnitOfWork;
+            
+            IPatientRepository patientRepository = new PatientRepository(puow);
+            
+
             throw new NotImplementedException();
         }
 
