@@ -1,6 +1,7 @@
 ﻿using System;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
+using DeepEqual.Syntax;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace com.pharmscription.BusinessLogic.Converter.Tests
@@ -45,8 +46,8 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
             };
 
             var patient = PatientConverter.Convert(insurancePatient);
-
-            Assert.AreEqual(expectedPatient, patient);
+            
+            Assert.IsTrue(expectedPatient.IsDeepEqual(patient));
 
         }
 
