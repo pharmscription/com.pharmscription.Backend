@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{530E1F21-9813-4FA1-BC35-8B146A18EDCE}</ProjectGuid>
+    <ProjectGuid>{33A72E75-E3AD-4629-A5DF-A24EFB28C9C1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>com.pharmscription.BusinessLogic.Converter.Tests</RootNamespace>
-    <AssemblyName>com.pharmscription.BusinessLogic.Converter.Tests</AssemblyName>
+    <RootNamespace>com.pharmscription.DataAccess.SanteSuisse.Tests</RootNamespace>
+    <AssemblyName>com.pharmscription.DataAccess.SanteSuisse.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -50,22 +50,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="PatientConverterTest.cs" />
+    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\com.pharmscription.BusinessLogic.Converter\com.pharmscription.BusinessLogic.Converter.csproj">
-      <Project>{7BE7799A-2AB7-4A59-BE2B-6364EA6C9BD0}</Project>
-      <Name>com.pharmscription.BusinessLogic.Converter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\com.pharmscription.DataAccess\com.pharmscription.DataAccess.csproj">
-      <Project>{45e80fd3-39d7-4112-af49-bb25b67e0fee}</Project>
-      <Name>com.pharmscription.DataAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\com.pharmscription.Infrastructure\com.pharmscription.Infrastructure.csproj">
-      <Project>{B53CE84A-9F8A-41C2-97FB-8AA14635CCBF}</Project>
-      <Name>com.pharmscription.Infrastructure</Name>
-    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

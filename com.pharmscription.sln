@@ -43,6 +43,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.pharmscription.Business
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.pharmscription.BusinessLogic.Converter", "com.pharmscription.BusinessLogic.Converter\com.pharmscription.BusinessLogic.Converter.csproj", "{7BE7799A-2AB7-4A59-BE2B-6364EA6C9BD0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwissMedic", "SwissMedic", "{9DBD4B71-3D4E-41A1-ABE2-A79DE175D226}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SanteSuisse", "SanteSuisse", "{1F089A15-4675-41F5-A4CD-1D428E93499C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.pharmscription.DataAccess.SanteSuisse", "com.pharmscription.DataAccess.SanteSuisse\com.pharmscription.DataAccess.SanteSuisse.csproj", "{0FDBE9F1-9026-4E48-870C-B413C6EFAD3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.pharmscription.DataAccess.SwissMedic", "com.pharmscription.DataAccess.SwissMedic\com.pharmscription.DataAccess.SwissMedic.csproj", "{AF444CBF-5E01-4826-8FBB-B5FCB681DD3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.pharmscription.DataAccess.SwissMedic.Tests", "com.pharmscription.DataAccess.SwissMedic.Tests\com.pharmscription.DataAccess.SwissMedic.Tests.csproj", "{65906FA0-CEC0-4BD0-AAAB-F0610120A4A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.pharmscription.DataAccess.SanteSuisse.Tests", "com.pharmscription.DataAccess.SanteSuisse.Tests\com.pharmscription.DataAccess.SanteSuisse.Tests.csproj", "{33A72E75-E3AD-4629-A5DF-A24EFB28C9C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +117,22 @@ Global
 		{7BE7799A-2AB7-4A59-BE2B-6364EA6C9BD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BE7799A-2AB7-4A59-BE2B-6364EA6C9BD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BE7799A-2AB7-4A59-BE2B-6364EA6C9BD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FDBE9F1-9026-4E48-870C-B413C6EFAD3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FDBE9F1-9026-4E48-870C-B413C6EFAD3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FDBE9F1-9026-4E48-870C-B413C6EFAD3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FDBE9F1-9026-4E48-870C-B413C6EFAD3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF444CBF-5E01-4826-8FBB-B5FCB681DD3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF444CBF-5E01-4826-8FBB-B5FCB681DD3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF444CBF-5E01-4826-8FBB-B5FCB681DD3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF444CBF-5E01-4826-8FBB-B5FCB681DD3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65906FA0-CEC0-4BD0-AAAB-F0610120A4A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65906FA0-CEC0-4BD0-AAAB-F0610120A4A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65906FA0-CEC0-4BD0-AAAB-F0610120A4A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65906FA0-CEC0-4BD0-AAAB-F0610120A4A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33A72E75-E3AD-4629-A5DF-A24EFB28C9C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33A72E75-E3AD-4629-A5DF-A24EFB28C9C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33A72E75-E3AD-4629-A5DF-A24EFB28C9C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33A72E75-E3AD-4629-A5DF-A24EFB28C9C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,5 +153,11 @@ Global
 		{33733FCC-01CE-4298-AC1C-DCC2DC7AB291} = {0143E860-907F-4514-A64F-D657086FD34B}
 		{530E1F21-9813-4FA1-BC35-8B146A18EDCE} = {F7290322-F539-43BC-92A2-81691D9AA25D}
 		{7BE7799A-2AB7-4A59-BE2B-6364EA6C9BD0} = {F7290322-F539-43BC-92A2-81691D9AA25D}
+		{9DBD4B71-3D4E-41A1-ABE2-A79DE175D226} = {0143E860-907F-4514-A64F-D657086FD34B}
+		{1F089A15-4675-41F5-A4CD-1D428E93499C} = {0143E860-907F-4514-A64F-D657086FD34B}
+		{0FDBE9F1-9026-4E48-870C-B413C6EFAD3F} = {1F089A15-4675-41F5-A4CD-1D428E93499C}
+		{AF444CBF-5E01-4826-8FBB-B5FCB681DD3D} = {9DBD4B71-3D4E-41A1-ABE2-A79DE175D226}
+		{65906FA0-CEC0-4BD0-AAAB-F0610120A4A9} = {9DBD4B71-3D4E-41A1-ABE2-A79DE175D226}
+		{33A72E75-E3AD-4629-A5DF-A24EFB28C9C1} = {1F089A15-4675-41F5-A4CD-1D428E93499C}
 	EndGlobalSection
 EndGlobal

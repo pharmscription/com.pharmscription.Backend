@@ -1,6 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace com.pharmscription.BusinessLogic.Converter.Tests
+namespace com.pharmscription.DataAccess.SanteSuisse.Tests
 {
     [TestClass]
     public class UnitTest1

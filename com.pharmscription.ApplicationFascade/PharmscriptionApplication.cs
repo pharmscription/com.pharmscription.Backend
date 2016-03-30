@@ -9,8 +9,7 @@ namespace com.pharmscription.ApplicationFascade
 {
     public class PharmscriptionApplication
     {
-        private IPatientManager _patientManager = new PatientManager();
-
+        
         public PharmscriptionApplication()
         {
             
