@@ -57,7 +57,7 @@
     <Compile Include="Dto\AddressDto.cs" />
     <Compile Include="Dto\PatientDTO.cs" />
     <Compile Include="EntityHelper\IdentityGenerator.cs" />
-    <Compile Include="Insurance\InsurancePatient.cs" />
+    <Compile Include="ExternalDto\InsuranceDto\InsurancePatient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SharedInterfaces\IEntity.cs" />
     <Compile Include="SharedInterfaces\IQueryableUnitOfWork.cs" />
