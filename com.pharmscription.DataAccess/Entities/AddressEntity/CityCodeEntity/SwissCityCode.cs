@@ -2,6 +2,10 @@
 {
     public class SwissCityCode: ICityCode
     {
-        public int CityCode { get; set; }
+        public string CityCode { get; set; }
+        public bool IsValid()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

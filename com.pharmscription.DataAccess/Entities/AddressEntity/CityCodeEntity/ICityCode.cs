@@ -2,5 +2,7 @@
 {
     public interface ICityCode
     {
+        string CityCode { get; set; }
+        bool IsValid();
     }
 }
