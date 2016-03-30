@@ -83,6 +83,16 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\com.pharmscription.DataAccess\com.pharmscription.DataAccess.csproj">
+      <Project>{45E80FD3-39D7-4112-AF49-BB25B67E0FEE}</Project>
+      <Name>com.pharmscription.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.Infrastructure\com.pharmscription.Infrastructure.csproj">
+      <Project>{B53CE84A-9F8A-41C2-97FB-8AA14635CCBF}</Project>
+      <Name>com.pharmscription.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
