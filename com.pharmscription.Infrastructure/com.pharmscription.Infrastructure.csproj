@@ -49,21 +49,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddressEntity\Address.cs" />
-    <Compile Include="AddressEntity\CityCodeEntity\ICityCode.cs" />
-    <Compile Include="AddressEntity\CityCodeEntity\SwissCityCode.cs" />
-    <Compile Include="BaseEntity\Entity.cs" />
-    <Compile Include="DoctorEntity\Doctor.cs" />
     <Compile Include="Dto\AddressDto.cs" />
     <Compile Include="Dto\PatientDTO.cs" />
-    <Compile Include="EntityHelper\IdentityGenerator.cs" />
     <Compile Include="Insurance\InsurancePatient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SharedInterfaces\IEntity.cs" />
-    <Compile Include="SharedInterfaces\IQueryableUnitOfWork.cs" />
-    <Compile Include="SharedInterfaces\IRepository.cs" />
-    <Compile Include="SharedInterfaces\ISql.cs" />
-    <Compile Include="SharedInterfaces\IUnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
