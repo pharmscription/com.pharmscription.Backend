@@ -39,7 +39,8 @@ namespace com.pharmscription.BusinessLogic.Converter
                 AhvNumber = patient.AhvNumber,
                 InsuranceNumber = patient.InsuranceNumber,
                 LastName = patient.LastName,
-                FirstName = patient.FirstName
+                FirstName = patient.FirstName,
+                Insurance = patient.Insurance
             };
             if (patient.Address != null)
             {

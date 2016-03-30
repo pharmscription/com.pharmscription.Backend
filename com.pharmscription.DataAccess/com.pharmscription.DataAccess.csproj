@@ -56,6 +56,7 @@
     <Compile Include="Entities\DoctorEntity\Doctor.cs" />
     <Compile Include="Entities\PatientEntity\Patient.cs" />
     <Compile Include="EntityHelper\IdentityGenerator.cs" />
+    <Compile Include="PharmscriptionDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository\Repository.cs" />
     <Compile Include="Repositories\Patient\IPatientRepository.cs" />

@@ -13,5 +13,6 @@ namespace com.pharmscription.DataAccess.Entities.PatientEntity
         public DateTime BirthDate { get; set; }
         public string PhoneNumber { get; set; }
         public string InsuranceNumber { get; set; }
+        public string Insurance { get; set; }
     }
 }
