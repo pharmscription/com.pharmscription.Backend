@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.BusinessLogic.Patient
@@ -8,7 +9,7 @@ namespace com.pharmscription.BusinessLogic.Patient
         PatientDto Lookup(String ahvNumber);
         PatientDto Add(PatientDto patient);
         PatientDto Edit(PatientDto patient);
-        PatientDto Find(String ahvNumber);
+        Task<PatientDto> Find(String ahvNumber);
     }
 }
 

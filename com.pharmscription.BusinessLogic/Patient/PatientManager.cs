@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using com.pharmscription.BusinessLogic.Converter;
 using com.pharmscription.DataAccess.Repositories.Patient;
 using com.pharmscription.Infrastructure.Dto;
@@ -32,11 +33,11 @@ namespace com.pharmscription.BusinessLogic.Patient
             throw new NotImplementedException();
         }
 
-        public PatientDto Find(string ahvNumber)
+        public async Task<PatientDto> Find(string ahvNumber)
         {
             if (_patientRepository.Exists(ahvNumber))
             {
-                return PatientConverter.Convert(_patientRepository.GetByAhvNumber(ahvNumber));
+                return PatientConverter.Convert(await _patientRepository.GetByAhvNumber(ahvNumber));
             }
 
             return null;

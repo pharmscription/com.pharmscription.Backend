@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
 using com.pharmscription.DataAccess.Repositories.BaseRepository;
 using com.pharmscription.DataAccess.UnitOfWork;
 
@@ -10,9 +12,9 @@ namespace com.pharmscription.DataAccess.Repositories.Patient
         {
         }
 
-        public Entities.PatientEntity.Patient GetByAhvNumber(string ahvNumber)
+        public Task<Entities.PatientEntity.Patient> GetByAhvNumber(string ahvNumber)
         {
-            return GetSet().FirstOrDefault(e => e.AhvNumber == ahvNumber);
+            return GetSet().FirstOrDefaultAsync(e => e.AhvNumber == ahvNumber);
         }
 
         public bool Exists(string ahvNumber)
