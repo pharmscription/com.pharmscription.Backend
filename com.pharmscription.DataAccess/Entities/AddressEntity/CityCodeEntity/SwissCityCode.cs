@@ -1,4 +1,6 @@
-﻿namespace com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity
+﻿using System;
+
+namespace com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity
 {
     public class SwissCityCode: ICityCode
     {
