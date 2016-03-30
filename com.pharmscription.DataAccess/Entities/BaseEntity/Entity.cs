@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using com.pharmscription.Infrastructure.EntityHelper;
-using com.pharmscription.Infrastructure.SharedInterfaces;
+using com.pharmscription.DataAccess.EntityHelper;
+using com.pharmscription.DataAccess.SharedInterfaces;
 
-namespace com.pharmscription.Infrastructure.BaseEntity
+namespace com.pharmscription.DataAccess.Entities.BaseEntity
 {
     public abstract class Entity : IEntity
     {

@@ -1,5 +1,4 @@
 ﻿using System;
-using com.pharmscription.business;
 using com.pharmscription.BusinessLogic.Converter;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.Insurance;

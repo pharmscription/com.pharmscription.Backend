@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace com.pharmscription.Infrastructure.AddressEntity.CityCodeEntity
+﻿namespace com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity
 {
-    class SwissCityCode: ICityCode
+    public class SwissCityCode: ICityCode
     {
         public int CityCode { get; set; }
     }

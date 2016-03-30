@@ -1,4 +1,4 @@
-﻿namespace com.pharmscription.Infrastructure.AddressEntity.CityCodeEntity
+﻿namespace com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity
 {
     public interface ICityCode
     {

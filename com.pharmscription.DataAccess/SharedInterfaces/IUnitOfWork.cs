@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace com.pharmscription.Infrastructure.SharedInterfaces
+namespace com.pharmscription.DataAccess.SharedInterfaces
 {
     /// <summary>
     /// Contract for ‘UnitOfWork pattern’. For more

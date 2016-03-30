@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace com.pharmscription.Infrastructure.SharedInterfaces
+namespace com.pharmscription.DataAccess.SharedInterfaces
 {
     public interface ISql
     {

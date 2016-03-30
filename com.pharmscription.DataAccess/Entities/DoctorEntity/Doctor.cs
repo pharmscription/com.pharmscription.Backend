@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using com.pharmscription.Infrastructure.AddressEntity;
-using com.pharmscription.Infrastructure.BaseEntity;
+﻿using com.pharmscription.DataAccess.Entities.AddressEntity;
+using com.pharmscription.DataAccess.Entities.BaseEntity;
 
-namespace com.pharmscription.Infrastructure.DoctorEntity
+namespace com.pharmscription.DataAccess.Entities.DoctorEntity
 {
-    class Doctor: Entity
+    public class Doctor: Entity
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

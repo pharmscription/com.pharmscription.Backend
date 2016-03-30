@@ -8,7 +8,7 @@ namespace com.pharmscription.DataAccess.Insurance
 
         public Insurance(IPatientStore patientStore)
         {
-            this._patientStore = patientStore;
+            _patientStore = patientStore;
         }
 
         public InsurancePatient FindPatient(string ahvNumber)
