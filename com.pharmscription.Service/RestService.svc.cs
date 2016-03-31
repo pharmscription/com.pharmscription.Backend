@@ -6,12 +6,13 @@ using System.ServiceModel;
 using System.Text;
 using com.pharmscription.Infrastructure.Dto;
 
-namespace com.pharmscription.Service.Patient
+namespace com.pharmscription.Service
 {
     // HINWEIS: Mit dem Befehl "Umbenennen" im Menü "Umgestalten" können Sie den Klassennamen "PatientService" sowohl im Code als auch in der SVC- und der Konfigurationsdatei ändern.
     // HINWEIS: Wählen Sie zum Starten des WCF-Testclients zum Testen dieses Diensts PatientService.svc oder PatientService.svc.cs im Projektmappen-Explorer aus, und starten Sie das Debuggen.
-    public class PatientService : IPatientService
+    public class RestService : IRestService
     {
+        #region patient
         public PatientDto CreatePatient(PatientDto dto)
         {
             throw new NotImplementedException();
@@ -41,5 +42,6 @@ namespace com.pharmscription.Service.Patient
         {
             throw new NotImplementedException();
         }
+        #endregion
     }
 }

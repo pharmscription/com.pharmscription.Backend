@@ -3,13 +3,14 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using com.pharmscription.Infrastructure.Dto;
 
-namespace com.pharmscription.Service.Patient
+namespace com.pharmscription.Service
 {
     // HINWEIS: Mit dem Befehl "Umbenennen" im Menü "Umgestalten" können Sie den Schnittstellennamen "IPatientService" sowohl im Code als auch in der Konfigurationsdatei ändern.
     [ServiceContract]
     /*[AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]*/
-    public interface IPatientService
+    public interface IRestService
     {
+        #region patients
         [WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
             RequestFormat = WebMessageFormat.Json,
@@ -57,6 +58,7 @@ namespace com.pharmscription.Service.Patient
             UriTemplate = "patients/{id}")]
         [OperationContract]
         PatientDto DeletePatient(Guid id);
+        #endregion
     }
 }
 
