@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
 using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.Service
@@ -13,22 +8,23 @@ namespace com.pharmscription.Service
     public class RestService : IRestService
     {
         #region patient
+
+        public PatientDto GetPatient(string id)
+        {
+            throw new NotImplementedException();
+        }
+
         public PatientDto CreatePatient(PatientDto dto)
         {
             throw new NotImplementedException();
         }
 
-        public PatientDto DeletePatient(Guid id)
+        public PatientDto ModifyPatient(string id, PatientDto newPatientDto)
         {
             throw new NotImplementedException();
         }
 
-        public AddressDto GetAddress(Guid patientId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public PatientDto GetPatient(Guid id)
+        public AddressDto GetAddress(string patientId)
         {
             throw new NotImplementedException();
         }
@@ -38,10 +34,11 @@ namespace com.pharmscription.Service
             throw new NotImplementedException();
         }
 
-        public PatientDto ModifyPatient(PatientDto dto)
+        public PatientDto DeletePatient(string id)
         {
             throw new NotImplementedException();
         }
+
         #endregion
     }
 }

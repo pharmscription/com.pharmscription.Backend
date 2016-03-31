@@ -17,7 +17,7 @@ namespace com.pharmscription.Service
             BodyStyle = WebMessageBodyStyle.Wrapped,
             UriTemplate = "patients/{id}")]
         [OperationContract]
-        PatientDto GetPatient(Guid id);
+        PatientDto GetPatient(string id);
 
         [WebInvoke(Method = "PUT",
             RequestFormat = WebMessageFormat.Json,
@@ -33,15 +33,15 @@ namespace com.pharmscription.Service
             BodyStyle = WebMessageBodyStyle.Wrapped,
             UriTemplate = "patients/{id}")]
         [OperationContract]
-        PatientDto ModifyPatient(PatientDto dto);
+        PatientDto ModifyPatient(string id, PatientDto newPatientDto);
 
         [WebInvoke(Method = "GET",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Wrapped,
-            UriTemplate = "patients/{id}/address")]
+            UriTemplate = "patients/{patientId}/address")]
         [OperationContract]
-        AddressDto GetAddress(Guid patientId);
+        AddressDto GetAddress(string patientId);
 
         [WebInvoke(Method = "GET",
             RequestFormat = WebMessageFormat.Json,
@@ -57,7 +57,7 @@ namespace com.pharmscription.Service
             BodyStyle = WebMessageBodyStyle.Wrapped,
             UriTemplate = "patients/{id}")]
         [OperationContract]
-        PatientDto DeletePatient(Guid id);
+        PatientDto DeletePatient(string id);
         #endregion
     }
 }
