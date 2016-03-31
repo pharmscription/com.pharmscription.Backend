@@ -31,8 +31,10 @@ namespace com.pharmscription.BusinessLogic.Patient
             
             IPatientRepository patientRepository = new PatientRepository(puow);
             
+            patientRepository.Add(PatientConverter.Convert(patient));
 
-            throw new NotImplementedException();
+            var addedPatient = patientRepository.GetByAhvNumber(patient.AhvNumber).Result;
+            return PatientConverter.Convert(addedPatient);
         }
 
         public PatientDto Edit(PatientDto patient)
