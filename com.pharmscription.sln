@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.pharmscription.DataAcce
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.pharmscription.DataAccess.SanteSuisse.Tests", "com.pharmscription.DataAccess.SanteSuisse.Tests\com.pharmscription.DataAccess.SanteSuisse.Tests.csproj", "{33A72E75-E3AD-4629-A5DF-A24EFB28C9C1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 Tests", "5 Tests", "{8D51527C-39C4-4646-BC4C-708061421FFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
