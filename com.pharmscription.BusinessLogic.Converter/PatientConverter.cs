@@ -1,4 +1,7 @@
-﻿using com.pharmscription.DataAccess.Entities.PatientEntity;
+﻿using System;
+using com.pharmscription.DataAccess.Entities.AddressEntity;
+using com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity;
+using com.pharmscription.DataAccess.Entities.PatientEntity;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
 
@@ -52,6 +55,32 @@ namespace com.pharmscription.BusinessLogic.Converter
                 };
             }
             return patientDto;
+        }
+
+        public static Patient Convert(PatientDto patientDto)
+        {
+            if (patientDto == null) return null;
+            var patient = new Patient
+            {
+                PhoneNumber = patientDto.PhoneNumber,
+                BirthDate = patientDto.BirthDate,
+                AhvNumber = patientDto.AhvNumber,
+                InsuranceNumber = patientDto.InsuranceNumber,
+                LastName = patientDto.LastName,
+                FirstName = patientDto.FirstName,
+                Insurance = patientDto.Insurance
+            };
+            if (patientDto.Address != null)
+            {
+                patient.Address = new Address
+                {
+                    Street = patientDto.Address.Street,
+                    Number = patientDto.Address.Number,
+                    Location = patientDto.Address.City,
+                    CityCode = SwissCityCode.CreateInstance(patientDto.Address.CityCode)
+                };
+            }
+            return patient;
         }
     }
 }

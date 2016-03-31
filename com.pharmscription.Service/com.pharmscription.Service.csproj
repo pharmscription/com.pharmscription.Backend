@@ -61,10 +61,15 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Patient\PatientService.svc" />
     <Content Include="Service1.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Patient\IPatientService.cs" />
+    <Compile Include="Patient\PatientService.svc.cs">
+      <DependentUpon>PatientService.svc</DependentUpon>
+    </Compile>
     <Compile Include="Service1.svc.cs">
       <DependentUpon>Service1.svc</DependentUpon>
     </Compile>
@@ -76,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\Local Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -84,12 +90,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\com.pharmscription.DataAccess\com.pharmscription.DataAccess.csproj">
-      <Project>{45E80FD3-39D7-4112-AF49-BB25B67E0FEE}</Project>
-      <Name>com.pharmscription.DataAccess</Name>
-    </ProjectReference>
     <ProjectReference Include="..\com.pharmscription.Infrastructure\com.pharmscription.Infrastructure.csproj">
-      <Project>{B53CE84A-9F8A-41C2-97FB-8AA14635CCBF}</Project>
+      <Project>{b53ce84a-9f8a-41c2-97fb-8aa14635ccbf}</Project>
       <Name>com.pharmscription.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
