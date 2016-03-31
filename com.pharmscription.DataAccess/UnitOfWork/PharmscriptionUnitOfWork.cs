@@ -109,11 +109,6 @@ namespace com.pharmscription.DataAccess.UnitOfWork
             return Database.SqlQuery<TEntity>(sqlQuery, parameters);
         }
 
-        public IEnumerable<TEntity> ExecuteQueryAsync<TEntity>(string sqlQuery, params object[] parameters)
-        {
-            return Database.SqlQuery<TEntity>(sqlQuery, parameters);
-        }
-
         public int ExecuteCommand(string sqlCommand, params object[] parameters)
         {
             return Database.ExecuteSqlCommand(sqlCommand, parameters);

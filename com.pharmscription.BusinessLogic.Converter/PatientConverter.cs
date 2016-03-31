@@ -1,5 +1,4 @@
-﻿using System;
-using com.pharmscription.DataAccess.Entities.PatientEntity;
+﻿using com.pharmscription.DataAccess.Entities.PatientEntity;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
 
