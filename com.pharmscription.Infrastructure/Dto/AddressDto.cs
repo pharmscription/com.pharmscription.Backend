@@ -1,7 +1,7 @@
 ﻿
 namespace com.pharmscription.Infrastructure.Dto
 {
-    public class AddressDto: BaseDto
+    public class AddressDto
     {
         public string Street { get; set; }
         public string StreetExtension { get; set; }

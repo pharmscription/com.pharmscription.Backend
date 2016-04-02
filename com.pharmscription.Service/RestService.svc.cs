@@ -1,7 +1,4 @@
 ﻿using System;
-using com.pharmscription.BusinessLogic.Patient;
-using com.pharmscription.DataAccess.Repositories.Patient;
-using com.pharmscription.DataAccess.UnitOfWork;
 using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.Service
@@ -10,17 +7,8 @@ namespace com.pharmscription.Service
     // HINWEIS: Wählen Sie zum Starten des WCF-Testclients zum Testen dieses Diensts PatientService.svc oder PatientService.svc.cs im Projektmappen-Explorer aus, und starten Sie das Debuggen.
     public class RestService : IRestService
     {
-        private IPatientManager _patientManager;
-        public RestService(IPatientManager patientManager)
-        {
-            _patientManager = patientManager;
-        }
-
-        public RestService()
-        {
-            //TODO: PatientManager Injection
-        }
         #region patient
+
         public PatientDto GetPatient(string id)
         {
             throw new NotImplementedException();
