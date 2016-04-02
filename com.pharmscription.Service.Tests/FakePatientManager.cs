@@ -126,5 +126,15 @@ namespace com.pharmscription.Service.Tests
         {
             return Task.FromResult(Lookup(ahvNumber));
         }
+
+        public PatientDto GetById(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PatientDto RemoveById(string id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
