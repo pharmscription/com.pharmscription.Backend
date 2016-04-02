@@ -50,9 +50,24 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="FakePatientManager.cs" />
     <Compile Include="PatientServiceTest.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\com.pharmscription.BusinessLogic\com.pharmscription.BusinessLogic.csproj">
+      <Project>{68EA9BAD-339D-49B4-A604-54EA4DA0952A}</Project>
+      <Name>com.pharmscription.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.Infrastructure\com.pharmscription.Infrastructure.csproj">
+      <Project>{B53CE84A-9F8A-41C2-97FB-8AA14635CCBF}</Project>
+      <Name>com.pharmscription.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.Service\com.pharmscription.Service.csproj">
+      <Project>{79905079-7E37-4081-A70E-0FFE616966C8}</Project>
+      <Name>com.pharmscription.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

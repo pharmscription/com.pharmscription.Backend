@@ -90,6 +90,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\com.pharmscription.BusinessLogic\com.pharmscription.BusinessLogic.csproj">
+      <Project>{68EA9BAD-339D-49B4-A604-54EA4DA0952A}</Project>
+      <Name>com.pharmscription.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.DataAccess\com.pharmscription.DataAccess.csproj">
+      <Project>{45E80FD3-39D7-4112-AF49-BB25B67E0FEE}</Project>
+      <Name>com.pharmscription.DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\com.pharmscription.Infrastructure\com.pharmscription.Infrastructure.csproj">
       <Project>{b53ce84a-9f8a-41c2-97fb-8aa14635ccbf}</Project>
       <Name>com.pharmscription.Infrastructure</Name>
