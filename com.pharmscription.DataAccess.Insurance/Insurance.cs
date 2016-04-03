@@ -16,7 +16,7 @@ namespace com.pharmscription.DataAccess.Insurance
             return _patientStore.Patients.Find(p => p.AhvNumber == ahvNumber);
         }
 
-        public static IInsurance ZurichInsurance => new Insurance(new PatientStore());
+        public static IInsurance RealInsurance => new Insurance(new PatientStore());
     }
 
     

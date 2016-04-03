@@ -1,11 +1,13 @@
 ﻿
 
+using System;
+
 namespace com.pharmscription.ApplicationFascade
 {
     public class PharmscriptionApplication
     {
         
-        public PharmscriptionApplication()
+        public PharmscriptionApplication(String username)
         {
             
         }

@@ -27,13 +27,8 @@ namespace com.pharmscription.BusinessLogic.Patient
 
         public PatientDto Add(PatientDto patient)
         {
-            IPharmscriptionUnitOfWork puow = new PharmscriptionDataAccess().UnitOfWork;
-            
-            IPatientRepository patientRepository = new PatientRepository(puow);
-            
-            patientRepository.Add(PatientConverter.Convert(patient));
-
-            var addedPatient = patientRepository.GetByAhvNumber(patient.AhvNumber).Result;
+            _patientRepository.Add(PatientConverter.Convert(patient));
+            var addedPatient = _patientRepository.GetByAhvNumber(patient.AhvNumber).Result;
             return PatientConverter.Convert(addedPatient);
         }
 
