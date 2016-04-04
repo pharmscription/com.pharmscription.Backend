@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.pharmscription.Infrastructure", "com.pharmscription.Infrastructure\com.pharmscription.Infrastructure.csproj", "{B53CE84A-9F8A-41C2-97FB-8AA14635CCBF}"
 EndProject
@@ -56,6 +56,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.pharmscription.DataAccess.SanteSuisse.Tests", "com.pharmscription.DataAccess.SanteSuisse.Tests\com.pharmscription.DataAccess.SanteSuisse.Tests.csproj", "{33A72E75-E3AD-4629-A5DF-A24EFB28C9C1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 Tests", "5 Tests", "{8D51527C-39C4-4646-BC4C-708061421FFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.pharmscription.IntegrationTests", "com.pharmscription.IntegrationTests\com.pharmscription.IntegrationTests.csproj", "{5644767B-E426-45B6-8C69-93483AAB88DD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{79905079-7E37-4081-A70E-0FFE616966C8} = {79905079-7E37-4081-A70E-0FFE616966C8}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -135,6 +140,10 @@ Global
 		{33A72E75-E3AD-4629-A5DF-A24EFB28C9C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33A72E75-E3AD-4629-A5DF-A24EFB28C9C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33A72E75-E3AD-4629-A5DF-A24EFB28C9C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5644767B-E426-45B6-8C69-93483AAB88DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5644767B-E426-45B6-8C69-93483AAB88DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5644767B-E426-45B6-8C69-93483AAB88DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5644767B-E426-45B6-8C69-93483AAB88DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -161,5 +170,6 @@ Global
 		{AF444CBF-5E01-4826-8FBB-B5FCB681DD3D} = {9DBD4B71-3D4E-41A1-ABE2-A79DE175D226}
 		{65906FA0-CEC0-4BD0-AAAB-F0610120A4A9} = {9DBD4B71-3D4E-41A1-ABE2-A79DE175D226}
 		{33A72E75-E3AD-4629-A5DF-A24EFB28C9C1} = {1F089A15-4675-41F5-A4CD-1D428E93499C}
+		{5644767B-E426-45B6-8C69-93483AAB88DD} = {8D51527C-39C4-4646-BC4C-708061421FFA}
 	EndGlobalSection
 EndGlobal
