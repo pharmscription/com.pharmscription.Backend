@@ -97,6 +97,9 @@
     <EmbeddedResource Include="Migrations\201604031753130_AddStreetExtension.resx">
       <DependentUpon>201604031753130_AddStreetExtension.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604041208086_ChangedEntities.resx">
+      <DependentUpon>201604041208086_ChangedEntities.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
