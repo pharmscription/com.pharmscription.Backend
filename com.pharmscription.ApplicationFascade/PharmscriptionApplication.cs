@@ -7,7 +7,7 @@ namespace com.pharmscription.ApplicationFascade
     public class PharmscriptionApplication
     {
         
-        public PharmscriptionApplication(String username)
+        public PharmscriptionApplication(string username)
         {
             
         }
