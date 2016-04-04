@@ -10,7 +10,7 @@ using com.pharmscription.DataAccess.UnitOfWork;
 
 namespace com.pharmscription.ApplicationFascade
 {
-    class ManagerFactory
+    public class ManagerFactory
     {
         public IPatientManager PatientManager
         {
