@@ -6,7 +6,7 @@ namespace com.pharmscription.BusinessLogic.Patient
     {
         public IInsurance GetInsuranceConnection()
         {
-            return Insurance.ZurichInsurance;
+            return Insurance.RealInsurance;
         }
     }
 }
