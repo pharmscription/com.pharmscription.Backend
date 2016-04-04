@@ -64,6 +64,10 @@
     <Compile Include="Migrations\201604031753130_AddStreetExtension.Designer.cs">
       <DependentUpon>201604031753130_AddStreetExtension.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604041208086_ChangedEntities.cs" />
+    <Compile Include="Migrations\201604041208086_ChangedEntities.Designer.cs">
+      <DependentUpon>201604041208086_ChangedEntities.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201604041400087_AddState-EMail.cs" />
     <Compile Include="Migrations\201604041400087_AddState-EMail.Designer.cs">
       <DependentUpon>201604041400087_AddState-EMail.cs</DependentUpon>
@@ -92,9 +96,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604031753130_AddStreetExtension.resx">
       <DependentUpon>201604031753130_AddStreetExtension.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604041400087_AddState-EMail.resx">
-      <DependentUpon>201604041400087_AddState-EMail.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

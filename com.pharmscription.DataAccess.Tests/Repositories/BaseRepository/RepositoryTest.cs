@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.DataAccess.Repositories.BaseRepository;
 using com.pharmscription.DataAccess.SharedInterfaces;
+using com.pharmscription.DataAccess.Tests.TestEnvironment;
 using com.pharmscription.DataAccess.UnitOfWork;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 
 namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
 {
@@ -20,7 +19,6 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
         [TestInitialize]
         public void Initialize()
         {
-            var mockSet = new Mock<DbSet<DataAccess.Entities.PatientEntity.Patient>>();
             var patients = new List<DataAccess.Entities.PatientEntity.Patient>
             {
                 new DataAccess.Entities.PatientEntity.Patient
@@ -54,29 +52,13 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
                     BirthDate = new DateTime(1983, 03, 17)
                 }
             };
-            mockSet.As<IQueryable<DataAccess.Entities.PatientEntity.Patient>>().Setup(m => m.Provider).Returns(patients.AsQueryable().Provider);
-            mockSet.As<IQueryable<DataAccess.Entities.PatientEntity.Patient>>().Setup(m => m.Expression).Returns(patients.AsQueryable().Expression);
-            mockSet.As<IQueryable<DataAccess.Entities.PatientEntity.Patient>>().Setup(m => m.ElementType).Returns(patients.AsQueryable().ElementType);
-            mockSet.As<IQueryable<DataAccess.Entities.PatientEntity.Patient>>().Setup(m => m.GetEnumerator()).Returns(() => patients.GetEnumerator());
+            var mockSet = TestEnvironmentHelper.GetMockedDbSet(patients);
 
-            mockSet.Setup(d => d.Add(It.IsAny<DataAccess.Entities.PatientEntity.Patient>())).Callback<DataAccess.Entities.PatientEntity.Patient>(patients.Add);
-            mockSet.Setup(d => d.AddRange(It.IsAny<IEnumerable<DataAccess.Entities.PatientEntity.Patient>>()))
-                .Callback((IEnumerable<DataAccess.Entities.PatientEntity.Patient> l) => patients.AddRange(l));
-            mockSet.Setup(d => d.Remove(It.IsAny<DataAccess.Entities.PatientEntity.Patient>()))
-                .Callback((DataAccess.Entities.PatientEntity.Patient el) => patients.Remove(el));
-            mockSet.Setup(d => d.RemoveRange(It.IsAny<IEnumerable<DataAccess.Entities.PatientEntity.Patient>>()))
-                .Callback((IEnumerable<DataAccess.Entities.PatientEntity.Patient> l) => patients.RemoveAll(l.Contains));
-            //mockSet.Setup(d => d.Find(It.IsAny<Guid>())).Returns((Guid id) => patients.First(e => e.Id == id));
-
-            mockSet.Setup(d => d.Find(It.IsAny<object[]>()))
-                .Returns<object[]>(ids => patients.FirstOrDefault(d => d.Id == (Guid) ids[0]));
-
-            var mockPuow = new Mock<PharmscriptionUnitOfWork>();
+            var mockPuow = TestEnvironmentHelper.GetMockedDataContext();
             mockPuow.Setup(m => m.Patients).Returns(mockSet.Object);
             mockPuow.Setup(m => m.CreateSet<DataAccess.Entities.PatientEntity.Patient>()).Returns(mockSet.Object);
             _puow = mockPuow.Object;
             _repository = new Repository<DataAccess.Entities.PatientEntity.Patient>(_puow);
-            _puow.Commit();
         }
 
         [TestCleanup]
@@ -147,12 +129,6 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
         }
 
         [TestMethod]
-        public void TestDoesTrack()
-        {
-
-        }
-
-        [TestMethod]
         [ExpectedException(typeof(NullReferenceException))]
         public void TestTrackThrowsNullPointer()
         {
@@ -160,22 +136,10 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
         }
 
         [TestMethod]
-        public void TestDoesUntrack()
-        {
-
-        }
-
-        [TestMethod]
         [ExpectedException(typeof(NullReferenceException))]
         public void TestUntrackThrowsNullPointer()
         {
             _repository.UntrackItem(null);
-        }
-
-        [TestMethod]
-        public void TestDoesSetModify()
-        {
-            
         }
 
         [TestMethod]
@@ -235,9 +199,13 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
         }
 
         [TestMethod]
-        public void TestDoesGetAllAsNoTracking()
+        public async Task TestDoesGetAllAsNoTracking()
         {
-
+            var patientToChange = _repository.GetAllAsNoTracking().ToList().FirstOrDefault();
+            patientToChange.FirstName = "Superman";
+            await _puow.CommitAsync();
+            var patientUnchanged = _repository.GetAll().ToList().FirstOrDefault();
+            Assert.AreNotEqual(patientToChange.FirstName, patientUnchanged.FirstName);
         }
 
         [TestMethod]
@@ -257,21 +225,23 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
         [TestMethod]
         public void TestGetEntitiesPaged()
         {
+            var pagedEntities = _repository.GetPaged(1, 2, patient => patient.BirthDate, true).ToList();
 
+            Assert.AreEqual(2, pagedEntities.Count());
+            Assert.AreEqual("Noah", pagedEntities.FirstOrDefault().FirstName);
         }
 
+        [TestMethod]
+        public void TestGetEntitiesPagedReversed()
+        {
+            var pagedEntites = _repository.GetPaged(0, 5, patient => patient.BirthDate, false).ToList();
+            Assert.AreEqual("Markus", pagedEntites.FirstOrDefault().FirstName);
+        }
         [TestMethod]
         public void TestGetEntitiesFiltered()
         {
             var patientsOlderThan1990 = _repository.GetFiltered(patient => patient.BirthDate > new DateTime(1990, 1, 1)).ToList();
             Assert.AreEqual(3, patientsOlderThan1990.Count);
         }
-
-        [TestMethod]
-        public void TestMergeEntities()
-        {
-
-        }
-
     }
 }
