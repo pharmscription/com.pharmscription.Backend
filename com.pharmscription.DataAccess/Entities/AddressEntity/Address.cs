@@ -7,6 +7,7 @@ namespace com.pharmscription.DataAccess.Entities.AddressEntity
     {
         public string Street { get; set; }
         public string StreetExtension { get; set; }
+        public string State { get; set; }
         public string Number { get; set; }
         public string Location { get; set; }
         public ICityCode CityCode { get; set; }
