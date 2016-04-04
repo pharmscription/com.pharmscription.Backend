@@ -8,5 +8,11 @@ namespace com.pharmscription.DataAccess.SharedInterfaces
         Guid Id { get; set; }
         bool IsTransient();
         DateTime? ModifiedDate { get; set; }
+
+    }
+
+    public interface ICloneable<out T>
+    {
+        T Clone();
     }
 }

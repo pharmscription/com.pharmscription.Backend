@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.DataAccess.Repositories.Patient;
+using com.pharmscription.DataAccess.Tests.TestEnvironment;
 using com.pharmscription.DataAccess.UnitOfWork;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -10,15 +12,58 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.Patient
     [TestClass]
     public class PatientRepositoryTest
     {
-        [TestInitialize()]
+        private IPatientRepository _repository;
+        private IPharmscriptionUnitOfWork _puow;
+
+        [TestInitialize]
         public void Initialize()
         {
-            
+            var patients = new List<DataAccess.Entities.PatientEntity.Patient>
+            {
+                new DataAccess.Entities.PatientEntity.Patient
+                {
+                    AhvNumber = "123",
+                    FirstName = "Rafael",
+                    BirthDate = new DateTime(1991, 03, 17)
+                },
+                new DataAccess.Entities.PatientEntity.Patient
+                {
+                    AhvNumber = "124",
+                    FirstName = "Noah",
+                    BirthDate = new DateTime(1990, 03, 17)
+                },
+                new DataAccess.Entities.PatientEntity.Patient
+                {
+                    AhvNumber = "125",
+                    FirstName = "Markus",
+                    BirthDate = new DateTime(1998, 03, 17)
+                },
+                new DataAccess.Entities.PatientEntity.Patient
+                {
+                    AhvNumber = "126",
+                    FirstName = "Pascal",
+                    BirthDate = new DateTime(1987, 03, 17)
+                },
+                new DataAccess.Entities.PatientEntity.Patient
+                {
+                    AhvNumber = "127",
+                    FirstName = "Oliviero",
+                    BirthDate = new DateTime(1983, 03, 17)
+                }
+            };
+            var mockSet = TestEnvironmentHelper.GetMockedAsyncProviderDbSet(patients);
+
+            var mockPuow = TestEnvironmentHelper.GetMockedDataContext();
+            mockPuow.Setup(m => m.Patients).Returns(mockSet.Object);
+            mockPuow.Setup(m => m.CreateSet<DataAccess.Entities.PatientEntity.Patient>()).Returns(mockSet.Object);
+            _puow = mockPuow.Object;
+            _repository = new PatientRepository(_puow);
         }
 
-        [TestCleanup()]
+        [TestCleanup]
         public void Cleanup()
         {
+
             IPharmscriptionUnitOfWork puow = new PharmscriptionUnitOfWork();
 
             foreach (var id in puow.Patients.Select(e => e.Id))
@@ -26,7 +71,6 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.Patient
                 var entity = new DataAccess.Entities.PatientEntity.Patient { Id = id };
                 puow.Patients.Attach(entity);
                 puow.Patients.Remove(entity);
-                
             }
             puow.Commit();
         }
@@ -34,67 +78,31 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.Patient
         [TestMethod]
         public async Task TestCanFindPatientWithAhvNumber()
         {
-            IPharmscriptionUnitOfWork puow = new PharmscriptionUnitOfWork();
-            IPatientRepository _patientRepository = new PatientRepository(puow);
-            var patient = new DataAccess.Entities.PatientEntity.Patient
-            {
-                AhvNumber = "123",
-                FirstName = "Rafael",
-                LastName = "Krucker",
-                BirthDate = new DateTime(1991, 03, 17)
-            };
-            _patientRepository.Add(patient);
-            puow.Commit();
-            var patientFount = await _patientRepository.GetByAhvNumber("123");
+            var patientFount = await _repository.GetByAhvNumber("123");
             
-            Assert.AreEqual(patient.LastName, patientFount.LastName);
-        }
-
-        [TestMethod]
-        public async Task TestCanFindPatientWithAhvNumberComittedAsync()
-        {
-            IPharmscriptionUnitOfWork puow = new PharmscriptionUnitOfWork();
-            IPatientRepository _patientRepository = new PatientRepository(puow);
-            var patient = new DataAccess.Entities.PatientEntity.Patient
-            {
-                AhvNumber = "123",
-                FirstName = "Rafael",
-                LastName = "Krucker",
-                BirthDate = new DateTime(1991, 03, 17)
-            };
-            _patientRepository.Add(patient);
-            await puow.CommitAsync();
-            var patientFount = await _patientRepository.GetByAhvNumber("123");
-
-            Assert.AreEqual(patient.LastName, patientFount.LastName);
+            Assert.AreEqual("Rafael", patientFount.FirstName);
         }
 
         [TestMethod]
         public async Task TestCanDeletePatient()
-        {
-            IPharmscriptionUnitOfWork puow = new PharmscriptionUnitOfWork();
-            IPatientRepository _patientRepository = new PatientRepository(puow);
-            var patient = new DataAccess.Entities.PatientEntity.Patient
-            {
-                AhvNumber = "123",
-                FirstName = "Rafael",
-                LastName = "Krucker",
-                BirthDate = new DateTime(1991, 03, 17)
-            };
-            _patientRepository.Add(patient);
-            await puow.CommitAsync();
-            await puow.CommitAsync();
-            
-            var patientFound = await _patientRepository.GetByAhvNumber("123");
-
-            _patientRepository.Remove(patientFound);
-            await puow.CommitAsync();
-
-            var patientDeleted = await _patientRepository.GetByAhvNumber("123");
-            var patients = _patientRepository.GetAll().ToList();
-            await puow.CommitAsync();
-
+        {   
+            var patientFound = await _repository.GetByAhvNumber("123");
+            _repository.Remove(patientFound);
+            await _puow.CommitAsync();
+            var patientDeleted = await _repository.GetByAhvNumber("123");
             Assert.IsNull(patientDeleted);
+        }
+
+        [TestMethod]
+        public void TestPatientExists()
+        {
+            Assert.IsTrue(_repository.Exists("123"));
+        }
+
+        [TestMethod]
+        public void TestPatientDoesNotExist()
+        {
+            Assert.IsFalse(_repository.Exists("123434566"));
         }
     }
 }
