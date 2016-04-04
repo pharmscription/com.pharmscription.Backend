@@ -90,6 +90,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\com.pharmscription.ApplicationFascade\com.pharmscription.ApplicationFascade.csproj">
+      <Project>{58a53ac6-65a3-4e6a-b863-f9eb6a6bc78d}</Project>
+      <Name>com.pharmscription.ApplicationFascade</Name>
+    </ProjectReference>
     <ProjectReference Include="..\com.pharmscription.BusinessLogic\com.pharmscription.BusinessLogic.csproj">
       <Project>{68EA9BAD-339D-49B4-A604-54EA4DA0952A}</Project>
       <Name>com.pharmscription.BusinessLogic</Name>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -93,8 +94,13 @@ namespace com.pharmscription.Service.Tests
         }
         public PatientDto Lookup(string ahvNumber)
         {
-            var patients =  _fakeDatabase.Where(dto => dto.AhvNumber == ahvNumber).ToList();
-            return patients[0];
+            //var patients =  _fakeDatabase.Where(dto => dto.AhvNumber == ahvNumber).ToList();
+            var patient = _fakeDatabase.FirstOrDefault(dto => dto.AhvNumber == ahvNumber);
+            if (patient != null)
+            {
+                return patient;
+            }
+            throw new InvalidDataException();
         }
 
         public PatientDto Add(PatientDto patient)

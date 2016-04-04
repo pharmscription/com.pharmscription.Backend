@@ -1,4 +1,5 @@
 ﻿using System;
+using com.pharmscription.ApplicationFascade;
 using com.pharmscription.BusinessLogic.Patient;
 using com.pharmscription.DataAccess.Repositories.Patient;
 using com.pharmscription.DataAccess.UnitOfWork;
@@ -18,17 +19,18 @@ namespace com.pharmscription.Service
 
         public RestService()
         {
-            //TODO: PatientManager Injection
+            _patientManager = new ManagerFactory().PatientManager;
         }
+
         #region patient
         public PatientDto GetPatient(string id)
         {
-            throw new NotImplementedException();
+            return _patientManager.GetById(id);
         }
 
         public PatientDto CreatePatient(PatientDto dto)
         {
-            throw new NotImplementedException();
+            return _patientManager.Add(dto);
         }
 
         public PatientDto ModifyPatient(string id, PatientDto newPatientDto)
@@ -43,7 +45,7 @@ namespace com.pharmscription.Service
 
         public PatientDto GetPatientByAhv(string ahv)
         {
-            throw new NotImplementedException();
+            return _patientManager.Lookup(ahv);
         }
 
         public PatientDto DeletePatient(string id)
