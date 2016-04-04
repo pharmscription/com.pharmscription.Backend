@@ -3,20 +3,21 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using com.pharmscription.Infrastructure.Dto;
 
-namespace com.pharmscription.Service.Patient
+namespace com.pharmscription.Service
 {
     // HINWEIS: Mit dem Befehl "Umbenennen" im Menü "Umgestalten" können Sie den Schnittstellennamen "IPatientService" sowohl im Code als auch in der Konfigurationsdatei ändern.
     [ServiceContract]
     /*[AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]*/
-    public interface IPatientService
+    public interface IRestService
     {
+        #region patients
         [WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
             RequestFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Wrapped,
             UriTemplate = "patients/{id}")]
         [OperationContract]
-        PatientDto GetPatient(Guid id);
+        PatientDto GetPatient(string id);
 
         [WebInvoke(Method = "PUT",
             RequestFormat = WebMessageFormat.Json,
@@ -32,15 +33,15 @@ namespace com.pharmscription.Service.Patient
             BodyStyle = WebMessageBodyStyle.Wrapped,
             UriTemplate = "patients/{id}")]
         [OperationContract]
-        PatientDto ModifyPatient(PatientDto dto);
+        PatientDto ModifyPatient(string id, PatientDto newPatientDto);
 
         [WebInvoke(Method = "GET",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Wrapped,
-            UriTemplate = "patients/{id}/address")]
+            UriTemplate = "patients/{patientId}/address")]
         [OperationContract]
-        AddressDto GetAddress(Guid patientId);
+        AddressDto GetAddress(string patientId);
 
         [WebInvoke(Method = "GET",
             RequestFormat = WebMessageFormat.Json,
@@ -56,7 +57,8 @@ namespace com.pharmscription.Service.Patient
             BodyStyle = WebMessageBodyStyle.Wrapped,
             UriTemplate = "patients/{id}")]
         [OperationContract]
-        PatientDto DeletePatient(Guid id);
+        PatientDto DeletePatient(string id);
+        #endregion
     }
 }
 

@@ -60,6 +60,10 @@
     <Compile Include="Migrations\201603301315126_AddPatientInsurance.Designer.cs">
       <DependentUpon>201603301315126_AddPatientInsurance.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604031753130_AddStreetExtension.cs" />
+    <Compile Include="Migrations\201604031753130_AddStreetExtension.Designer.cs">
+      <DependentUpon>201604031753130_AddStreetExtension.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PharmscriptionDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,6 +85,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201603301315126_AddPatientInsurance.resx">
       <DependentUpon>201603301315126_AddPatientInsurance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604031753130_AddStreetExtension.resx">
+      <DependentUpon>201604031753130_AddStreetExtension.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

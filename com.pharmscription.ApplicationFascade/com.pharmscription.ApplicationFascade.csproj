@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ManagerFactory.cs" />
     <Compile Include="PharmscriptionApplication.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -48,6 +49,10 @@
     <ProjectReference Include="..\com.pharmscription.BusinessLogic\com.pharmscription.BusinessLogic.csproj">
       <Project>{68EA9BAD-339D-49B4-A604-54EA4DA0952A}</Project>
       <Name>com.pharmscription.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.DataAccess\com.pharmscription.DataAccess.csproj">
+      <Project>{45E80FD3-39D7-4112-AF49-BB25B67E0FEE}</Project>
+      <Name>com.pharmscription.DataAccess</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.BusinessLogic.Converter;
 using com.pharmscription.DataAccess;
@@ -27,13 +30,8 @@ namespace com.pharmscription.BusinessLogic.Patient
 
         public PatientDto Add(PatientDto patient)
         {
-            IPharmscriptionUnitOfWork puow = new PharmscriptionDataAccess().UnitOfWork;
-            
-            IPatientRepository patientRepository = new PatientRepository(puow);
-            
-            patientRepository.Add(PatientConverter.Convert(patient));
-
-            var addedPatient = patientRepository.GetByAhvNumber(patient.AhvNumber).Result;
+            _patientRepository.Add(PatientConverter.Convert(patient));
+            var addedPatient = _patientRepository.GetByAhvNumber(patient.AhvNumber).Result;
             return PatientConverter.Convert(addedPatient);
         }
 
@@ -50,6 +48,26 @@ namespace com.pharmscription.BusinessLogic.Patient
             }
 
             return null;
+        }
+
+        public PatientDto GetById(string id)
+        {
+            List<DataAccess.Entities.PatientEntity.Patient> list = null;
+            Guid gid;
+            if (Guid.TryParse(id, out gid))
+            {
+                list = _patientRepository.Find(gid).ToList();
+            }
+            if (list != null && list.Capacity == 1)
+            {
+                return PatientConverter.Convert(list[0]);
+            }
+            throw new InvalidDataException();
+        }
+
+        public PatientDto RemoveById(string id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

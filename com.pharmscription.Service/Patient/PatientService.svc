@@ -1,1 +1,0 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="com.pharmscription.Service.Patient.PatientService" CodeBehind="PatientService.svc.cs" %>
