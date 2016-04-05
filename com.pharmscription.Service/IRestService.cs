@@ -5,6 +5,7 @@ using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.Service
 {
+    // http://stackoverflow.com/questions/20206069/restful-web-service-body-format
     [ServiceContract]
     //TODO: Check what line below influences
     /*[AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]*/
