@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using com.pharmscription.DataAccess.Entities.BaseEntity;
 using com.pharmscription.DataAccess.SharedInterfaces;
 
@@ -113,6 +114,14 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
             return null;
         }
 
+        public virtual Task<TEntity> GetAsync(Guid id)
+        {
+            if (id != Guid.Empty)
+            {
+                return GetSet().FirstAsync(e => e.Id == id);
+            }
+            return null;
+        }
         public virtual IEnumerable<TEntity> Find(Guid id)
         {
             return GetSet().Where(e => e.Id == id);

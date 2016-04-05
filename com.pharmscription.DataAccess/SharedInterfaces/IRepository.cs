@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace com.pharmscription.DataAccess.SharedInterfaces
 {
@@ -52,7 +53,12 @@ namespace com.pharmscription.DataAccess.SharedInterfaces
         /// <param name="id"></param>
         /// <returns></returns>
         TEntity Get(Guid id);
-
+        /// <summary>
+        /// Get element by entity key async
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<TEntity> GetAsync(Guid id);
         IEnumerable<TEntity> Find(Guid id);
 
         /// <summary>

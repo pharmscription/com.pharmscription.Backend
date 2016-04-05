@@ -43,6 +43,11 @@ namespace com.pharmscription.BusinessLogic.Tests
             throw new NotImplementedException();
         }
 
+        public Task<Patient> GetAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Patient> Find(Guid id)
         {
             throw new NotImplementedException();
