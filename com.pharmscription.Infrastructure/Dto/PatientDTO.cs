@@ -6,6 +6,7 @@ namespace com.pharmscription.Infrastructure.Dto
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string EMailAddress { get; set; }
         public string AhvNumber { get; set; }
         public AddressDto Address { get; set; }
         public DateTime BirthDate { get; set; }

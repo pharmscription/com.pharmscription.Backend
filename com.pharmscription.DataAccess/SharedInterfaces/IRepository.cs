@@ -39,6 +39,12 @@ namespace com.pharmscription.DataAccess.SharedInterfaces
         void UntrackItem(TEntity item);
 
         /// <summary>
+        ///Set entity modified 
+        /// </summary>
+        /// <param name="item">Item to attach</param>
+        void Modify(TEntity item);
+
+        /// <summary>
         /// Sets modified entity into the repository. 
         /// When calling Commit() method in UnitOfWork 
         /// these changes will be saved into the storage

@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{25EDDAC0-9246-4CD7-BDC4-98F437AE5849}</ProjectGuid>
+    <ProjectGuid>{5644767B-E426-45B6-8C69-93483AAB88DD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>com.pharmscription.DataAccess.Tests</RootNamespace>
-    <AssemblyName>com.pharmscription.DataAccess.Tests</AssemblyName>
+    <RootNamespace>com.pharmscription.IntegrationTests</RootNamespace>
+    <AssemblyName>com.pharmscription.IntegrationTests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -43,12 +43,11 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -58,30 +57,59 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
-          <Private>False</Private>
-        </Reference>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
       </ItemGroup>
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Entities\AdressEntitiy\CityCodeEntity\SwissCityCodeTest.cs" />
-    <Compile Include="Repositories\BaseRepository\RepositoryTest.cs" />
-    <Compile Include="Repositories\Patient\PatientRepositoryTest.cs" />
-    <Compile Include="UnitOfWork\MockPharmscriptionUnitOfWork.cs" />
-    <Compile Include="UnitOfWork\PharmscriptionUnitOfWorkTest.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="BaseRestTest.cs" />
+    <Compile Include="PatientBaseRestTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\com.pharmscription.DataAccess\com.pharmscription.DataAccess.csproj">
-      <Project>{45E80FD3-39D7-4112-AF49-BB25B67E0FEE}</Project>
-      <Name>com.pharmscription.DataAccess</Name>
-    </ProjectReference>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\com.pharmscription.ApplicationFascade\com.pharmscription.ApplicationFascade.csproj">
+      <Project>{58a53ac6-65a3-4e6a-b863-f9eb6a6bc78d}</Project>
+      <Name>com.pharmscription.ApplicationFascade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.BusinessLogic.Converter\com.pharmscription.BusinessLogic.Converter.csproj">
+      <Project>{7be7799a-2ab7-4a59-be2b-6364ea6c9bd0}</Project>
+      <Name>com.pharmscription.BusinessLogic.Converter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.BusinessLogic\com.pharmscription.BusinessLogic.csproj">
+      <Project>{68ea9bad-339d-49b4-a604-54ea4da0952a}</Project>
+      <Name>com.pharmscription.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.DataAccess.Insurance\com.pharmscription.DataAccess.Insurance.csproj">
+      <Project>{28ee2eb7-85f9-4a53-af37-3ce2f3d1776f}</Project>
+      <Name>com.pharmscription.DataAccess.Insurance</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.DataAccess.SanteSuisse\com.pharmscription.DataAccess.SanteSuisse.csproj">
+      <Project>{0fdbe9f1-9026-4e48-870c-b413c6efad3f}</Project>
+      <Name>com.pharmscription.DataAccess.SanteSuisse</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.DataAccess.SwissMedic\com.pharmscription.DataAccess.SwissMedic.csproj">
+      <Project>{af444cbf-5e01-4826-8fbb-b5fcb681dd3d}</Project>
+      <Name>com.pharmscription.DataAccess.SwissMedic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.DataAccess\com.pharmscription.DataAccess.csproj">
+      <Project>{45e80fd3-39d7-4112-af49-bb25b67e0fee}</Project>
+      <Name>com.pharmscription.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.Infrastructure\com.pharmscription.Infrastructure.csproj">
+      <Project>{b53ce84a-9f8a-41c2-97fb-8aa14635ccbf}</Project>
+      <Name>com.pharmscription.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.Service\com.pharmscription.Service.csproj">
+      <Project>{79905079-7E37-4081-A70E-0FFE616966C8}</Project>
+      <Name>com.pharmscription.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

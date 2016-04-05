@@ -11,7 +11,7 @@ namespace com.pharmscription.Service
     // HINWEIS: Wählen Sie zum Starten des WCF-Testclients zum Testen dieses Diensts PatientService.svc oder PatientService.svc.cs im Projektmappen-Explorer aus, und starten Sie das Debuggen.
     public class RestService : IRestService
     {
-        private IPatientManager _patientManager;
+        private readonly IPatientManager _patientManager;
         public RestService(IPatientManager patientManager)
         {
             _patientManager = patientManager;

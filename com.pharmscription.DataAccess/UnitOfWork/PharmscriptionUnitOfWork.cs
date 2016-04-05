@@ -16,13 +16,13 @@ namespace com.pharmscription.DataAccess.UnitOfWork
         #region IPharmscriptionUnitOfWork Members
 
         IDbSet<Patient> _patients;
-        public IDbSet<Patient> Patients => _patients ?? (_patients = base.Set<Patient>());
+        public virtual IDbSet<Patient> Patients => _patients ?? (_patients = base.Set<Patient>());
 
         #endregion
 
         #region IQueryableUnitOfWork Members
 
-        public IDbSet<TEntity> CreateSet<TEntity>()
+        public virtual IDbSet<TEntity> CreateSet<TEntity>()
             where TEntity : class
         {
             return base.Set<TEntity>();

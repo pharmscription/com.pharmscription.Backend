@@ -94,7 +94,6 @@ namespace com.pharmscription.Service.Tests
         }
         public PatientDto Lookup(string ahvNumber)
         {
-            //var patients =  _fakeDatabase.Where(dto => dto.AhvNumber == ahvNumber).ToList();
             var patient = _fakeDatabase.FirstOrDefault(dto => dto.AhvNumber == ahvNumber);
             if (patient != null)
             {
@@ -105,6 +104,7 @@ namespace com.pharmscription.Service.Tests
 
         public PatientDto Add(PatientDto patient)
         {
+            //TODO: handle invalid patient
             _fakeDatabase.Add(patient);
             return patient;
         }

@@ -52,6 +52,10 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
             {
                 GetSet().Add(item);
             }
+            else
+            {
+                throw new NullReferenceException("Item was null");
+            }
         }
         /// <summary>
         /// <see cref="IRepository{TEntity}"/>
@@ -67,6 +71,10 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
                 //set as "removed"
                 GetSet().Remove(item);
             }
+            else
+            {
+                throw new NullReferenceException("Item was null");
+            }
         }
 
         /// <summary>
@@ -79,6 +87,10 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
             {
                 _unitOfWork.Attach(item);
             }
+            else
+            {
+                throw new NullReferenceException("Item was null");
+            }
                 
         }
 
@@ -87,7 +99,11 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
             if (item != null)
             {
                 _unitOfWork.Detach(item);
-            }  
+            }
+            else
+            {
+                throw new NullReferenceException("Item was null");
+            }
         }
 
         /// <summary>
@@ -100,6 +116,10 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
             {
                 _unitOfWork.SetModified(item);
             }
+            else
+            {
+                throw new NullReferenceException("Item was null");
+            }
         }
 
         /// <summary>
@@ -110,8 +130,10 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
         public virtual TEntity Get(Guid id)
         {
             if (id != Guid.Empty)
+            {
                 return GetSet().Find(id);
-            return null;
+            }
+            throw new NullReferenceException("Guid was empty");
         }
 
         public virtual Task<TEntity> GetAsync(Guid id)
@@ -124,7 +146,12 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
         }
         public virtual IEnumerable<TEntity> Find(Guid id)
         {
-            return GetSet().Where(e => e.Id == id);
+            if (id != Guid.Empty)
+            {
+                return GetSet().Where(e => e.Id == id);
+            }
+            throw new NullReferenceException("Guid was empty");
+            
         }
         /// <summary>
         /// <see cref="IRepository{TEntity}"/>

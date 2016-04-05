@@ -5,8 +5,8 @@ using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.Service
 {
-    // HINWEIS: Mit dem Befehl "Umbenennen" im Menü "Umgestalten" können Sie den Schnittstellennamen "IPatientService" sowohl im Code als auch in der Konfigurationsdatei ändern.
     [ServiceContract]
+    //TODO: Check what line below influences
     /*[AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]*/
     public interface IRestService
     {

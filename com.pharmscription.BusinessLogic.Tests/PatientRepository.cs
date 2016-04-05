@@ -33,6 +33,11 @@ namespace com.pharmscription.BusinessLogic.Tests
             throw new NotImplementedException();
         }
 
+        public void Modify(Patient item)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Merge(Patient persisted, Patient current)
         {
             throw new NotImplementedException();
