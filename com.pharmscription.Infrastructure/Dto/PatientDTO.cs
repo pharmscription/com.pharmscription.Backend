@@ -16,8 +16,15 @@ namespace com.pharmscription.Infrastructure.Dto
         public string AhvNumber { get; set; }
         [DataMember]
         public AddressDto Address { get; set; }
-        [DataMember]
+        
         public DateTime BirthDate { get; set; }
+        [DataMember]
+        public string BirthDateStr
+        {
+            get { return BirthDate.ToString("s"); }
+            set { BirthDate=DateTime.ParseExact(value, "s", System.Globalization.CultureInfo.InvariantCulture); }
+        }
+
         [DataMember]
         public string PhoneNumber { get; set; }
         [DataMember]

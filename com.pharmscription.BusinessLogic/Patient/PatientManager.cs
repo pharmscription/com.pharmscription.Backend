@@ -34,7 +34,6 @@ namespace com.pharmscription.BusinessLogic.Patient
         {
             AHVValidator ahvValidator = new AHVValidator();
             ahvValidator.Validate(patient);
-
             _patientRepository.Add(patient.ConvertToEntity());
             return (await _patientRepository.GetByAhvNumber(patient.AhvNumber)).ConvertToDto();
         }
