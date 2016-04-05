@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.BusinessLogic.Converter;
+using com.pharmscription.BusinessLogic.Validation;
 using com.pharmscription.DataAccess;
 using com.pharmscription.DataAccess.Repositories.Patient;
 using com.pharmscription.DataAccess.UnitOfWork;
@@ -23,6 +24,9 @@ namespace com.pharmscription.BusinessLogic.Patient
 
         public async Task<PatientDto> Lookup(string ahvNumber)
         {
+            AHVValidator ahvValidator = new AHVValidator();
+            ahvValidator.Validate(ahvNumber);
+
             InsuranceConnector connector = new InsuranceConnector();
             InsurancePatient insurancePatient = await connector.GetInsuranceConnection().FindPatient(ahvNumber);
             return PatientConverter.Convert(insurancePatient);
@@ -30,6 +34,9 @@ namespace com.pharmscription.BusinessLogic.Patient
 
         public async Task<PatientDto> Add(PatientDto patient)
         {
+            AHVValidator ahvValidator = new AHVValidator();
+            ahvValidator.Validate(patient);
+
             _patientRepository.Add(PatientConverter.Convert(patient));
             return PatientConverter.Convert(await _patientRepository.GetByAhvNumber(patient.AhvNumber));
         }
