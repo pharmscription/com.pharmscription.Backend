@@ -38,6 +38,7 @@ namespace com.pharmscription.BusinessLogic.Patient
             ahvValidator.Validate(patient);
 
             _patientRepository.Add(PatientConverter.Convert(patient));
+            await _patientRepository.UnitOfWork.CommitAsync();
             return PatientConverter.Convert(await _patientRepository.GetByAhvNumber(patient.AhvNumber));
         }
 
