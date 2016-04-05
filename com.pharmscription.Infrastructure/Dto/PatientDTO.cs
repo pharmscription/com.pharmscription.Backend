@@ -21,8 +21,11 @@ namespace com.pharmscription.Infrastructure.Dto
         [DataMember]
         public string BirthDateStr
         {
-            get { return BirthDate.ToString("s"); }
-            set { BirthDate=DateTime.ParseExact(value, "s", System.Globalization.CultureInfo.InvariantCulture); }
+            get { return BirthDate.ToString(@"yyyy-MM-dd\THH:mm:ss.fff\Z"); }
+            set
+            {
+                BirthDate=DateTime.ParseExact(value, @"yyyy-MM-dd\THH:mm:ss.fff\Z", System.Globalization.CultureInfo.InvariantCulture);
+            }
         }
 
         [DataMember]
