@@ -7,11 +7,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.DataAccess.Entities.BaseEntity;
 using com.pharmscription.DataAccess.Entities.PatientEntity;
+using com.pharmscription.DataAccess.Migrations;
 
 namespace com.pharmscription.DataAccess.UnitOfWork
 {
     public class PharmscriptionUnitOfWork : DbContext, IPharmscriptionUnitOfWork
     {
+
+        static PharmscriptionUnitOfWork()
+        {
+            Database.SetInitializer(new DropCreateDatabaseAlways<PharmscriptionUnitOfWork>());
+            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<PharmscriptionUnitOfWork, Configuration>());
+        }
 
         #region IPharmscriptionUnitOfWork Members
 

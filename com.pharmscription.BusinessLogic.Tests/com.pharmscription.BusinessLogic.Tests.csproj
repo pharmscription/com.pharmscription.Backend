@@ -35,7 +35,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -50,15 +62,30 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="PatientRepository.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="PatientManagerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\com.pharmscription.BusinessLogic\com.pharmscription.BusinessLogic.csproj">
+      <Project>{68EA9BAD-339D-49B4-A604-54EA4DA0952A}</Project>
+      <Name>com.pharmscription.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.DataAccess.Tests\com.pharmscription.DataAccess.Tests.csproj">
+      <Project>{25EDDAC0-9246-4CD7-BDC4-98F437AE5849}</Project>
+      <Name>com.pharmscription.DataAccess.Tests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\com.pharmscription.DataAccess\com.pharmscription.DataAccess.csproj">
       <Project>{45E80FD3-39D7-4112-AF49-BB25B67E0FEE}</Project>
       <Name>com.pharmscription.DataAccess</Name>
     </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.Infrastructure\com.pharmscription.Infrastructure.csproj">
+      <Project>{B53CE84A-9F8A-41C2-97FB-8AA14635CCBF}</Project>
+      <Name>com.pharmscription.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

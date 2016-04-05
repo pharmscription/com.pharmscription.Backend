@@ -11,7 +11,7 @@ namespace com.pharmscription.Service
     // HINWEIS: Wählen Sie zum Starten des WCF-Testclients zum Testen dieses Diensts PatientService.svc oder PatientService.svc.cs im Projektmappen-Explorer aus, und starten Sie das Debuggen.
     public class RestService : IRestService
     {
-        private IPatientManager _patientManager;
+        private readonly IPatientManager _patientManager;
         public RestService(IPatientManager patientManager)
         {
             _patientManager = patientManager;
@@ -25,12 +25,12 @@ namespace com.pharmscription.Service
         #region patient
         public PatientDto GetPatient(string id)
         {
-            return _patientManager.GetById(id);
+            return _patientManager.GetById(id).Result;
         }
 
         public PatientDto CreatePatient(PatientDto dto)
         {
-            return _patientManager.Add(dto);
+            return _patientManager.Add(dto).Result;
         }
 
         public PatientDto ModifyPatient(string id, PatientDto newPatientDto)
@@ -45,7 +45,7 @@ namespace com.pharmscription.Service
 
         public PatientDto GetPatientByAhv(string ahv)
         {
-            return _patientManager.Lookup(ahv);
+            return _patientManager.Lookup(ahv).Result;
         }
 
         public PatientDto DeletePatient(string id)
