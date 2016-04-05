@@ -8,8 +8,7 @@ namespace com.pharmscription.DataAccess.Repositories.Drug
 {
     public interface IDrugRepository : IRepository<Entities.DrugEntity.Drug>
     {
-        Task<IEnumerable<DataAccess.Entities.DrugEntity.Drug>> SearchByName(string name);
-        Task<DataAccess.Entities.DrugEntity.Drug> GetById(Guid id);
-
+        Task<IEnumerable<Entities.DrugEntity.Drug>> SearchByName(string name);
+        Task<Entities.DrugEntity.Drug> GetById(Guid id);
     }
 }
