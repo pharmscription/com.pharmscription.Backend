@@ -1,8 +1,6 @@
 ﻿using System;
 using com.pharmscription.ApplicationFascade;
 using com.pharmscription.BusinessLogic.Patient;
-using com.pharmscription.DataAccess.Repositories.Patient;
-using com.pharmscription.DataAccess.UnitOfWork;
 using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.Service
@@ -52,7 +50,23 @@ namespace com.pharmscription.Service
         {
             throw new NotImplementedException();
         }
+        #endregion
 
+        #region drugs
+        public DrugDto GetDrug(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DrugDto[] SearchDrugs(string keyword)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double GetDrugPrice(string id)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }

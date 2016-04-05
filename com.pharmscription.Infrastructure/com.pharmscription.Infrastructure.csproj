@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Dto\AddressDto.cs" />
     <Compile Include="Dto\BaseDto.cs" />
+    <Compile Include="Dto\DrugDto.cs" />
     <Compile Include="Dto\PatientDto.cs" />
     <Compile Include="Exception\InvalidAHVNumberException.cs" />
     <Compile Include="ExternalDto\InsuranceDto\InsurancePatient.cs" />
