@@ -42,7 +42,9 @@ namespace com.pharmscription.BusinessLogic.Converter
                 InsuranceNumber = patient.InsuranceNumber,
                 LastName = patient.LastName,
                 FirstName = patient.FirstName,
-                Insurance = patient.Insurance
+                Insurance = patient.Insurance,
+                EMailAddress = patient.EMailAddress,
+                Id = patient.Id.ToString()
             };
             if (patient.Address != null)
             {
@@ -69,8 +71,13 @@ namespace com.pharmscription.BusinessLogic.Converter
                 InsuranceNumber = patientDto.InsuranceNumber,
                 LastName = patientDto.LastName,
                 FirstName = patientDto.FirstName,
-                Insurance = patientDto.Insurance
+                Insurance = patientDto.Insurance, 
+                EMailAddress = patientDto.EMailAddress                
             };
+            if (patientDto.Id != null)
+            {
+                patient.Id = Guid.Parse(patientDto.Id);
+            }
             if (patientDto.Address != null)
             {
                 patient.Address = new Address
