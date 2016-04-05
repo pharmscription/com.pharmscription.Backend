@@ -72,10 +72,6 @@
     <Compile Include="Migrations\201604041400087_AddState-EMail.Designer.cs">
       <DependentUpon>201604041400087_AddState-EMail.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Migrations\201604051120524_Initial.cs" />
-    <Compile Include="Migrations\201604051120524_Initial.Designer.cs">
-      <DependentUpon>201604051120524_Initial.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PharmscriptionDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,9 +85,6 @@
     <Compile Include="SharedInterfaces\IUnitOfWork.cs" />
     <Compile Include="UnitOfWork\IPharmscriptionUnitOfWork.cs" />
     <Compile Include="UnitOfWork\PharmscriptionUnitOfWork.cs" />
-    <EmbeddedResource Include="Migrations\201604051120524_Initial.resx">
-      <DependentUpon>201604051120524_Initial.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
