@@ -1,4 +1,5 @@
-﻿using com.pharmscription.DataAccess.Entities.AddressEntity;
+﻿using System;
+using com.pharmscription.DataAccess.Entities.AddressEntity;
 using com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity;
 using com.pharmscription.DataAccess.Entities.PatientEntity;
 using com.pharmscription.Infrastructure.Dto;
