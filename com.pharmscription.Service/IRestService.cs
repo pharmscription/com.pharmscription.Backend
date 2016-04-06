@@ -5,6 +5,8 @@ using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.Service
 {
+    using System.Threading.Tasks;
+
     // http://stackoverflow.com/questions/20206069/restful-web-service-body-format
     [ServiceContract]
     public interface IRestService
@@ -16,7 +18,7 @@ namespace com.pharmscription.Service
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "patients/{id}")]
         [OperationContract]
-        PatientDto GetPatient(string id);
+        Task<PatientDto> GetPatient(string id);
 
         [WebInvoke(Method = "PUT",
             RequestFormat = WebMessageFormat.Json,
@@ -24,7 +26,7 @@ namespace com.pharmscription.Service
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "patients")]
         [OperationContract]
-        PatientDto CreatePatient(PatientDto dto);
+        Task<PatientDto> CreatePatient(PatientDto dto);
 
         [WebInvoke(Method = "POST",
             RequestFormat = WebMessageFormat.Json,
@@ -32,7 +34,7 @@ namespace com.pharmscription.Service
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "patients/{id}")]
         [OperationContract]
-        PatientDto ModifyPatient(string id, PatientDto newPatientDto);
+        Task<PatientDto> ModifyPatient(string id, PatientDto newPatientDto);
 
         [WebInvoke(Method = "GET",
             RequestFormat = WebMessageFormat.Json,
@@ -40,7 +42,7 @@ namespace com.pharmscription.Service
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "patients/{patientId}/address")]
         [OperationContract]
-        AddressDto GetAddress(string patientId);
+        Task<AddressDto> GetAddress(string patientId);
 
         [WebInvoke(Method = "GET",
             RequestFormat = WebMessageFormat.Json,
@@ -48,7 +50,7 @@ namespace com.pharmscription.Service
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "patients/ahv-number/{ahv}")]
         [OperationContract]
-        PatientDto GetPatientByAhv(string ahv);
+        Task<PatientDto> GetPatientByAhv(string ahv);
 
         [WebInvoke(Method = "DELETE",
             RequestFormat = WebMessageFormat.Json,
@@ -56,7 +58,7 @@ namespace com.pharmscription.Service
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "patients/{id}")]
         [OperationContract]
-        PatientDto DeletePatient(string id);
+        Task<PatientDto> DeletePatient(string id);
 
         #endregion
 
@@ -68,7 +70,7 @@ namespace com.pharmscription.Service
             BodyStyle = WebMessageBodyStyle.Bare, 
             UriTemplate = "drugs/{id}")]
         [OperationContract]
-        DrugDto GetDrug(string id);
+        Task<DrugDto> GetDrug(string id);
 
         [WebInvoke(Method = "GET", 
             RequestFormat = WebMessageFormat.Json, 
@@ -76,7 +78,7 @@ namespace com.pharmscription.Service
             BodyStyle = WebMessageBodyStyle.Bare, 
             UriTemplate = "drugs/search/{keyword}")]
         [OperationContract]
-        DrugDto[] SearchDrugs(string keyword);
+        Task<DrugDto[]> SearchDrugs(string keyword);
 
         [WebInvoke(Method = "GET", 
             RequestFormat = WebMessageFormat.Json, 
@@ -84,7 +86,7 @@ namespace com.pharmscription.Service
             BodyStyle = WebMessageBodyStyle.Wrapped, 
             UriTemplate = "drugs/{id}/price")]
         [OperationContract]
-        double GetDrugPrice(string id);
+        Task<double> GetDrugPrice(string id);
 
         #endregion
     }
