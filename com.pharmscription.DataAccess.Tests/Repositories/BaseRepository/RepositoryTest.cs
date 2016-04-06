@@ -202,9 +202,11 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
         public async Task TestDoesGetAllAsNoTracking()
         {
             var patientToChange = _repository.GetAllAsNoTracking().ToList().FirstOrDefault();
+            Assert.IsNotNull(patientToChange);
             patientToChange.FirstName = "Superman";
             await _puow.CommitAsync();
             var patientUnchanged = _repository.GetAll().ToList().FirstOrDefault();
+            Assert.IsNotNull(patientUnchanged);
             Assert.AreNotEqual(patientToChange.FirstName, patientUnchanged.FirstName);
         }
 
@@ -227,15 +229,19 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
         {
             var pagedEntities = _repository.GetPaged(1, 2, patient => patient.BirthDate, true).ToList();
 
-            Assert.AreEqual(2, pagedEntities.Count());
-            Assert.AreEqual("Noah", pagedEntities.FirstOrDefault().FirstName);
+            Assert.AreEqual(2, pagedEntities.Count);
+            var firstEntity = pagedEntities.FirstOrDefault();
+            Assert.IsNotNull(firstEntity);
+            Assert.AreEqual("Noah", firstEntity.FirstName);
         }
 
         [TestMethod]
         public void TestGetEntitiesPagedReversed()
         {
             var pagedEntites = _repository.GetPaged(0, 5, patient => patient.BirthDate, false).ToList();
-            Assert.AreEqual("Markus", pagedEntites.FirstOrDefault().FirstName);
+            var firstEntity = pagedEntites.FirstOrDefault();
+            Assert.IsNotNull(firstEntity);
+            Assert.AreEqual("Markus", firstEntity.FirstName);
         }
         [TestMethod]
         public void TestGetEntitiesFiltered()

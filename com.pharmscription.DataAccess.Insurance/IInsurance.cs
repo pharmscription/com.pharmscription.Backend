@@ -1,5 +1,4 @@
-﻿using System;
-using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
+﻿using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
 
 namespace com.pharmscription.DataAccess.Insurance
 {

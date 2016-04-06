@@ -69,10 +69,15 @@
     <Compile Include="Migrations\201604041208086_ChangedEntities.Designer.cs">
       <DependentUpon>201604041208086_ChangedEntities.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604051418302_addedDrugs.cs" />
+    <Compile Include="Migrations\201604051418302_addedDrugs.Designer.cs">
+      <DependentUpon>201604051418302_addedDrugs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PharmscriptionDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository\Repository.cs" />
+    <Compile Include="Repositories\Drug\DrugRepository.cs" />
     <Compile Include="Repositories\Drug\IDrugRepository.cs" />
     <Compile Include="Repositories\Patient\IPatientRepository.cs" />
     <Compile Include="Repositories\Patient\PatientRepository.cs" />
@@ -97,6 +102,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604041208086_ChangedEntities.resx">
       <DependentUpon>201604041208086_ChangedEntities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604051418302_addedDrugs.resx">
+      <DependentUpon>201604051418302_addedDrugs.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

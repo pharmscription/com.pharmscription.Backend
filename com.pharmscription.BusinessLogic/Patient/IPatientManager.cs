@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.BusinessLogic.Patient

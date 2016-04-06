@@ -20,10 +20,6 @@ namespace com.pharmscription.DataAccess.Entities.PatientEntity
         {
             
         }
-        public Patient(Patient patient)
-        {
-            
-        }
 
         public Patient Clone()
         {
