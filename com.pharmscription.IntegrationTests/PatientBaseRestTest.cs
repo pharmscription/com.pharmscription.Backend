@@ -33,8 +33,8 @@ namespace com.pharmscription.IntegrationTests
             Assert.IsNotNull(patient);
             Assert.AreNotEqual(0, patient.Id);
 
-            var storedPatient = Client.GetPatient(patient.Id);
-            Assert.IsNotNull(storedPatient);
+            ////var storedPatient = Client.GetPatient(patient.Id);
+            ////Assert.IsNotNull(storedPatient);
         }
     }
 
