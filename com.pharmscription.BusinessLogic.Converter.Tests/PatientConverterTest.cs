@@ -69,6 +69,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
             DateTime birthDate = new DateTime(2000, 10, 10);
             var entityPatient = new Patient
             {
+                Id = new Guid("bb3731be-7eac-4d95-af0e-8deae4efa630"),
                 FirstName = "Max",
                 LastName = "Müller",
                 Address = new Address
@@ -87,6 +88,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
 
             var expectedPatient = new PatientDto
             {
+                Id = "bb3731be-7eac-4d95-af0e-8deae4efa630",
                 FirstName = "Max",
                 LastName = "Müller",
                 Address = new AddressDto

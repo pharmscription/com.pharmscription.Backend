@@ -17,8 +17,6 @@ namespace com.pharmscription.BusinessLogic.Validation
 
         public void Validate(string socialNumber)
         {
-            return;
-            
             if (socialNumber.Length != 13)
             {
                 throw new InvalidAhvNumberException("Invalid Lenght");
@@ -26,16 +24,16 @@ namespace com.pharmscription.BusinessLogic.Validation
 
             try
             {
-                int checksum = socialNumber[socialNumber.Length - 1];
+                int checksum = socialNumber[socialNumber.Length - 1] - '0';
                 int sum3 = 0;
                 int sum1 = 0;
                 for (int i = 0; i < socialNumber.Length - 1; i = i + 2)
                 {
-                    sum3 = sum3 + socialNumber[i];
+                    sum3 = sum3 + (socialNumber[i] - '0');
                 }
                 for (int j = 1; j < socialNumber.Length - 1; j = j + 2)
                 {
-                    sum1 = sum1 + (socialNumber[j] * 3);
+                    sum1 = sum1 + ((socialNumber[j] - '0') * 3);
                 }
                 int calculatedChecksum = 10 - ((sum3 + sum1) % 10);
                 if (calculatedChecksum != checksum)

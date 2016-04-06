@@ -1,11 +1,28 @@
 namespace com.pharmscription.DataAccess.Migrations
 {
+    using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AddPatientInsurance : DbMigration
+    public partial class Init : DbMigration
     {
         public override void Up()
         {
+            CreateTable(
+                "dbo.Drugs",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        DrugDescription = c.String(),
+                        PackageSize = c.String(),
+                        Unit = c.String(),
+                        Composition = c.String(),
+                        NarcoticCategory = c.String(),
+                        IsValid = c.Boolean(nullable: false),
+                        CreatedDate = c.DateTime(),
+                        ModifiedDate = c.DateTime(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
             CreateTable(
                 "dbo.Patients",
                 c => new
@@ -13,6 +30,7 @@ namespace com.pharmscription.DataAccess.Migrations
                         Id = c.Guid(nullable: false),
                         FirstName = c.String(),
                         LastName = c.String(),
+                        EMailAddress = c.String(),
                         AhvNumber = c.String(),
                         BirthDate = c.DateTime(nullable: false),
                         PhoneNumber = c.String(),
@@ -32,6 +50,8 @@ namespace com.pharmscription.DataAccess.Migrations
                     {
                         Id = c.Guid(nullable: false),
                         Street = c.String(),
+                        StreetExtension = c.String(),
+                        State = c.String(),
                         Number = c.String(),
                         Location = c.String(),
                         CreatedDate = c.DateTime(),
@@ -47,6 +67,7 @@ namespace com.pharmscription.DataAccess.Migrations
             DropIndex("dbo.Patients", new[] { "Address_Id" });
             DropTable("dbo.Addresses");
             DropTable("dbo.Patients");
+            DropTable("dbo.Drugs");
         }
     }
 }

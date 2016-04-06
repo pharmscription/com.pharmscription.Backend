@@ -5,11 +5,16 @@ using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.Service
 {
+    using com.pharmscription.BusinessLogic.Drug;
+
     // HINWEIS: Mit dem Befehl "Umbenennen" im Menü "Umgestalten" können Sie den Klassennamen "PatientService" sowohl im Code als auch in der SVC- und der Konfigurationsdatei ändern.
     // HINWEIS: Wählen Sie zum Starten des WCF-Testclients zum Testen dieses Diensts PatientService.svc oder PatientService.svc.cs im Projektmappen-Explorer aus, und starten Sie das Debuggen.
     public class RestService : IRestService
     {
         private readonly IPatientManager _patientManager;
+
+        private readonly IDrugManager _drugManager;
+
         public RestService(IPatientManager patientManager)
         {
             _patientManager = patientManager;
@@ -55,12 +60,12 @@ namespace com.pharmscription.Service
         #region drugs
         public DrugDto GetDrug(string id)
         {
-            throw new NotImplementedException();
+            return _drugManager.GetById(id).Result;
         }
 
         public DrugDto[] SearchDrugs(string keyword)
         {
-            throw new NotImplementedException();
+            return _drugManager.Search(keyword).Result.ToArray();
         }
 
         public double GetDrugPrice(string id)
