@@ -13,7 +13,8 @@ namespace com.pharmscription.DataAccess.SwissMedic
     {
         private async Task<List<Drug>> ReadDrugsFromCsv()
         {
-            var reader = new StreamReader(File.OpenRead(@"..\..\..\com.pharmscription.DataAccess.SwissMedic\Drugs.csv"));
+            string filepath = Path.Combine(Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.FullName, @"com.pharmscription.DataAccess.SwissMedic\Drugs.csv");
+            var reader = new StreamReader(File.OpenRead(filepath));
             var drugs = new List<Drug>();
             while (!reader.EndOfStream)
             {
