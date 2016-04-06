@@ -140,7 +140,7 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
         {
             if (id != Guid.Empty)
             {
-                return GetSet().FirstAsync(e => e.Id == id);
+                return GetSet().FirstOrDefaultAsync(e => e.Id == id);
             }
             return null;
         }
