@@ -6,7 +6,8 @@ namespace com.pharmscription.DataAccess.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(com.pharmscription.DataAccess.UnitOfWork.PharmscriptionUnitOfWork context)

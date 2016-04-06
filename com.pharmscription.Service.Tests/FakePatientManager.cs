@@ -91,9 +91,8 @@ namespace com.pharmscription.Service.Tests
             return list[index];
 
         }
-        public PatientDto Lookup(string ahvNumber)
+        public async Task<PatientDto> Lookup(string ahvNumber)
         {
-            //var patients =  _fakeDatabase.Where(dto => dto.AhvNumber == ahvNumber).ToList();
             var patient = _fakeDatabase.FirstOrDefault(dto => dto.AhvNumber == ahvNumber);
             if (patient != null)
             {
@@ -102,13 +101,14 @@ namespace com.pharmscription.Service.Tests
             throw new InvalidDataException();
         }
 
-        public PatientDto Add(PatientDto patient)
+        public async Task<PatientDto> Add(PatientDto patient)
         {
+            //TODO: handle invalid patient
             _fakeDatabase.Add(patient);
             return patient;
         }
 
-        public PatientDto Edit(PatientDto patient)
+        public async Task<PatientDto> Edit(PatientDto patient)
         {
             List<PatientDto> list = _fakeDatabase.Where(dto => dto.Id == patient.Id).ToList();
             if (list.Capacity == 0 || list.Capacity != 1)
@@ -129,15 +129,15 @@ namespace com.pharmscription.Service.Tests
 
         public Task<PatientDto> Find(string ahvNumber)
         {
-            return Task.FromResult(Lookup(ahvNumber));
+            return Lookup(ahvNumber);
         }
 
-        public PatientDto GetById(string id)
+        public async Task<PatientDto> GetById(string id)
         {
             throw new NotImplementedException();
         }
 
-        public PatientDto RemoveById(string id)
+        public async Task<PatientDto> RemoveById(string id)
         {
             throw new NotImplementedException();
         }

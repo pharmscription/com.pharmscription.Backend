@@ -6,9 +6,9 @@ using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
 
 namespace com.pharmscription.BusinessLogic.Converter
 {
-    public class PatientConverter
+    public static class PatientConversionExtensions
     {
-        public static PatientDto Convert(InsurancePatient patient)
+        public static PatientDto ConvertToDto(this InsurancePatient patient)
         {
             if (patient == null) return null;
             return new PatientDto
@@ -30,7 +30,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             };
         }
 
-        public static PatientDto Convert(Patient patient)
+        public static PatientDto ConvertToDto(this Patient patient)
         {
             if (patient == null) return null;
             var patientDto = new PatientDto
@@ -57,7 +57,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return patientDto;
         }
 
-        public static Patient Convert(PatientDto patientDto)
+        public static Patient ConvertToEntity(this PatientDto patientDto)
         {
             if (patientDto == null) return null;
             var patient = new Patient

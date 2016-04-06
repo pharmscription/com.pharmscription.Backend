@@ -9,6 +9,7 @@ namespace com.pharmscription.DataAccess.Entities.PatientEntity
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string EMailAddress { get; set; }
         public string AhvNumber { get; set; }
         public Address Address { get; set; }
         public DateTime BirthDate { get; set; }

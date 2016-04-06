@@ -63,7 +63,7 @@ namespace com.pharmscription.Service.Tests
         {
             var newDto = _service.CreatePatient(_patient);
             Assert.AreEqual(_patient.Id, newDto.Id);
-            newDto = _fakePatientManager.Lookup(_patient.AhvNumber);
+            newDto = _fakePatientManager.Lookup(_patient.AhvNumber).Result;
             Assert.AreEqual(_patient.Id, newDto.Id);
         }
         /*

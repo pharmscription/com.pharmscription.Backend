@@ -48,7 +48,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
                 Insurance = "Zurich"
             };
 
-            var patient = PatientConverter.Convert(insurancePatient);
+            var patient = insurancePatient.ConvertToDto();
             
             Assert.IsTrue(expectedPatient.IsDeepEqual(patient));
 
@@ -58,7 +58,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
         public void TestInsurancePatientNull()
         {
             InsurancePatient insurancePatient = null;
-            var patient = PatientConverter.Convert(insurancePatient);
+            var patient = insurancePatient.ConvertToDto();
 
             Assert.IsNull(patient);
         }
@@ -103,7 +103,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
                 Insurance = "Zurich"
             };
 
-            var patient = PatientConverter.Convert(entityPatient);
+            var patient = entityPatient.ConvertToDto();
 
             Assert.IsTrue(expectedPatient.IsDeepEqual(patient));
 
@@ -113,7 +113,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
         public void TestEntityPatientNull()
         {
             Patient entityPatient = null;
-            var patient = PatientConverter.Convert(entityPatient);
+            var patient = entityPatient.ConvertToDto();
 
             Assert.IsNull(patient);
         }
@@ -162,7 +162,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
                 Insurance = "Zurich"
             };
 
-            var patient = PatientConverter.Convert(patientDto);
+            var patient = patientDto.ConvertToEntity();
 
             Assert.IsTrue(expectedPatient.IsDeepEqual(patient));
 
@@ -172,7 +172,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
         public void TestEntityPatientDtoNull()
         {
             PatientDto patientDto = null;
-            var patient = PatientConverter.Convert(patientDto);
+            var patient = patientDto.ConvertToEntity();
 
             Assert.IsNull(patient);
         }

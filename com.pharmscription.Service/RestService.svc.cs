@@ -23,12 +23,12 @@ namespace com.pharmscription.Service
         #region patient
         public PatientDto GetPatient(string id)
         {
-            return _patientManager.GetById(id);
+            return _patientManager.GetById(id).Result;
         }
 
         public PatientDto CreatePatient(PatientDto dto)
         {
-            return _patientManager.Add(dto);
+            return _patientManager.Add(dto).Result;
         }
 
         public PatientDto ModifyPatient(string id, PatientDto newPatientDto)
@@ -43,14 +43,30 @@ namespace com.pharmscription.Service
 
         public PatientDto GetPatientByAhv(string ahv)
         {
-            return _patientManager.Lookup(ahv);
+            return _patientManager.Lookup(ahv).Result;
         }
 
         public PatientDto DeletePatient(string id)
         {
             throw new NotImplementedException();
         }
+        #endregion
 
+        #region drugs
+        public DrugDto GetDrug(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DrugDto[] SearchDrugs(string keyword)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double GetDrugPrice(string id)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }
