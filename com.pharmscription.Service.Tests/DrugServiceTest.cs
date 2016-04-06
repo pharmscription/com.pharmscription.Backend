@@ -1,28 +1,23 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using com.pharmscription.BusinessLogic.Drug;
+using com.pharmscription.Infrastructure.Dto;
+using Moq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace com.pharmscription.Service.Tests
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Threading.Tasks;
-
-    using com.pharmscription.BusinessLogic.Drug;
-    using com.pharmscription.DataAccess.Tests.TestEnvironment;
-    using com.pharmscription.Infrastructure.Dto;
-
-    using Moq;
-    
     [TestClass]
     public class DrugServiceTest
     {
         private static readonly string CorrectId = "1";
 
         private static readonly string WrongId = "a";
-        private static Mock<IDrugManager> mock = new Mock<IDrugManager>();
+
+        private static Mock<IDrugManager> mock;
 
         private static IRestService service;
-        private IList<DrugDto> drugs;
 
         [TestInitialize]
         public void SetUp()
