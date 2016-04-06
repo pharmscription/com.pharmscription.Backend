@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.BusinessLogic.Converter;
+using com.pharmscription.BusinessLogic.Validation;
 using com.pharmscription.DataAccess.Repositories.Patient;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
@@ -26,7 +27,7 @@ namespace com.pharmscription.BusinessLogic.Patient
 
             InsuranceConnector connector = new InsuranceConnector();
             InsurancePatient insurancePatient = await connector.GetInsuranceConnection().FindPatient(ahvNumber);
-            return PatientConverter.Convert(insurancePatient);
+            return insurancePatient.ConvertToDto();
         }
 
         public async Task<PatientDto> Add(PatientDto patient)
@@ -34,8 +35,8 @@ namespace com.pharmscription.BusinessLogic.Patient
             AHVValidator ahvValidator = new AHVValidator();
             ahvValidator.Validate(patient);
 
-            _patientRepository.Add(PatientConverter.Convert(patient));
-            return PatientConverter.Convert(await _patientRepository.GetByAhvNumber(patient.AhvNumber));
+            _patientRepository.Add(patient.ConvertToEntity());
+            return (await _patientRepository.GetByAhvNumber(patient.AhvNumber)).ConvertToDto();
         }
 
         public async Task<PatientDto> Edit(PatientDto patient)
@@ -47,7 +48,7 @@ namespace com.pharmscription.BusinessLogic.Patient
         {
             if (_patientRepository.Exists(ahvNumber))
             {
-                return PatientConverter.Convert(await _patientRepository.GetByAhvNumber(ahvNumber));
+                return (await _patientRepository.GetByAhvNumber(ahvNumber)).ConvertToDto();
             }
 
             return null;
@@ -60,7 +61,7 @@ namespace com.pharmscription.BusinessLogic.Patient
             if (Guid.TryParse(id, out gid))
             {
                 var patient = await _patientRepository.GetAsync(gid);
-                return PatientConverter.Convert(patient);
+                return patient.ConvertToDto();
             }
             
             throw new InvalidDataException();
