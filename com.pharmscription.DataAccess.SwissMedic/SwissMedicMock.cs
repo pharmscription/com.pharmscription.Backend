@@ -1,29 +1,55 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.DataAccess.Entities.DrugEntity;
 
-using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Spreadsheet;
 
 
 namespace com.pharmscription.DataAccess.SwissMedic
 {
-    class SwissMedicMock : ISwissMedic
+    public class SwissMedicMock : ISwissMedic
     {
-        public Task<Drug> SearchDrug(string partialDescription)
+        private async Task<List<Drug>> ReadDrugsFromCsv()
         {
-/*            using (SpreadsheetDocument spreadsheetDocument =
-    SpreadsheetDocument.Open("Drugs.xlsx", false))
+            var reader = new StreamReader(File.OpenRead(@"..\..\..\com.pharmscription.DataAccess.SwissMedic\Drugs.csv"));
+            var drugs = new List<Drug>();
+            while (!reader.EndOfStream)
             {
-                // Code removed here.
-            }*/
-            throw new NotImplementedException();
+                var line = await reader.ReadLineAsync();
+                drugs.Add(ParseDrug(line.Split(';')));
+            }
+            return drugs;
         }
 
-        public Task<Drug> GetAll()
+        private Drug ParseDrug(string[] line)
         {
-            throw new NotImplementedException();
+            return new Drug
+            {
+                DrugDescription = line[2],
+                IsValid = true,
+                NarcoticCategory = line[5]
+            };
+        }
+
+        public async Task<List<Drug>> SearchDrug(string partialDescription)
+        {
+            if(partialDescription == null)
+            {
+                throw new ArgumentNullException(nameof(partialDescription));
+            }
+            if (string.IsNullOrWhiteSpace(partialDescription))
+            {
+                throw new ArgumentException("Search Text was empty");
+            }
+            var drugs = await ReadDrugsFromCsv();
+            return drugs.Where(e => e.DrugDescription.ToLower().Contains(partialDescription.ToLower())).ToList();
+        }
+
+        public async Task<List<Drug>> GetAll()
+        {
+            return await ReadDrugsFromCsv();
         }
     }
 }

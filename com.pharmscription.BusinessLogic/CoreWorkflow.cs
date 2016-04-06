@@ -5,11 +5,6 @@ namespace com.pharmscription.BusinessLogic
 {
     public class CoreWorkflow
     {
-        public CoreWorkflow()
-        {
-            
-        }
-
         public bool IsDoctor()
         {
             throw new NotImplementedException();

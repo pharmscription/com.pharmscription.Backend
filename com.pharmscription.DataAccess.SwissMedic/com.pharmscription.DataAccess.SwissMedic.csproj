@@ -56,7 +56,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Drugs.xlsx" />
+    <None Include="Drugs.csv" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

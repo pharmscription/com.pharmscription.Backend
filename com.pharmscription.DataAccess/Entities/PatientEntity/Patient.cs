@@ -17,11 +17,6 @@ namespace com.pharmscription.DataAccess.Entities.PatientEntity
         public string InsuranceNumber { get; set; }
         public string Insurance { get; set; }
 
-        public Patient()
-        {
-            
-        }
-
         public Patient Clone()
         {
             return new Patient

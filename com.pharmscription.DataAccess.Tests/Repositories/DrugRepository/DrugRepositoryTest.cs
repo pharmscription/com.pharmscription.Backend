@@ -4,8 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.DataAccess.Entities.DrugEntity;
 using com.pharmscription.DataAccess.Repositories.Drug;
-using com.pharmscription.DataAccess.Repositories.Drug;
-using com.pharmscription.DataAccess.Repositories.Patient;
 using com.pharmscription.DataAccess.Tests.TestEnvironment;
 using com.pharmscription.DataAccess.UnitOfWork;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
