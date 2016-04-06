@@ -5,10 +5,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace com.pharmscription.IntegrationTests
 {
-    [TestClass]
+    //[TestClass]
     public class PatientBaseRestTest : BaseRestTest
     {
-        [TestMethod]
+        //[TestMethod]
         public void CreatePatient()
         {
             var patient = Client.CreatePatient(new PatientDto()

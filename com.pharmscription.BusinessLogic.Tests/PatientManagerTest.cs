@@ -128,7 +128,7 @@ namespace com.pharmscription.BusinessLogic.Tests
                     City = " Zürich",
                     StreetExtension = "Postfach 1234"
                 },
-                AhvNumber = "1232-43221-21234-21",
+                AhvNumber = "7561234567897",
                 BirthDate = birthDate,
                 InsuranceNumber = "Zurich-12345",
                 PhoneNumber = "056 217 21 21",
@@ -161,11 +161,12 @@ namespace com.pharmscription.BusinessLogic.Tests
         [TestMethod]
         public async Task LookupFindTest()
         {
-            var patient = await _patientManager.Lookup("123-1234-1234-12");
+            var patient = await _patientManager.Lookup("7561234567897");
             Assert.IsNotNull(patient);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InvalidAhvNumberException))]
         public async Task LookupNotFindTest()
         {
             var patient = await _patientManager.Lookup("notfound");

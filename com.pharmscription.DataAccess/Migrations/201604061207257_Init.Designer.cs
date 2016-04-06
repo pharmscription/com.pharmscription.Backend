@@ -7,13 +7,13 @@ namespace com.pharmscription.DataAccess.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddPatientInsurance : IMigrationMetadata
+    public sealed partial class Init : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddPatientInsurance));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Init));
         
         string IMigrationMetadata.Id
         {
-            get { return "201603301315126_AddPatientInsurance"; }
+            get { return "201604061207257_Init"; }
         }
         
         string IMigrationMetadata.Source

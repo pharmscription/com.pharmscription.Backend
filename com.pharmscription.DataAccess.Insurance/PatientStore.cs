@@ -16,7 +16,7 @@ namespace com.pharmscription.DataAccess.Insurance
                 StreetNumber = "100",
                 CityCode = "8000",
                 City = " Zürich",
-                AhvNumber = "123-1234-1234-12",
+                AhvNumber = "7561234567897",
                 BirthDate = new DateTime(2000, 10, 10),
                 InsuranceNumber = "AXA-12345",
                 PhoneNumber = "056 217 21 21",

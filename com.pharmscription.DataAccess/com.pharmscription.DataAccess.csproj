@@ -57,25 +57,9 @@
     <Compile Include="Entities\DrugEntity\DrugEntity.cs" />
     <Compile Include="Entities\PatientEntity\Patient.cs" />
     <Compile Include="EntityHelper\IdentityGenerator.cs" />
-    <EmbeddedResource Include="Migrations\201603301315126_AddPatientInsurance.cs" />
-    <Compile Include="Migrations\201603301315126_AddPatientInsurance.Designer.cs">
-      <DependentUpon>201603301315126_AddPatientInsurance.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="Migrations\201604031753130_AddStreetExtension.cs" />
-    <Compile Include="Migrations\201604031753130_AddStreetExtension.Designer.cs">
-      <DependentUpon>201604031753130_AddStreetExtension.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="Migrations\201604041208086_ChangedEntities.cs" />
-    <Compile Include="Migrations\201604041208086_ChangedEntities.Designer.cs">
-      <DependentUpon>201604041208086_ChangedEntities.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201604051418302_addedDrugs.cs" />
-    <Compile Include="Migrations\201604051418302_addedDrugs.Designer.cs">
-      <DependentUpon>201604051418302_addedDrugs.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="Migrations\201604041400087_AddState-EMail.cs" />
-    <Compile Include="Migrations\201604041400087_AddState-EMail.Designer.cs">
-      <DependentUpon>201604041400087_AddState-EMail.cs</DependentUpon>
+    <Compile Include="Migrations\201604061207257_Init.cs" />
+    <Compile Include="Migrations\201604061207257_Init.Designer.cs">
+      <DependentUpon>201604061207257_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PharmscriptionDataAccess.cs" />
@@ -98,17 +82,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201603301315126_AddPatientInsurance.resx">
-      <DependentUpon>201603301315126_AddPatientInsurance.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604031753130_AddStreetExtension.resx">
-      <DependentUpon>201604031753130_AddStreetExtension.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604041208086_ChangedEntities.resx">
-      <DependentUpon>201604041208086_ChangedEntities.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604051418302_addedDrugs.resx">
-      <DependentUpon>201604051418302_addedDrugs.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201604061207257_Init.resx">
+      <DependentUpon>201604061207257_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
