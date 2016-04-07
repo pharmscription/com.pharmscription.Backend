@@ -28,6 +28,7 @@ namespace com.pharmscription.Service
         public RestService()
         {
             _patientManager = new ManagerFactory().PatientManager;
+            _drugManager = new ManagerFactory().DrugManager;
         }
 
         #region patient
