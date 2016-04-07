@@ -20,7 +20,7 @@ namespace com.pharmscription.DataAccess.Insurance
                 BirthDate = new DateTime(2000, 10, 10),
                 InsuranceNumber = "AXA-12345",
                 PhoneNumber = "056 217 21 21",
-                Insurance = "Zurich"
+                Insurance = "AXA"
             }
         };
     }

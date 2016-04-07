@@ -161,7 +161,7 @@ namespace com.pharmscription.BusinessLogic.Tests
         [TestMethod]
         public async Task LookupFindTest()
         {
-            var patient = await _patientManager.Lookup("7561234567897");
+            var patient = await _patientManager.Lookup("756.1234.5678.97");
             Assert.IsNotNull(patient);
         }
 

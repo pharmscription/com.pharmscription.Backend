@@ -53,7 +53,7 @@ namespace com.pharmscription.Service
 
         public async Task<PatientDto> GetPatientByAhv(string ahv)
         {
-            return _patientManager.Lookup(ahv).Result;
+            return _patientManager.Find(ahv).Result;
         }
 
         public async Task<PatientDto> LookupPatient(string ahv)
