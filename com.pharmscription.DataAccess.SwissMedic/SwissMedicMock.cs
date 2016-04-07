@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using com.pharmscription.DataAccess.Entities.DrugEntity;
 
@@ -13,14 +14,23 @@ namespace com.pharmscription.DataAccess.SwissMedic
     {
         private async Task<List<Drug>> ReadDrugsFromCsv()
         {
-            var reader = new StreamReader(File.OpenRead(@"..\..\..\com.pharmscription.DataAccess.SwissMedic\Drugs.csv"));
-            var drugs = new List<Drug>();
-            while (!reader.EndOfStream)
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = "com.pharmscription.DataAccess.SwissMedic.Drugs.csv";
+
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             {
-                var line = await reader.ReadLineAsync();
-                drugs.Add(ParseDrug(line.Split(';')));
+                using (StreamReader reader = new StreamReader(stream))
+                {
+
+                    var drugs = new List<Drug>();
+                    while (!reader.EndOfStream)
+                    {
+                        var line = await reader.ReadLineAsync();
+                        drugs.Add(ParseDrug(line.Split(';')));
+                    }
+                    return drugs;
+                }
             }
-            return drugs;
         }
 
         private Drug ParseDrug(string[] line)

@@ -16,7 +16,7 @@ namespace com.pharmscription.DataAccess.UnitOfWork
     {
         static PharmscriptionUnitOfWork()
         {
-            Database.SetInitializer(new DropCreateDatabaseAlways<PharmscriptionUnitOfWork>());
+            //Database.SetInitializer(new DropCreateDatabaseAlways<PharmscriptionUnitOfWork>());
         }
         #region IPharmscriptionUnitOfWork Members
 

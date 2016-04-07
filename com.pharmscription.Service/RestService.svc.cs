@@ -2,10 +2,10 @@
 using com.pharmscription.ApplicationFascade;
 using com.pharmscription.BusinessLogic.Patient;
 using com.pharmscription.Infrastructure.Dto;
-
+using com.pharmscription.BusinessLogic.Drug;
 namespace com.pharmscription.Service
 {
-    using com.pharmscription.BusinessLogic.Drug;
+    using System.Threading.Tasks;
 
     // HINWEIS: Mit dem Befehl "Umbenennen" im Menü "Umgestalten" können Sie den Klassennamen "PatientService" sowohl im Code als auch in der SVC- und der Konfigurationsdatei ändern.
     // HINWEIS: Wählen Sie zum Starten des WCF-Testclients zum Testen dieses Diensts PatientService.svc oder PatientService.svc.cs im Projektmappen-Explorer aus, und starten Sie das Debuggen.
@@ -20,55 +20,66 @@ namespace com.pharmscription.Service
             _patientManager = patientManager;
         }
 
+        public RestService(IDrugManager drugManager)
+        {
+            _drugManager = drugManager;
+        }
+
         public RestService()
         {
             _patientManager = new ManagerFactory().PatientManager;
+            _drugManager = new ManagerFactory().DrugManager;
         }
 
         #region patient
-        public PatientDto GetPatient(string id)
+        public async Task<PatientDto> GetPatient(string id)
         {
-            return _patientManager.GetById(id).Result;
+            return await _patientManager.GetById(id);
         }
 
-        public PatientDto CreatePatient(PatientDto dto)
+        public async Task<PatientDto> CreatePatient(PatientDto dto)
         {
-            return _patientManager.Add(dto).Result;
+            return await _patientManager.Add(dto);
         }
 
-        public PatientDto ModifyPatient(string id, PatientDto newPatientDto)
-        {
-            throw new NotImplementedException();
-        }
-
-        public AddressDto GetAddress(string patientId)
+        public async Task<PatientDto> ModifyPatient(string id, PatientDto newPatientDto)
         {
             throw new NotImplementedException();
         }
 
-        public PatientDto GetPatientByAhv(string ahv)
+        public async Task<AddressDto> GetAddress(string patientId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<PatientDto> GetPatientByAhv(string ahv)
+        {
+            return _patientManager.Find(ahv).Result;
+        }
+
+        public async Task<PatientDto> LookupPatient(string ahv)
         {
             return _patientManager.Lookup(ahv).Result;
         }
 
-        public PatientDto DeletePatient(string id)
+        public async Task<PatientDto> DeletePatient(string id)
         {
             throw new NotImplementedException();
         }
         #endregion
 
         #region drugs
-        public DrugDto GetDrug(string id)
+        public async Task<DrugDto> GetDrug(string id)
         {
-            return _drugManager.GetById(id).Result;
+            return await _drugManager.GetById(id);
         }
 
-        public DrugDto[] SearchDrugs(string keyword)
+        public async Task<DrugDto[]> SearchDrugs(string keyword)
         {
-            return _drugManager.Search(keyword).Result.ToArray();
+            return (await _drugManager.Search(keyword)).ToArray();
         }
 
-        public double GetDrugPrice(string id)
+        public Task<double> GetDrugPrice(string id)
         {
             throw new NotImplementedException();
         }
