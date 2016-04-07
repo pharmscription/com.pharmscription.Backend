@@ -54,12 +54,18 @@ namespace com.pharmscription.Service
 
         public async Task<PatientDto> GetPatientByAhv(string ahv)
         {
-            return _patientManager.Find(ahv).Result;
+            var patient = await _patientManager.Find(ahv);
+            if (patient == null)
+            {
+                return new PatientDto();
+            }
+
+            return patient;
         }
 
         public async Task<PatientDto> LookupPatient(string ahv)
         {
-            return _patientManager.Lookup(ahv).Result;
+            return await _patientManager.Lookup(ahv);
         }
 
         public async Task<PatientDto> DeletePatient(string id)
