@@ -52,6 +52,14 @@ namespace com.pharmscription.Service
         [OperationContract]
         Task<PatientDto> GetPatientByAhv(string ahv);
 
+        [WebInvoke(Method = "GET",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "patients/lookup/{ahv}")]
+        [OperationContract]
+        Task<PatientDto> LookupPatient(string ahv);
+
         [WebInvoke(Method = "DELETE",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,

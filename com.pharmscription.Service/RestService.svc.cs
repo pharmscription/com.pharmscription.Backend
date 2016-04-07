@@ -56,6 +56,11 @@ namespace com.pharmscription.Service
             return _patientManager.Lookup(ahv).Result;
         }
 
+        public async Task<PatientDto> LookupPatient(string ahv)
+        {
+            return _patientManager.Lookup(ahv).Result;
+        }
+
         public async Task<PatientDto> DeletePatient(string id)
         {
             throw new NotImplementedException();

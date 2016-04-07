@@ -17,6 +17,7 @@ namespace com.pharmscription.BusinessLogic.Validation
 
         public void Validate(string socialNumber)
         {
+            socialNumber = socialNumber.Replace(".", "");
             if (socialNumber.Length != 13)
             {
                 throw new InvalidAhvNumberException("Invalid Lenght");
