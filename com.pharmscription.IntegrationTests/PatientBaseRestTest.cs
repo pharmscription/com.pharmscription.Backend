@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.ServiceModel;
 using com.pharmscription.Infrastructure.Dto;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -6,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace com.pharmscription.IntegrationTests
 {
     //[TestClass]
+    //[ExcludeFromCodeCoverage]
     public class PatientBaseRestTest : BaseRestTest
     {
         //[TestMethod]

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using com.pharmscription.DataAccess.Entities.AddressEntity;
 using com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity;
 using com.pharmscription.DataAccess.Entities.PatientEntity;
@@ -10,6 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace com.pharmscription.BusinessLogic.Converter.Tests
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class PatientConverterTest
     {
         

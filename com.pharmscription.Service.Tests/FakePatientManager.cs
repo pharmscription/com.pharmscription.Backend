@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.Service.Tests
 {
+    [ExcludeFromCodeCoverage]
     internal class FakePatientManager: IPatientManager
     {
         private readonly List<PatientDto> _fakeDatabase;

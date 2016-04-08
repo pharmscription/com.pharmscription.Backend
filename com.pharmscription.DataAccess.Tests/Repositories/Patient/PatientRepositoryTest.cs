@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.DataAccess.Repositories.Patient;
@@ -10,6 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace com.pharmscription.DataAccess.Tests.Repositories.Patient
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class PatientRepositoryTest
     {
         private IPatientRepository _repository;

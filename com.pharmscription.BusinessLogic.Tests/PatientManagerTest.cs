@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.BusinessLogic.Patient;
@@ -13,6 +14,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace com.pharmscription.BusinessLogic.Tests
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class PatientManagerTest
     {
         private IPatientRepository _repository;

@@ -1,6 +1,6 @@
 ﻿namespace com.pharmscription.BusinessLogic.Validation
 {
-    public interface IValidator<T>
+    public interface IValidator<in T>
     {
         void Validate(T dto);
     }

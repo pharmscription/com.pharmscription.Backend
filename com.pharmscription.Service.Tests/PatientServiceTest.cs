@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using com.pharmscription.BusinessLogic.Patient;
 using com.pharmscription.Infrastructure.Dto;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -10,6 +11,7 @@ namespace com.pharmscription.Service.Tests
     using Moq;
 
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class PatientServiceTest
     {
         private static RestService service;
