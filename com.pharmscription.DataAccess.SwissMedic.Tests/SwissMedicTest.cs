@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -6,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace com.pharmscription.DataAccess.SwissMedic.Tests
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class SwissMedicTest
     {
         private ISwissMedic _swissMedic;

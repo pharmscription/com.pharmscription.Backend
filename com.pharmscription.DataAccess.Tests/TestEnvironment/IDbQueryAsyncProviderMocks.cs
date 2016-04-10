@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace com.pharmscription.DataAccess.Tests.TestEnvironment
 {
+    [ExcludeFromCodeCoverage]
     public class DbAsyncQueryProviderMock<TEntity> : IDbAsyncQueryProvider
     {
         private readonly IQueryProvider _inner;
@@ -47,6 +49,7 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
         }
     }
 
+    [ExcludeFromCodeCoverage]
     public class DbAsyncEnumerableMock<T> : EnumerableQuery<T>, IDbAsyncEnumerable<T>, IQueryable<T>
     {
         public DbAsyncEnumerableMock(IEnumerable<T> enumerable)
@@ -69,6 +72,7 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
         IQueryProvider IQueryable.Provider => new DbAsyncQueryProviderMock<T>(this);
     }
 
+    [ExcludeFromCodeCoverage]
     public class DbAsyncEnumeratorMock<T> : IDbAsyncEnumerator<T>
     {
         private readonly IEnumerator<T> _inner;

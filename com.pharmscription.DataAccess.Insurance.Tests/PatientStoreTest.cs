@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
 
 namespace com.pharmscription.DataAccess.Insurance.Tests
 {
+    [ExcludeFromCodeCoverage]
     public class PatientStoreTest : IPatientStore
     {
         public List<InsurancePatient> Patients => new List<InsurancePatient>

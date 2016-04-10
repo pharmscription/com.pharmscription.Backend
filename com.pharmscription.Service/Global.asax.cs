@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Web;
 
-namespace Wcf.App
+namespace com.pharmscription.Service
 {
-    public class Global : System.Web.HttpApplication
+    public class Global : HttpApplication
     {
 
         protected void Application_Start(object sender, EventArgs e)

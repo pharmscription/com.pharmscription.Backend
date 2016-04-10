@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace com.pharmscription.DataAccess.Tests.Entities.AdressEntitiy.CityCodeEntity
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class SwissCityCodeTest
     {
         [TestMethod]

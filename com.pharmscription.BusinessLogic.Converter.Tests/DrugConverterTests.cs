@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using com.pharmscription.DataAccess.Entities.DrugEntity;
 using com.pharmscription.Infrastructure.Dto;
@@ -8,6 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace com.pharmscription.BusinessLogic.Converter.Tests
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class DrugConverterTests
     {
         [TestMethod]

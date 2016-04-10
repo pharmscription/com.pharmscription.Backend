@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using com.pharmscription.BusinessLogic.Drug;
 using com.pharmscription.Infrastructure.Dto;
@@ -9,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace com.pharmscription.Service.Tests
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class DrugServiceTest
     {
         private static readonly string CorrectId = "1";

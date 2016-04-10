@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.BusinessLogic.Drug;
@@ -12,6 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace com.pharmscription.BusinessLogic.Tests.Drug
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class DrugManagerTest
     {
         private IDrugManager _drugManager;

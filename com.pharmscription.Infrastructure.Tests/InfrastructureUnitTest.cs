@@ -1,11 +1,11 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace com.pharmscription.Service.Tests
+namespace com.pharmscription.Infrastructure.Tests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class UnitTest1
+    public class InfrastructureUnitTest
     {
         [TestMethod]
         public void TestMethod1()
