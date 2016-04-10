@@ -14,7 +14,7 @@ namespace com.pharmscription.DataAccess.Insurance
 
         public async Task<InsurancePatient> FindPatient(string ahvNumber)
         {
-            return await Task.Run(() => (_patientStore.Patients.Find(p => p.AhvNumber == ahvNumber)));
+            return await Task.Run(() => _patientStore.Patients.Find(p => p.AhvNumber == ahvNumber));
         }
 
         public static IInsurance RealInsurance => new Insurance(new PatientStore());

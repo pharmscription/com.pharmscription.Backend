@@ -114,6 +114,7 @@ namespace com.pharmscription.DataAccess.Entities.BaseEntity
         {
             Id = IdentityGenerator.NewSequentialGuid();
         }
+
         #endregion
     }
 }

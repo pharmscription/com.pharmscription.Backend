@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ServiceModel;
 using com.pharmscription.Infrastructure.Dto;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

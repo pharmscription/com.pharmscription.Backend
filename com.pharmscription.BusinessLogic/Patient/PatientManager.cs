@@ -20,7 +20,7 @@ namespace com.pharmscription.BusinessLogic.Patient
 
         public async Task<PatientDto> Lookup(string ahvNumber)
         {
-            AHVValidator ahvValidator = new AHVValidator();
+            AhvValidator ahvValidator = new AhvValidator();
             ahvValidator.Validate(ahvNumber);
 
             InsuranceConnector connector = new InsuranceConnector();
@@ -30,7 +30,7 @@ namespace com.pharmscription.BusinessLogic.Patient
 
         public async Task<PatientDto> Add(PatientDto patient)
         {
-            AHVValidator ahvValidator = new AHVValidator();
+            AhvValidator ahvValidator = new AhvValidator();
             ahvValidator.Validate(patient);
             _patientRepository.Add(patient.ConvertToEntity());
             await _patientRepository.UnitOfWork.CommitAsync();

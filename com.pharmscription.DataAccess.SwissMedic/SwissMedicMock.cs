@@ -17,23 +17,27 @@ namespace com.pharmscription.DataAccess.SwissMedic
             var assembly = Assembly.GetExecutingAssembly();
             var resourceName = "com.pharmscription.DataAccess.SwissMedic.Drugs.csv";
 
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (var stream = assembly.GetManifestResourceStream(resourceName))
             {
-                using (StreamReader reader = new StreamReader(stream))
+                if (stream == null)
                 {
-
-                    var drugs = new List<Drug>();
-                    while (!reader.EndOfStream)
-                    {
-                        var line = await reader.ReadLineAsync();
-                        drugs.Add(ParseDrug(line.Split(';')));
-                    }
-                    return drugs;
+                    return null;
                 }
+                    using (var reader = new StreamReader(stream))
+                    {
+
+                        var drugs = new List<Drug>();
+                        while (!reader.EndOfStream)
+                        {
+                            var line = await reader.ReadLineAsync();
+                            drugs.Add(ParseDrug(line.Split(';')));
+                        }
+                        return drugs;
+                    }
             }
         }
 
-        private Drug ParseDrug(string[] line)
+        private Drug ParseDrug(IReadOnlyList<string> line)
         {
             return new Drug
             {

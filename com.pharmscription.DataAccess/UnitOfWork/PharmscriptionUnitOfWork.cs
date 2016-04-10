@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using com.pharmscription.DataAccess.Entities.BaseEntity;
 using com.pharmscription.DataAccess.Entities.DrugEntity;
 using com.pharmscription.DataAccess.Entities.PatientEntity;
-using com.pharmscription.DataAccess.Migrations;
 
 namespace com.pharmscription.DataAccess.UnitOfWork
 {
