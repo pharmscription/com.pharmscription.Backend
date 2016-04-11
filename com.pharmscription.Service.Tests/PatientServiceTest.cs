@@ -6,6 +6,7 @@
 
     using com.pharmscription.BusinessLogic.Patient;
     using com.pharmscription.Infrastructure.Dto;
+    using com.pharmscription.Infrastructure.Exception;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -51,78 +52,102 @@
             service = new RestService(mock.Object);
             
         }
-        //// All these methods will be executed when their implementation is planned
         
         [TestMethod]
         public async Task TestGetPatient()
         {
-            /*mock.Setup(m => m.GetById(CorrectId)).Returns(Task.Run(() => _patient));
+            mock.Setup(m => m.GetById(CorrectId)).Returns(Task.Run(() => _patient));
             PatientDto dto = await service.GetPatient(CorrectId);
-            Assert.AreEqual(_patient, dto);*/
-            
+            Assert.AreEqual(_patient, dto);   
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public async Task TestGetNonExistentPatient()
         {
-            /*mock.Setup(m => m.GetById(WrongId)).Throws<ArgumentException>();
-            await service.GetPatient(WrongId);*/
-            throw new ArgumentException();
+            mock.Setup(m => m.GetById(WrongId)).Throws<ArgumentException>();
+            await service.GetPatient(WrongId);
         }
+
+        [TestMethod]
+        public async Task TestLookupPatient()
+        {
+            mock.Setup(m => m.Lookup(_patient.AhvNumber)).ReturnsAsync(_patient);
+            PatientDto dto = await service.LookupPatient(_patient.AhvNumber);
+            Assert.AreEqual(_patient, dto);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public async Task TestLookupInvalidAhv()
+        {
+            mock.Setup(m => m.Lookup("123")).Throws<ArgumentException>();
+            await service.LookupPatient("123");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public async Task TestLookupNullAhv()
+        {
+            mock.Setup(m => m.Lookup(null)).Throws<ArgumentNullException>();
+            await service.LookupPatient(null);
+        }
+
         [TestMethod]
         public async Task TestCreatePatient()
         {
-            //TODO: implement
-        }
-        /*
-        TODO: discuss how malformed data is handled
-        [TestMethod]
-        [ExpectedException(typeof(InvalidDataException))]
-        public void TestCreateInvalidPatient()
-        {
-            _service.CreatePatient(new PatientDto());
-        }
-        
-        [TestMethod]
-        public void TestGetAddress()
-        {
-            var address = _service.GetAddress("0");
-            Assert.AreEqual("0", address.Id);
+            mock.Setup(m => m.Add(_patient)).ReturnsAsync(_patient);
+            PatientDto dto = await service.CreatePatient(_patient);
+            Assert.AreEqual(_patient, dto);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidDataException))]
-        public void TestGetAddressFromInvalidPatient()
+        [ExpectedException(typeof(ArgumentException))]
+        public async Task TestCreateInvalidPatient()
         {
-            _service.GetAddress("5");
-        }
-        *//*
-        [TestMethod]
-        public void TestGetPatientByAhv()
-        {
-            var dto = _service.GetPatientByAhv("11");
-            Assert.AreEqual("11", dto.AhvNumber);
-        }
-
-        ////[TestMethod]
-        ////[ExpectedException(typeof (InvalidAhvNumberException))]
-        public void TestGetPatientByInvalidAhv()
-        {
-            _service.GetPatientByAhv("989");
-        }
-        /*
-        [TestMethod]
-        public void TestDeletePatient()
-        {
-            
+            var invaliDto = new PatientDto();
+            mock.Setup(m => m.Add(invaliDto)).Throws<ArgumentException>();
+            await service.CreatePatient(invaliDto);
         }
 
         [TestMethod]
-        public void TestDeleteInvalidPatient()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public async Task TestCreateNullPatient()
         {
-            
+            mock.Setup(m => m.Add(null)).Throws<ArgumentNullException>();
+            await service.CreatePatient(null);
         }
-        */
+
+        [TestMethod]
+        public async Task TestSearchPatientByAhv()
+        {
+            mock.Setup(m => m.Find(_patient.AhvNumber)).ReturnsAsync(_patient);
+            PatientDto dto = await service.GetPatientByAhv(_patient.AhvNumber);
+            Assert.AreEqual(_patient, dto);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidAhvNumberException))]
+        public async Task TestSearchInvalidAhvNubmer()
+        {
+            mock.Setup(m => m.Find("123")).Throws<InvalidAhvNumberException>();
+            await service.GetPatientByAhv("123");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public async Task TestSearchNullAhvNumber()
+        {
+            mock.Setup(m => m.Find(null)).Throws<ArgumentNullException>();
+            await service.GetPatientByAhv(null);
+        }
+
+        [TestMethod]
+        public async Task TestSearchUnsucessful()
+        {
+            mock.Setup(m => m.Find(_patient.AhvNumber)).ReturnsAsync(null);
+            PatientDto dto = await service.GetPatientByAhv(_patient.AhvNumber);
+            Assert.IsNotNull(dto);
+        }
     }
 }
