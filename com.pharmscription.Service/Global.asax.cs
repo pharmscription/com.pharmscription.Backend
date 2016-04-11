@@ -1,8 +1,10 @@
-﻿using System;
-using System.Web;
-
-namespace com.pharmscription.Service
+﻿namespace com.pharmscription.Service
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Web;
+
+    [ExcludeFromCodeCoverage]
     public class Global : HttpApplication
     {
 
