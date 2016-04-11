@@ -1,12 +1,13 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using com.pharmscription.BusinessLogic.Patient;
-using com.pharmscription.Infrastructure.Dto;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace com.pharmscription.Service.Tests
+﻿namespace com.pharmscription.Service.Tests
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
+
+    using com.pharmscription.BusinessLogic.Patient;
+    using com.pharmscription.Infrastructure.Dto;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Moq;
 
@@ -17,7 +18,7 @@ namespace com.pharmscription.Service.Tests
         private static RestService service;
 
         private static Mock<IPatientManager> mock;
-         
+
         private const string CorrectId = "0";
 
         private const string WrongId = "a";

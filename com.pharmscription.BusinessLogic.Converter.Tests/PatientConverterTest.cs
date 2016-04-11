@@ -51,7 +51,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
             };
 
             var patient = insurancePatient.ConvertToDto();
-            
+
             Assert.IsTrue(expectedPatient.IsDeepEqual(patient));
 
         }

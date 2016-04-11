@@ -81,13 +81,12 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.Patient
         public async Task TestCanFindPatientWithAhvNumber()
         {
             var patientFount = await _repository.GetByAhvNumber("123");
-            
             Assert.AreEqual("Rafael", patientFount.FirstName);
         }
 
         [TestMethod]
         public async Task TestCanDeletePatient()
-        {   
+        {
             var patientFound = await _repository.GetByAhvNumber("123");
             _repository.Remove(patientFound);
             await _puow.CommitAsync();

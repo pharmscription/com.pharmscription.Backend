@@ -1,14 +1,14 @@
-﻿using System;
-using com.pharmscription.ApplicationFascade;
-using com.pharmscription.BusinessLogic.Patient;
-using com.pharmscription.Infrastructure.Dto;
-using com.pharmscription.BusinessLogic.Drug;
+﻿
 namespace com.pharmscription.Service
 {
+    using System;
     using System.Threading.Tasks;
 
-    // HINWEIS: Mit dem Befehl "Umbenennen" im Menü "Umgestalten" können Sie den Klassennamen "PatientService" sowohl im Code als auch in der SVC- und der Konfigurationsdatei ändern.
-    // HINWEIS: Wählen Sie zum Starten des WCF-Testclients zum Testen dieses Diensts PatientService.svc oder PatientService.svc.cs im Projektmappen-Explorer aus, und starten Sie das Debuggen.
+    using com.pharmscription.ApplicationFascade;
+    using com.pharmscription.BusinessLogic.Drug;
+    using com.pharmscription.BusinessLogic.Patient;
+    using com.pharmscription.Infrastructure.Dto;
+
     public class RestService : IRestService
     {
         private readonly IPatientManager _patientManager;

@@ -54,14 +54,12 @@ namespace com.pharmscription.BusinessLogic.Patient
 
         public async Task<PatientDto> GetById(string id)
         {
-            
             Guid gid;
             if (Guid.TryParse(id, out gid))
             {
                 var patient = await _patientRepository.GetAsync(gid);
                 return patient.ConvertToDto();
             }
-            
             throw new InvalidDataException();
         }
 

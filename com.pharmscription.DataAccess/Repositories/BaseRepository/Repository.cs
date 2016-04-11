@@ -90,8 +90,7 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
             else
             {
                 throw new NullReferenceException("Item was null");
-            }
-                
+            } 
         }
 
         public virtual void UntrackItem(TEntity item)
@@ -151,7 +150,6 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
                 return GetSet().Where(e => e.Id == id);
             }
             throw new NullReferenceException("Guid was empty");
-            
         }
         /// <summary>
         /// <see cref="IRepository{TEntity}"/>

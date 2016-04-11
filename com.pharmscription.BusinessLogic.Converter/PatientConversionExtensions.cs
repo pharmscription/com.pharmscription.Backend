@@ -72,7 +72,7 @@ namespace com.pharmscription.BusinessLogic.Converter
                 LastName = patientDto.LastName,
                 FirstName = patientDto.FirstName,
                 Insurance = patientDto.Insurance, 
-                EMailAddress = patientDto.EMailAddress                
+                EMailAddress = patientDto.EMailAddress
             };
             if (patientDto.Id != null)
             {
