@@ -7,9 +7,6 @@ namespace com.pharmscription.Infrastructure.Tests
     [ExcludeFromCodeCoverage]
     public class InfrastructureUnitTest
     {
-        [TestMethod]
-        public void TestMethod1()
-        {
-        }
+        
     }
 }
