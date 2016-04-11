@@ -2,12 +2,15 @@
 namespace com.pharmscription.Service
 {
     using System;
+    using System.Net;
+    using System.ServiceModel.Web;
     using System.Threading.Tasks;
 
     using com.pharmscription.ApplicationFascade;
     using com.pharmscription.BusinessLogic.Drug;
     using com.pharmscription.BusinessLogic.Patient;
     using com.pharmscription.Infrastructure.Dto;
+    using com.pharmscription.Infrastructure.Exception;
 
     public class RestService : IRestService
     {
@@ -42,13 +45,24 @@ namespace com.pharmscription.Service
         }
 
        public async Task<PatientDto> GetPatientByAhv(string ahv)
-        {
-            var patient = await _GetPatientManager().Find(ahv);
+       {
+            PatientDto patient = null;
+            try
+            {
+                patient = await _GetPatientManager().Find(ahv);
+            }
+            catch (InvalidAhvNumberException e)
+            {
+                SendError(HttpStatusCode.BadRequest, "AHV Number is not in a valid format");
+            }
+            catch (Exception e)
+            {
+                SendError(HttpStatusCode.BadRequest, e.Message);
+            }
             if (patient == null)
             {
-                return new PatientDto();
+                SendError(HttpStatusCode.NotFound, "Patient with provided AHV number not found");
             }
-
             return patient;
         }
 
@@ -69,6 +83,13 @@ namespace com.pharmscription.Service
             return (await _GetDrugManager().Search(keyword)).ToArray();
         }
         #endregion
+
+        private static void SendError(HttpStatusCode statusCode, string message)
+        {
+            OutgoingWebResponseContext response = WebOperationContext.Current?.OutgoingResponse;
+            response.StatusCode = statusCode;
+            response.StatusDescription = message;
+        }
 
         private IPatientManager _GetPatientManager()
         {

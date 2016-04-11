@@ -147,7 +147,7 @@
         {
             mock.Setup(m => m.Find(_patient.AhvNumber)).ReturnsAsync(null);
             PatientDto dto = await service.GetPatientByAhv(_patient.AhvNumber);
-            Assert.IsNotNull(dto);
+            Assert.IsNull(dto);
         }
     }
 }
