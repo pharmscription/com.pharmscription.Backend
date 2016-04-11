@@ -11,9 +11,9 @@ namespace com.pharmscription.Service
 
     public class RestService : IRestService
     {
-        private readonly IPatientManager _patientManager;
-
-        private readonly IDrugManager _drugManager;
+        private readonly ManagerFactory _managerFactory;
+        private IPatientManager _patientManager;
+        private IDrugManager _drugManager;
 
         public RestService(IPatientManager patientManager)
         {
@@ -27,24 +27,23 @@ namespace com.pharmscription.Service
 
         public RestService()
         {
-            _patientManager = new ManagerFactory().PatientManager;
-            _drugManager = new ManagerFactory().DrugManager;
+            _managerFactory = new ManagerFactory();
         }
 
         #region patient
         public async Task<PatientDto> GetPatient(string id)
         {
-            return await _patientManager.GetById(id);
+            return await _GetPatientManager().GetById(id);
         }
 
         public async Task<PatientDto> CreatePatient(PatientDto dto)
         {
-            return await _patientManager.Add(dto);
+            return await _GetPatientManager().Add(dto);
         }
 
        public async Task<PatientDto> GetPatientByAhv(string ahv)
         {
-            var patient = await _patientManager.Find(ahv);
+            var patient = await _GetPatientManager().Find(ahv);
             if (patient == null)
             {
                 return new PatientDto();
@@ -55,20 +54,39 @@ namespace com.pharmscription.Service
 
         public async Task<PatientDto> LookupPatient(string ahv)
         {
-            return await _patientManager.Lookup(ahv);
+            return await _GetPatientManager().Lookup(ahv);
         }
         #endregion
 
         #region drugs
         public async Task<DrugDto> GetDrug(string id)
         {
-            return await _drugManager.GetById(id);
+            return await _GetDrugManager().GetById(id);
         }
 
         public async Task<DrugDto[]> SearchDrugs(string keyword)
         {
-            return (await _drugManager.Search(keyword)).ToArray();
+            return (await _GetDrugManager().Search(keyword)).ToArray();
         }
         #endregion
+
+        private IPatientManager _GetPatientManager()
+        {
+            if (_patientManager == null)
+            {
+                _patientManager = _managerFactory.PatientManager;
+            }
+            return _patientManager;
+        }
+
+        private IDrugManager _GetDrugManager()
+        {
+            if (_drugManager == null)
+            {
+                _drugManager = _managerFactory.DrugManager;
+            }
+            return _drugManager;
+        }
+        
     }
 }
