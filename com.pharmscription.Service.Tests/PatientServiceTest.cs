@@ -29,7 +29,7 @@
             Street = "Neue Jonastrasse",
             StreetExtension = "3. Stockwerk",
             Number = "112",
-            City = "Rapperswil-Jona",
+            Location = "Rapperswil-Jona",
             CityCode = "8640"
         };
 

@@ -99,7 +99,7 @@ namespace com.pharmscription.BusinessLogic.Tests
                     Street = "Bergstrasse",
                     Number = "100",
                     CityCode = "8000",
-                    City = " Zürich",
+                    Location = " Zürich",
                     StreetExtension = "Postfach 1234"
                 },
                 AhvNumber = "1231234123412",
@@ -127,7 +127,7 @@ namespace com.pharmscription.BusinessLogic.Tests
                     Street = "Bergstrasse",
                     Number = "100",
                     CityCode = "8000",
-                    City = " Zürich",
+                    Location = " Zürich",
                     StreetExtension = "Postfach 1234"
                 },
                 AhvNumber = "7561234567897",

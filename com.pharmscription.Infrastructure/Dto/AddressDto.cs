@@ -15,7 +15,7 @@ namespace com.pharmscription.Infrastructure.Dto
         [DataMember]
         public string Number { get; set; }
         [DataMember]
-        public string City { get; set; }
+        public string Location { get; set; }
         [DataMember]
         public string CityCode { get; set; }
     }

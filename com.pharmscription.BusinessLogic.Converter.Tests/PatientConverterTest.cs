@@ -38,11 +38,13 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
             {
                 FirstName = "Max",
                 LastName = "Müller",
-                Address = new AddressDto { 
-                Street = "Bergstrasse",
-                Number = "100",
-                CityCode = "8000",
-                City = " Zürich"},
+                Address = new AddressDto
+                { 
+                    Street = "Bergstrasse",
+                    Number = "100",
+                    CityCode = "8000",
+                    Location = " Zürich"
+                },
                 AhvNumber = "123-1234-1234-12",
                 BirthDate = birthDate,
                 InsuranceNumber = "Zurich-12345",
@@ -98,7 +100,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
                     Street = "Bergstrasse",
                     Number = "100",
                     CityCode = "8000",
-                    City = " Zürich"
+                    Location = " Zürich"
                 },
                 AhvNumber = "123-1234-1234-12",
                 BirthDate = birthDate,
@@ -110,7 +112,6 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
             var patient = entityPatient.ConvertToDto();
 
             Assert.IsTrue(expectedPatient.IsDeepEqual(patient));
-
         }
 
         [TestMethod]
@@ -156,7 +157,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
                     Street = "Bergstrasse",
                     Number = "100",
                     CityCode = "8000",
-                    City = " Zürich",
+                    Location = " Zürich",
                     StreetExtension = "Postfach 1234"
                 },
                 AhvNumber = "123-1234-1234-12",
