@@ -42,17 +42,7 @@ namespace com.pharmscription.Service
             return await _patientManager.Add(dto);
         }
 
-        public async Task<PatientDto> ModifyPatient(string id, PatientDto newPatientDto)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<AddressDto> GetAddress(string patientId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<PatientDto> GetPatientByAhv(string ahv)
+       public async Task<PatientDto> GetPatientByAhv(string ahv)
         {
             var patient = await _patientManager.Find(ahv);
             if (patient == null)
@@ -67,11 +57,6 @@ namespace com.pharmscription.Service
         {
             return await _patientManager.Lookup(ahv);
         }
-
-        public async Task<PatientDto> DeletePatient(string id)
-        {
-            throw new NotImplementedException();
-        }
         #endregion
 
         #region drugs
@@ -83,11 +68,6 @@ namespace com.pharmscription.Service
         public async Task<DrugDto[]> SearchDrugs(string keyword)
         {
             return (await _drugManager.Search(keyword)).ToArray();
-        }
-
-        public Task<double> GetDrugPrice(string id)
-        {
-            throw new NotImplementedException();
         }
         #endregion
     }
