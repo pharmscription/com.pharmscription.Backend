@@ -9,6 +9,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace com.pharmscription.Service.Tests
 {
+    using System.Net;
+    using System.ServiceModel.Web;
+
+    using com.pharmscription.Infrastructure.Exception;
+
     [TestClass]
     [ExcludeFromCodeCoverage]
     public class DrugServiceTest
@@ -46,19 +51,31 @@ namespace com.pharmscription.Service.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public async Task TestGetInvalidDrugById()
         {
-            mock.Setup(m => m.GetById(WrongId)).Throws<ArgumentException>();
-            await service.GetDrug(WrongId);
+            mock.Setup(m => m.GetById(WrongId)).Throws<NotFoundException>();
+            try
+            {
+                await service.GetDrug(WrongId);
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.NotFound, e.StatusCode);
+            }
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public async Task TestGetDrugWithNullParameter()
         {
-            mock.Setup(m => m.GetById(null)).Throws<ArgumentNullException>();
-            await service.GetDrug(null);
+            mock.Setup(m => m.GetById(null)).Throws<ArgumentException>();
+            try
+            {
+                await service.GetDrug(null);
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.BadRequest, e.StatusCode);
+            }
         }
 
         [TestMethod]
@@ -97,19 +114,31 @@ namespace com.pharmscription.Service.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public async Task TestSearchEmptyString()
         {
-            mock.Setup(m => m.Search(string.Empty)).Throws<ArgumentException>();
-            await service.SearchDrugs(string.Empty);
+            mock.Setup(m => m.Search(string.Empty)).Throws<InvalidArgumentException>();
+            try
+            {
+                await service.SearchDrugs(string.Empty);
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.BadRequest, e.StatusCode);
+            }
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public async Task TestSearchNullString()
         {
             mock.Setup(m => m.Search(null)).Throws<ArgumentNullException>();
-            await service.SearchDrugs(null);
+            try
+            {
+                await service.SearchDrugs(null);
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.BadRequest, e.StatusCode);
+            }
         }
 
 

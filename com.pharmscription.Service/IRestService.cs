@@ -30,6 +30,7 @@
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "patients/{id}")]
         [OperationContract]
+        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
         Task<PatientDto> GetPatient(string id);
 
         /// <summary>
@@ -47,6 +48,7 @@
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "patients")]
         [OperationContract]
+        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "DTO is not a spelling mistake")]
         Task<PatientDto> CreatePatient(PatientDto dto);
         
@@ -65,6 +67,7 @@
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "patients/ahv-number/{ahv}")]
         [OperationContract]
+        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "AHV Number is not a spelling mistake")]
         Task<PatientDto> GetPatientByAhv(string ahv);
 
@@ -83,6 +86,7 @@
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "patients/lookup/{ahv}")]
         [OperationContract]
+        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "AHV Number is not a spelling mistake")]
         Task<PatientDto> LookupPatient(string ahv);
         
@@ -105,6 +109,7 @@
             BodyStyle = WebMessageBodyStyle.Bare, 
             UriTemplate = "drugs/{id}")]
         [OperationContract]
+        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
         Task<DrugDto> GetDrug(string id);
 
         /// <summary>
@@ -122,6 +127,7 @@
             BodyStyle = WebMessageBodyStyle.Bare, 
             UriTemplate = "drugs/search/{keyword}")]
         [OperationContract]
+        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
         Task<DrugDto[]> SearchDrugs(string keyword);
 
         #endregion

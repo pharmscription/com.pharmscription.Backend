@@ -2,12 +2,16 @@
 namespace com.pharmscription.Service
 {
     using System;
+    using System.Net;
+    using System.ServiceModel;
+    using System.ServiceModel.Web;
     using System.Threading.Tasks;
 
     using com.pharmscription.ApplicationFascade;
     using com.pharmscription.BusinessLogic.Drug;
     using com.pharmscription.BusinessLogic.Patient;
     using com.pharmscription.Infrastructure.Dto;
+    using com.pharmscription.Infrastructure.Exception;
 
     public class RestService : IRestService
     {
@@ -33,40 +37,97 @@ namespace com.pharmscription.Service
         #region patient
         public async Task<PatientDto> GetPatient(string id)
         {
-            return await _GetPatientManager().GetById(id);
+            try
+            {
+                return await _GetPatientManager().GetById(id);
+            }
+            catch (NotFoundException e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+            }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
         }
 
         public async Task<PatientDto> CreatePatient(PatientDto dto)
         {
-            return await _GetPatientManager().Add(dto);
+            try
+            {
+                return await _GetPatientManager().Add(dto);
+            }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
         }
 
-       public async Task<PatientDto> GetPatientByAhv(string ahv)
-        {
-            var patient = await _GetPatientManager().Find(ahv);
-            if (patient == null)
+        public async Task<PatientDto> GetPatientByAhv(string ahv)
+       {
+            try
             {
-                return new PatientDto();
+                PatientDto dto = await _GetPatientManager().Find(ahv);
+                if (dto == null)
+                {
+                    throw new WebFaultException<ErrorMessage>(new ErrorMessage("Patient not found"), HttpStatusCode.NotFound);
+                }
+                return dto;
             }
-
-            return patient;
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
         }
 
         public async Task<PatientDto> LookupPatient(string ahv)
         {
-            return await _GetPatientManager().Lookup(ahv);
+            try
+            {
+                return await _GetPatientManager().Lookup(ahv);
+            }
+            catch (NotFoundException e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+            }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
         }
         #endregion
 
         #region drugs
         public async Task<DrugDto> GetDrug(string id)
         {
-            return await _GetDrugManager().GetById(id);
+            try
+            {
+                return await _GetDrugManager().GetById(id);
+            }
+            catch (NotFoundException e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+            }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
         }
 
         public async Task<DrugDto[]> SearchDrugs(string keyword)
         {
-            return (await _GetDrugManager().Search(keyword)).ToArray();
+            try
+            {
+                return (await _GetDrugManager().Search(keyword)).ToArray();
+            }
+            catch (NotFoundException e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+            }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
         }
         #endregion
 
