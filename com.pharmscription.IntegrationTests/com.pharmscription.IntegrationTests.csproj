@@ -90,6 +90,10 @@
       <Project>{28ee2eb7-85f9-4a53-af37-3ce2f3d1776f}</Project>
       <Name>com.pharmscription.DataAccess.Insurance</Name>
     </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.DataAccess.SanteSuisse\com.pharmscription.DataAccess.SanteSuisse.csproj">
+      <Project>{0fdbe9f1-9026-4e48-870c-b413c6efad3f}</Project>
+      <Name>com.pharmscription.DataAccess.SanteSuisse</Name>
+    </ProjectReference>
     <ProjectReference Include="..\com.pharmscription.DataAccess.SwissMedic\com.pharmscription.DataAccess.SwissMedic.csproj">
       <Project>{af444cbf-5e01-4826-8fbb-b5fcb681dd3d}</Project>
       <Name>com.pharmscription.DataAccess.SwissMedic</Name>
