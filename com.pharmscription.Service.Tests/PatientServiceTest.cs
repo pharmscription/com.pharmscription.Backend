@@ -2,6 +2,8 @@
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using System.Net;
+    using System.ServiceModel.Web;
     using System.Threading.Tasks;
 
     using com.pharmscription.BusinessLogic.Patient;
@@ -62,11 +64,17 @@
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public async Task TestGetNonExistentPatient()
         {
-            mock.Setup(m => m.GetById(WrongId)).Throws<ArgumentException>();
-            await service.GetPatient(WrongId);
+            mock.Setup(m => m.GetById(WrongId)).Throws<NotFoundException>();
+            try
+            {
+                await service.GetPatient(WrongId);
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.NotFound, e.StatusCode);
+            }
         }
 
         [TestMethod]
@@ -78,19 +86,44 @@
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        public async Task TestLookupPatientNotFound()
+        {
+            mock.Setup(m => m.Lookup("756.1234.123.1234")).Throws<NotFoundException>();
+            try
+            {
+                await service.LookupPatient("756.1234.123.1234");
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.NotFound, e.StatusCode);
+            }
+        }
+        [TestMethod]
         public async Task TestLookupInvalidAhv()
         {
-            mock.Setup(m => m.Lookup("123")).Throws<ArgumentException>();
-            await service.LookupPatient("123");
+            mock.Setup(m => m.Lookup("123")).Throws<InvalidArgumentException>();
+            try
+            {
+                await service.LookupPatient("123");
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.BadRequest, e.StatusCode);
+            }
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public async Task TestLookupNullAhv()
         {
             mock.Setup(m => m.Lookup(null)).Throws<ArgumentNullException>();
-            await service.LookupPatient(null);
+            try
+            {
+                await service.LookupPatient(null);
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.BadRequest, e.StatusCode);
+            } 
         }
 
         [TestMethod]
@@ -102,20 +135,32 @@
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public async Task TestCreateInvalidPatient()
         {
             var invaliDto = new PatientDto();
-            mock.Setup(m => m.Add(invaliDto)).Throws<ArgumentException>();
-            await service.CreatePatient(invaliDto);
+            mock.Setup(m => m.Add(invaliDto)).Throws<InvalidArgumentException>();
+            try
+            {
+                await service.CreatePatient(invaliDto);
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.BadRequest, e.StatusCode);
+            }
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public async Task TestCreateNullPatient()
         {
             mock.Setup(m => m.Add(null)).Throws<ArgumentNullException>();
-            await service.CreatePatient(null);
+            try
+            {
+                await service.CreatePatient(null);
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.BadRequest, e.StatusCode);
+            }
         }
 
         [TestMethod]
@@ -127,27 +172,45 @@
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidAhvNumberException))]
         public async Task TestSearchInvalidAhvNubmer()
         {
             mock.Setup(m => m.Find("123")).Throws<InvalidAhvNumberException>();
-            await service.GetPatientByAhv("123");
+            try
+            {
+                await service.GetPatientByAhv("123");
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.BadRequest, e.StatusCode);
+            }
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public async Task TestSearchNullAhvNumber()
         {
             mock.Setup(m => m.Find(null)).Throws<ArgumentNullException>();
-            await service.GetPatientByAhv(null);
+            try
+            {
+                await service.GetPatientByAhv(null);
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.BadRequest, e.StatusCode);
+            }
         }
 
         [TestMethod]
         public async Task TestSearchUnsucessful()
         {
             mock.Setup(m => m.Find(_patient.AhvNumber)).ReturnsAsync(null);
-            PatientDto dto = await service.GetPatientByAhv(_patient.AhvNumber);
-            Assert.IsNotNull(dto);
+            try
+            {
+                await service.GetPatientByAhv(_patient.AhvNumber);
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.BadRequest, e.StatusCode);
+            }
         }
     }
 }
