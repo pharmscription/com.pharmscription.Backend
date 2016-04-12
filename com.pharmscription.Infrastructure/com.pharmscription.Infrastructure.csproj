@@ -47,6 +47,8 @@
     <Compile Include="Dto\DrugDto.cs" />
     <Compile Include="Dto\PatientDto.cs" />
     <Compile Include="Exception\InvalidAHVNumberException.cs" />
+    <Compile Include="Exception\InvalidArgumentException.cs" />
+    <Compile Include="Exception\NotFoundException.cs" />
     <Compile Include="ExternalDto\InsuranceDto\InsurancePatient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
