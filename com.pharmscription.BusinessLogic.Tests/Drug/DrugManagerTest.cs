@@ -36,14 +36,14 @@ namespace com.pharmscription.BusinessLogic.Tests.Drug
         [ExpectedException(typeof(ArgumentNullException))]
         public async Task TestSearchThrowsOnNull()
         {
-            var drugs = await _drugManager.Search(null);
+            await _drugManager.Search(null);
         }
 
         [TestMethod]
         [ExpectedException(typeof (ArgumentException))]
         public async Task TestSearchThrowsOnEmpty()
         {
-            var drugs = await _drugManager.Search("");
+            await _drugManager.Search("");
         }
 
         [TestMethod]

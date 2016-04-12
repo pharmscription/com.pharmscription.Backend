@@ -12,10 +12,10 @@ namespace com.pharmscription.DataAccess.SwissMedic
 {
     public class SwissMedicMock : ISwissMedic
     {
-        private async Task<List<Drug>> ReadDrugsFromCsv()
+        private static async Task<List<Drug>> ReadDrugsFromCsv()
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "com.pharmscription.DataAccess.SwissMedic.Drugs.csv";
+            const string resourceName = "com.pharmscription.DataAccess.SwissMedic.Drugs.csv";
 
             using (var stream = assembly.GetManifestResourceStream(resourceName))
             {
@@ -37,7 +37,7 @@ namespace com.pharmscription.DataAccess.SwissMedic
             }
         }
 
-        private Drug ParseDrug(IReadOnlyList<string> line)
+        private static Drug ParseDrug(IReadOnlyList<string> line)
         {
             return new Drug
             {

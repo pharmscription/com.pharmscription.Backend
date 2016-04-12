@@ -68,7 +68,7 @@
     <Compile Include="Entities\AdressEntitiy\CityCodeEntity\SwissCityCodeTest.cs" />
     <Compile Include="Repositories\BaseRepository\RepositoryTest.cs" />
     <Compile Include="Repositories\DrugRepository\DrugRepositoryTest.cs" />
-    <Compile Include="Repositories\Patient\PatientRepositoryTest.cs" />
+    <Compile Include="Repositories\PatientRepository\PatientRepositoryTest.cs" />
     <Compile Include="TestEnvironment\DbAsyncQueryProviderMock.cs" />
     <Compile Include="TestEnvironment\TestEnvironmentHelper.cs" />
     <Compile Include="UnitOfWork\PharmscriptionUnitOfWorkTest.cs" />

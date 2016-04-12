@@ -8,14 +8,13 @@ using com.pharmscription.DataAccess.Tests.TestEnvironment;
 using com.pharmscription.DataAccess.UnitOfWork;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace com.pharmscription.DataAccess.Tests.Repositories.Patient
+namespace com.pharmscription.DataAccess.Tests.Repositories.PatientRepository
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
     public class PatientRepositoryTest
     {
         private IPatientRepository _repository;
-        private IPharmscriptionUnitOfWork _puow;
 
         [TestInitialize]
         public void Initialize()
@@ -58,8 +57,8 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.Patient
             var mockPuow = TestEnvironmentHelper.GetMockedDataContext();
             mockPuow.Setup(m => m.Patients).Returns(mockSet.Object);
             mockPuow.Setup(m => m.CreateSet<DataAccess.Entities.PatientEntity.Patient>()).Returns(mockSet.Object);
-            _puow = mockPuow.Object;
-            _repository = new PatientRepository(_puow);
+            var puow = mockPuow.Object;
+            _repository = new DataAccess.Repositories.Patient.PatientRepository(puow);
         }
 
         [TestCleanup]
@@ -89,7 +88,7 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.Patient
         {
             var patientFound = await _repository.GetByAhvNumber("123");
             _repository.Remove(patientFound);
-            await _puow.CommitAsync();
+            await _repository.UnitOfWork.CommitAsync();
             var patientDeleted = await _repository.GetByAhvNumber("123");
             Assert.IsNull(patientDeleted);
         }

@@ -15,7 +15,6 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.DrugRepository
     [ExcludeFromCodeCoverage]
     public class DrugRepositoryTest
     {
-        private IPharmscriptionUnitOfWork _puow;
         private IDrugRepository _repository;
 
         [TestInitialize]
@@ -59,8 +58,8 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.DrugRepository
             var mockPuow = TestEnvironmentHelper.GetMockedDataContext();
             mockPuow.Setup(m => m.Drugs).Returns(mockSet.Object);
             mockPuow.Setup(m => m.CreateSet<Drug>()).Returns(mockSet.Object);
-            _puow = mockPuow.Object;
-            _repository = new DataAccess.Repositories.Drug.DrugRepository(_puow);
+            var puow = mockPuow.Object;
+            _repository = new DataAccess.Repositories.Drug.DrugRepository(puow);
         }
 
         [TestCleanup]
@@ -98,14 +97,14 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.DrugRepository
         [ExpectedException(typeof(ArgumentNullException)) ]
         public async Task TestSearchByNameThrowNullOnNull()
         {
-            var drugs = await _repository.SearchByName(null);
+            await _repository.SearchByName(null);
         }
 
         [TestMethod]
         [ExpectedException(typeof (ArgumentException))]
         public async Task TestSearchByNameThrowArgumentOnEmpty()
         {
-            var drugs = await _repository.SearchByName("");
+            await _repository.SearchByName("");
         }
     }
 }

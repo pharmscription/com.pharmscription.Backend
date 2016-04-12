@@ -29,14 +29,14 @@ namespace com.pharmscription.DataAccess.SwissMedic.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public async Task ThrowsOnNull()
         {
-            var drug = await _swissMedic.SearchDrug(null);
+            await _swissMedic.SearchDrug(null);
         }
 
         [TestMethod]
         [ExpectedException(typeof (ArgumentException))]
         public async Task ThrowOnEmpty()
         {
-            var drug = await _swissMedic.SearchDrug("");
+            await _swissMedic.SearchDrug("");
         }
 
         [TestMethod]

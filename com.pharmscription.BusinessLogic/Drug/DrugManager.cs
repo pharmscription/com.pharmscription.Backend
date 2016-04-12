@@ -37,13 +37,19 @@ namespace com.pharmscription.BusinessLogic.Drug
             }
             var drugsFromSwissMedic =
                 await _swissMedicConnector.GetSwissMedicConnection().SearchDrug(partialDescription);
+            await CacheSwissMedicLocally(drugsFromSwissMedic);
+            return drugsFromSwissMedic.ConvertToDtos();
+        }
+
+        private async Task CacheSwissMedicLocally(IEnumerable<DataAccess.Entities.DrugEntity.Drug> drugsFromSwissMedic)
+        {
             foreach (var drug in drugsFromSwissMedic)
             {
                 _repository.Add(drug);
             }
             await _repository.UnitOfWork.CommitAsync();
-            return drugsFromSwissMedic.ConvertToDtos();
         }
+
 
         public async Task<DrugDto> Add(DrugDto drug)
         {

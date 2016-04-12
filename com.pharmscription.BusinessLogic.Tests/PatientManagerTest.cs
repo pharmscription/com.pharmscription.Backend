@@ -18,7 +18,6 @@ namespace com.pharmscription.BusinessLogic.Tests
     public class PatientManagerTest
     {
         private IPatientRepository _repository;
-        private IPharmscriptionUnitOfWork _puow;
 
         private IPatientManager _patientManager;
 
@@ -64,8 +63,8 @@ namespace com.pharmscription.BusinessLogic.Tests
             var mockPuow = TestEnvironmentHelper.GetMockedDataContext();
             mockPuow.Setup(m => m.Patients).Returns(mockSet.Object);
             mockPuow.Setup(m => m.CreateSet<DataAccess.Entities.PatientEntity.Patient>()).Returns(mockSet.Object);
-            _puow = mockPuow.Object;
-            _repository = new PatientRepository(_puow);
+            var puow = mockPuow.Object;
+            _repository = new PatientRepository(puow);
 
             _patientManager = new PatientManager(_repository);
         }

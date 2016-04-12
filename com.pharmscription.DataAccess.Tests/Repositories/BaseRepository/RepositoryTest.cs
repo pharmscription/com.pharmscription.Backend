@@ -16,7 +16,6 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
     public class RepositoryTest
     {
         private IRepository<DataAccess.Entities.PatientEntity.Patient> _repository;
-        private IPharmscriptionUnitOfWork _puow;
 
         [TestInitialize]
         public void Initialize()
@@ -59,8 +58,8 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
             var mockPuow = TestEnvironmentHelper.GetMockedDataContext();
             mockPuow.Setup(m => m.Patients).Returns(mockSet.Object);
             mockPuow.Setup(m => m.CreateSet<DataAccess.Entities.PatientEntity.Patient>()).Returns(mockSet.Object);
-            _puow = mockPuow.Object;
-            _repository = new Repository<DataAccess.Entities.PatientEntity.Patient>(_puow);
+            var puow = mockPuow.Object;
+            _repository = new Repository<DataAccess.Entities.PatientEntity.Patient>(puow);
         }
 
         [TestCleanup]
@@ -95,8 +94,8 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
                 BirthDate = new DateTime(1991, 03, 17)
             };
             _repository.Add(patient);
-            await _puow.CommitAsync();
-            var patients = _puow.Patients.ToList();
+            await _repository.UnitOfWork.CommitAsync();
+            var patients = _repository.GetAll().ToList();
             var patientFound = patients.FirstOrDefault(e => e.AhvNumber == "2345");
             Assert.IsNotNull(patientFound);
             Assert.AreEqual("Ueli", patientFound.FirstName);
@@ -114,11 +113,11 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
         [TestMethod]
         public async Task TestDoesRemove()
         {
-            var patientToRemove = _puow.Patients.FirstOrDefault(e => e.AhvNumber == "123");
+            var patientToRemove = _repository.GetAll().FirstOrDefault(e => e.AhvNumber == "123");
             _repository.Remove(patientToRemove);
-            await _puow.CommitAsync();
+            await _repository.UnitOfWork.CommitAsync();
 
-            var patients = _puow.Patients.ToList();
+            var patients = _repository.GetAll().ToList();
             var patientRemoved = patients.FirstOrDefault(e => e.AhvNumber == "123");
             Assert.IsNull(patientRemoved);
         }
@@ -157,7 +156,7 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
             var patientToFind = _repository.GetAll().FirstOrDefault();
             Assert.IsNotNull(patientToFind);
             patientToFind.Id = Guid.NewGuid();
-            await _puow.CommitAsync();
+            await _repository.UnitOfWork.CommitAsync();
             var patientFound = _repository.Get(patientToFind.Id);
             Assert.AreEqual(patientToFind, patientFound);
 
@@ -176,7 +175,7 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
             var patientToFind = _repository.GetAll().FirstOrDefault();
             Assert.IsNotNull(patientToFind);
             patientToFind.Id = Guid.NewGuid();
-            await _puow.CommitAsync();
+            await _repository.UnitOfWork.CommitAsync();
             var patientFound = _repository.Find(patientToFind.Id).FirstOrDefault();
             Assert.AreEqual(patientToFind, patientFound);
 
@@ -206,7 +205,7 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
             var patientToChange = _repository.GetAllAsNoTracking().ToList().FirstOrDefault();
             Assert.IsNotNull(patientToChange);
             patientToChange.FirstName = "Superman";
-            await _puow.CommitAsync();
+            await _repository.UnitOfWork.CommitAsync();
             var patientUnchanged = _repository.GetAll().ToList().FirstOrDefault();
             Assert.IsNotNull(patientUnchanged);
             Assert.AreNotEqual(patientToChange.FirstName, patientUnchanged.FirstName);

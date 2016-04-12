@@ -37,7 +37,7 @@ namespace com.pharmscription.BusinessLogic.Patient
             return (await _patientRepository.GetByAhvNumber(patient.AhvNumber)).ConvertToDto();
         }
 
-        public async Task<PatientDto> Edit(PatientDto patient)
+        public Task<PatientDto> Edit(PatientDto patient)
         {
             throw new NotImplementedException();
         }
