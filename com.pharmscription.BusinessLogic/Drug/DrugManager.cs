@@ -47,39 +47,6 @@ namespace com.pharmscription.BusinessLogic.Drug
             await _repository.UnitOfWork.CommitAsync();
         }
 
-
-        public async Task<DrugDto> Add(DrugDto drug)
-        {
-            if (drug == null)
-            {
-                throw new InvalidArgumentException(nameof(drug));
-            }
-            _repository.Add(drug.ConvertToEntity());
-            await _repository.UnitOfWork.CommitAsync();
-            return drug;
-        }
-
-        public async Task<DrugDto> Edit(DrugDto drug)
-        {
-            if (string.IsNullOrWhiteSpace(drug?.Id))
-            {
-                throw new InvalidArgumentException("dto or dto id was null or empty");
-            }
-            var drugInDatabase = await _repository.GetAsync(new Guid(drug.Id));
-            if (drugInDatabase == null)
-            {
-                throw new NotFoundException("Entity with such an Id was found in Database");
-            }
-            drugInDatabase.DrugDescription = drug.DrugDescription;
-            drugInDatabase.Composition = drug.Composition;
-            drugInDatabase.IsValid = drug.IsValid;
-            drugInDatabase.NarcoticCategory = drug.NarcoticCategory;
-            drugInDatabase.PackageSize = drug.PackageSize;
-            drugInDatabase.Unit = drug.Unit;
-            await _repository.UnitOfWork.CommitAsync();
-            return drugInDatabase.ConvertToDto();
-        }
-
         public async Task<DrugDto> GetById(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
@@ -87,21 +54,6 @@ namespace com.pharmscription.BusinessLogic.Drug
                 throw new InvalidArgumentException("Id was empty");
             }
             return (await _repository.GetAsync(new Guid(id))).ConvertToDto();
-        }
-
-        public async Task<DrugDto> RemoveById(string id)
-        {
-            if (string.IsNullOrWhiteSpace(id))
-            {
-                throw new InvalidArgumentException("Id was empty");
-            }
-            var drug = await _repository.GetAsync(new Guid(id));
-            if (drug != null)
-            {
-                _repository.Remove(drug);
-                await _repository.UnitOfWork.CommitAsync();
-            }
-            return drug.ConvertToDto();
         }
     }
 }
