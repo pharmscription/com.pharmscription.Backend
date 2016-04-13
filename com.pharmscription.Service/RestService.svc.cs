@@ -22,7 +22,6 @@ namespace com.pharmscription.Service
             _drugManager = drugManager;
         }
 
-
         #region patient
         public async Task<PatientDto> GetPatient(string id)
         {
