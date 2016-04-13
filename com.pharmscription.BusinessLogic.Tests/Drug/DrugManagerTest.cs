@@ -69,8 +69,9 @@ namespace com.pharmscription.BusinessLogic.Tests.Drug
                 DrugDescription = "My Super Cool Test Drug"
             };
             await _drugManager.Add(drugDto);
-            var drugFound = await _drugManager.Search("Super Cool");
+            var drugFound = (await _drugManager.Search("Super Cool")).FirstOrDefault();
             Assert.IsNotNull(drugFound);
+            Assert.AreEqual(drugDto.DrugDescription, drugFound.DrugDescription);
         }
 
         [TestMethod]
