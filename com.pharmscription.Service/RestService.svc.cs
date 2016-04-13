@@ -3,43 +3,32 @@ namespace com.pharmscription.Service
 {
     using System;
     using System.Net;
-    using System.ServiceModel;
     using System.ServiceModel.Web;
     using System.Threading.Tasks;
-
-    using com.pharmscription.ApplicationFascade;
-    using com.pharmscription.BusinessLogic.Drug;
-    using com.pharmscription.BusinessLogic.Patient;
-    using com.pharmscription.Infrastructure.Dto;
-    using com.pharmscription.Infrastructure.Exception;
+    using BusinessLogic.Drug;
+    using BusinessLogic.Patient;
+    using Infrastructure.Dto;
+    using Infrastructure.Exception;
 
     public class RestService : IRestService
     {
-        private readonly ManagerFactory _managerFactory;
-        private IPatientManager _patientManager;
-        private IDrugManager _drugManager;
+        private readonly IPatientManager _patientManager;
+        private readonly IDrugManager _drugManager;
 
-        public RestService(IPatientManager patientManager)
+
+        public RestService(IPatientManager patientManager, IDrugManager drugManager)
         {
             _patientManager = patientManager;
-        }
-
-        public RestService(IDrugManager drugManager)
-        {
             _drugManager = drugManager;
         }
 
-        public RestService()
-        {
-            _managerFactory = new ManagerFactory();
-        }
 
         #region patient
         public async Task<PatientDto> GetPatient(string id)
         {
             try
             {
-                return await _GetPatientManager().GetById(id);
+                return await _patientManager.GetById(id);
             }
             catch (NotFoundException e)
             {
@@ -55,7 +44,7 @@ namespace com.pharmscription.Service
         {
             try
             {
-                return await _GetPatientManager().Add(dto);
+                return await _patientManager.Add(dto);
             }
             catch (Exception e)
             {
@@ -67,7 +56,7 @@ namespace com.pharmscription.Service
        {
             try
             {
-                PatientDto dto = await _GetPatientManager().Find(ahv);
+                PatientDto dto = await _patientManager.Find(ahv);
                 if (dto == null)
                 {
                     throw new WebFaultException<ErrorMessage>(new ErrorMessage("Patient not found"), HttpStatusCode.NotFound);
@@ -84,7 +73,7 @@ namespace com.pharmscription.Service
         {
             try
             {
-                return await _GetPatientManager().Lookup(ahv);
+                return await _patientManager.Lookup(ahv);
             }
             catch (NotFoundException e)
             {
@@ -102,7 +91,7 @@ namespace com.pharmscription.Service
         {
             try
             {
-                return await _GetDrugManager().GetById(id);
+                return await _drugManager.GetById(id);
             }
             catch (NotFoundException e)
             {
@@ -118,7 +107,7 @@ namespace com.pharmscription.Service
         {
             try
             {
-                return (await _GetDrugManager().Search(keyword)).ToArray();
+                return (await _drugManager.Search(keyword)).ToArray();
             }
             catch (NotFoundException e)
             {
@@ -129,25 +118,6 @@ namespace com.pharmscription.Service
                 throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
             }
         }
-        #endregion
-
-        private IPatientManager _GetPatientManager()
-        {
-            if (_patientManager == null)
-            {
-                _patientManager = _managerFactory.PatientManager;
-            }
-            return _patientManager;
-        }
-
-        private IDrugManager _GetDrugManager()
-        {
-            if (_drugManager == null)
-            {
-                _drugManager = _managerFactory.DrugManager;
-            }
-            return _drugManager;
-        }
-        
+        #endregion        
     }
 }

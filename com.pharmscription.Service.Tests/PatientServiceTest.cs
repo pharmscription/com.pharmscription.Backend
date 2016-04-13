@@ -1,4 +1,6 @@
-﻿namespace com.pharmscription.Service.Tests
+﻿using com.pharmscription.BusinessLogic.Drug;
+
+namespace com.pharmscription.Service.Tests
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -6,9 +8,9 @@
     using System.ServiceModel.Web;
     using System.Threading.Tasks;
 
-    using com.pharmscription.BusinessLogic.Patient;
-    using com.pharmscription.Infrastructure.Dto;
-    using com.pharmscription.Infrastructure.Exception;
+    using BusinessLogic.Patient;
+    using Infrastructure.Dto;
+    using Infrastructure.Exception;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -51,7 +53,8 @@
         public void SetUp()
         {
             mock = new Mock<IPatientManager>();
-            service = new RestService(mock.Object);
+            var mock2 = new Mock<IDrugManager>();
+            service = new RestService(mock.Object, mock2.Object);
             
         }
         

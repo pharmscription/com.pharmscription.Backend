@@ -14,7 +14,7 @@ namespace com.pharmscription.IntegrationTests
         [TestInitialize]
         public void Initialize()
         {
-            Client = new RestService();
+            //Client = new RestService();
         }   
 
         [TestCleanup]
