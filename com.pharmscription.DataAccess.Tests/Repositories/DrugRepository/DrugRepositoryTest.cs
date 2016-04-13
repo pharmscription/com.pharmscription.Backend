@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +6,7 @@ using com.pharmscription.DataAccess.Entities.DrugEntity;
 using com.pharmscription.DataAccess.Repositories.Drug;
 using com.pharmscription.DataAccess.Tests.TestEnvironment;
 using com.pharmscription.DataAccess.UnitOfWork;
+using com.pharmscription.Infrastructure.Exception;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace com.pharmscription.DataAccess.Tests.Repositories.DrugRepository
@@ -94,14 +94,14 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.DrugRepository
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException)) ]
+        [ExpectedException(typeof(InvalidArgumentException)) ]
         public async Task TestSearchByNameThrowNullOnNull()
         {
             await _repository.SearchByName(null);
         }
 
         [TestMethod]
-        [ExpectedException(typeof (ArgumentException))]
+        [ExpectedException(typeof (InvalidArgumentException))]
         public async Task TestSearchByNameThrowArgumentOnEmpty()
         {
             await _repository.SearchByName("");

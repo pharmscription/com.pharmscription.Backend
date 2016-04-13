@@ -8,6 +8,7 @@ using com.pharmscription.DataAccess.Repositories.Drug;
 using com.pharmscription.DataAccess.Tests.TestEnvironment;
 using com.pharmscription.DataAccess.UnitOfWork;
 using com.pharmscription.Infrastructure.Dto;
+using com.pharmscription.Infrastructure.Exception;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace com.pharmscription.BusinessLogic.Tests.Drug
@@ -33,14 +34,14 @@ namespace com.pharmscription.BusinessLogic.Tests.Drug
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestSearchThrowsOnNull()
         {
             await _drugManager.Search(null);
         }
 
         [TestMethod]
-        [ExpectedException(typeof (ArgumentException))]
+        [ExpectedException(typeof (InvalidArgumentException))]
         public async Task TestSearchThrowsOnEmpty()
         {
             await _drugManager.Search("");
@@ -73,14 +74,14 @@ namespace com.pharmscription.BusinessLogic.Tests.Drug
         }
 
         [TestMethod]
-        [ExpectedException(typeof (ArgumentNullException))]
+        [ExpectedException(typeof (InvalidArgumentException))]
         public async Task TestAddDtoThrowsOnNull()
         {
             await _drugManager.Add(null);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestEditThrowsOnEmpty()
         {
 
@@ -88,14 +89,14 @@ namespace com.pharmscription.BusinessLogic.Tests.Drug
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestEditThrowsOnNull()
         {
             await _drugManager.Edit(null);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(NotFoundException))]
         public async Task TestEditThrowsOnNotExistingDrug()
         {
             var drugDto = new DrugDto
@@ -142,14 +143,14 @@ namespace com.pharmscription.BusinessLogic.Tests.Drug
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetByIdThrowsOnNull()
         {
             await _drugManager.GetById(null);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetByIdThrowsOnEmpty()
         {
             await _drugManager.GetById("");
@@ -173,14 +174,14 @@ namespace com.pharmscription.BusinessLogic.Tests.Drug
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestRemoveByIdThrowsOnNull()
         {
             await _drugManager.RemoveById(null);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestRemoveByIdThrowsOnEmpty()
         {
             await _drugManager.RemoveById("");

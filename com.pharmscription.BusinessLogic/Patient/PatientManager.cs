@@ -48,7 +48,6 @@ namespace com.pharmscription.BusinessLogic.Patient
             {
                 return (await _patientRepository.GetByAhvNumber(ahvNumber)).ConvertToDto();
             }
-
             return null;
         }
 

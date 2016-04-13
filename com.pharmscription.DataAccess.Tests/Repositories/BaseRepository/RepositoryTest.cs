@@ -7,6 +7,7 @@ using com.pharmscription.DataAccess.Repositories.BaseRepository;
 using com.pharmscription.DataAccess.SharedInterfaces;
 using com.pharmscription.DataAccess.Tests.TestEnvironment;
 using com.pharmscription.DataAccess.UnitOfWork;
+using com.pharmscription.Infrastructure.Exception;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
@@ -77,8 +78,8 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void TestConstructorThrowsArgumentNullException()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public void TestConstructorThrowsInvalidArgumentException()
         {
             var repo = new Repository<DataAccess.Entities.PatientEntity.Patient>(null);
         }
@@ -104,8 +105,8 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
-        public void TestAddThrowsNullPointer()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public void TestAddThrowsInvalidArgument()
         {
             _repository.Add(null);
         }
@@ -123,29 +124,29 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
-        public void TestRemoveThrowsNullPointer()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public void TestRemoveThrowsInvalidArgument()
         {
             _repository.Remove(null);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
+        [ExpectedException(typeof(InvalidArgumentException))]
         public void TestTrackThrowsNullPointer()
         {
             _repository.TrackItem(null);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
-        public void TestUntrackThrowsNullPointer()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public void TestUntrackThrowsInvalidArgument()
         {
             _repository.UntrackItem(null);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
-        public void TestSetModifyhrowsNullPointer()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public void TestSetModifyhrowsInvalidArgument()
         {
             _repository.Modify(null);
         }
@@ -163,8 +164,8 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
-        public void TestGetByIdThrowsNullReferenceOnNull()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public void TestGetByIdThrowsInvalidArgumentOnNull()
         {
             _repository.Get(Guid.Empty);
         }
@@ -182,8 +183,8 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
-        public void TestFindByIdThrowsNullReferenceOnNull()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public void TestFindByIdThrowsInvalidArgumentOnNull()
         {
             _repository.Find(Guid.Empty);
         }
