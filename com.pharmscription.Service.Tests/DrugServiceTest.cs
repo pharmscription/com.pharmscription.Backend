@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using com.pharmscription.BusinessLogic.Drug;
+using com.pharmscription.BusinessLogic.Patient;
 using com.pharmscription.Infrastructure.Dto;
 using Moq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,7 +13,7 @@ namespace com.pharmscription.Service.Tests
     using System.Net;
     using System.ServiceModel.Web;
 
-    using com.pharmscription.Infrastructure.Exception;
+    using Infrastructure.Exception;
 
     [TestClass]
     [ExcludeFromCodeCoverage]
@@ -30,7 +31,8 @@ namespace com.pharmscription.Service.Tests
         public void SetUp()
         {
             mock = new Mock<IDrugManager>();
-            service= new RestService(mock.Object);
+            var mock2 =  new Mock<IPatientManager>();
+            service= new RestService(mock2.Object, mock.Object);
         }
 
         [TestMethod]

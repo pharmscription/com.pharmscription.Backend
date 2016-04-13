@@ -3,7 +3,7 @@
     using System;
     using System.Runtime.Serialization;
 
-    public class InvalidArgumentException: System.ArgumentException
+    public class InvalidArgumentException: ArgumentException
     {
         public InvalidArgumentException()
         {

@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace com.pharmscription.Infrastructure.Exception
+﻿namespace com.pharmscription.Infrastructure.Exception
 {
     using System.Runtime.Serialization;
 
     using Exception = System.Exception;
 
-    public class NotFoundException: System.Exception
+    public class NotFoundException: Exception
     {
         public NotFoundException()
         {

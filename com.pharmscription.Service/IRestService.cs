@@ -5,7 +5,7 @@
     using System.ServiceModel.Web;
     using System.Threading.Tasks;
 
-    using com.pharmscription.Infrastructure.Dto;
+    using Infrastructure.Dto;
 
     /// <summary>
     /// The main interface to communicate with the backend

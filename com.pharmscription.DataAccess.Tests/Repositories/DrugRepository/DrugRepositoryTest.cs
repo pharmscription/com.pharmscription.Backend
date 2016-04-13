@@ -16,6 +16,7 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.DrugRepository
     public class DrugRepositoryTest
     {
         private IDrugRepository _repository;
+        private IPharmscriptionUnitOfWork _puow;
 
         [TestInitialize]
         public void Initialize()
@@ -58,22 +59,20 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.DrugRepository
             var mockPuow = TestEnvironmentHelper.GetMockedDataContext();
             mockPuow.Setup(m => m.Drugs).Returns(mockSet.Object);
             mockPuow.Setup(m => m.CreateSet<Drug>()).Returns(mockSet.Object);
-            var puow = mockPuow.Object;
-            _repository = new DataAccess.Repositories.Drug.DrugRepository(puow);
+            _puow = mockPuow.Object;
+            _repository = new DataAccess.Repositories.Drug.DrugRepository(_puow);
         }
 
         [TestCleanup]
         public void Cleanup()
         {
-
-            IPharmscriptionUnitOfWork puow = new PharmscriptionUnitOfWork();
-            foreach (var id in puow.Drugs.Select(e => e.Id))
+            foreach (var id in _puow.Drugs.Select(e => e.Id))
             {
-                var entity = new DataAccess.Entities.PatientEntity.Patient { Id = id };
-                puow.Patients.Attach(entity);
-                puow.Patients.Remove(entity);
+                var entity = new Drug { Id = id };
+                _puow.Drugs.Attach(entity);
+                _puow.Drugs.Remove(entity);
             }
-            puow.Commit();
+            _puow.Commit();
         }
 
         [TestMethod]
