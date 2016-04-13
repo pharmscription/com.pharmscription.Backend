@@ -27,15 +27,19 @@ namespace com.pharmscription.BusinessLogic.Drug
             {
                 throw new InvalidArgumentException("Search Param was empty or null");
             }
-            var drugsCachesLocally = await _repository.SearchByName(partialDescription);
-            if (drugsCachesLocally.Any())
+            var drugsAreCachedLocally = _repository.GetAll().Any();
+            if (!drugsAreCachedLocally)
             {
-                return drugsCachesLocally.ConvertToDtos();
+                await LoadDrugsFromSwissMedic();
             }
-            var drugsFromSwissMedic =
-                await _swissMedicConnector.GetSwissMedicConnection().SearchDrug(partialDescription);
+            var drugsFittingSearch = await _repository.SearchByName(partialDescription);
+            return drugsFittingSearch.ConvertToDtos();
+        }
+
+        private async Task LoadDrugsFromSwissMedic()
+        {
+            var drugsFromSwissMedic = (await _swissMedicConnector.GetSwissMedicConnection().GetAll()).ToList();
             await CacheSwissMedicLocally(drugsFromSwissMedic);
-            return drugsFromSwissMedic.ConvertToDtos();
         }
 
         private async Task CacheSwissMedicLocally(IEnumerable<DataAccess.Entities.DrugEntity.Drug> drugsFromSwissMedic)
