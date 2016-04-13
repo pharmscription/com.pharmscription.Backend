@@ -24,5 +24,19 @@ namespace com.pharmscription.DataAccess.Repositories.Drug
             var searchText = name.ToLower();
             return GetSet().Where(e => e.DrugDescription.ToLower().Contains(searchText)).ToListAsync();
         }
+
+        public Task<List<Entities.DrugEntity.Drug>> SearchByNamePaged(string name, int pageNumber, int amountPerPage)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new InvalidArgumentException("Search Param was empty or null");
+            }
+            if (pageNumber < 0 || amountPerPage < 0)
+            {
+                throw new InvalidArgumentException("Negative Pagenumber or amountperPage supplied");
+            }
+            var searchText = name.ToLower();
+            return GetSet().Where(e => e.DrugDescription.ToLower().Contains(searchText)).OrderBy(e => e.DrugDescription).Skip(pageNumber * amountPerPage).Take(amountPerPage).ToListAsync();
+        }
     }
 }

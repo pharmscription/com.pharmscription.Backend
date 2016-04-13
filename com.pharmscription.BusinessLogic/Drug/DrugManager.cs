@@ -21,6 +21,26 @@ namespace com.pharmscription.BusinessLogic.Drug
             _swissMedicConnector = new SwissMedicConnector();
         }
 
+        public async Task<List<DrugDto>> SearchPaged(string partialDescription, int pageNumber, int amountPerPage)
+        {
+            if (string.IsNullOrWhiteSpace(partialDescription))
+            {
+                throw new InvalidArgumentException("Search Param was empty or null");
+            }
+            if (pageNumber < 0 || amountPerPage < 0)
+            {
+                throw new InvalidArgumentException("Negative pagenumber or amountperpage supplied");
+            }
+            var drugsAreCachedLocally = _repository.GetAll().Any();
+            if (!drugsAreCachedLocally)
+            {
+                await LoadDrugsFromSwissMedic();
+            }
+            var drugsFittingSearch = await _repository.SearchByNamePaged(partialDescription, pageNumber, amountPerPage);
+
+            return drugsFittingSearch.ConvertToDtos();
+        }
+
         public async Task<List<DrugDto>> Search(string partialDescription)
         {
             if (string.IsNullOrWhiteSpace(partialDescription))

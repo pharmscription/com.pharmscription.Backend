@@ -59,6 +59,32 @@ namespace com.pharmscription.BusinessLogic.Tests.Drug
             Assert.IsFalse(drugs.Any());
         }
 
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestSearchPagedThrowsOnNegativeAmountPerPage()
+        {
+            await _drugManager.SearchPaged("Redimune", 2, -1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestSearchPagedThrowsOnNegativePageNumber()
+        {
+            await _drugManager.SearchPaged("Redimune", -1, 2);
+        }
+
+        [TestMethod]
+        public async Task TestCanDoSearchPaged()
+        {
+            var drugs = await _drugManager.SearchPaged("Redimune", 0, 2);
+            var drugsPageTwo = await _drugManager.SearchPaged("Redimune", 1, 2);
+            var drugsPageThree = await _drugManager.SearchPaged("Redimune", 2, 2);
+            Assert.AreEqual(2, drugs.Count);
+            Assert.AreEqual(2, drugsPageTwo.Count);
+            Assert.IsFalse(drugsPageThree.Any());
+        }
+
         [TestMethod]
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetByIdThrowsOnNull()
