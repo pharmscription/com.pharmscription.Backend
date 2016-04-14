@@ -1,9 +1,11 @@
-﻿namespace com.pharmscription.Infrastructure.Exception
+﻿using System;
+
+namespace com.pharmscription.Infrastructure.Exception
 {
     using System.Runtime.Serialization;
-
     using Exception = System.Exception;
 
+    [Serializable]
     public class NotFoundException: Exception
     {
         public NotFoundException()

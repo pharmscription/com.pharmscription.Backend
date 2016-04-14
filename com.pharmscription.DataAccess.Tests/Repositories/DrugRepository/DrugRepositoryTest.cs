@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using com.pharmscription.DataAccess.Entities.DrugEntity;
 using com.pharmscription.DataAccess.Repositories.Drug;
