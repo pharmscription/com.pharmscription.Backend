@@ -21,9 +21,37 @@ namespace com.pharmscription.Service.Tests
     [ExcludeFromCodeCoverage]
     public class DrugServiceTest
     {
-        private static readonly string CorrectId = "1";
+        private const string CorrectId = "1";
 
-        private static readonly string WrongId = "a";
+        private const string WrongId = "a";
+
+        private static readonly List<DrugDto> DrugArray = new List<DrugDto>
+                                          {
+                                              new DrugDto
+                                                  {
+                                                      Id = "1",
+                                                      DrugDescription =
+                                                          "Remeron SolTab 30mg, Schmelztabletten",
+                                                      Composition = "mirtazapinum 15mg",
+                                                      NarcoticCategory = "B"
+                                                  },
+                                              new DrugDto
+                                                  {
+                                                      Id = "2",
+                                                      DrugDescription =
+                                                          "Remeron SolTab 30mg, Schmelztabletten",
+                                                      Composition = "mirtazapinum 30mg",
+                                                      NarcoticCategory = "B"
+                                                  },
+                                              new DrugDto
+                                                  {
+                                                      Id = "3",
+                                                      DrugDescription =
+                                                          "Remeron SolTab 45mg, Schmelztabletten",
+                                                      Composition = "mirtazapium 45mg",
+                                                      NarcoticCategory = "B"
+                                                  }
+                                          };
 
         private static Mock<IDrugManager> mock;
 
@@ -84,40 +112,18 @@ namespace com.pharmscription.Service.Tests
         }
 
         [TestMethod]
-        public async Task TestSearchDrug()
+        public async Task TestSearchDrugPage()
         {
-            List<DrugDto> drugArray = new List<DrugDto>
-                                          {
-                                              new DrugDto
-                                                  {
-                                                      Id = "1",
-                                                      DrugDescription =
-                                                          "Remeron SolTab 30mg, Schmelztabletten",
-                                                      Composition = "mirtazapinum 15mg",
-                                                      NarcoticCategory = "B"
-                                                  },
-                                              new DrugDto
-                                                  {
-                                                      Id = "2",
-                                                      DrugDescription =
-                                                          "Remeron SolTab 30mg, Schmelztabletten",
-                                                      Composition = "mirtazapinum 30mg",
-                                                      NarcoticCategory = "B"
-                                                  },
-                                              new DrugDto
-                                                  {
-                                                      Id = "3",
-                                                      DrugDescription =
-                                                          "Remeron SolTab 45mg, Schmelztabletten",
-                                                      Composition = "mirtazapium 45mg",
-                                                      NarcoticCategory = "B"
-                                                  }
-                                          };
-            mock.Setup(m => m.Search("remeron")).Returns(Task.Run(() => drugArray));
-            DrugDto[] answerDto = await service.SearchDrugs("remeron");
-            CollectionAssert.AreEqual(drugArray.ToArray(), answerDto);
+            mock.Setup(m => m.Search("remeron")).Returns(Task.Run(() => DrugArray));
+            DrugDto[] answerDto = await service.SearchDrugs("remeron", "1", "3");
+            CollectionAssert.AreEqual(DrugArray.ToArray(), answerDto);
         }
 
+        [TestMethod]
+        public async Task TestSearchDrug()
+        {
+            
+        }
         [TestMethod]
         public async Task TestSearchEmptyString()
         {
