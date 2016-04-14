@@ -119,7 +119,7 @@
         /// The keyword which has already been entered.
         /// </param>
         /// <returns>
-        /// <see cref="Task"/> which returns an array of found drugs.
+        /// <see cref="Task"/> which returns the amount of fount results.
         /// </returns>
         [WebInvoke(Method = "GET", 
             RequestFormat = WebMessageFormat.Json, 
@@ -128,7 +128,25 @@
             UriTemplate = "drugs/search/{keyword}")]
         [OperationContract]
         [FaultContract(typeof(WebFaultException<ErrorMessage>))]
-        Task<DrugDto[]> SearchDrugs(string keyword);
+        Task<int> SearchDrugs(string keyword);
+
+        /// <summary>
+        /// Search a drug by keywords an get a page from the result set
+        /// </summary>
+        /// <param name="keyword">The keyword which has been entered</param>
+        /// <param name="page">The page of the result set</param>
+        /// <param name="amount">Amount which will be returnes per page</param>
+        /// <returns>
+        /// <see cref="Task"/> which returns the page of the result set
+        /// </returns>
+        [WebInvoke(Method = "GET", 
+            RequestFormat = WebMessageFormat.Json, 
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare, 
+            UriTemplate = "drugs/search/{keyword}/{page}/{amount}")]
+        [OperationContract]
+        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
+        Task<DrugDto[]> SearchDrugs(string keyword, string page, string amount);
 
         #endregion
     }

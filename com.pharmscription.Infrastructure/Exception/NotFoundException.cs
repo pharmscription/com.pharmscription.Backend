@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace com.pharmscription.Infrastructure.Exception
 {
     using System.Runtime.Serialization;
