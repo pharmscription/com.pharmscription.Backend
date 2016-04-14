@@ -24,7 +24,7 @@ namespace com.pharmscription.ApplicationFascade
             {
                 IPharmscriptionUnitOfWork puow = new PharmscriptionDataAccess().UnitOfWork;
                 IPatientRepository patientRepository = new PatientRepository(puow);
-                return ProxyManager<IPatientManager>.Create(new PatientManager(_context, patientRepository));
+                return ProxyManager<IPatientManager>.Create(new PatientManager(_context, patientRepository),_context.Session);
             }
         }
 
@@ -34,7 +34,7 @@ namespace com.pharmscription.ApplicationFascade
             {
                 IPharmscriptionUnitOfWork puow = new PharmscriptionDataAccess().UnitOfWork;
                 IDrugRepository drugRepository = new DrugRepository(puow);
-                return ProxyManager<IDrugManager>.Create(new DrugManager(_context, drugRepository));
+                return ProxyManager<IDrugManager>.Create(new DrugManager(_context, drugRepository), _context.Session);
             }
         }
 
