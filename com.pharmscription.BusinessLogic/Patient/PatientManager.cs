@@ -13,7 +13,7 @@ namespace com.pharmscription.BusinessLogic.Patient
     {
         private readonly IPatientRepository _patientRepository;
 
-        public PatientManager(IPatientRepository patientRepository)
+        public PatientManager(Context context, IPatientRepository patientRepository) : base(context)
         {
             _patientRepository = patientRepository;
         }

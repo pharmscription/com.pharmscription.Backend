@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="ManagerFactory.cs" />
     <Compile Include="PharmscriptionApplication.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -53,6 +52,10 @@
     <ProjectReference Include="..\com.pharmscription.DataAccess\com.pharmscription.DataAccess.csproj">
       <Project>{45E80FD3-39D7-4112-AF49-BB25B67E0FEE}</Project>
       <Name>com.pharmscription.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.Security\com.pharmscription.Security.csproj">
+      <Project>{D6BF0273-FCBC-4D8E-9AFF-F3BAC10671D7}</Project>
+      <Name>com.pharmscription.Security</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

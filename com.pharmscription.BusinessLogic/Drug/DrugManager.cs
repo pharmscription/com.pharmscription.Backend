@@ -9,12 +9,12 @@ using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.BusinessLogic.Drug
 {
-    public class DrugManager : IDrugManager
+    public class DrugManager : CoreWorkflow, IDrugManager
     {
         private readonly IDrugRepository _repository;
         private readonly SwissMedicConnector _swissMedicConnector;
 
-        public DrugManager(IDrugRepository repository)
+        public DrugManager(Context context, IDrugRepository repository) : base(context)
         {
             _repository = repository;
             _swissMedicConnector = new SwissMedicConnector();

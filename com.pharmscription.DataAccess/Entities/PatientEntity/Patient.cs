@@ -1,11 +1,12 @@
 ﻿using System;
+using com.pharmscription.DataAccess.Entities.AccountEntity;
 using com.pharmscription.DataAccess.Entities.AddressEntity;
 using com.pharmscription.DataAccess.Entities.BaseEntity;
 using com.pharmscription.DataAccess.SharedInterfaces;
 
 namespace com.pharmscription.DataAccess.Entities.PatientEntity
 {
-    public class Patient : Entity, ICloneable<Patient>
+    public class Patient : EntityWithAccount, ICloneable<Patient>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

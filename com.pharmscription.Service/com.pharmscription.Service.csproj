@@ -66,6 +66,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthorizedAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -109,6 +110,10 @@
     <ProjectReference Include="..\com.pharmscription.Infrastructure\com.pharmscription.Infrastructure.csproj">
       <Project>{b53ce84a-9f8a-41c2-97fb-8aa14635ccbf}</Project>
       <Name>com.pharmscription.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.Security\com.pharmscription.Security.csproj">
+      <Project>{D6BF0273-FCBC-4D8E-9AFF-F3BAC10671D7}</Project>
+      <Name>com.pharmscription.Security</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

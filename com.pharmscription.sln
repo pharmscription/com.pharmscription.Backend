@@ -62,6 +62,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.pharmscription.Integrat
 		{79905079-7E37-4081-A70E-0FFE616966C8} = {79905079-7E37-4081-A70E-0FFE616966C8}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.pharmscription.Security.Tests", "com.pharmscription.Security.Tests\com.pharmscription.Security.Tests.csproj", "{7EF6EA95-D88B-4A60-8FDE-5499EBA48E31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.pharmscription.Security", "com.pharmscription.Security\com.pharmscription.Security.csproj", "{D6BF0273-FCBC-4D8E-9AFF-F3BAC10671D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -144,6 +148,14 @@ Global
 		{5644767B-E426-45B6-8C69-93483AAB88DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5644767B-E426-45B6-8C69-93483AAB88DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5644767B-E426-45B6-8C69-93483AAB88DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EF6EA95-D88B-4A60-8FDE-5499EBA48E31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EF6EA95-D88B-4A60-8FDE-5499EBA48E31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EF6EA95-D88B-4A60-8FDE-5499EBA48E31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EF6EA95-D88B-4A60-8FDE-5499EBA48E31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6BF0273-FCBC-4D8E-9AFF-F3BAC10671D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6BF0273-FCBC-4D8E-9AFF-F3BAC10671D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6BF0273-FCBC-4D8E-9AFF-F3BAC10671D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6BF0273-FCBC-4D8E-9AFF-F3BAC10671D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -171,5 +183,7 @@ Global
 		{65906FA0-CEC0-4BD0-AAAB-F0610120A4A9} = {9DBD4B71-3D4E-41A1-ABE2-A79DE175D226}
 		{33A72E75-E3AD-4629-A5DF-A24EFB28C9C1} = {1F089A15-4675-41F5-A4CD-1D428E93499C}
 		{5644767B-E426-45B6-8C69-93483AAB88DD} = {8D51527C-39C4-4646-BC4C-708061421FFA}
+		{7EF6EA95-D88B-4A60-8FDE-5499EBA48E31} = {E17FFE1D-55A7-4E24-84F9-6B8F97BCB36A}
+		{D6BF0273-FCBC-4D8E-9AFF-F3BAC10671D7} = {E17FFE1D-55A7-4E24-84F9-6B8F97BCB36A}
 	EndGlobalSection
 EndGlobal

@@ -5,12 +5,11 @@ namespace com.pharmscription.BusinessLogic
 {
     public class CoreWorkflow
     {
-        public bool IsDoctor()
+        public CoreWorkflow(Context context)
         {
-            throw new NotImplementedException();
+            Context = context;
         }
-
+        
         public Context Context { get; set; }
-
     }
 }

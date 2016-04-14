@@ -1,4 +1,6 @@
-﻿namespace com.pharmscription.Service
+﻿using System;
+
+namespace com.pharmscription.Service
 {
     using System.Diagnostics.CodeAnalysis;
     using System.ServiceModel;
@@ -123,6 +125,19 @@
             UriTemplate = "drugs/search/{keyword}")]
         [OperationContract]
         Task<DrugDto[]> SearchDrugs(string keyword);
+
+        #endregion
+
+        #region login
+
+        [WebInvoke(Method = "POST",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "login")]
+        [OperationContract]
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "DTO is not a spelling mistake")]
+        Task<SessionDto> Login(LoginDto dto);
 
         #endregion
     }

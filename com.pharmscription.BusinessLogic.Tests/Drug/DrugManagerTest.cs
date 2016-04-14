@@ -28,7 +28,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Drug
             mockPuow.Setup(m => m.CreateSet<DataAccess.Entities.DrugEntity.Drug>()).Returns(mockSet.Object);
             IPharmscriptionUnitOfWork puow = mockPuow.Object;
             IDrugRepository repository = new DrugRepository(puow);
-            _drugManager = new DrugManager(repository);
+            _drugManager = new DrugManager(null, repository);
 
         }
 

@@ -49,6 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\AccountEntity\EntityWithAccount.cs" />
+    <Compile Include="Entities\AccountEntity\Role.cs" />
     <Compile Include="Entities\AddressEntity\Address.cs" />
     <Compile Include="Entities\AddressEntity\CityCodeEntity\ICityCode.cs" />
     <Compile Include="Entities\AddressEntity\CityCodeEntity\SwissCityCode.cs" />

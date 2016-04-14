@@ -66,7 +66,7 @@ namespace com.pharmscription.BusinessLogic.Tests
             var puow = mockPuow.Object;
             _repository = new PatientRepository(puow);
 
-            _patientManager = new PatientManager(_repository);
+            _patientManager = new PatientManager(null, _repository);
         }
 
         [TestCleanup]
