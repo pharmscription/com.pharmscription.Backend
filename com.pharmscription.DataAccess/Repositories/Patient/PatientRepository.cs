@@ -1,12 +1,14 @@
-﻿using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
-using com.pharmscription.DataAccess.Repositories.BaseRepository;
-using com.pharmscription.DataAccess.UnitOfWork;
-
-namespace com.pharmscription.DataAccess.Repositories.Patient
+﻿namespace com.pharmscription.DataAccess.Repositories.Patient
 {
-    public class PatientRepository : Repository<Entities.PatientEntity.Patient>, IPatientRepository
+    using System.Data.Entity;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using com.pharmscription.DataAccess.Entities.PatientEntity;
+    using com.pharmscription.DataAccess.Repositories.BaseRepository;
+    using com.pharmscription.DataAccess.UnitOfWork;
+
+    public class PatientRepository : Repository<Patient>, IPatientRepository
     {
         public PatientRepository(IPharmscriptionUnitOfWork unitOfWork) : base(unitOfWork)
         {
