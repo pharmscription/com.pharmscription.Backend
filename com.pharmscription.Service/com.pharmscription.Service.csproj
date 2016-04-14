@@ -62,6 +62,14 @@
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Interception.4.0.1\lib\Net45\Microsoft.Practices.Unity.Interception.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Interception.4.0.1\lib\Net45\Microsoft.Practices.Unity.Interception.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
       <Private>True</Private>
@@ -92,6 +100,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthorizedAttribute.cs" />
     <Compile Include="DependencyInjection\UnityInstanceProvider.cs" />
     <Compile Include="DependencyInjection\UnityServiceHost.cs" />
     <Compile Include="DependencyInjection\UnityServiceHostFactory.cs" />
@@ -143,6 +152,10 @@
     <ProjectReference Include="..\com.pharmscription.Infrastructure\com.pharmscription.Infrastructure.csproj">
       <Project>{b53ce84a-9f8a-41c2-97fb-8aa14635ccbf}</Project>
       <Name>com.pharmscription.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.Security\com.pharmscription.Security.csproj">
+      <Project>{D6BF0273-FCBC-4D8E-9AFF-F3BAC10671D7}</Project>
+      <Name>com.pharmscription.Security</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
