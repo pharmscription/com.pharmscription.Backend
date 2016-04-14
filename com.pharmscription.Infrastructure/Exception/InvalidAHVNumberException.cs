@@ -1,5 +1,8 @@
-﻿namespace com.pharmscription.Infrastructure.Exception
+﻿using System;
+
+namespace com.pharmscription.Infrastructure.Exception
 {
+    [Serializable]
     public class InvalidAhvNumberException : System.Exception
     {
         public InvalidAhvNumberException()

@@ -7,7 +7,7 @@ namespace com.pharmscription.Service
     using System.ServiceModel.Web;
     using System.Threading.Tasks;
 
-    using com.pharmscription.Infrastructure.Dto;
+    using Infrastructure.Dto;
 
     /// <summary>
     /// The main interface to communicate with the backend
@@ -32,6 +32,7 @@ namespace com.pharmscription.Service
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "patients/{id}")]
         [OperationContract]
+        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
         Task<PatientDto> GetPatient(string id);
 
         /// <summary>
@@ -49,6 +50,7 @@ namespace com.pharmscription.Service
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "patients")]
         [OperationContract]
+        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "DTO is not a spelling mistake")]
         Task<PatientDto> CreatePatient(PatientDto dto);
         
@@ -67,6 +69,7 @@ namespace com.pharmscription.Service
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "patients/ahv-number/{ahv}")]
         [OperationContract]
+        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "AHV Number is not a spelling mistake")]
         Task<PatientDto> GetPatientByAhv(string ahv);
 
@@ -85,6 +88,7 @@ namespace com.pharmscription.Service
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "patients/lookup/{ahv}")]
         [OperationContract]
+        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "AHV Number is not a spelling mistake")]
         Task<PatientDto> LookupPatient(string ahv);
         
@@ -107,6 +111,7 @@ namespace com.pharmscription.Service
             BodyStyle = WebMessageBodyStyle.Bare, 
             UriTemplate = "drugs/{id}")]
         [OperationContract]
+        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
         Task<DrugDto> GetDrug(string id);
 
         /// <summary>
@@ -124,6 +129,7 @@ namespace com.pharmscription.Service
             BodyStyle = WebMessageBodyStyle.Bare, 
             UriTemplate = "drugs/search/{keyword}")]
         [OperationContract]
+        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
         Task<DrugDto[]> SearchDrugs(string keyword);
 
         #endregion

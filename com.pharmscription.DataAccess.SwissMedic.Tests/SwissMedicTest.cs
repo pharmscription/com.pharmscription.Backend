@@ -1,7 +1,7 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using com.pharmscription.Infrastructure.Exception;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace com.pharmscription.DataAccess.SwissMedic.Tests
@@ -26,14 +26,14 @@ namespace com.pharmscription.DataAccess.SwissMedic.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [ExpectedException(typeof(InvalidArgumentException))]
         public async Task ThrowsOnNull()
         {
             await _swissMedic.SearchDrug(null);
         }
 
         [TestMethod]
-        [ExpectedException(typeof (ArgumentException))]
+        [ExpectedException(typeof (InvalidArgumentException))]
         public async Task ThrowOnEmpty()
         {
             await _swissMedic.SearchDrug("");

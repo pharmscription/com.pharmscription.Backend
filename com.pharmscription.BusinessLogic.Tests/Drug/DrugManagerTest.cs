@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,7 +6,7 @@ using com.pharmscription.BusinessLogic.Drug;
 using com.pharmscription.DataAccess.Repositories.Drug;
 using com.pharmscription.DataAccess.Tests.TestEnvironment;
 using com.pharmscription.DataAccess.UnitOfWork;
-using com.pharmscription.Infrastructure.Dto;
+using com.pharmscription.Infrastructure.Exception;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace com.pharmscription.BusinessLogic.Tests.Drug
@@ -33,14 +32,14 @@ namespace com.pharmscription.BusinessLogic.Tests.Drug
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestSearchThrowsOnNull()
         {
             await _drugManager.Search(null);
         }
 
         [TestMethod]
-        [ExpectedException(typeof (ArgumentException))]
+        [ExpectedException(typeof (InvalidArgumentException))]
         public async Task TestSearchThrowsOnEmpty()
         {
             await _drugManager.Search("");
@@ -60,132 +59,44 @@ namespace com.pharmscription.BusinessLogic.Tests.Drug
             Assert.IsFalse(drugs.Any());
         }
 
+
         [TestMethod]
-        public async Task TestDoesAddDrugFromDto()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestSearchPagedThrowsOnNegativeAmountPerPage()
         {
-            var drugDto = new DrugDto
-            {
-                DrugDescription = "My Super Cool Test Drug"
-            };
-            await _drugManager.Add(drugDto);
-            var drugFound = await _drugManager.Search("Super Cool");
-            Assert.IsNotNull(drugFound);
+            await _drugManager.SearchPaged("Redimune", 2, -1);
         }
 
         [TestMethod]
-        [ExpectedException(typeof (ArgumentNullException))]
-        public async Task TestAddDtoThrowsOnNull()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestSearchPagedThrowsOnNegativePageNumber()
         {
-            await _drugManager.Add(null);
+            await _drugManager.SearchPaged("Redimune", -1, 2);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public async Task TestEditThrowsOnEmpty()
+        public async Task TestCanDoSearchPaged()
         {
-
-            await _drugManager.Edit(new DrugDto {Id = "    "});
+            var drugs = await _drugManager.SearchPaged("Redimune", 0, 2);
+            var drugsPageTwo = await _drugManager.SearchPaged("Redimune", 1, 2);
+            var drugsPageThree = await _drugManager.SearchPaged("Redimune", 2, 2);
+            Assert.AreEqual(2, drugs.Count);
+            Assert.AreEqual(2, drugsPageTwo.Count);
+            Assert.IsFalse(drugsPageThree.Any());
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public async Task TestEditThrowsOnNull()
-        {
-            await _drugManager.Edit(null);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public async Task TestEditThrowsOnNotExistingDrug()
-        {
-            var drugDto = new DrugDto
-            {
-                Id = "a1b1a1b1-11df-12d3-abde-f365a7b889d0"
-            };
-            await _drugManager.Edit(drugDto);
-        }
-
-        [TestMethod]
-        public async Task TestCanEditExistingDrugs()
-        {
-            var drugGuid = new Guid("a1b1a1b1-11df-12d3-abde-f365a7b889d0");
-            var drugDto = new DrugDto
-            {
-                Id = drugGuid.ToString(),
-                DrugDescription = "Unedited",
-                IsValid = true,
-                NarcoticCategory = "A"
-            };
-            await _drugManager.Add(drugDto);
-            drugDto.DrugDescription = "Edited";
-            drugDto.IsValid = false;
-            drugDto.NarcoticCategory = "B";
-            await _drugManager.Edit(drugDto);
-            var drugEdited = await _drugManager.GetById(drugGuid.ToString());
-            Assert.AreEqual("Edited", drugEdited.DrugDescription);
-            Assert.IsFalse(drugEdited.IsValid);
-            Assert.AreEqual("B", drugEdited.NarcoticCategory);
-        }
-
-        [TestMethod]
-        public async Task TestCanGetById()
-        {
-            var searchGuid = new Guid("a1b1a1b1-11df-12d3-abde-f365a7b889d0");
-            var drugDto = new DrugDto
-            {
-                DrugDescription = "Drug B",
-                Id = searchGuid.ToString("N")
-            };
-            await _drugManager.Add(drugDto);
-            var drugInserted = await _drugManager.GetById(searchGuid.ToString());
-            Assert.IsNotNull(drugInserted);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetByIdThrowsOnNull()
         {
             await _drugManager.GetById(null);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetByIdThrowsOnEmpty()
         {
             await _drugManager.GetById("");
         }
-
-        [TestMethod]
-        public async Task TestCanRemoveById()
-        {
-            var searchGuid = new Guid("a1b1a1b1-11df-12d3-abde-f365a7b889d0");
-            var drugDto = new DrugDto
-            {
-                DrugDescription = "Drug B",
-                Id = searchGuid.ToString()
-            };
-            await _drugManager.Add(drugDto);
-            var drugInserted = await _drugManager.GetById(searchGuid.ToString());
-            Assert.IsNotNull(drugInserted);
-            await _drugManager.RemoveById(searchGuid.ToString());
-            var drugAfterDeletion = await _drugManager.GetById(searchGuid.ToString());
-            Assert.IsNull(drugAfterDeletion);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public async Task TestRemoveByIdThrowsOnNull()
-        {
-            await _drugManager.RemoveById(null);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public async Task TestRemoveByIdThrowsOnEmpty()
-        {
-            await _drugManager.RemoveById("");
-        }
-
-
     }
 }

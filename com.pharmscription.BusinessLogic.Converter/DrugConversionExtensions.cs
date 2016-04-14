@@ -22,6 +22,11 @@ namespace com.pharmscription.BusinessLogic.Converter
             return newList;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="drug"></param>
+        /// <returns>null when it get null as parameter</returns>
         public static DrugDto ConvertToDto(this Drug drug)
         {
             if (drug == null) return null;
@@ -38,6 +43,11 @@ namespace com.pharmscription.BusinessLogic.Converter
             return drugDto;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="drugDto"></param>
+        /// <returns>null when it get null as parameter</returns>
         public static Drug ConvertToEntity(this DrugDto drugDto)
         {
             if (drugDto == null) return null;

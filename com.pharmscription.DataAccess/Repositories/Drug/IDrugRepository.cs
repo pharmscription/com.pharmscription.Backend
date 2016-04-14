@@ -7,5 +7,6 @@ namespace com.pharmscription.DataAccess.Repositories.Drug
     public interface IDrugRepository : IRepository<Entities.DrugEntity.Drug>
     {
         Task<List<Entities.DrugEntity.Drug>> SearchByName(string name);
+        Task<List<Entities.DrugEntity.Drug>> SearchByNamePaged(string name, int pageNumber, int amountPerPage);
     }
 }

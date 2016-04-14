@@ -1,31 +1,22 @@
 ﻿
+using com.pharmscription.ApplicationFascade;
 using com.pharmscription.Security.SessionStore;
 
 namespace com.pharmscription.Service
 {
     using System;
+    using System.Net;
+    using System.ServiceModel.Web;
     using System.Threading.Tasks;
-
-    using com.pharmscription.ApplicationFascade;
-    using com.pharmscription.BusinessLogic.Drug;
-    using com.pharmscription.BusinessLogic.Patient;
-    using com.pharmscription.Infrastructure.Dto;
+    using BusinessLogic.Drug;
+    using BusinessLogic.Patient;
+    using Infrastructure.Dto;
+    using Infrastructure.Exception;
 
     public class RestService : IRestService
     {
+
         private readonly PharmscriptionApplication _application;
-        private IPatientManager _patientManager;
-        private IDrugManager _drugManager;
-
-        public RestService(IPatientManager patientManager)
-        {
-            _patientManager = patientManager;
-        }
-
-        public RestService(IDrugManager drugManager)
-        {
-            _drugManager = drugManager;
-        }
 
         public RestService()
         {
@@ -35,7 +26,18 @@ namespace com.pharmscription.Service
         #region patient
         public async Task<PatientDto> GetPatient(string id)
         {
-            return await _application.ManagerFactory("id").PatientManager.GetById(id);
+            try
+            {
+                return await _application.ManagerFactory("id").PatientManager.GetById(id);
+            }
+            catch (NotFoundException e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+            }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
         }
 
         public async Task<PatientDto> CreatePatient(PatientDto dto)
@@ -43,32 +45,73 @@ namespace com.pharmscription.Service
             return await _application.ManagerFactory("id").PatientManager.Add(dto);
         }
 
+        
         public async Task<PatientDto> GetPatientByAhv(string ahv)
-        {
-            var patient = await _application.ManagerFactory("id").PatientManager.Find(ahv);
-            if (patient == null)
+       {
+            try
             {
-                return new PatientDto();
+                PatientDto dto = await _application.ManagerFactory("id").PatientManager.Find(ahv); ;
+                if (dto == null)
+                {
+                    throw new WebFaultException<ErrorMessage>(new ErrorMessage("Patient not found"), HttpStatusCode.NotFound);
+                }
+                return dto;
             }
-
-            return patient;
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
         }
 
         public async Task<PatientDto> LookupPatient(string ahv)
         {
-            return await _application.ManagerFactory("id").PatientManager.Lookup(ahv);
+            try
+            {
+                return await _application.ManagerFactory("id").PatientManager.Lookup(ahv);
+            }
+            catch (NotFoundException e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+            }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
         }
         #endregion
 
         #region drugs
         public async Task<DrugDto> GetDrug(string id)
         {
-            return await _application.ManagerFactory("sessionid").DrugManager.GetById(id);
+            try
+            {
+                return await _application.ManagerFactory("sessionid").DrugManager.GetById(id);
+            }
+            catch (NotFoundException e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+            }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
         }
 
         public async Task<DrugDto[]> SearchDrugs(string keyword)
         {
-            return (await _application.ManagerFactory("sessionid").DrugManager.Search(keyword)).ToArray();
+            try
+            {
+                return (await _application.ManagerFactory("sessionid").DrugManager.Search(keyword)).ToArray();
+            }
+            catch (NotFoundException e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+            }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
+
         }
 
         #endregion
@@ -84,8 +127,7 @@ namespace com.pharmscription.Service
                 SessionId = session.Token
             };
         }
-
-
+        
         #endregion
     }
 }

@@ -7,9 +7,7 @@ namespace com.pharmscription.BusinessLogic.Drug
     public interface IDrugManager
     {
         Task<List<DrugDto>> Search(string partialDescription);
-        Task<DrugDto> Add(DrugDto drug);
-        Task<DrugDto> Edit(DrugDto drug);
+        Task<List<DrugDto>> SearchPaged(string partialDescription, int pageNumber, int amountPerPage);
         Task<DrugDto> GetById(string id);
-        Task<DrugDto> RemoveById(string id);
     }
 }

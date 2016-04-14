@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using com.pharmscription.DataAccess.Entities.DrugEntity;
-
+using com.pharmscription.Infrastructure.Exception;
 
 
 namespace com.pharmscription.DataAccess.SwissMedic
@@ -49,13 +48,9 @@ namespace com.pharmscription.DataAccess.SwissMedic
 
         public async Task<List<Drug>> SearchDrug(string partialDescription)
         {
-            if(partialDescription == null)
-            {
-                throw new ArgumentNullException(nameof(partialDescription));
-            }
             if (string.IsNullOrWhiteSpace(partialDescription))
             {
-                throw new ArgumentException("Search Text was empty");
+                throw new InvalidArgumentException("Search Text was empty or null");
             }
             var drugs = await ReadDrugsFromCsv();
             return drugs.Where(e => e.DrugDescription.ToLower().Contains(partialDescription.ToLower())).ToList();

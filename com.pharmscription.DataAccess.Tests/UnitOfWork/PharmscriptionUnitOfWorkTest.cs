@@ -16,7 +16,7 @@ namespace com.pharmscription.DataAccess.Tests.UnitOfWork
         private IPharmscriptionUnitOfWork _puow;
         private IPatientRepository _patientRepository;
         private Patient _patient;
-        [TestInitialize()]
+        [TestInitialize]
         public void Initialize()
         {
             _puow = new PharmscriptionUnitOfWork();
@@ -31,7 +31,7 @@ namespace com.pharmscription.DataAccess.Tests.UnitOfWork
             _puow.Commit();
         }
 
-        [TestCleanup()]
+        [TestCleanup]
         public void Cleanup()
         {
             IPharmscriptionUnitOfWork puow = new PharmscriptionUnitOfWork();
