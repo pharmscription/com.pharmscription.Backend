@@ -13,7 +13,7 @@ using com.pharmscription.Security.SessionStore;
 
 namespace com.pharmscription.ApplicationFascade
 {
-    public class PharmscriptionApplication
+    public class PharmscriptionApplication : IPharmscriptionApplication
     {
         private readonly ILoginProvider _loginProvider;
         private readonly ISessionStore _sessionStore = new MemorySessionStore();
@@ -22,7 +22,6 @@ namespace com.pharmscription.ApplicationFascade
         {
             IPharmscriptionUnitOfWork puow = new PharmscriptionDataAccess().UnitOfWork;
             IPatientRepository patientRepository = new PatientRepository(puow);
-
             _loginProvider = new LoginProvider(patientRepository, _sessionStore);
         }
 
@@ -33,13 +32,11 @@ namespace com.pharmscription.ApplicationFascade
             {
                 Session = session
             });
-
         }
 
         public ManagerFactory ManagerFactory()
         {
             return new ManagerFactory(new Context());
-
         }
 
 

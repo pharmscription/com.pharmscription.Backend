@@ -32,7 +32,7 @@ namespace com.pharmscription.Service.Tests
         {
             mock = new Mock<IDrugManager>();
             var mock2 =  new Mock<IPatientManager>();
-            service= new RestService(mock2.Object, mock.Object);
+            //service= new RestService(mock2.Object, mock.Object);
         }
 
         [TestMethod]

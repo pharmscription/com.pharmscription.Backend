@@ -16,7 +16,7 @@ namespace com.pharmscription.Service
     public class RestService : IRestService
     {
 
-        private readonly PharmscriptionApplication _application;
+        private readonly IPharmscriptionApplication _application;
 
         public RestService()
         {

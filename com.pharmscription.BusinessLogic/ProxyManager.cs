@@ -54,20 +54,18 @@ namespace com.pharmscription.BusinessLogic
                     var result = method.Invoke(_instance, methodCall.InArgs);
                     return new ReturnMessage(result, null, 0, methodCall.LogicalCallContext, methodCall);
                 }
-                else
-                {
-                    throw new UnauthorizedException();
-                }
+                
+                throw new UnauthorizedException();    
             }
             catch (Exception e)
             {
                 Console.WriteLine("Exception: " + e);
                 if (e is TargetInvocationException && e.InnerException != null)
                 {
-                    return new ReturnMessage(e.InnerException, msg as IMethodCallMessage);
+                    return new ReturnMessage(e.InnerException, methodCall);
                 }
 
-                return new ReturnMessage(e, msg as IMethodCallMessage);
+                return new ReturnMessage(e, methodCall);
             }
         }
     }
