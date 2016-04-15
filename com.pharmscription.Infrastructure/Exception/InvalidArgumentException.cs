@@ -2,8 +2,9 @@
 {
     using System;
     using System.Runtime.Serialization;
+
     [Serializable]
-    public class InvalidArgumentException: ArgumentException
+    public class InvalidArgumentException : ArgumentException
     {
         public InvalidArgumentException()
         {
