@@ -114,7 +114,7 @@ namespace com.pharmscription.Service.Tests
         [TestMethod]
         public async Task TestSearchDrugPage()
         {
-            mock.Setup(m => m.Search("remeron")).Returns(Task.Run(() => DrugArray));
+            mock.Setup(m => m.SearchPaged("remeron", 1, 3)).ReturnsAsync(DrugArray);
             DrugDto[] answerDto = await service.SearchDrugs("remeron", "1", "3");
             CollectionAssert.AreEqual(DrugArray.ToArray(), answerDto);
         }
@@ -122,7 +122,9 @@ namespace com.pharmscription.Service.Tests
         [TestMethod]
         public async Task TestSearchDrug()
         {
-            
+            mock.Setup(m => m.Search("remeron")).ReturnsAsync(DrugArray);
+            int answer = await service.SearchDrugs("remeron");
+            Assert.AreEqual(DrugArray.Count, answer);
         }
         [TestMethod]
         public async Task TestSearchEmptyString()

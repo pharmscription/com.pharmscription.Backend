@@ -66,17 +66,11 @@ namespace com.pharmscription.Service
 
         public async Task<PatientDto> GetPatientByAhv(string ahv)
        {
-            try
-            {
-                PatientDto dto = await _patientManager.Find(ahv);
-                if (dto == null)
-                {
-                    throw new WebFaultException<ErrorMessage>(
-                        new ErrorMessage("Patient not found"),
-                        HttpStatusCode.NotFound);
-                }
-                return dto;
+            try {
+            
+                return await _patientManager.Find(ahv);
             }
+
             catch (ArgumentException e)
             {
                 throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
