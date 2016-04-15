@@ -133,6 +133,7 @@ namespace com.pharmscription.Service.Tests
         [TestMethod]
         public async Task TestSearchDrugpageInvalidParameter()
         {
+            _mock.Setup(m => m.SearchPaged("remeron", "a", "b")).Throws<InvalidArgumentException>();
             try
             {
                 await _service.SearchDrugs("remeron", "a", "b");

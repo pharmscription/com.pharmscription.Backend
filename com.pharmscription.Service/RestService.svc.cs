@@ -2,7 +2,6 @@
 namespace com.pharmscription.Service
 {
     using System;
-    using System.Configuration;
     using System.Net;
     using System.ServiceModel.Web;
     using System.Threading.Tasks;
