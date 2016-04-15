@@ -146,7 +146,7 @@
             UriTemplate = "drugs/search/{keyword}/{page}/{amount}")]
         [OperationContract]
         [FaultContract(typeof(WebFaultException<ErrorMessage>))]
-        Task<DrugDto[]> SearchDrugs(string keyword, string page, string amount);
+        Task<DrugDto[]> SearchDrugsPaged(string keyword, string page, string amount);
 
         #endregion
     }
