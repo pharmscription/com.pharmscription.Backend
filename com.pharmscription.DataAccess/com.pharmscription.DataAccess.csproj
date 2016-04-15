@@ -53,13 +53,15 @@
     <Compile Include="Entities\AddressEntity\CityCodeEntity\ICityCode.cs" />
     <Compile Include="Entities\AddressEntity\CityCodeEntity\SwissCityCode.cs" />
     <Compile Include="Entities\BaseEntity\Entity.cs" />
-    <Compile Include="Entities\CounterProposal\CounterProposalEntity.cs" />
+    <Compile Include="Entities\CounterProposalEntity\CounterProposal.cs" />
     <Compile Include="Entities\DispenseEntity\Dispense.cs" />
     <Compile Include="Entities\DoctorEntity\Doctor.cs" />
     <Compile Include="Entities\DrugEntity\DrugEntity.cs" />
     <Compile Include="Entities\DrugItemEntity\DrugItem.cs" />
     <Compile Include="Entities\PatientEntity\Patient.cs" />
     <Compile Include="Entities\PrescriptionEntity\Prescription.cs" />
+    <Compile Include="Entities\PrescriptionEntity\SinglePrescription.cs" />
+    <Compile Include="Entities\PrescriptionEntity\StandingPrescription.cs" />
     <Compile Include="EntityHelper\IdentityGenerator.cs" />
     <Compile Include="Migrations\201604061207257_Init.cs" />
     <Compile Include="Migrations\201604061207257_Init.Designer.cs">
