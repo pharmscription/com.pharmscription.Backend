@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Security;
-using System.Web.SessionState;
-
-namespace Wcf.App
+﻿namespace com.pharmscription.Service
 {
-    public class Global : System.Web.HttpApplication
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Web;
+
+    [ExcludeFromCodeCoverage]
+    public class Global : HttpApplication
     {
 
         protected void Application_Start(object sender, EventArgs e)

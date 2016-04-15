@@ -1,26 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.DataAccess.Repositories.BaseRepository;
 using com.pharmscription.DataAccess.SharedInterfaces;
+using com.pharmscription.DataAccess.Tests.TestEnvironment;
 using com.pharmscription.DataAccess.UnitOfWork;
+using com.pharmscription.Infrastructure.Exception;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 
 namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class RepositoryTest
     {
         private IRepository<DataAccess.Entities.PatientEntity.Patient> _repository;
-        private IPharmscriptionUnitOfWork _puow;
 
         [TestInitialize]
         public void Initialize()
         {
-            var mockSet = new Mock<DbSet<DataAccess.Entities.PatientEntity.Patient>>();
             var patients = new List<DataAccess.Entities.PatientEntity.Patient>
             {
                 new DataAccess.Entities.PatientEntity.Patient
@@ -54,29 +54,13 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
                     BirthDate = new DateTime(1983, 03, 17)
                 }
             };
-            mockSet.As<IQueryable<DataAccess.Entities.PatientEntity.Patient>>().Setup(m => m.Provider).Returns(patients.AsQueryable().Provider);
-            mockSet.As<IQueryable<DataAccess.Entities.PatientEntity.Patient>>().Setup(m => m.Expression).Returns(patients.AsQueryable().Expression);
-            mockSet.As<IQueryable<DataAccess.Entities.PatientEntity.Patient>>().Setup(m => m.ElementType).Returns(patients.AsQueryable().ElementType);
-            mockSet.As<IQueryable<DataAccess.Entities.PatientEntity.Patient>>().Setup(m => m.GetEnumerator()).Returns(() => patients.GetEnumerator());
+            var mockSet = TestEnvironmentHelper.GetMockedDbSet(patients);
 
-            mockSet.Setup(d => d.Add(It.IsAny<DataAccess.Entities.PatientEntity.Patient>())).Callback<DataAccess.Entities.PatientEntity.Patient>(patients.Add);
-            mockSet.Setup(d => d.AddRange(It.IsAny<IEnumerable<DataAccess.Entities.PatientEntity.Patient>>()))
-                .Callback((IEnumerable<DataAccess.Entities.PatientEntity.Patient> l) => patients.AddRange(l));
-            mockSet.Setup(d => d.Remove(It.IsAny<DataAccess.Entities.PatientEntity.Patient>()))
-                .Callback((DataAccess.Entities.PatientEntity.Patient el) => patients.Remove(el));
-            mockSet.Setup(d => d.RemoveRange(It.IsAny<IEnumerable<DataAccess.Entities.PatientEntity.Patient>>()))
-                .Callback((IEnumerable<DataAccess.Entities.PatientEntity.Patient> l) => patients.RemoveAll(l.Contains));
-            //mockSet.Setup(d => d.Find(It.IsAny<Guid>())).Returns((Guid id) => patients.First(e => e.Id == id));
-
-            mockSet.Setup(d => d.Find(It.IsAny<object[]>()))
-                .Returns<object[]>(ids => patients.FirstOrDefault(d => d.Id == (Guid) ids[0]));
-
-            var mockPuow = new Mock<PharmscriptionUnitOfWork>();
+            var mockPuow = TestEnvironmentHelper.GetMockedDataContext();
             mockPuow.Setup(m => m.Patients).Returns(mockSet.Object);
             mockPuow.Setup(m => m.CreateSet<DataAccess.Entities.PatientEntity.Patient>()).Returns(mockSet.Object);
-            _puow = mockPuow.Object;
-            _repository = new Repository<DataAccess.Entities.PatientEntity.Patient>(_puow);
-            _puow.Commit();
+            var puow = mockPuow.Object;
+            _repository = new Repository<DataAccess.Entities.PatientEntity.Patient>(puow);
         }
 
         [TestCleanup]
@@ -94,8 +78,8 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void TestConstructorThrowsArgumentNullException()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public void TestConstructorThrowsInvalidArgumentException()
         {
             var repo = new Repository<DataAccess.Entities.PatientEntity.Patient>(null);
         }
@@ -111,8 +95,8 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
                 BirthDate = new DateTime(1991, 03, 17)
             };
             _repository.Add(patient);
-            await _puow.CommitAsync();
-            var patients = _puow.Patients.ToList();
+            await _repository.UnitOfWork.CommitAsync();
+            var patients = _repository.GetAll().ToList();
             var patientFound = patients.FirstOrDefault(e => e.AhvNumber == "2345");
             Assert.IsNotNull(patientFound);
             Assert.AreEqual("Ueli", patientFound.FirstName);
@@ -121,8 +105,8 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
-        public void TestAddThrowsNullPointer()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public void TestAddThrowsInvalidArgument()
         {
             _repository.Add(null);
         }
@@ -130,57 +114,39 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
         [TestMethod]
         public async Task TestDoesRemove()
         {
-            var patientToRemove = _puow.Patients.FirstOrDefault(e => e.AhvNumber == "123");
+            var patientToRemove = _repository.GetAll().FirstOrDefault(e => e.AhvNumber == "123");
             _repository.Remove(patientToRemove);
-            await _puow.CommitAsync();
+            await _repository.UnitOfWork.CommitAsync();
 
-            var patients = _puow.Patients.ToList();
+            var patients = _repository.GetAll().ToList();
             var patientRemoved = patients.FirstOrDefault(e => e.AhvNumber == "123");
             Assert.IsNull(patientRemoved);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
-        public void TestRemoveThrowsNullPointer()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public void TestRemoveThrowsInvalidArgument()
         {
             _repository.Remove(null);
         }
 
         [TestMethod]
-        public void TestDoesTrack()
-        {
-
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
+        [ExpectedException(typeof(InvalidArgumentException))]
         public void TestTrackThrowsNullPointer()
         {
             _repository.TrackItem(null);
         }
 
         [TestMethod]
-        public void TestDoesUntrack()
-        {
-
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
-        public void TestUntrackThrowsNullPointer()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public void TestUntrackThrowsInvalidArgument()
         {
             _repository.UntrackItem(null);
         }
 
         [TestMethod]
-        public void TestDoesSetModify()
-        {
-            
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
-        public void TestSetModifyhrowsNullPointer()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public void TestSetModifyhrowsInvalidArgument()
         {
             _repository.Modify(null);
         }
@@ -191,15 +157,15 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
             var patientToFind = _repository.GetAll().FirstOrDefault();
             Assert.IsNotNull(patientToFind);
             patientToFind.Id = Guid.NewGuid();
-            await _puow.CommitAsync();
+            await _repository.UnitOfWork.CommitAsync();
             var patientFound = _repository.Get(patientToFind.Id);
             Assert.AreEqual(patientToFind, patientFound);
 
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
-        public void TestGetByIdThrowsNullReferenceOnNull()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public void TestGetByIdThrowsInvalidArgumentOnNull()
         {
             _repository.Get(Guid.Empty);
         }
@@ -210,15 +176,15 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
             var patientToFind = _repository.GetAll().FirstOrDefault();
             Assert.IsNotNull(patientToFind);
             patientToFind.Id = Guid.NewGuid();
-            await _puow.CommitAsync();
+            await _repository.UnitOfWork.CommitAsync();
             var patientFound = _repository.Find(patientToFind.Id).FirstOrDefault();
             Assert.AreEqual(patientToFind, patientFound);
 
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
-        public void TestFindByIdThrowsNullReferenceOnNull()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public void TestFindByIdThrowsInvalidArgumentOnNull()
         {
             _repository.Find(Guid.Empty);
         }
@@ -235,9 +201,15 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
         }
 
         [TestMethod]
-        public void TestDoesGetAllAsNoTracking()
+        public async Task TestDoesGetAllAsNoTracking()
         {
-
+            var patientToChange = _repository.GetAllAsNoTracking().ToList().FirstOrDefault();
+            Assert.IsNotNull(patientToChange);
+            patientToChange.FirstName = "Superman";
+            await _repository.UnitOfWork.CommitAsync();
+            var patientUnchanged = _repository.GetAll().ToList().FirstOrDefault();
+            Assert.IsNotNull(patientUnchanged);
+            Assert.AreNotEqual(patientToChange.FirstName, patientUnchanged.FirstName);
         }
 
         [TestMethod]
@@ -257,21 +229,27 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
         [TestMethod]
         public void TestGetEntitiesPaged()
         {
+            var pagedEntities = _repository.GetPaged(1, 2, patient => patient.BirthDate, true).ToList();
 
+            Assert.AreEqual(2, pagedEntities.Count);
+            var firstEntity = pagedEntities.FirstOrDefault();
+            Assert.IsNotNull(firstEntity);
+            Assert.AreEqual("Noah", firstEntity.FirstName);
         }
 
+        [TestMethod]
+        public void TestGetEntitiesPagedReversed()
+        {
+            var pagedEntites = _repository.GetPaged(0, 5, patient => patient.BirthDate, false).ToList();
+            var firstEntity = pagedEntites.FirstOrDefault();
+            Assert.IsNotNull(firstEntity);
+            Assert.AreEqual("Markus", firstEntity.FirstName);
+        }
         [TestMethod]
         public void TestGetEntitiesFiltered()
         {
             var patientsOlderThan1990 = _repository.GetFiltered(patient => patient.BirthDate > new DateTime(1990, 1, 1)).ToList();
             Assert.AreEqual(3, patientsOlderThan1990.Count);
         }
-
-        [TestMethod]
-        public void TestMergeEntities()
-        {
-
-        }
-
     }
 }

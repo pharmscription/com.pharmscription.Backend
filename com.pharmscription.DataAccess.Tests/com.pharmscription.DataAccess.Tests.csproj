@@ -67,16 +67,21 @@
   <ItemGroup>
     <Compile Include="Entities\AdressEntitiy\CityCodeEntity\SwissCityCodeTest.cs" />
     <Compile Include="Repositories\BaseRepository\RepositoryTest.cs" />
-    <Compile Include="Repositories\Patient\PatientRepositoryTest.cs" />
-    <Compile Include="UnitOfWork\MockPharmscriptionUnitOfWork.cs" />
+    <Compile Include="Repositories\DrugRepository\DrugRepositoryTest.cs" />
+    <Compile Include="Repositories\PatientRepository\PatientRepositoryTest.cs" />
+    <Compile Include="TestEnvironment\DbAsyncQueryProviderMock.cs" />
+    <Compile Include="TestEnvironment\TestEnvironmentHelper.cs" />
     <Compile Include="UnitOfWork\PharmscriptionUnitOfWorkTest.cs" />
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\com.pharmscription.DataAccess\com.pharmscription.DataAccess.csproj">
       <Project>{45E80FD3-39D7-4112-AF49-BB25B67E0FEE}</Project>
       <Name>com.pharmscription.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.Infrastructure\com.pharmscription.Infrastructure.csproj">
+      <Project>{B53CE84A-9F8A-41C2-97FB-8AA14635CCBF}</Project>
+      <Name>com.pharmscription.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -54,24 +54,19 @@
     <Compile Include="Entities\AddressEntity\CityCodeEntity\SwissCityCode.cs" />
     <Compile Include="Entities\BaseEntity\Entity.cs" />
     <Compile Include="Entities\DoctorEntity\Doctor.cs" />
+    <Compile Include="Entities\DrugEntity\DrugEntity.cs" />
     <Compile Include="Entities\PatientEntity\Patient.cs" />
     <Compile Include="EntityHelper\IdentityGenerator.cs" />
-    <Compile Include="Migrations\201603301315126_AddPatientInsurance.cs" />
-    <Compile Include="Migrations\201603301315126_AddPatientInsurance.Designer.cs">
-      <DependentUpon>201603301315126_AddPatientInsurance.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201604031753130_AddStreetExtension.cs" />
-    <Compile Include="Migrations\201604031753130_AddStreetExtension.Designer.cs">
-      <DependentUpon>201604031753130_AddStreetExtension.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201604041400087_AddState-EMail.cs" />
-    <Compile Include="Migrations\201604041400087_AddState-EMail.Designer.cs">
-      <DependentUpon>201604041400087_AddState-EMail.cs</DependentUpon>
+    <Compile Include="Migrations\201604061207257_Init.cs" />
+    <Compile Include="Migrations\201604061207257_Init.Designer.cs">
+      <DependentUpon>201604061207257_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PharmscriptionDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository\Repository.cs" />
+    <Compile Include="Repositories\Drug\DrugRepository.cs" />
+    <Compile Include="Repositories\Drug\IDrugRepository.cs" />
     <Compile Include="Repositories\Patient\IPatientRepository.cs" />
     <Compile Include="Repositories\Patient\PatientRepository.cs" />
     <Compile Include="SharedInterfaces\IEntity.cs" />
@@ -87,15 +82,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201603301315126_AddPatientInsurance.resx">
-      <DependentUpon>201603301315126_AddPatientInsurance.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201604061207257_Init.resx">
+      <DependentUpon>201604061207257_Init.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604031753130_AddStreetExtension.resx">
-      <DependentUpon>201604031753130_AddStreetExtension.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604041400087_AddState-EMail.resx">
-      <DependentUpon>201604041400087_AddState-EMail.cs</DependentUpon>
-    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\com.pharmscription.Infrastructure\com.pharmscription.Infrastructure.csproj">
+      <Project>{B53CE84A-9F8A-41C2-97FB-8AA14635CCBF}</Project>
+      <Name>com.pharmscription.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

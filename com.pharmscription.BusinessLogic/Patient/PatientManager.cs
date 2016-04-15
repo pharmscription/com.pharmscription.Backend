@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.BusinessLogic.Converter;
-using com.pharmscription.DataAccess;
+using com.pharmscription.BusinessLogic.Validation;
 using com.pharmscription.DataAccess.Repositories.Patient;
-using com.pharmscription.DataAccess.UnitOfWork;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
 
 namespace com.pharmscription.BusinessLogic.Patient
 {
+    using com.pharmscription.Infrastructure.Exception;
+
     public class PatientManager : CoreWorkflow, IPatientManager
     {
         private readonly IPatientRepository _patientRepository;
@@ -21,21 +20,26 @@ namespace com.pharmscription.BusinessLogic.Patient
             _patientRepository = patientRepository;
         }
 
-        public PatientDto Lookup(string ahvNumber)
+        public async Task<PatientDto> Lookup(string ahvNumber)
         {
+            AhvValidator ahvValidator = new AhvValidator();
+            ahvValidator.Validate(ahvNumber);
+
             InsuranceConnector connector = new InsuranceConnector();
-            InsurancePatient insurancePatient = connector.GetInsuranceConnection().FindPatient(ahvNumber);
-            return PatientConverter.Convert(insurancePatient);
+            InsurancePatient insurancePatient = await connector.GetInsuranceConnection().FindPatient(ahvNumber);
+            return insurancePatient.ConvertToDto();
         }
 
-        public PatientDto Add(PatientDto patient)
+        public async Task<PatientDto> Add(PatientDto patient)
         {
-            _patientRepository.Add(PatientConverter.Convert(patient));
-            var addedPatient = _patientRepository.GetByAhvNumber(patient.AhvNumber).Result;
-            return PatientConverter.Convert(addedPatient);
+            AhvValidator ahvValidator = new AhvValidator();
+            ahvValidator.Validate(patient);
+            _patientRepository.Add(patient.ConvertToEntity());
+            await _patientRepository.UnitOfWork.CommitAsync();
+            return (await _patientRepository.GetByAhvNumber(patient.AhvNumber)).ConvertToDto();
         }
 
-        public PatientDto Edit(PatientDto patient)
+        public Task<PatientDto> Edit(PatientDto patient)
         {
             throw new NotImplementedException();
         }
@@ -44,28 +48,23 @@ namespace com.pharmscription.BusinessLogic.Patient
         {
             if (_patientRepository.Exists(ahvNumber))
             {
-                return PatientConverter.Convert(await _patientRepository.GetByAhvNumber(ahvNumber));
+                return (await _patientRepository.GetByAhvNumber(ahvNumber)).ConvertToDto();
             }
-
-            return null;
+            throw new ArgumentNullException("Patient with AHV number " + ahvNumber + " not found");
         }
 
-        public PatientDto GetById(string id)
+        public async Task<PatientDto> GetById(string id)
         {
-            List<DataAccess.Entities.PatientEntity.Patient> list = null;
             Guid gid;
             if (Guid.TryParse(id, out gid))
             {
-                list = _patientRepository.Find(gid).ToList();
+                var patient = await _patientRepository.GetAsync(gid);
+                return patient.ConvertToDto();
             }
-            if (list != null && list.Capacity == 1)
-            {
-                return PatientConverter.Convert(list[0]);
-            }
-            throw new InvalidDataException();
+            throw new InvalidArgumentException("Id " + id + " not found");
         }
 
-        public PatientDto RemoveById(string id)
+        public Task<PatientDto> RemoveById(string id)
         {
             throw new NotImplementedException();
         }

@@ -6,18 +6,26 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.DataAccess.Entities.BaseEntity;
+using com.pharmscription.DataAccess.Entities.DrugEntity;
 using com.pharmscription.DataAccess.Entities.PatientEntity;
+using com.pharmscription.DataAccess.Migrations;
 
 namespace com.pharmscription.DataAccess.UnitOfWork
 {
     public class PharmscriptionUnitOfWork : DbContext, IPharmscriptionUnitOfWork
     {
-
+        static PharmscriptionUnitOfWork()
+        {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<PharmscriptionUnitOfWork, Configuration>());
+            //Database.SetInitializer(new DropCreateDatabaseAlways<PharmscriptionUnitOfWork>());
+        }
         #region IPharmscriptionUnitOfWork Members
 
-        IDbSet<Patient> _patients;
+        private IDbSet<Patient> _patients;
         public virtual IDbSet<Patient> Patients => _patients ?? (_patients = base.Set<Patient>());
 
+        private IDbSet<Drug> _drugs;
+        public virtual IDbSet<Drug> Drugs => _drugs ?? (_drugs = base.Set<Drug>()); 
         #endregion
 
         #region IQueryableUnitOfWork Members
@@ -150,6 +158,7 @@ namespace com.pharmscription.DataAccess.UnitOfWork
             {
                 ManipulateIdCreatedAndModifiedDateBeforeCommit(changeSet);
             }
+
             return base.SaveChanges();
         }
 

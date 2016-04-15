@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Wcf.App.Global" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="com.pharmscription.Service.Global" Language="C#" %>

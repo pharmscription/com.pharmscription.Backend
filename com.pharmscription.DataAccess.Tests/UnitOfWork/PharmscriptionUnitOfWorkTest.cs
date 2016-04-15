@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.DataAccess.Entities.PatientEntity;
@@ -9,12 +10,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace com.pharmscription.DataAccess.Tests.UnitOfWork
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class PharmscriptionUnitOfWorkTest
     {
         private IPharmscriptionUnitOfWork _puow;
         private IPatientRepository _patientRepository;
         private Patient _patient;
-        [TestInitialize()]
+        [TestInitialize]
         public void Initialize()
         {
             _puow = new PharmscriptionUnitOfWork();
@@ -29,7 +31,7 @@ namespace com.pharmscription.DataAccess.Tests.UnitOfWork
             _puow.Commit();
         }
 
-        [TestCleanup()]
+        [TestCleanup]
         public void Cleanup()
         {
             IPharmscriptionUnitOfWork puow = new PharmscriptionUnitOfWork();

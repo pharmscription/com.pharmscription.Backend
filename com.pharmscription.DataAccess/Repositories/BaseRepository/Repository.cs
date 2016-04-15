@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using com.pharmscription.DataAccess.Entities.BaseEntity;
 using com.pharmscription.DataAccess.SharedInterfaces;
+using com.pharmscription.Infrastructure.Exception;
 
 namespace com.pharmscription.DataAccess.Repositories.BaseRepository
 {
@@ -13,7 +15,7 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
 
         #region Members
 
-        readonly IQueryableUnitOfWork _unitOfWork;
+        private readonly IQueryableUnitOfWork _unitOfWork;
 
         #endregion
 
@@ -26,7 +28,7 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
         public Repository(IQueryableUnitOfWork unitOfWork)
         {
             if (unitOfWork == null)
-                throw new ArgumentNullException(nameof(unitOfWork));
+                throw new InvalidArgumentException(nameof(unitOfWork));
 
             _unitOfWork = unitOfWork;
         }
@@ -53,7 +55,7 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
             }
             else
             {
-                throw new NullReferenceException("Item was null");
+                throw new InvalidArgumentException("Item was null");
             }
         }
         /// <summary>
@@ -72,7 +74,7 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
             }
             else
             {
-                throw new NullReferenceException("Item was null");
+                throw new InvalidArgumentException("Item was null");
             }
         }
 
@@ -88,9 +90,8 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
             }
             else
             {
-                throw new NullReferenceException("Item was null");
-            }
-                
+                throw new InvalidArgumentException("Item was null");
+            } 
         }
 
         public virtual void UntrackItem(TEntity item)
@@ -101,7 +102,7 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
             }
             else
             {
-                throw new NullReferenceException("Item was null");
+                throw new InvalidArgumentException("Item was null");
             }
         }
 
@@ -117,7 +118,7 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
             }
             else
             {
-                throw new NullReferenceException("Item was null");
+                throw new InvalidArgumentException("Item was null");
             }
         }
 
@@ -132,17 +133,24 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
             {
                 return GetSet().Find(id);
             }
-            throw new NullReferenceException("Guid was empty");
+            throw new InvalidArgumentException("Guid was empty");
         }
 
+        public virtual Task<TEntity> GetAsync(Guid id)
+        {
+            if (id != Guid.Empty)
+            {
+                return GetSet().FirstOrDefaultAsync(e => e.Id == id);
+            }
+            return null;
+        }
         public virtual IEnumerable<TEntity> Find(Guid id)
         {
             if (id != Guid.Empty)
             {
                 return GetSet().Where(e => e.Id == id);
             }
-            throw new NullReferenceException("Guid was empty");
-            
+            throw new InvalidArgumentException("Guid was empty");
         }
         /// <summary>
         /// <see cref="IRepository{TEntity}"/>

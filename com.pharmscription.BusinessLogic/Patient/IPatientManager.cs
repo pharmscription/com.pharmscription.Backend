@@ -1,17 +1,16 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.BusinessLogic.Patient
 {
     public interface IPatientManager
     {
-        PatientDto Lookup(string ahvNumber);
-        PatientDto Add(PatientDto patient);
-        PatientDto Edit(PatientDto patient);
+        Task<PatientDto> Lookup(string ahvNumber);
+        Task<PatientDto> Add(PatientDto patient);
+        Task<PatientDto> Edit(PatientDto patient);
         Task<PatientDto> Find(string ahvNumber);
-        PatientDto GetById(string id);
-        PatientDto RemoveById(string id);
+        Task<PatientDto> GetById(string id);
+        Task<PatientDto> RemoveById(string id);
     }
 }
 

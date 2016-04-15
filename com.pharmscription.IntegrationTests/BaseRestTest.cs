@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using System.Diagnostics.CodeAnalysis;
 using com.pharmscription.Service;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace com.pharmscription.IntegrationTests
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class BaseRestTest
     {
         public RestService Client;
@@ -17,7 +14,7 @@ namespace com.pharmscription.IntegrationTests
         [TestInitialize]
         public void Initialize()
         {
-            Client = new RestService();
+            //Client = new RestService();
         }   
 
         [TestCleanup]
