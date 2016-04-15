@@ -9,6 +9,8 @@ using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
 
 namespace com.pharmscription.BusinessLogic.Patient
 {
+    using com.pharmscription.Infrastructure.Exception;
+
     public class PatientManager : CoreWorkflow, IPatientManager
     {
         private readonly IPatientRepository _patientRepository;
@@ -48,7 +50,7 @@ namespace com.pharmscription.BusinessLogic.Patient
             {
                 return (await _patientRepository.GetByAhvNumber(ahvNumber)).ConvertToDto();
             }
-            return null;
+            throw new ArgumentNullException("Patient with AHV number " + ahvNumber + " not found");
         }
 
         public async Task<PatientDto> GetById(string id)
@@ -59,7 +61,7 @@ namespace com.pharmscription.BusinessLogic.Patient
                 var patient = await _patientRepository.GetAsync(gid);
                 return patient.ConvertToDto();
             }
-            throw new InvalidDataException();
+            throw new InvalidArgumentException("Id " + id + " not found");
         }
 
         public Task<PatientDto> RemoveById(string id)
