@@ -21,11 +21,18 @@ namespace com.pharmscription.BusinessLogic.Drug
             _swissMedicConnector = new SwissMedicConnector();
         }
 
-        public async Task<List<DrugDto>> SearchPaged(string partialDescription, int pageNumber, int amountPerPage)
+        public async Task<List<DrugDto>> SearchPaged(string partialDescription, string pageNumberString, string amountPerPageString)
         {
             if (string.IsNullOrWhiteSpace(partialDescription))
             {
                 throw new InvalidArgumentException("Search Param was empty or null");
+            }
+            int pageNumber, amountPerPage;
+            bool page = int.TryParse(pageNumberString, out pageNumber);
+            bool amount = int.TryParse(amountPerPageString, out amountPerPage);
+            if (!page && !amount)
+            {
+                throw new InvalidArgumentException("Either page number or amount per page are not numbers. page: " + pageNumberString + " , amount: " + amountPerPageString + ".");
             }
             if (pageNumber < 0 || amountPerPage < 0)
             {
@@ -41,7 +48,7 @@ namespace com.pharmscription.BusinessLogic.Drug
             return drugsFittingSearch.ConvertToDtos();
         }
 
-        public async Task<List<DrugDto>> Search(string partialDescription)
+        public async Task<int> Search(string partialDescription)
         {
             if (string.IsNullOrWhiteSpace(partialDescription))
             {
@@ -53,7 +60,7 @@ namespace com.pharmscription.BusinessLogic.Drug
                 await LoadDrugsFromSwissMedic();
             }
             var drugsFittingSearch = await _repository.SearchByName(partialDescription);
-            return drugsFittingSearch.ConvertToDtos();
+            return drugsFittingSearch.ConvertToDtos().Count;
         }
 
         private async Task LoadDrugsFromSwissMedic()
