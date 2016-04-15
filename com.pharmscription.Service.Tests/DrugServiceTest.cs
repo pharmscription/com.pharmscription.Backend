@@ -51,16 +51,16 @@ namespace com.pharmscription.Service.Tests
                                                   }
                                           };
 
-        private static Mock<IDrugManager> mock;
+        private static Mock<IDrugManager> _mock;
 
-        private static IRestService service;
+        private static IRestService _service;
 
         [TestInitialize]
         public void SetUp()
         {
-            mock = new Mock<IDrugManager>();
+            _mock = new Mock<IDrugManager>();
             var mock2 =  new Mock<IPatientManager>();
-            service= new RestService(mock2.Object, mock.Object);
+            _service= new RestService(mock2.Object, _mock.Object);
         }
 
         [TestMethod]
@@ -75,18 +75,18 @@ namespace com.pharmscription.Service.Tests
                               PackageSize = "10g",
                               Unit = "g"
                           };
-            mock.Setup(m => m.GetById(CorrectId)).Returns(Task.Run(() => dto));
-            DrugDto answerDto = await service.GetDrug(CorrectId);
+            _mock.Setup(m => m.GetById(CorrectId)).Returns(Task.Run(() => dto));
+            DrugDto answerDto = await _service.GetDrug(CorrectId);
             Assert.AreEqual(dto, answerDto);
         }
 
         [TestMethod]
         public async Task TestGetInvalidDrugById()
         {
-            mock.Setup(m => m.GetById(WrongId)).Throws<NotFoundException>();
+            _mock.Setup(m => m.GetById(WrongId)).Throws<NotFoundException>();
             try
             {
-                await service.GetDrug(WrongId);
+                await _service.GetDrug(WrongId);
             }
             catch (WebFaultException<ErrorMessage> e)
             {
@@ -97,10 +97,10 @@ namespace com.pharmscription.Service.Tests
         [TestMethod]
         public async Task TestGetDrugWithNullParameter()
         {
-            mock.Setup(m => m.GetById(null)).Throws<ArgumentException>();
+            _mock.Setup(m => m.GetById(null)).Throws<ArgumentException>();
             try
             {
-                await service.GetDrug(null);
+                await _service.GetDrug(null);
             }
             catch (WebFaultException<ErrorMessage> e)
             {
@@ -109,27 +109,110 @@ namespace com.pharmscription.Service.Tests
         }
 
         [TestMethod]
+        public async Task TestGetDrugByIdServerError()
+        {
+            _mock.Setup(m => m.GetById(CorrectId)).Throws<Exception>();
+            try
+            {
+                await _service.GetDrug(CorrectId);
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.InternalServerError, e.StatusCode);
+            }
+        }
+
+        [TestMethod]
         public async Task TestSearchDrugPage()
         {
-            mock.Setup(m => m.SearchPaged("remeron", 1, 3)).ReturnsAsync(DrugArray);
-            DrugDto[] answerDto = await service.SearchDrugs("remeron", "1", "3");
+            _mock.Setup(m => m.SearchPaged("remeron", 1, 3)).ReturnsAsync(DrugArray);
+            DrugDto[] answerDto = await _service.SearchDrugs("remeron", "1", "3");
             CollectionAssert.AreEqual(DrugArray.ToArray(), answerDto);
+        }
+
+        [TestMethod]
+        public async Task TestSearchDrugpageInvalidParameter()
+        {
+            try
+            {
+                await _service.SearchDrugs("remeron", "a", "b");
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.BadRequest, e.StatusCode);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestSearchDrugPageNotFount()
+        {
+            _mock.Setup(m => m.SearchPaged("asbirin", 1, 3)).Throws<NotFoundException>();
+            try
+            {
+                await _service.SearchDrugs("asbirin", "1", "3");
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.NotFound, e.StatusCode);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestSearchDrugPageInvalidDrug()
+        {
+            _mock.Setup(m => m.SearchPaged(null, 1, 3)).Throws<InvalidArgumentException>();
+            try
+            {
+                await _service.SearchDrugs(null, "1", "3");
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.BadRequest, e.StatusCode);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestSearchDrugPagedServerError()
+        {
+            _mock.Setup(m => m.SearchPaged("aspirin", 1, 3)).Throws<Exception>();
+            try
+            {
+                await _service.SearchDrugs("aspirin", "1", "3");
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.InternalServerError, e.StatusCode);
+            }
         }
 
         [TestMethod]
         public async Task TestSearchDrug()
         {
-            mock.Setup(m => m.Search("remeron")).ReturnsAsync(DrugArray);
-            int answer = await service.SearchDrugs("remeron");
+            _mock.Setup(m => m.Search("remeron")).ReturnsAsync(DrugArray);
+            int answer = await _service.SearchDrugs("remeron");
             Assert.AreEqual(DrugArray.Count, answer);
+        }
+
+        [TestMethod]
+        public async Task TestSearchDrugNotFound()
+        {
+            _mock.Setup(m => m.Search("sonda")).Throws<NotFoundException>();
+            try
+            {
+                await _service.SearchDrugs("sonda");
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.NotFound, e.StatusCode);
+            }
         }
         [TestMethod]
         public async Task TestSearchEmptyString()
         {
-            mock.Setup(m => m.Search(string.Empty)).Throws<InvalidArgumentException>();
+            _mock.Setup(m => m.Search(string.Empty)).Throws<InvalidArgumentException>();
             try
             {
-                await service.SearchDrugs(string.Empty);
+                await _service.SearchDrugs(string.Empty);
             }
             catch (WebFaultException<ErrorMessage> e)
             {
@@ -140,10 +223,10 @@ namespace com.pharmscription.Service.Tests
         [TestMethod]
         public async Task TestSearchNullString()
         {
-            mock.Setup(m => m.Search(null)).Throws<ArgumentNullException>();
+            _mock.Setup(m => m.Search(null)).Throws<ArgumentNullException>();
             try
             {
-                await service.SearchDrugs(null);
+                await _service.SearchDrugs(null);
             }
             catch (WebFaultException<ErrorMessage> e)
             {
@@ -151,6 +234,18 @@ namespace com.pharmscription.Service.Tests
             }
         }
 
-
+        [TestMethod]
+        public async Task TaskSearchServerError()
+        {
+            _mock.Setup(m => m.Search("remeron")).Throws<Exception>();
+            try
+            {
+                await _service.SearchDrugs("remeron");
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.InternalServerError, e.StatusCode);
+            }
+        }
     }
 }
