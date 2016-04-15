@@ -125,7 +125,7 @@ namespace com.pharmscription.Service.Tests
         [TestMethod]
         public async Task TestSearchDrugPage()
         {
-            _mock.Setup(m => m.SearchPaged("remeron", 1, 3)).ReturnsAsync(DrugArray);
+            _mock.Setup(m => m.SearchPaged("remeron", "1", "3")).ReturnsAsync(DrugArray);
             DrugDto[] answerDto = await _service.SearchDrugs("remeron", "1", "3");
             CollectionAssert.AreEqual(DrugArray.ToArray(), answerDto);
         }
@@ -146,7 +146,7 @@ namespace com.pharmscription.Service.Tests
         [TestMethod]
         public async Task TestSearchDrugPageNotFount()
         {
-            _mock.Setup(m => m.SearchPaged("asbirin", 1, 3)).Throws<NotFoundException>();
+            _mock.Setup(m => m.SearchPaged("asbirin", "1", "3")).Throws<NotFoundException>();
             try
             {
                 await _service.SearchDrugs("asbirin", "1", "3");
@@ -160,7 +160,7 @@ namespace com.pharmscription.Service.Tests
         [TestMethod]
         public async Task TestSearchDrugPageInvalidDrug()
         {
-            _mock.Setup(m => m.SearchPaged(null, 1, 3)).Throws<InvalidArgumentException>();
+            _mock.Setup(m => m.SearchPaged(null, "1", "3")).Throws<InvalidArgumentException>();
             try
             {
                 await _service.SearchDrugs(null, "1", "3");
@@ -174,7 +174,7 @@ namespace com.pharmscription.Service.Tests
         [TestMethod]
         public async Task TestSearchDrugPagedServerError()
         {
-            _mock.Setup(m => m.SearchPaged("aspirin", 1, 3)).Throws<Exception>();
+            _mock.Setup(m => m.SearchPaged("aspirin", "1", "3")).Throws<Exception>();
             try
             {
                 await _service.SearchDrugs("aspirin", "1", "3");
@@ -188,7 +188,7 @@ namespace com.pharmscription.Service.Tests
         [TestMethod]
         public async Task TestSearchDrug()
         {
-            _mock.Setup(m => m.Search("remeron")).ReturnsAsync(DrugArray);
+            _mock.Setup(m => m.Search("remeron")).ReturnsAsync(3);
             int answer = await _service.SearchDrugs("remeron");
             Assert.AreEqual(DrugArray.Count, answer);
         }

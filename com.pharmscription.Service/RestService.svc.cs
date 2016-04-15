@@ -123,7 +123,7 @@ namespace com.pharmscription.Service
         {
             try
             {
-                return (await _drugManager.Search(keyword)).Count;
+                return await _drugManager.Search(keyword);
             }
             catch (NotFoundException e)
             {
@@ -143,14 +143,7 @@ namespace com.pharmscription.Service
         {
             try
             {
-                int pageNumber, amountPerPage;
-                if (int.TryParse(page, out pageNumber) && int.TryParse(amount, out amountPerPage))
-                {
-                    return (await _drugManager.SearchPaged(keyword, pageNumber, amountPerPage)).ToArray();
-                }
-                throw new InvalidArgumentException(
-                    "Either page number or amount per page are not numbers. page: " + page + " , amount: " + amount
-                    + ".");
+                return (await _drugManager.SearchPaged(keyword, page, amount)).ToArray();
             }
             catch (NotFoundException e)
             {
