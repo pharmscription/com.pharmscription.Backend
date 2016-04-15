@@ -4,7 +4,7 @@
     using Exception = System.Exception;
 
     [Serializable]
-    public class InvalidAhvNumberException : Exception
+    public class InvalidAhvNumberException : ArgumentException
     {
         public InvalidAhvNumberException()
         {
