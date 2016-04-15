@@ -129,7 +129,7 @@ namespace com.pharmscription.Service.Tests
         public async Task TestSearchDrugPage()
         {
             _mock.Setup(m => m.SearchPaged("remeron", "1", "3")).ReturnsAsync(DrugArray);
-            DrugDto[] answerDto = await _service.SearchDrugs("remeron", "1", "3");
+            DrugDto[] answerDto = await _service.SearchDrugsPaged("remeron", "1", "3");
             CollectionAssert.AreEqual(DrugArray.ToArray(), answerDto);
         }
 
@@ -139,7 +139,7 @@ namespace com.pharmscription.Service.Tests
             _mock.Setup(m => m.SearchPaged("remeron", "a", "b")).Throws<InvalidArgumentException>();
             try
             {
-                await _service.SearchDrugs("remeron", "a", "b");
+                await _service.SearchDrugsPaged("remeron", "a", "b");
             }
             catch (WebFaultException<ErrorMessage> e)
             {
@@ -153,7 +153,7 @@ namespace com.pharmscription.Service.Tests
             _mock.Setup(m => m.SearchPaged("asbirin", "1", "3")).Throws<NotFoundException>();
             try
             {
-                await _service.SearchDrugs("asbirin", "1", "3");
+                await _service.SearchDrugsPaged("asbirin", "1", "3");
             }
             catch (WebFaultException<ErrorMessage> e)
             {
@@ -167,7 +167,7 @@ namespace com.pharmscription.Service.Tests
             _mock.Setup(m => m.SearchPaged(null, "1", "3")).Throws<InvalidArgumentException>();
             try
             {
-                await _service.SearchDrugs(null, "1", "3");
+                await _service.SearchDrugsPaged(null, "1", "3");
             }
             catch (WebFaultException<ErrorMessage> e)
             {
@@ -181,7 +181,7 @@ namespace com.pharmscription.Service.Tests
             _mock.Setup(m => m.SearchPaged("aspirin", "1", "3")).Throws<Exception>();
             try
             {
-                await _service.SearchDrugs("aspirin", "1", "3");
+                await _service.SearchDrugsPaged("aspirin", "1", "3");
             }
             catch (WebFaultException<ErrorMessage> e)
             {

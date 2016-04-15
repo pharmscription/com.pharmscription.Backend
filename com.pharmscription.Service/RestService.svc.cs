@@ -142,7 +142,7 @@ namespace com.pharmscription.Service
             }
         }
 
-        public async Task<DrugDto[]> SearchDrugs(string keyword, string page, string amount)
+        public async Task<DrugDto[]> SearchDrugsPaged(string keyword, string page, string amount)
         {
             try
             {
