@@ -1,9 +1,10 @@
-﻿using System;
-
-namespace com.pharmscription.Infrastructure.Exception
+﻿namespace com.pharmscription.Infrastructure.Exception
 {
+    using System;
+    using Exception = System.Exception;
+
     [Serializable]
-    public class InvalidAhvNumberException : System.Exception
+    public class InvalidAhvNumberException : Exception
     {
         public InvalidAhvNumberException()
         {

@@ -2,6 +2,7 @@
 namespace com.pharmscription.Service
 {
     using System;
+    using System.Configuration;
     using System.Net;
     using System.ServiceModel.Web;
     using System.Threading.Tasks;
@@ -37,9 +38,13 @@ namespace com.pharmscription.Service
             {
                 throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
             }
-            catch (Exception e)
+            catch (ArgumentException e)
             {
                 throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.InternalServerError);
             }
         }
 
@@ -49,9 +54,13 @@ namespace com.pharmscription.Service
             {
                 return await _patientManager.Add(dto);
             }
-            catch (Exception e)
+            catch (ArgumentException e)
             {
                 throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.InternalServerError);
             }
         }
 
@@ -62,13 +71,19 @@ namespace com.pharmscription.Service
                 PatientDto dto = await _patientManager.Find(ahv);
                 if (dto == null)
                 {
-                    throw new WebFaultException<ErrorMessage>(new ErrorMessage("Patient not found"), HttpStatusCode.NotFound);
+                    throw new WebFaultException<ErrorMessage>(
+                        new ErrorMessage("Patient not found"),
+                        HttpStatusCode.NotFound);
                 }
                 return dto;
             }
-            catch (Exception e)
+            catch (ArgumentException e)
             {
                 throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.InternalServerError);
             }
         }
 
@@ -82,9 +97,13 @@ namespace com.pharmscription.Service
             {
                 throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
             }
-            catch (Exception e)
+            catch (ArgumentException e)
             {
                 throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.InternalServerError);
             }
         }
         #endregion
@@ -100,25 +119,60 @@ namespace com.pharmscription.Service
             {
                 throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
             }
-            catch (Exception e)
+            catch (ArgumentException e)
             {
                 throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
             }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.InternalServerError);
+            }
         }
 
-        public async Task<DrugDto[]> SearchDrugs(string keyword)
+        public async Task<int> SearchDrugs(string keyword)
         {
             try
             {
-                return (await _drugManager.Search(keyword)).ToArray();
+                return (await _drugManager.Search(keyword)).Count;
             }
             catch (NotFoundException e)
             {
                 throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
             }
-            catch (Exception e)
+            catch (ArgumentException e)
             {
                 throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.InternalServerError);
+            }
+        }
+
+        public async Task<DrugDto[]> SearchDrugs(string keyword, string page, string amount)
+        {
+            try
+            {
+                int pageNumber, amountPerPage;
+                if (int.TryParse(page, out pageNumber) && int.TryParse(amount, out amountPerPage))
+                {
+                    return (await _drugManager.SearchPaged(keyword, pageNumber, amountPerPage)).ToArray();
+                }
+                throw new InvalidArgumentException(
+                    "Either page number or amount per page are not numbers. page: " + page + " , amount: " + amount
+                    + ".");
+            }
+            catch (NotFoundException e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+            }
+            catch (ArgumentException e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.InternalServerError);
             }
         }
 
