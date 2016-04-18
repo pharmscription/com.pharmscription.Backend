@@ -1,11 +1,6 @@
 ﻿namespace com.pharmscription.DataAccess.Entities.PrescriptionEntity
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using com.pharmscription.DataAccess.Entities.CounterProposalEntity;
-    using com.pharmscription.DataAccess.Entities.DispenseEntity;
-    using com.pharmscription.DataAccess.Entities.DrugItemEntity;
+   using System.Linq;
 
     public class SinglePrescription: Prescription
     {
