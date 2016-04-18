@@ -48,6 +48,7 @@
     <Compile Include="Patient\InsuranceConnector.cs" />
     <Compile Include="Patient\IPatientManager.cs" />
     <Compile Include="Patient\PatientManager.cs" />
+    <Compile Include="Prescription\IPrescriptionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\AHVValidator.cs" />
     <Compile Include="Validation\IValidator.cs" />
