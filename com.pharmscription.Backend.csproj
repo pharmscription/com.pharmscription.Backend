@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{D9F3B584-DEAE-40C8-8424-8D36C33AA910}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <NoStandardLibraries>false</NoStandardLibraries>
+    <AssemblyName>ConsoleApplication</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>com.pharmscription.Backend</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".gitattributes" />
+    <Content Include=".gitignore" />
+    <Content Include="com.pharmscription.ApplicationFascade.Tests\com.pharmscription.ApplicationFascade.Tests.csproj" />
+    <Content Include="com.pharmscription.ApplicationFascade\com.pharmscription.ApplicationFascade.csproj" />
+    <Content Include="com.pharmscription.BusinessLogic.Converter.Tests\com.pharmscription.BusinessLogic.Converter.Tests.csproj" />
+    <Content Include="com.pharmscription.BusinessLogic.Converter\com.pharmscription.BusinessLogic.Converter.csproj" />
+    <Content Include="com.pharmscription.BusinessLogic.Tests\com.pharmscription.BusinessLogic.Tests.csproj" />
+    <Content Include="com.pharmscription.BusinessLogic\com.pharmscription.BusinessLogic.csproj" />
+    <Content Include="com.pharmscription.DataAccess.Insurance.Tests\com.pharmscription.DataAccess.Insurance.Tests.csproj" />
+    <Content Include="com.pharmscription.DataAccess.Insurance\com.pharmscription.DataAccess.Insurance.csproj" />
+    <Content Include="com.pharmscription.DataAccess.Tests\com.pharmscription.DataAccess.Tests.csproj" />
+    <Content Include="com.pharmscription.DataAccess\com.pharmscription.DataAccess.csproj" />
+    <Content Include="com.pharmscription.Infrastructure.Tests\com.pharmscription.Infrastructure.Tests.csproj" />
+    <Content Include="com.pharmscription.Infrastructure\com.pharmscription.Infrastructure.csproj" />
+    <Content Include="com.pharmscription.Service.Tests\com.pharmscription.Service.Tests.csproj" />
+    <Content Include="com.pharmscription.Service\com.pharmscription.Service.csproj" />
+    <Content Include="com.pharmscription.Service\Service1.svc" />
+    <Content Include="com.pharmscription\com.pharmscription.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="com.pharmscription.ApplicationFascade.Tests\Properties\AssemblyInfo.cs" />
+    <Compile Include="com.pharmscription.ApplicationFascade.Tests\UnitTest1.cs" />
+    <Compile Include="com.pharmscription.ApplicationFascade\Class1.cs" />
+    <Compile Include="com.pharmscription.ApplicationFascade\Properties\AssemblyInfo.cs" />
+    <Compile Include="com.pharmscription.BusinessLogic.Converter.Tests\Properties\AssemblyInfo.cs" />
+    <Compile Include="com.pharmscription.BusinessLogic.Converter.Tests\UnitTest1.cs" />
+    <Compile Include="com.pharmscription.BusinessLogic.Converter\PatientConverter.cs" />
+    <Compile Include="com.pharmscription.BusinessLogic.Converter\Properties\AssemblyInfo.cs" />
+    <Compile Include="com.pharmscription.BusinessLogic.Tests\Properties\AssemblyInfo.cs" />
+    <Compile Include="com.pharmscription.BusinessLogic.Tests\UnitTest1.cs" />
+    <Compile Include="com.pharmscription.BusinessLogic\Context.cs" />
+    <Compile Include="com.pharmscription.BusinessLogic\CoreWorkflow.cs" />
+    <Compile Include="com.pharmscription.BusinessLogic\Patient\InsuranceConnector.cs" />
+    <Compile Include="com.pharmscription.BusinessLogic\Patient\IPatientManager.cs" />
+    <Compile Include="com.pharmscription.BusinessLogic\Patient\PatientManager.cs" />
+    <Compile Include="com.pharmscription.BusinessLogic\Properties\AssemblyInfo.cs" />
+    <Compile Include="com.pharmscription.DataAccess.Insurance.Tests\InsurancePatientTest.cs" />
+    <Compile Include="com.pharmscription.DataAccess.Insurance.Tests\PatientStoreTest.cs" />
+    <Compile Include="com.pharmscription.DataAccess.Insurance.Tests\Properties\AssemblyInfo.cs" />
+    <Compile Include="com.pharmscription.DataAccess.Insurance\IInsurance.cs" />
+    <Compile Include="com.pharmscription.DataAccess.Insurance\Insurance.cs" />
+    <Compile Include="com.pharmscription.DataAccess.Insurance\IPatientStore.cs" />
+    <Compile Include="com.pharmscription.DataAccess.Insurance\PatientStore.cs" />
+    <Compile Include="com.pharmscription.DataAccess.Insurance\Properties\AssemblyInfo.cs" />
+    <Compile Include="com.pharmscription.DataAccess.Tests\Properties\AssemblyInfo.cs" />
+    <Compile Include="com.pharmscription.DataAccess.Tests\UnitTest1.cs" />
+    <Compile Include="com.pharmscription.DataAccess\Properties\AssemblyInfo.cs" />
+    <Compile Include="com.pharmscription.Infrastructure.Tests\Properties\AssemblyInfo.cs" />
+    <Compile Include="com.pharmscription.Infrastructure.Tests\UnitTest1.cs" />
+    <Compile Include="com.pharmscription.Infrastructure\AddressEntity\Address.cs" />
+    <Compile Include="com.pharmscription.Infrastructure\AddressEntity\CityCodeEntity\ICityCode.cs" />
+    <Compile Include="com.pharmscription.Infrastructure\AddressEntity\CityCodeEntity\SwissCityCode.cs" />
+    <Compile Include="com.pharmscription.Infrastructure\BaseEntity\Entity.cs" />
+    <Compile Include="com.pharmscription.Infrastructure\DoctorEntity\Doctor.cs" />
+    <Compile Include="com.pharmscription.Infrastructure\Dto\AddressDto.cs" />
+    <Compile Include="com.pharmscription.Infrastructure\Dto\PatientDTO.cs" />
+    <Compile Include="com.pharmscription.Infrastructure\EntityHelper\IdentityGenerator.cs" />
+    <Compile Include="com.pharmscription.Infrastructure\Insurance\InsurancePatient.cs" />
+    <Compile Include="com.pharmscription.Infrastructure\PatientEntity\Patient.cs" />
+    <Compile Include="com.pharmscription.Infrastructure\Properties\AssemblyInfo.cs" />
+    <Compile Include="com.pharmscription.Infrastructure\SharedInterfaces\IEntity.cs" />
+    <Compile Include="com.pharmscription.Infrastructure\SharedInterfaces\IQueryableUnitOfWork.cs" />
+    <Compile Include="com.pharmscription.Infrastructure\SharedInterfaces\IRepository.cs" />
+    <Compile Include="com.pharmscription.Infrastructure\SharedInterfaces\ISql.cs" />
+    <Compile Include="com.pharmscription.Infrastructure\SharedInterfaces\IUnitOfWork.cs" />
+    <Compile Include="com.pharmscription.Service.Tests\Properties\AssemblyInfo.cs" />
+    <Compile Include="com.pharmscription.Service.Tests\UnitTest1.cs" />
+    <Compile Include="com.pharmscription.Service\IService1.cs" />
+    <Compile Include="com.pharmscription.Service\Properties\AssemblyInfo.cs" />
+    <Compile Include="com.pharmscription.Service\Service1.svc.cs">
+      <DependentUpon>Service1.svc</DependentUpon>
+    </Compile>
+    <Compile Include="com.pharmscription\Class1.cs" />
+    <Compile Include="com.pharmscription\Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="com.pharmscription.Infrastructure\App.config" />
+    <None Include="com.pharmscription.Infrastructure\packages.config" />
+    <None Include="com.pharmscription.Service\packages.config" />
+    <None Include="com.pharmscription.Service\Web.config" />
+    <None Include="com.pharmscription.Service\Web.Debug.config" />
+    <None Include="com.pharmscription.Service\Web.Release.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include=".git\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
+  <ProjectExtensions>
+    <VisualStudio AllowExistingFolder="true" />
+  </ProjectExtensions>
+</Project>

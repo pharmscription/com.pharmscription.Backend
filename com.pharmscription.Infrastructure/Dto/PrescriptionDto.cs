@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
-
 namespace com.pharmscription.Infrastructure.Dto
 {
+    ﻿using System.Collections.Generic;
+    using System.Runtime.Serialization;
     [DataContract]
     public class PrescriptionDto : BaseDto
     {
@@ -28,6 +27,5 @@ namespace com.pharmscription.Infrastructure.Dto
         public List<DrugItemDto> Drugs { get; set; }
         [DataMember]
         public List<PrescriptionDto> PrescriptionHistory { get; set; }
-
     }
 }
