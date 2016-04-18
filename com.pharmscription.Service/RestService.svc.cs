@@ -117,6 +117,107 @@ namespace com.pharmscription.Service
                 throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
             }
         }
-        #endregion        
+
+        #endregion
+
+        #region prescription
+
+        public Task<PrescriptionDto[]> GetPrescriptions(string patientId)
+        {
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (NotFoundException e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+            }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
+        }
+
+        public Task<PrescriptionDto> GetPrescription(string patientId, string id)
+        {
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (NotFoundException e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+            }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
+        }
+
+        public Task<PrescriptionDto> AddPrescriptions(string patientId, PrescriptionDto prescription)
+        {
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (NotFoundException e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+            }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
+        }
+
+        public Task<CounterProposalDto[]> GetCounterProposals(string patientId, string id)
+        {
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (NotFoundException e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+            }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
+        }
+
+        public Task<CounterProposalDto> AddCounterProposals(string patientId, string id, CounterProposalDto counterProposal)
+        {
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (NotFoundException e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+            }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
+        }
+
+        public Task<DrugDto[]> GetDrugItems(string patientId, string id)
+        {
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (NotFoundException e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+            }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
+        }
+        
+        #endregion
     }
 }

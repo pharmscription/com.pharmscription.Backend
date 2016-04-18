@@ -131,5 +131,63 @@
         Task<DrugDto[]> SearchDrugs(string keyword);
 
         #endregion
+
+        #region prescription
+
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            RequestFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "patients/{patientId}/prescriptions/")]
+        [OperationContract]
+        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
+        Task<PrescriptionDto[]> GetPrescriptions(string patientId);
+
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            RequestFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "patients/{patientId}/prescriptions/{id}")]
+        [OperationContract]
+        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
+        Task<PrescriptionDto> GetPrescription(string patientId, string id);
+
+        [WebInvoke(Method = "PUT",
+            ResponseFormat = WebMessageFormat.Json,
+            RequestFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "patients/{patientId}/prescriptions/")]
+        [OperationContract]
+        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
+        Task<PrescriptionDto> AddPrescriptions(string patientId, PrescriptionDto prescription);
+
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            RequestFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "patients/{patientId}/prescriptions/{id}/counterproposals")]
+        [OperationContract]
+        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
+        Task<CounterProposalDto[]> GetCounterProposals(string patientId, string id);
+
+        [WebInvoke(Method = "PUT",
+            ResponseFormat = WebMessageFormat.Json,
+            RequestFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "patients/{patientId}/prescriptions/{id}/counterproposals")]
+        [OperationContract]
+        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
+        Task<CounterProposalDto> AddCounterProposals(string patientId, string id, CounterProposalDto counterProposal);
+
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            RequestFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "patients/{patientId}/prescriptions/{id}/drugs")]
+        [OperationContract]
+        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
+        Task<DrugDto[]> GetDrugItems(string patientId, string id);
+
+        #endregion
     }
 }
