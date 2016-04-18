@@ -50,8 +50,11 @@
   <ItemGroup>
     <Compile Include="Dto\AddressDto.cs" />
     <Compile Include="Dto\BaseDto.cs" />
+    <Compile Include="Dto\CounterProposalDto.cs" />
     <Compile Include="Dto\DrugDto.cs" />
+    <Compile Include="Dto\DrugItemDto.cs" />
     <Compile Include="Dto\PatientDto.cs" />
+    <Compile Include="Dto\PrescriptionDto.cs" />
     <Compile Include="Exception\InvalidAHVNumberException.cs" />
     <Compile Include="Exception\InvalidArgumentException.cs" />
     <Compile Include="Exception\NotFoundException.cs" />
