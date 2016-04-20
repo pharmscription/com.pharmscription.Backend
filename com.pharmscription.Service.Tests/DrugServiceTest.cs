@@ -63,7 +63,7 @@ namespace com.pharmscription.Service.Tests
             _mock = new Mock<IDrugManager>();
             var mock2 =  new Mock<IPatientManager>();
             var mock3 = new Mock<IPrescriptionManager>();
-            service = new RestService(mock2.Object, mock.Object, mock3.Object);
+            _service = new RestService(mock2.Object, _mock.Object, mock3.Object);
         }
 
         [TestMethod]
@@ -192,8 +192,8 @@ namespace com.pharmscription.Service.Tests
         [TestMethod]
         public async Task TestSearchDrug()
         {
-            _mock.Setup(m => m.Search("remeron")).ReturnsAsync(3);
-            int answer = await _service.SearchDrugs("remeron");
+            _mock.Setup(m => m.Count("remeron")).ReturnsAsync(3);
+            int answer = await _service.SearchCountDrugs("remeron");
             Assert.AreEqual(DrugArray.Count, answer);
         }
 

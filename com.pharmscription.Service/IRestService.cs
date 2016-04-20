@@ -128,7 +128,18 @@
             UriTemplate = "drugs/search/{keyword}")]
         [OperationContract]
         [FaultContract(typeof(WebFaultException<ErrorMessage>))]
-        Task<int> SearchDrugs(string keyword);
+        Task<DrugDto[]> SearchDrugs(string keyword);
+
+
+        [WebInvoke(Method = "GET",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "drugs/search/count/{keyword}")]
+        [OperationContract]
+        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
+        Task<int> SearchCountDrugs(string keyword);
+
 
         /// <summary>
         /// Search a drug by keywords an get a page from the result set

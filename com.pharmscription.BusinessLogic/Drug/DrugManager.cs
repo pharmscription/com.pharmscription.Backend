@@ -48,7 +48,7 @@ namespace com.pharmscription.BusinessLogic.Drug
             return drugsFittingSearch.ConvertToDtos();
         }
 
-        public async Task<int> Search(string partialDescription)
+        public async Task<int> Count(string partialDescription)
         {
             if (string.IsNullOrWhiteSpace(partialDescription))
             {
@@ -61,6 +61,21 @@ namespace com.pharmscription.BusinessLogic.Drug
             }
             var drugsFittingSearch = await _repository.SearchByName(partialDescription);
             return drugsFittingSearch.ConvertToDtos().Count;
+        }
+
+        public async Task<List<DrugDto>> Search(string partialDescription)
+        {
+            if (string.IsNullOrWhiteSpace(partialDescription))
+            {
+                throw new InvalidArgumentException("Search Param was empty or null");
+            }
+            var drugsAreCachedLocally = _repository.GetAll().Any();
+            if (!drugsAreCachedLocally)
+            {
+                await LoadDrugsFromSwissMedic();
+            }
+            var drugsFittingSearch = await _repository.SearchByName(partialDescription);
+            return drugsFittingSearch.ConvertToDtos();
         }
 
         private async Task LoadDrugsFromSwissMedic()

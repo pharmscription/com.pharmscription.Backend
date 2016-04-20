@@ -122,11 +122,11 @@ namespace com.pharmscription.Service
             }
         }
 
-        public async Task<int> SearchDrugs(string keyword)
+        public async Task<DrugDto[]> SearchDrugs(string keyword)
         {
             try
             {
-                return await _drugManager.Search(keyword);
+                return (await _drugManager.Search(keyword)).ToArray();
             }
             catch (NotFoundException e)
             {
@@ -142,6 +142,26 @@ namespace com.pharmscription.Service
             }
         }
 
+        public async Task<int> SearchCountDrugs(string keyword)
+        {
+            try
+            {
+                return await _drugManager.Count(keyword);
+            }
+            catch (NotFoundException e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+            }
+            catch (ArgumentException e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+            }
+            catch (Exception e)
+            {
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.InternalServerError);
+            }
+        }
+        
         public async Task<DrugDto[]> SearchDrugsPaged(string keyword, string page, string amount)
         {
             try
