@@ -58,7 +58,7 @@ namespace com.pharmscription.Service.Tests
             mock = new Mock<IPatientManager>();
             var mock2 = new Mock<IDrugManager>();
             var mock3 = new Mock<IPrescriptionManager>();
-            service = new RestService(mock.Object, mock2.Object/*, mock3.Object*/);
+            service = new RestService(mock.Object, mock2.Object, mock3.Object);
             
         }
         

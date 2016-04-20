@@ -19,11 +19,11 @@ namespace com.pharmscription.Service
         private readonly IDrugManager _drugManager;
         private readonly IPrescriptionManager _prescriptionManager;
 
-        public RestService(IPatientManager patientManager, IDrugManager drugManager/*, IPrescriptionManager prescriptionManager*/)
+        public RestService(IPatientManager patientManager, IDrugManager drugManager, IPrescriptionManager prescriptionManager)
         {
-            _patientManager = patientManager;
-            _drugManager = drugManager;
-            //_prescriptionManager = prescriptionManager;
+            this._patientManager = patientManager;
+            this._drugManager = drugManager;
+            this._prescriptionManager = prescriptionManager;
         }
 
         #region patient
