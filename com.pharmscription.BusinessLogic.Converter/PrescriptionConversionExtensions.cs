@@ -10,6 +10,8 @@ using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.BusinessLogic.Converter
 {
+    using com.pharmscription.Infrastructure.Exception;
+
     public static class PrescriptionConversionExtensions
     {
         public static List<PrescriptionDto> ConvertToDtos(this List<Prescription> list)
@@ -27,7 +29,7 @@ namespace com.pharmscription.BusinessLogic.Converter
         }
 
         /// <summary>
-        /// 
+        /// bla
         /// </summary>
         /// <param name="prescription"></param>
         /// <returns>null when it get null as parameter</returns>
@@ -77,7 +79,7 @@ namespace com.pharmscription.BusinessLogic.Converter
                     EditDate = DateTime.Parse(prescriptionDto.EditDate)
                 };
             }
-            else
+            else if(prescriptionDto.Type == "Standing")
             {
                 prescription = new StandingPrescription
                 {
@@ -93,7 +95,10 @@ namespace com.pharmscription.BusinessLogic.Converter
                     EditDate = DateTime.Parse(prescriptionDto.EditDate)
                 };
             }
-            
+            else
+            {
+                throw new InvalidArgumentException("Invalid type: " + prescriptionDto.Type);
+            }
             return prescription;
         }
 
