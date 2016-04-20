@@ -49,14 +49,14 @@ namespace com.pharmscription.BusinessLogic.Tests.Drug
         public async Task TestCanDoSearch()
         {
             var drugs = await _drugManager.Search("Redimune");
-            Assert.AreEqual(4, drugs.Count);
+            Assert.AreEqual(4, drugs);
         }
 
         [TestMethod]
         public async Task TestSearchReturnsEmptyListOnGarbage()
         {
             var drugs = await _drugManager.Search("jsdfkasdncknsacion");
-            Assert.IsFalse(drugs.Any());
+            Assert.AreEqual(drugs, 0);
         }
 
 
@@ -64,22 +64,22 @@ namespace com.pharmscription.BusinessLogic.Tests.Drug
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestSearchPagedThrowsOnNegativeAmountPerPage()
         {
-            await _drugManager.SearchPaged("Redimune", 2, -1);
+            await _drugManager.SearchPaged("Redimune", "2", "-1");
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestSearchPagedThrowsOnNegativePageNumber()
         {
-            await _drugManager.SearchPaged("Redimune", -1, 2);
+            await _drugManager.SearchPaged("Redimune", "-1", "2");
         }
 
         [TestMethod]
         public async Task TestCanDoSearchPaged()
         {
-            var drugs = await _drugManager.SearchPaged("Redimune", 0, 2);
-            var drugsPageTwo = await _drugManager.SearchPaged("Redimune", 1, 2);
-            var drugsPageThree = await _drugManager.SearchPaged("Redimune", 2, 2);
+            var drugs = await _drugManager.SearchPaged("Redimune", "0", "2");
+            var drugsPageTwo = await _drugManager.SearchPaged("Redimune", "1", "2");
+            var drugsPageThree = await _drugManager.SearchPaged("Redimune", "2", "2");
             Assert.AreEqual(2, drugs.Count);
             Assert.AreEqual(2, drugsPageTwo.Count);
             Assert.IsFalse(drugsPageThree.Any());

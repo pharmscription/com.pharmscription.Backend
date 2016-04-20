@@ -9,6 +9,9 @@ namespace com.pharmscription.Service.Tests
     using System.Threading.Tasks;
 
     using BusinessLogic.Patient;
+
+    using com.pharmscription.BusinessLogic.Prescription;
+
     using Infrastructure.Dto;
     using Infrastructure.Exception;
 
@@ -54,7 +57,8 @@ namespace com.pharmscription.Service.Tests
         {
             mock = new Mock<IPatientManager>();
             var mock2 = new Mock<IDrugManager>();
-            service = new RestService(mock.Object, mock2.Object);
+            var mock3 = new Mock<IPrescriptionManager>();
+            service = new RestService(mock.Object, mock2.Object, mock3.Object);
             
         }
         
@@ -77,6 +81,34 @@ namespace com.pharmscription.Service.Tests
             catch (WebFaultException<ErrorMessage> e)
             {
                 Assert.AreEqual(HttpStatusCode.NotFound, e.StatusCode);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetInvalidPatient()
+        {
+            mock.Setup(m => m.GetById(null)).Throws<InvalidArgumentException>();
+            try
+            {
+                await service.GetPatient(null);
+            }
+            catch(WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.BadRequest, e.StatusCode);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetPatientServerError()
+        {
+            mock.Setup(m => m.GetById(WrongId)).Throws<Exception>();
+            try
+            {
+                await service.GetPatient(WrongId);
+            }
+            catch(WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.InternalServerError, e.StatusCode);
             }
         }
 
@@ -130,6 +162,20 @@ namespace com.pharmscription.Service.Tests
         }
 
         [TestMethod]
+        public async Task TestLookupServerError()
+        {
+            mock.Setup(m => m.Lookup("756.1234.123.1234")).Throws<Exception>();
+            try
+            {
+                await service.LookupPatient("756.1234.123.123");
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.InternalServerError, e.StatusCode);
+            }
+        }
+
+        [TestMethod]
         public async Task TestCreatePatient()
         {
             mock.Setup(m => m.Add(_patient)).ReturnsAsync(_patient);
@@ -163,6 +209,20 @@ namespace com.pharmscription.Service.Tests
             catch (WebFaultException<ErrorMessage> e)
             {
                 Assert.AreEqual(HttpStatusCode.BadRequest, e.StatusCode);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestCreatePatientServerError()
+        {
+            mock.Setup(m => m.Add(_patient)).Throws<Exception>();
+            try
+            {
+                await service.CreatePatient(_patient);
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.InternalServerError, e.StatusCode);
             }
         }
 
@@ -213,6 +273,20 @@ namespace com.pharmscription.Service.Tests
             catch (WebFaultException<ErrorMessage> e)
             {
                 Assert.AreEqual(HttpStatusCode.BadRequest, e.StatusCode);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestSearchServerError()
+        {
+            mock.Setup(m => m.Find(_patient.AhvNumber)).Throws<Exception>();
+            try
+            {
+                await service.GetPatientByAhv(_patient.AhvNumber);
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.InternalServerError, e.StatusCode);
             }
         }
     }

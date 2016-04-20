@@ -13,77 +13,19 @@ namespace com.pharmscription.Service.Tests
     using System.Net;
     using System.ServiceModel.Web;
 
+    using com.pharmscription.BusinessLogic.Prescription;
+
     using Infrastructure.Exception;
 
     [TestClass]
     [ExcludeFromCodeCoverage]
     public class DrugServiceTest
     {
-        private static readonly string CorrectId = "1";
+        private const string CorrectId = "1";
 
-        private static readonly string WrongId = "a";
+        private const string WrongId = "a";
 
-        private static Mock<IDrugManager> mock;
-
-        private static IRestService service;
-
-        [TestInitialize]
-        public void SetUp()
-        {
-            mock = new Mock<IDrugManager>();
-            var mock2 =  new Mock<IPatientManager>();
-            service= new RestService(mock2.Object, mock.Object);
-        }
-
-        [TestMethod]
-        public async Task TestGetDrugById()
-        {
-            var dto = new DrugDto
-                          {
-                              Id = CorrectId,
-                              DrugDescription = "Diaphin",
-                              Composition = "10g",
-                              NarcoticCategory = "A",
-                              PackageSize = "10g",
-                              Unit = "g"
-                          };
-            mock.Setup(m => m.GetById(CorrectId)).Returns(Task.Run(() => dto));
-            DrugDto answerDto = await service.GetDrug(CorrectId);
-            Assert.AreEqual(dto, answerDto);
-        }
-
-        [TestMethod]
-        public async Task TestGetInvalidDrugById()
-        {
-            mock.Setup(m => m.GetById(WrongId)).Throws<NotFoundException>();
-            try
-            {
-                await service.GetDrug(WrongId);
-            }
-            catch (WebFaultException<ErrorMessage> e)
-            {
-                Assert.AreEqual(HttpStatusCode.NotFound, e.StatusCode);
-            }
-        }
-
-        [TestMethod]
-        public async Task TestGetDrugWithNullParameter()
-        {
-            mock.Setup(m => m.GetById(null)).Throws<ArgumentException>();
-            try
-            {
-                await service.GetDrug(null);
-            }
-            catch (WebFaultException<ErrorMessage> e)
-            {
-                Assert.AreEqual(HttpStatusCode.BadRequest, e.StatusCode);
-            }
-        }
-
-        [TestMethod]
-        public async Task TestSearchDrug()
-        {
-            List<DrugDto> drugArray = new List<DrugDto>
+        private static readonly List<DrugDto> DrugArray = new List<DrugDto>
                                           {
                                               new DrugDto
                                                   {
@@ -110,18 +52,171 @@ namespace com.pharmscription.Service.Tests
                                                       NarcoticCategory = "B"
                                                   }
                                           };
-            mock.Setup(m => m.Search("remeron")).Returns(Task.Run(() => drugArray));
-            DrugDto[] answerDto = await service.SearchDrugs("remeron");
-            CollectionAssert.AreEqual(drugArray.ToArray(), answerDto);
+
+        private static Mock<IDrugManager> _mock;
+
+        private static IRestService _service;
+
+        [TestInitialize]
+        public void SetUp()
+        {
+            _mock = new Mock<IDrugManager>();
+            var mock2 =  new Mock<IPatientManager>();
+            var mock3 = new Mock<IPrescriptionManager>();
+            _service = new RestService(mock2.Object, _mock.Object, mock3.Object);
         }
 
         [TestMethod]
-        public async Task TestSearchEmptyString()
+        public async Task TestGetDrugById()
         {
-            mock.Setup(m => m.Search(string.Empty)).Throws<InvalidArgumentException>();
+            var dto = new DrugDto
+                          {
+                              Id = CorrectId,
+                              DrugDescription = "Diaphin",
+                              Composition = "10g",
+                              NarcoticCategory = "A",
+                              PackageSize = "10g",
+                              Unit = "g"
+                          };
+            _mock.Setup(m => m.GetById(CorrectId)).Returns(Task.Run(() => dto));
+            DrugDto answerDto = await _service.GetDrug(CorrectId);
+            Assert.AreEqual(dto, answerDto);
+        }
+
+        [TestMethod]
+        public async Task TestGetInvalidDrugById()
+        {
+            _mock.Setup(m => m.GetById(WrongId)).Throws<NotFoundException>();
             try
             {
-                await service.SearchDrugs(string.Empty);
+                await _service.GetDrug(WrongId);
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.NotFound, e.StatusCode);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetDrugWithNullParameter()
+        {
+            _mock.Setup(m => m.GetById(null)).Throws<ArgumentException>();
+            try
+            {
+                await _service.GetDrug(null);
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.BadRequest, e.StatusCode);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetDrugByIdServerError()
+        {
+            _mock.Setup(m => m.GetById(CorrectId)).Throws<Exception>();
+            try
+            {
+                await _service.GetDrug(CorrectId);
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.InternalServerError, e.StatusCode);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestSearchDrugPage()
+        {
+            _mock.Setup(m => m.SearchPaged("remeron", "1", "3")).ReturnsAsync(DrugArray);
+            DrugDto[] answerDto = await _service.SearchDrugsPaged("remeron", "1", "3");
+            CollectionAssert.AreEqual(DrugArray.ToArray(), answerDto);
+        }
+
+        [TestMethod]
+        public async Task TestSearchDrugpageInvalidParameter()
+        {
+            _mock.Setup(m => m.SearchPaged("remeron", "a", "b")).Throws<InvalidArgumentException>();
+            try
+            {
+                await _service.SearchDrugsPaged("remeron", "a", "b");
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.BadRequest, e.StatusCode);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestSearchDrugPageNotFount()
+        {
+            _mock.Setup(m => m.SearchPaged("asbirin", "1", "3")).Throws<NotFoundException>();
+            try
+            {
+                await _service.SearchDrugsPaged("asbirin", "1", "3");
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.NotFound, e.StatusCode);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestSearchDrugPageInvalidDrug()
+        {
+            _mock.Setup(m => m.SearchPaged(null, "1", "3")).Throws<InvalidArgumentException>();
+            try
+            {
+                await _service.SearchDrugsPaged(null, "1", "3");
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.BadRequest, e.StatusCode);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestSearchDrugPagedServerError()
+        {
+            _mock.Setup(m => m.SearchPaged("aspirin", "1", "3")).Throws<Exception>();
+            try
+            {
+                await _service.SearchDrugsPaged("aspirin", "1", "3");
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.InternalServerError, e.StatusCode);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestSearchDrug()
+        {
+            _mock.Setup(m => m.Count("remeron")).ReturnsAsync(3);
+            int answer = await _service.SearchCountDrugs("remeron");
+            Assert.AreEqual(DrugArray.Count, answer);
+        }
+
+        [TestMethod]
+        public async Task TestSearchDrugNotFound()
+        {
+            _mock.Setup(m => m.Search("sonda")).Throws<NotFoundException>();
+            try
+            {
+                await _service.SearchDrugs("sonda");
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.NotFound, e.StatusCode);
+            }
+        }
+        [TestMethod]
+        public async Task TestSearchEmptyString()
+        {
+            _mock.Setup(m => m.Search(string.Empty)).Throws<InvalidArgumentException>();
+            try
+            {
+                await _service.SearchDrugs(string.Empty);
             }
             catch (WebFaultException<ErrorMessage> e)
             {
@@ -132,10 +227,10 @@ namespace com.pharmscription.Service.Tests
         [TestMethod]
         public async Task TestSearchNullString()
         {
-            mock.Setup(m => m.Search(null)).Throws<ArgumentNullException>();
+            _mock.Setup(m => m.Search(null)).Throws<ArgumentNullException>();
             try
             {
-                await service.SearchDrugs(null);
+                await _service.SearchDrugs(null);
             }
             catch (WebFaultException<ErrorMessage> e)
             {
@@ -143,6 +238,18 @@ namespace com.pharmscription.Service.Tests
             }
         }
 
-
+        [TestMethod]
+        public async Task TaskSearchServerError()
+        {
+            _mock.Setup(m => m.Search("remeron")).Throws<Exception>();
+            try
+            {
+                await _service.SearchDrugs("remeron");
+            }
+            catch (WebFaultException<ErrorMessage> e)
+            {
+                Assert.AreEqual(HttpStatusCode.InternalServerError, e.StatusCode);
+            }
+        }
     }
 }

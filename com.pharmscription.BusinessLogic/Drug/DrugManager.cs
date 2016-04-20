@@ -21,11 +21,18 @@ namespace com.pharmscription.BusinessLogic.Drug
             _swissMedicConnector = new SwissMedicConnector();
         }
 
-        public async Task<List<DrugDto>> SearchPaged(string partialDescription, int pageNumber, int amountPerPage)
+        public async Task<List<DrugDto>> SearchPaged(string partialDescription, string pageNumberString, string amountPerPageString)
         {
             if (string.IsNullOrWhiteSpace(partialDescription))
             {
                 throw new InvalidArgumentException("Search Param was empty or null");
+            }
+            int pageNumber, amountPerPage;
+            bool page = int.TryParse(pageNumberString, out pageNumber);
+            bool amount = int.TryParse(amountPerPageString, out amountPerPage);
+            if (!page && !amount)
+            {
+                throw new InvalidArgumentException("Either page number or amount per page are not numbers. page: " + pageNumberString + " , amount: " + amountPerPageString + ".");
             }
             if (pageNumber < 0 || amountPerPage < 0)
             {
@@ -39,6 +46,21 @@ namespace com.pharmscription.BusinessLogic.Drug
             var drugsFittingSearch = await _repository.SearchByNamePaged(partialDescription, pageNumber, amountPerPage);
 
             return drugsFittingSearch.ConvertToDtos();
+        }
+
+        public async Task<int> Count(string partialDescription)
+        {
+            if (string.IsNullOrWhiteSpace(partialDescription))
+            {
+                throw new InvalidArgumentException("Search Param was empty or null");
+            }
+            var drugsAreCachedLocally = _repository.GetAll().Any();
+            if (!drugsAreCachedLocally)
+            {
+                await LoadDrugsFromSwissMedic();
+            }
+            var drugsFittingSearch = await _repository.SearchByName(partialDescription);
+            return drugsFittingSearch.ConvertToDtos().Count;
         }
 
         public async Task<List<DrugDto>> Search(string partialDescription)

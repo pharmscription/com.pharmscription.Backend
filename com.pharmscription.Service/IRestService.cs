@@ -119,7 +119,7 @@
         /// The keyword which has already been entered.
         /// </param>
         /// <returns>
-        /// <see cref="Task"/> which returns an array of found drugs.
+        /// <see cref="Task"/> which returns the amount of fount results.
         /// </returns>
         [WebInvoke(Method = "GET", 
             RequestFormat = WebMessageFormat.Json, 
@@ -129,6 +129,35 @@
         [OperationContract]
         [FaultContract(typeof(WebFaultException<ErrorMessage>))]
         Task<DrugDto[]> SearchDrugs(string keyword);
+
+
+        [WebInvoke(Method = "GET",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "drugs/search/count/{keyword}")]
+        [OperationContract]
+        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
+        Task<int> SearchCountDrugs(string keyword);
+
+
+        /// <summary>
+        /// Search a drug by keywords an get a page from the result set
+        /// </summary>
+        /// <param name="keyword">The keyword which has been entered</param>
+        /// <param name="page">The page of the result set</param>
+        /// <param name="amount">Amount which will be returnes per page</param>
+        /// <returns>
+        /// <see cref="Task"/> which returns the page of the result set
+        /// </returns>
+        [WebInvoke(Method = "GET", 
+            RequestFormat = WebMessageFormat.Json, 
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare, 
+            UriTemplate = "drugs/search/{keyword}/{page}/{amount}")]
+        [OperationContract]
+        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
+        Task<DrugDto[]> SearchDrugsPaged(string keyword, string page, string amount);
 
         #endregion
 
@@ -160,34 +189,7 @@
         [OperationContract]
         [FaultContract(typeof(WebFaultException<ErrorMessage>))]
         Task<PrescriptionDto> AddPrescriptions(string patientId, PrescriptionDto prescription);
-
-        [WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            RequestFormat = WebMessageFormat.Json,
-            BodyStyle = WebMessageBodyStyle.Bare,
-            UriTemplate = "patients/{patientId}/prescriptions/{id}/counterproposals")]
-        [OperationContract]
-        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
-        Task<CounterProposalDto[]> GetCounterProposals(string patientId, string id);
-
-        [WebInvoke(Method = "PUT",
-            ResponseFormat = WebMessageFormat.Json,
-            RequestFormat = WebMessageFormat.Json,
-            BodyStyle = WebMessageBodyStyle.Bare,
-            UriTemplate = "patients/{patientId}/prescriptions/{id}/counterproposals")]
-        [OperationContract]
-        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
-        Task<CounterProposalDto> AddCounterProposals(string patientId, string id, CounterProposalDto counterProposal);
-
-        [WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            RequestFormat = WebMessageFormat.Json,
-            BodyStyle = WebMessageBodyStyle.Bare,
-            UriTemplate = "patients/{patientId}/prescriptions/{id}/drugs")]
-        [OperationContract]
-        [FaultContract(typeof(WebFaultException<ErrorMessage>))]
-        Task<DrugDto[]> GetDrugItems(string patientId, string id);
-
+        
         #endregion
     }
 }
