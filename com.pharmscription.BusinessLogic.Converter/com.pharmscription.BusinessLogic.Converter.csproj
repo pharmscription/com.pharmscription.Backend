@@ -40,8 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CounterProposalConversionExtensions.cs" />
+    <Compile Include="DispenseConversionExtensions.cs" />
     <Compile Include="DrugConversionExtensions.cs" />
+    <Compile Include="DrugItemConversionExtensions.cs" />
     <Compile Include="PatientConversionExtensions.cs" />
+    <Compile Include="PrescriptionConversionExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -21,10 +21,10 @@
                            EditDate = EditDate,
                            SignDate = SignDate,
                            IsValid = IsValid,
-                           CounterProposal = CounterProposal.Select(cp => cp.Clone()).ToList(),
+                           CounterProposals = CounterProposals.Select(cp => cp.Clone()).ToList(),
                            Doctor = Doctor,
-                           Dispense = Dispense.Select(d => d.Clone()).ToList(),
-                           Drug = Drug.Select(d => d.Clone()).ToList(),
+                           Dispenses = Dispenses.Select(d => d.Clone()).ToList(),
+                           DrugItems = DrugItems.Select(d => d.Clone()).ToList(),
                            PrescriptionHistory = PrescriptionHistory.Select(ph => ph.Clone()).ToList(),
                            ValidUntill = ValidUntill
                        };

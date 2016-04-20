@@ -3,8 +3,10 @@ using System.ServiceModel;
 using System.ServiceModel.Activation;
 using com.pharmscription.BusinessLogic.Drug;
 using com.pharmscription.BusinessLogic.Patient;
+using com.pharmscription.BusinessLogic.Prescription;
 using com.pharmscription.DataAccess.Repositories.Drug;
 using com.pharmscription.DataAccess.Repositories.Patient;
+using com.pharmscription.DataAccess.Repositories.Prescription;
 using com.pharmscription.DataAccess.SwissMedic;
 using com.pharmscription.DataAccess.UnitOfWork;
 using Microsoft.Practices.Unity;
@@ -36,6 +38,8 @@ namespace com.pharmscription.Service.DependencyInjection
             container.RegisterType<ISwissMedic, SwissMedicMock>();
             container.RegisterType<IDrugManager, DrugManager>();
             container.RegisterType<IPatientManager, PatientManager>();
+            container.RegisterType<IPrescriptionRepository, PrescriptionRepository>();
+            container.RegisterType<IPrescriptionManager, PrescriptionManager>();
         }
     }
 }

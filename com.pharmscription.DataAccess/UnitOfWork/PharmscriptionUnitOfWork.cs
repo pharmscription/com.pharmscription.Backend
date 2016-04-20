@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using com.pharmscription.DataAccess.Entities.BaseEntity;
 using com.pharmscription.DataAccess.Entities.DrugEntity;
 using com.pharmscription.DataAccess.Entities.PatientEntity;
+using com.pharmscription.DataAccess.Entities.PrescriptionEntity;
 using com.pharmscription.DataAccess.Migrations;
 
 namespace com.pharmscription.DataAccess.UnitOfWork
@@ -25,7 +26,12 @@ namespace com.pharmscription.DataAccess.UnitOfWork
         public virtual IDbSet<Patient> Patients => _patients ?? (_patients = base.Set<Patient>());
 
         private IDbSet<Drug> _drugs;
-        public virtual IDbSet<Drug> Drugs => _drugs ?? (_drugs = base.Set<Drug>()); 
+        public virtual IDbSet<Drug> Drugs => _drugs ?? (_drugs = base.Set<Drug>());
+
+        private IDbSet<Prescription> _prescriptions;
+
+        public virtual IDbSet<Prescription> Prescriptions
+            => _prescriptions ?? (_prescriptions = base.Set<Prescription>());
         #endregion
 
         #region IQueryableUnitOfWork Members

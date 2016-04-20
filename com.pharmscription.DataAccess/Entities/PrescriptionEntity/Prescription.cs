@@ -17,10 +17,10 @@
         public DateTime EditDate { get; set; }
         public DateTime SignDate { get; set; }
         public bool IsValid { get; set; }
-        public List<CounterProposal> CounterProposal { get; set; }
+        public List<CounterProposal> CounterProposals { get; set; }
         public Doctor Doctor { get; set; }
-        public List<Dispense> Dispense { get; set; }  
-        public List<DrugItem> Drug { get; set; } 
+        public List<Dispense> Dispenses { get; set; }  
+        public List<DrugItem> DrugItems { get; set; } 
         public List<Prescription> PrescriptionHistory { get; set; }
 
         public abstract Prescription Clone();

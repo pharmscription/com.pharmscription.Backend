@@ -11,7 +11,7 @@
     {
         public DateTime Date { get; set; }
         public string Remark { get; set; }
-        public List<DrugItem> DrugItem { get; set; } 
+        public List<DrugItem> DrugItems { get; set; } 
 
         public Dispense Clone()
         {
@@ -19,7 +19,7 @@
                        {
                            Date = Date,
                            Remark = Remark,
-                           DrugItem = DrugItem.Select(di => di.Clone()).ToList()
+                           DrugItems = DrugItems.Select(di => di.Clone()).ToList()
                        };
         }
     }
