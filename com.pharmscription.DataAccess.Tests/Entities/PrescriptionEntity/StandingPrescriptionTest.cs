@@ -20,13 +20,13 @@
         {
             Dispense dispense = new Dispense
                                     {
-                                        DrugItem = new List<DrugItem> { new DrugItem() }
+                                        DrugItems = new List<DrugItem> { new DrugItem() }
                                     };
             _prescription = new StandingPrescription
                                 {
-                                    CounterProposal = new List<CounterProposal> { new CounterProposal(), new CounterProposal() },
-                                    Dispense = new List<Dispense> { dispense.Clone(), dispense.Clone() },
-                                    Drug = new List<DrugItem> { new DrugItem(), new DrugItem() },
+                                    CounterProposals = new List<CounterProposal> { new CounterProposal(), new CounterProposal() },
+                                    Dispenses = new List<Dispense> { dispense.Clone(), dispense.Clone() },
+                                    DrugItems = new List<DrugItem> { new DrugItem(), new DrugItem() },
                                     PrescriptionHistory = new List<Prescription>()
                                 };
         }
@@ -34,9 +34,9 @@
         public void TestClone()
         {
             var clone = _prescription.Clone();
-            CollectionAssert.AreNotEquivalent(_prescription.CounterProposal, clone.CounterProposal, "Counter proposal list is equivalent to original");
-            CollectionAssert.AreNotEquivalent(_prescription.Dispense, clone.Dispense, "Dispnese list is equivalent to original");
-            CollectionAssert.AreNotEquivalent(_prescription.Drug, clone.Drug, "DrugItem list is equivalent to original");
+            CollectionAssert.AreNotEquivalent(_prescription.CounterProposals, clone.CounterProposals, "Counter proposal list is equivalent to original");
+            CollectionAssert.AreNotEquivalent(_prescription.Dispenses, clone.Dispenses, "Dispnese list is equivalent to original");
+            CollectionAssert.AreNotEquivalent(_prescription.DrugItems, clone.DrugItems, "DrugItem list is equivalent to original");
             //// Hier wird nicht `CollectionAssert` verwendet, da es sich um eine leere Liste handelt, und leere Konstruktoren nicht getestet werden
             Assert.AreNotEqual(_prescription.PrescriptionHistory, clone.PrescriptionHistory, "Prescription history is equivalent to original");
         }
