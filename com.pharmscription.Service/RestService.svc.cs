@@ -7,6 +7,9 @@ namespace com.pharmscription.Service
     using System.Threading.Tasks;
     using BusinessLogic.Drug;
     using BusinessLogic.Patient;
+
+    using com.pharmscription.BusinessLogic.Prescription;
+
     using Infrastructure.Dto;
     using Infrastructure.Exception;
 
@@ -14,12 +17,13 @@ namespace com.pharmscription.Service
     {
         private readonly IPatientManager _patientManager;
         private readonly IDrugManager _drugManager;
+        private readonly IPrescriptionManager _prescriptionManager;
 
-
-        public RestService(IPatientManager patientManager, IDrugManager drugManager)
+        public RestService(IPatientManager patientManager, IDrugManager drugManager/*, IPrescriptionManager prescriptionManager*/)
         {
             _patientManager = patientManager;
             _drugManager = drugManager;
+            //_prescriptionManager = prescriptionManager;
         }
 
         #region patient
@@ -122,11 +126,11 @@ namespace com.pharmscription.Service
 
         #region prescription
 
-        public Task<PrescriptionDto[]> GetPrescriptions(string patientId)
+        public async Task<PrescriptionDto[]> GetPrescriptions(string patientId)
         {
             try
             {
-                throw new NotImplementedException();
+                return (await this._prescriptionManager.Get(patientId)).ToArray();
             }
             catch (NotFoundException e)
             {
@@ -138,11 +142,11 @@ namespace com.pharmscription.Service
             }
         }
 
-        public Task<PrescriptionDto> GetPrescription(string patientId, string id)
+        public async Task<PrescriptionDto> GetPrescription(string patientId, string id)
         {
             try
             {
-                throw new NotImplementedException();
+                return await this._prescriptionManager.Get(patientId, id);
             }
             catch (NotFoundException e)
             {
@@ -154,59 +158,11 @@ namespace com.pharmscription.Service
             }
         }
 
-        public Task<PrescriptionDto> AddPrescriptions(string patientId, PrescriptionDto prescription)
+        public async Task<PrescriptionDto> AddPrescriptions(string patientId, PrescriptionDto prescription)
         {
             try
             {
-                throw new NotImplementedException();
-            }
-            catch (NotFoundException e)
-            {
-                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
-            }
-            catch (Exception e)
-            {
-                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
-            }
-        }
-
-        public Task<CounterProposalDto[]> GetCounterProposals(string patientId, string id)
-        {
-            try
-            {
-                throw new NotImplementedException();
-            }
-            catch (NotFoundException e)
-            {
-                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
-            }
-            catch (Exception e)
-            {
-                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
-            }
-        }
-
-        public Task<CounterProposalDto> AddCounterProposals(string patientId, string id, CounterProposalDto counterProposal)
-        {
-            try
-            {
-                throw new NotImplementedException();
-            }
-            catch (NotFoundException e)
-            {
-                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
-            }
-            catch (Exception e)
-            {
-                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
-            }
-        }
-
-        public Task<DrugDto[]> GetDrugItems(string patientId, string id)
-        {
-            try
-            {
-                throw new NotImplementedException();
+                return await this._prescriptionManager.Add(patientId, prescription);
             }
             catch (NotFoundException e)
             {

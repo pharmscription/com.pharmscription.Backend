@@ -13,6 +13,8 @@ namespace com.pharmscription.Service.Tests
     using System.Net;
     using System.ServiceModel.Web;
 
+    using com.pharmscription.BusinessLogic.Prescription;
+
     using Infrastructure.Exception;
 
     [TestClass]
@@ -32,7 +34,8 @@ namespace com.pharmscription.Service.Tests
         {
             mock = new Mock<IDrugManager>();
             var mock2 =  new Mock<IPatientManager>();
-            service= new RestService(mock2.Object, mock.Object);
+            var mock3 = new Mock<IPrescriptionManager>();
+            service = new RestService(mock2.Object, mock.Object/*, mock3.Object*/);
         }
 
         [TestMethod]

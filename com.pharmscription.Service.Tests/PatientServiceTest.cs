@@ -9,6 +9,9 @@ namespace com.pharmscription.Service.Tests
     using System.Threading.Tasks;
 
     using BusinessLogic.Patient;
+
+    using com.pharmscription.BusinessLogic.Prescription;
+
     using Infrastructure.Dto;
     using Infrastructure.Exception;
 
@@ -54,7 +57,8 @@ namespace com.pharmscription.Service.Tests
         {
             mock = new Mock<IPatientManager>();
             var mock2 = new Mock<IDrugManager>();
-            service = new RestService(mock.Object, mock2.Object);
+            var mock3 = new Mock<IPrescriptionManager>();
+            service = new RestService(mock.Object, mock2.Object/*, mock3.Object*/);
             
         }
         
