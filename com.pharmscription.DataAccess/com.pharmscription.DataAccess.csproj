@@ -67,6 +67,10 @@
     <Compile Include="Migrations\201604061207257_Init.Designer.cs">
       <DependentUpon>201604061207257_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604201147449_drugs.cs" />
+    <Compile Include="Migrations\201604201147449_drugs.Designer.cs">
+      <DependentUpon>201604201147449_drugs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PharmscriptionDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -98,6 +102,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201604061207257_Init.resx">
       <DependentUpon>201604061207257_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604201147449_drugs.resx">
+      <DependentUpon>201604201147449_drugs.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
