@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using com.pharmscription.BusinessLogic.Patient;
@@ -21,13 +17,14 @@ namespace Service.Controllers
         {
             _patientManager = patientManager;
         }
-/*        // GET: patients
-        public ActionResult Index()
-        {
-            return null;
-        }*/
+        /*        // GET: patients
+                public ActionResult Index()
+                {
+                    return null;
+                }*/
 
         // GET: patients/Details/5
+        [System.Web.Mvc.Route("patients/{id}")]
         public async Task<ActionResult> Index(string id)
         {
             try
@@ -47,7 +44,7 @@ namespace Service.Controllers
                 throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }
         }
-
+        [System.Web.Mvc.Route("patients/{patientDto}")]
         [System.Web.Mvc.HttpPut]
         public async Task<ActionResult> Index(PatientDto patientDto)
         {
