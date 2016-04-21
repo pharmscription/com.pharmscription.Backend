@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using com.pharmscription.BusinessLogic.Patient;
+using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.Exception;
 
 namespace Service.Controllers
@@ -33,83 +34,74 @@ namespace Service.Controllers
             {
                 return Json(await _patientManager.GetById(id));
             }
-            catch (NotFoundException e)
+            catch (NotFoundException)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }
         }
 
-        // GET: patients/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: patients/Create
-        [System.Web.Mvc.HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [System.Web.Mvc.HttpPut]
+        public async Task<ActionResult> Index(PatientDto patientDto)
         {
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                return Json(await _patientManager.Add(patientDto));
             }
-            catch
+            catch (ArgumentException)
             {
-                return View();
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+            catch (Exception)
+            {
+                throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }
         }
 
-        // GET: patients/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: patients/Edit/5
-        [System.Web.Mvc.HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [System.Web.Mvc.Route("patients/ahv-number/{ahv}")]
+        public async Task<ActionResult> GetByAhv(string ahvNumber)
         {
             try
             {
-                // TODO: Add update logic here
 
-                return RedirectToAction("Index");
+                return Json(await _patientManager.Find(ahvNumber));
             }
-            catch
+
+            catch (ArgumentException)
             {
-                return View();
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+            catch (Exception)
+            {
+                throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }
         }
 
-        // GET: patients/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: patients/Delete/5
-        [System.Web.Mvc.HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [System.Web.Mvc.Route("patients/lookup/{ahv}")]
+        public async Task<ActionResult> LookupByAhvNumber(string ahvNumber)
         {
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                return Json(await _patientManager.Lookup(ahvNumber));
             }
-            catch
+            catch (NotFoundException)
             {
-                return View();
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+            catch (ArgumentException)
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+            catch (Exception)
+            {
+                throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }
         }
     }
