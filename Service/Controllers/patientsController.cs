@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 using com.pharmscription.BusinessLogic.Patient;
 using com.pharmscription.Infrastructure.Exception;
@@ -27,22 +29,22 @@ namespace Service.Controllers
         // GET: patients/Details/5
         public async Task<ActionResult> Index(string id)
         {
-           /* try
-            {*/
-                return Json(await _patientManager.GetById(id));
-            //}
-/*            catch (NotFoundException e)
+            try
             {
-                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+                return Json(await _patientManager.GetById(id));
+            }
+            catch (NotFoundException e)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
             catch (ArgumentException e)
             {
-                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
             catch (Exception e)
             {
-                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.InternalServerError);
-            }*/
+                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            }
         }
 
         // GET: patients/Create
@@ -52,7 +54,7 @@ namespace Service.Controllers
         }
 
         // POST: patients/Create
-        [HttpPost]
+        [System.Web.Mvc.HttpPost]
         public ActionResult Create(FormCollection collection)
         {
             try
@@ -74,7 +76,7 @@ namespace Service.Controllers
         }
 
         // POST: patients/Edit/5
-        [HttpPost]
+        [System.Web.Mvc.HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
             try
@@ -96,7 +98,7 @@ namespace Service.Controllers
         }
 
         // POST: patients/Delete/5
-        [HttpPost]
+        [System.Web.Mvc.HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
             try
