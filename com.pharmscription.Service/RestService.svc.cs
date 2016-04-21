@@ -35,7 +35,8 @@ namespace com.pharmscription.Service
             }
             catch (NotFoundException e)
             {
-                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+                
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NoContent);
             }
             catch (ArgumentException e)
             {
@@ -69,7 +70,6 @@ namespace com.pharmscription.Service
             
                 return await _patientManager.Find(ahv);
             }
-
             catch (ArgumentException e)
             {
                 throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.BadRequest);
@@ -88,7 +88,7 @@ namespace com.pharmscription.Service
             }
             catch (NotFoundException e)
             {
-                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NoContent);
             }
             catch (ArgumentException e)
             {
@@ -110,7 +110,7 @@ namespace com.pharmscription.Service
             }
             catch (NotFoundException e)
             {
-                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NoContent);
             }
             catch (ArgumentException e)
             {
@@ -130,7 +130,7 @@ namespace com.pharmscription.Service
             }
             catch (NotFoundException e)
             {
-                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NoContent);
             }
             catch (ArgumentException e)
             {
@@ -150,7 +150,7 @@ namespace com.pharmscription.Service
             }
             catch (NotFoundException e)
             {
-                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NoContent);
             }
             catch (ArgumentException e)
             {
@@ -170,7 +170,7 @@ namespace com.pharmscription.Service
             }
             catch (NotFoundException e)
             {
-                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NoContent);
             }
             catch (ArgumentException e)
             {
@@ -194,7 +194,7 @@ namespace com.pharmscription.Service
             }
             catch (NotFoundException e)
             {
-                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NoContent);
             }
             catch (Exception e)
             {
@@ -210,7 +210,7 @@ namespace com.pharmscription.Service
             }
             catch (NotFoundException e)
             {
-                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NoContent);
             }
             catch (Exception e)
             {
@@ -226,7 +226,7 @@ namespace com.pharmscription.Service
             }
             catch (NotFoundException e)
             {
-                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NotFound);
+                throw new WebFaultException<ErrorMessage>(new ErrorMessage(e.Message), HttpStatusCode.NoContent);
             }
             catch (Exception e)
             {
@@ -235,5 +235,10 @@ namespace com.pharmscription.Service
         }
         
         #endregion
+
+        private static void handleException(string message, HttpStatusCode statusCode)
+        {
+            throw new WebFaultException<ErrorMessage>(new ErrorMessage(message), statusCode);
+        }
     }
 }

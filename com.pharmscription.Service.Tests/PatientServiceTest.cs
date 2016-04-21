@@ -80,7 +80,7 @@ namespace com.pharmscription.Service.Tests
             }
             catch (WebFaultException<ErrorMessage> e)
             {
-                Assert.AreEqual(HttpStatusCode.NotFound, e.StatusCode);
+                Assert.AreEqual(HttpStatusCode.NoContent, e.StatusCode);
             }
         }
 
@@ -130,7 +130,7 @@ namespace com.pharmscription.Service.Tests
             }
             catch (WebFaultException<ErrorMessage> e)
             {
-                Assert.AreEqual(HttpStatusCode.NotFound, e.StatusCode);
+                Assert.AreEqual(HttpStatusCode.NoContent, e.StatusCode);
             }
         }
         [TestMethod]

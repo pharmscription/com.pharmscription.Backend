@@ -49,14 +49,14 @@ namespace com.pharmscription.BusinessLogic.Tests.Drug
         public async Task TestCanDoSearch()
         {
             var drugs = await _drugManager.Search("Redimune");
-            Assert.AreEqual(4, drugs);
+            Assert.AreEqual(4, drugs.Count);
         }
 
         [TestMethod]
         public async Task TestSearchReturnsEmptyListOnGarbage()
         {
             var drugs = await _drugManager.Search("jsdfkasdncknsacion");
-            Assert.AreEqual(drugs, 0);
+            Assert.AreEqual(drugs.Count, 0);
         }
 
 

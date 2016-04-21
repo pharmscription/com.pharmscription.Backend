@@ -61,7 +61,7 @@ namespace com.pharmscription.Service.Tests
         public void SetUp()
         {
             _mock = new Mock<IDrugManager>();
-            var mock2 =  new Mock<IPatientManager>();
+            var mock2 = new Mock<IPatientManager>();
             var mock3 = new Mock<IPrescriptionManager>();
             _service = new RestService(mock2.Object, _mock.Object, mock3.Object);
         }
@@ -93,7 +93,7 @@ namespace com.pharmscription.Service.Tests
             }
             catch (WebFaultException<ErrorMessage> e)
             {
-                Assert.AreEqual(HttpStatusCode.NotFound, e.StatusCode);
+                Assert.AreEqual(HttpStatusCode.NoContent, e.StatusCode);
             }
         }
 
@@ -157,7 +157,7 @@ namespace com.pharmscription.Service.Tests
             }
             catch (WebFaultException<ErrorMessage> e)
             {
-                Assert.AreEqual(HttpStatusCode.NotFound, e.StatusCode);
+                Assert.AreEqual(HttpStatusCode.NoContent, e.StatusCode);
             }
         }
 
@@ -207,7 +207,7 @@ namespace com.pharmscription.Service.Tests
             }
             catch (WebFaultException<ErrorMessage> e)
             {
-                Assert.AreEqual(HttpStatusCode.NotFound, e.StatusCode);
+                Assert.AreEqual(HttpStatusCode.NoContent, e.StatusCode);
             }
         }
         [TestMethod]
