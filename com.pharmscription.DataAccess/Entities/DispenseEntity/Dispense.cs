@@ -4,9 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using com.pharmscription.DataAccess.Entities.BaseEntity;
-    using com.pharmscription.DataAccess.Entities.DrugItemEntity;
-    using com.pharmscription.DataAccess.SharedInterfaces;
+    using BaseEntity;
+    using DrugItemEntity;
+    using SharedInterfaces;
     public class Dispense : Entity, ICloneable<Dispense>
     {
         public DateTime Date { get; set; }

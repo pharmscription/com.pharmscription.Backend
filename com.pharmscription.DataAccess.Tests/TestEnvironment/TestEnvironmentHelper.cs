@@ -111,7 +111,7 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                     SignDate = DateTime.Now,
                     IssueDate = DateTime.Now,
                     ValidUntill = DateTime.Now.AddDays(2),
-                    Patient = new DataAccess.Entities.PatientEntity.Patient
+                    Patient = new Patient
                     {
                         Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e48"),
                         FirstName = "Markus",

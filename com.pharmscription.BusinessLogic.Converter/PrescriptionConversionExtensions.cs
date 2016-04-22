@@ -4,13 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using com.pharmscription.DataAccess.Entities.DrugEntity;
 using com.pharmscription.DataAccess.Entities.PrescriptionEntity;
 using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.BusinessLogic.Converter
 {
-    using com.pharmscription.Infrastructure.Exception;
+    using Infrastructure.Exception;
 
     public static class PrescriptionConversionExtensions
     {

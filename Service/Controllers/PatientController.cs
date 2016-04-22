@@ -6,26 +6,21 @@ using System.Web.Mvc;
 using com.pharmscription.BusinessLogic.Patient;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.Exception;
+using Service.Routes;
 
 namespace Service.Controllers
 {
-    public class patientsController : Controller
+    public class PatientController : Controller
     {
         private readonly IPatientManager _patientManager;
 
-        public patientsController(IPatientManager patientManager)
+        public PatientController(IPatientManager patientManager)
         {
             _patientManager = patientManager;
         }
-        /*        // GET: patients
-                public ActionResult Index()
-                {
-                    return null;
-                }*/
 
-        // GET: patients/Details/5
-        [System.Web.Mvc.Route("patients/{id}")]
-        public async Task<ActionResult> Index(string id)
+        [System.Web.Mvc.Route(PatientRoutes.GetPatientById)]
+        public async Task<ActionResult> Get(string id)
         {
             try
             {
@@ -44,9 +39,9 @@ namespace Service.Controllers
                 throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }
         }
-        [System.Web.Mvc.Route("patients/{patientDto}")]
+        [System.Web.Mvc.Route(PatientRoutes.AddPatient)]
         [System.Web.Mvc.HttpPut]
-        public async Task<ActionResult> Index(PatientDto patientDto)
+        public async Task<ActionResult> Add(PatientDto patientDto)
         {
             try
             {
@@ -62,7 +57,7 @@ namespace Service.Controllers
             }
         }
 
-        [System.Web.Mvc.Route("patients/ahv-number/{ahv}")]
+        [System.Web.Mvc.Route(PatientRoutes.GetPatientByAhvNumber)]
         public async Task<ActionResult> GetByAhv(string ahvNumber)
         {
             try
@@ -81,7 +76,7 @@ namespace Service.Controllers
             }
         }
 
-        [System.Web.Mvc.Route("patients/lookup/{ahv}")]
+        [System.Web.Mvc.Route(PatientRoutes.LookupPatientByAhvNumber)]
         public async Task<ActionResult> LookupByAhvNumber(string ahvNumber)
         {
             try

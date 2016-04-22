@@ -1,9 +1,10 @@
 using System;
+using com.pharmscription.BusinessLogic.Drug;
 using com.pharmscription.BusinessLogic.Patient;
+using com.pharmscription.DataAccess.Repositories.Drug;
 using com.pharmscription.DataAccess.Repositories.Patient;
 using com.pharmscription.DataAccess.UnitOfWork;
 using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.Configuration;
 
 namespace Service.App_Start
 {
@@ -40,6 +41,8 @@ namespace Service.App_Start
 
             // TODO: Register your types here
             container.RegisterType<IPatientManager, PatientManager>();
+            container.RegisterType<IDrugManager, DrugManager>();
+            container.RegisterType<IDrugRepository, DrugRepository>();
             container.RegisterType<IPatientRepository, PatientRepository>();
             container.RegisterType<IPharmscriptionUnitOfWork, PharmscriptionUnitOfWork>();
             // container.RegisterType<IProductRepository, ProductRepository>();

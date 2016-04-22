@@ -2,8 +2,8 @@
 {
     using System;
 
-    using com.pharmscription.DataAccess.Entities.BaseEntity;
-    using com.pharmscription.DataAccess.SharedInterfaces;
+    using BaseEntity;
+    using SharedInterfaces;
 
     public class CounterProposal : Entity, ICloneable<CounterProposal>
     {

@@ -2,7 +2,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
 {
     ﻿using System.Collections.Generic;
     using System.Threading.Tasks;
-    using com.pharmscription.Infrastructure.Dto;
+    using Infrastructure.Dto;
     public interface IPrescriptionManager
     {
         Task<List<PrescriptionDto>> Get(string patientId);

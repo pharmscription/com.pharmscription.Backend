@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Threading.Tasks;
 using com.pharmscription.BusinessLogic.Converter;
 using com.pharmscription.BusinessLogic.Validation;
@@ -9,7 +8,7 @@ using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
 
 namespace com.pharmscription.BusinessLogic.Patient
 {
-    using com.pharmscription.Infrastructure.Exception;
+    using Infrastructure.Exception;
 
     public class PatientManager : CoreWorkflow, IPatientManager
     {

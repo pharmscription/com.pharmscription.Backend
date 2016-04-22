@@ -14,13 +14,13 @@ namespace com.pharmscription.ApplicationFascade
         private readonly IPrescriptionRepository _prescriptionRepository;
         public ManagerFactory(IPatientRepository patientRepository, IDrugRepository drugRepository, IPrescriptionRepository prescriptionRepository)
         {
-            this._patientRepository = patientRepository;
-            this._drugRepository = drugRepository;
-            this._prescriptionRepository = prescriptionRepository;
+            _patientRepository = patientRepository;
+            _drugRepository = drugRepository;
+            _prescriptionRepository = prescriptionRepository;
         }
-        public IPatientManager PatientManager => new PatientManager(this._patientRepository);
+        public IPatientManager PatientManager => new PatientManager(_patientRepository);
 
-        public IDrugManager DrugManager => new DrugManager(this._drugRepository);
+        public IDrugManager DrugManager => new DrugManager(_drugRepository);
 
         public IPrescriptionManager PrescriptionManager
         {

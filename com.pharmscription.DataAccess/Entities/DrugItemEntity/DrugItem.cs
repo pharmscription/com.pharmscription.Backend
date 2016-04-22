@@ -1,10 +1,10 @@
 ﻿namespace com.pharmscription.DataAccess.Entities.DrugItemEntity
 {
-    using com.pharmscription.DataAccess.Entities.BaseEntity;
-    using com.pharmscription.DataAccess.Entities.DispenseEntity;
-    using com.pharmscription.DataAccess.Entities.DrugEntity;
-    using com.pharmscription.DataAccess.Entities.PrescriptionEntity;
-    using com.pharmscription.DataAccess.SharedInterfaces;
+    using BaseEntity;
+    using DispenseEntity;
+    using DrugEntity;
+    using PrescriptionEntity;
+    using SharedInterfaces;
     public class DrugItem : Entity, ICloneable<DrugItem>
     {
         public Drug Drug { get; set; }
