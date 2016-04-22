@@ -10,17 +10,18 @@ using Service.Routes;
 
 namespace Service.Controllers
 {
-    public class PatientController : Controller
+    [System.Web.Mvc.RoutePrefix("patients")]
+    public class patientsController : Controller
     {
         private readonly IPatientManager _patientManager;
 
-        public PatientController(IPatientManager patientManager)
+        public patientsController(IPatientManager patientManager)
         {
             _patientManager = patientManager;
         }
 
-        [System.Web.Mvc.Route(PatientRoutes.GetPatientById)]
-        public async Task<ActionResult> Get(string id)
+        [System.Web.Mvc.Route("{id?}")]
+        public async Task<ActionResult> Index(string id)
         {
             try
             {

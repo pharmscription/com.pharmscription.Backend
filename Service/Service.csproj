@@ -233,7 +233,7 @@
     <Compile Include="Controllers\DrugController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\PatientController.cs" />
+    <Compile Include="Controllers\patientsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -309,7 +309,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Drug\" />
-    <Folder Include="Views\Patient\" />
+    <Folder Include="Views\patients\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
