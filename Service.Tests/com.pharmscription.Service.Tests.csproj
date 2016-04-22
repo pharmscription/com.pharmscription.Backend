@@ -92,9 +92,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Service\Service.csproj">
+    <ProjectReference Include="..\Service\com.pharmscription.Service.csproj">
       <Project>{7779A48C-B148-4671-AE79-27C105A50ACD}</Project>
-      <Name>Service</Name>
+      <Name>com.pharmscription.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
