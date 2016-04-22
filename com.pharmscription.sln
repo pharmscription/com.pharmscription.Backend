@@ -55,9 +55,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 Tests", "5 Tests", "{8D51
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.pharmscription.IntegrationTests", "com.pharmscription.IntegrationTests\com.pharmscription.IntegrationTests.csproj", "{5644767B-E426-45B6-8C69-93483AAB88DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{7779A48C-B148-4671-AE79-27C105A50ACD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.pharmscription.Service", "Service\com.pharmscription.Service.csproj", "{7779A48C-B148-4671-AE79-27C105A50ACD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service.Tests", "Service.Tests\Service.Tests.csproj", "{18AB7001-A417-4D1C-B18F-B24F4F4AADD6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.pharmscription.Service.Tests", "Service.Tests\com.pharmscription.Service.Tests.csproj", "{18AB7001-A417-4D1C-B18F-B24F4F4AADD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
