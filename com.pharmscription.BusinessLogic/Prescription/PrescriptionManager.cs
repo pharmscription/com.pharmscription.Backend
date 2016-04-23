@@ -171,9 +171,9 @@ namespace com.pharmscription.BusinessLogic.Prescription
             return null;
         }
 
-        public Task<DrugItemDto> GetPrescriptionDrug(string patientId, string prescriptionId, string drugItemId)
+        public Task<List<DrugItemDto>> GetPrescriptionDrugs(string patientId, string prescriptionId)
         {
-            if (string.IsNullOrWhiteSpace(patientId) || string.IsNullOrWhiteSpace(prescriptionId) || string.IsNullOrWhiteSpace(drugItemId))
+            if (string.IsNullOrWhiteSpace(patientId) || string.IsNullOrWhiteSpace(prescriptionId))
             {
                 throw new InvalidArgumentException("Patient Id or prescription Id or drug item id was null or empty");
             }

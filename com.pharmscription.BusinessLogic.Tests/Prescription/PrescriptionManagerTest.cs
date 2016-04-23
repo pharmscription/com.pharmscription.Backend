@@ -471,41 +471,41 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetPrescriptionDrugThrowsOnNull()
         {
-            await _prescriptionManager.GetPrescriptionDrug(null, null, null);
+            await _prescriptionManager.GetPrescriptionDrugs(null, null, null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetPrescriptionDrugThrowsOnEmpty()
         {
-            await _prescriptionManager.GetPrescriptionDrug("", "", "");
+            await _prescriptionManager.GetPrescriptionDrugs("", "", "");
         }
 
         [TestMethod]
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestGetGetPrescriptionDrugThrowsOnPatientNotFound()
         {
-            await _prescriptionManager.GetPrescriptionDrug("jksdjksadfksd", "IDIsInDatabase", "IDIsInDatabase");
+            await _prescriptionManager.GetPrescriptionDrugs("jksdjksadfksd", "IDIsInDatabase", "IDIsInDatabase");
         }
 
         [TestMethod]
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestGetPrescriptionDrugThrowsOnPrescriptionNotFound()
         {
-            await _prescriptionManager.GetPrescriptionDrug("IDIsInDatabse", "sdfklsdf", "IDIsInDatabase");
+            await _prescriptionManager.GetPrescriptionDrugs("IDIsInDatabse", "sdfklsdf", "IDIsInDatabase");
         }
 
         [TestMethod]
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestGetPrescriptionDrugThrowsOnCounterProposalNotFound()
         {
-            await _prescriptionManager.GetPrescriptionDrug("IDIsInDatabse", "IDIsIDatabse", "sdfskjdfkjsfkj");
+            await _prescriptionManager.GetPrescriptionDrugs("IDIsInDatabse", "IDIsIDatabse", "sdfskjdfkjsfkj");
         }
 
         [TestMethod]
         public async Task TestGetPrescriptionDrug()
         {
-            var drug = await _prescriptionManager.GetPrescriptionDrug("IdIsInDatabase", "IdIsInDatabse", "IdIsInDatabse");
+            var drug = await _prescriptionManager.GetPrescriptionDrugs("IdIsInDatabase", "IdIsInDatabse", "IdIsInDatabse");
             Assert.IsNotNull(drug);
             Assert.AreEqual("Aspirin", drug.Drug.DrugDescription);
         }
