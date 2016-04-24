@@ -10,6 +10,10 @@ namespace com.pharmscription.BusinessLogic.Converter
     {
         public static List<DrugItemDto> ConvertToDtos(this List<DrugItem> list)
         {
+            if (list == null)
+            {
+                return null;
+            }
             var newList = new List<DrugItemDto>(list.Count);
             newList.AddRange(list.Select(drugItem => drugItem.ConvertToDto()));
             return newList;
@@ -17,6 +21,10 @@ namespace com.pharmscription.BusinessLogic.Converter
 
         public static List<DrugItem> ConvertToEntites(this List<DrugItemDto> list)
         {
+            if (list == null)
+            {
+                return null;
+            }
             var newList = new List<DrugItem>(list.Count);
             newList.AddRange(list.Select(drug => drug.ConvertToEntity()));
             return newList;

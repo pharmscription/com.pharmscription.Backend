@@ -40,7 +40,7 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
         /// <summary>
         /// <see cref="IRepository{TEntity}"/>
         /// </summary>
-        public IUnitOfWork UnitOfWork => _unitOfWork;
+        public virtual IUnitOfWork UnitOfWork => _unitOfWork;
 
         /// <summary>
         /// <see cref="IRepository{TEntity}"/>

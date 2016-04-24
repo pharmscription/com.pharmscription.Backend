@@ -62,7 +62,6 @@
     <Compile Include="Entities\PrescriptionEntity\Prescription.cs" />
     <Compile Include="Entities\PrescriptionEntity\SinglePrescription.cs" />
     <Compile Include="Entities\PrescriptionEntity\StandingPrescription.cs" />
-    <Compile Include="EntityHelper\IdentityGenerator.cs" />
     <Compile Include="Migrations\201604061207257_Init.cs" />
     <Compile Include="Migrations\201604061207257_Init.Designer.cs">
       <DependentUpon>201604061207257_Init.cs</DependentUpon>

@@ -15,6 +15,10 @@ namespace com.pharmscription.BusinessLogic.Converter
     {
         public static List<PrescriptionDto> ConvertToDtos(this List<Prescription> list)
         {
+            if (list == null)
+            {
+                return null;
+            }
             var newList = new List<PrescriptionDto>(list.Count);
             newList.AddRange(list.Select(prescription => prescription.ConvertToDto()));
             return newList;
@@ -22,6 +26,10 @@ namespace com.pharmscription.BusinessLogic.Converter
 
         public static List<Prescription> ConvertToEntites(this List<PrescriptionDto> list)
         {
+            if (list == null)
+            {
+                return null;
+            }
             var newList = new List<Prescription>(list.Count);
             newList.AddRange(list.Select(prescriptionDto => prescriptionDto.ConvertToEntity()));
             return newList;
@@ -39,11 +47,11 @@ namespace com.pharmscription.BusinessLogic.Converter
             {
                 IsValid = prescription.IsValid,
                 Id = prescription.Id.ToString(),
-                IssueDate = prescription.IssueDate.ToString(CultureInfo.InvariantCulture),
+                IssueDate = prescription.IssueDate.ToString("dd.MM.yyyy"),
                 Patient = prescription.Patient.ConvertToDto(),
-                SignDate = prescription.SignDate.ToString(CultureInfo.InvariantCulture),
+                SignDate = prescription.SignDate.ToString("dd.MM.yyyy"),
                 Type = "Bla",
-                EditDate = prescription.EditDate.ToString(CultureInfo.InvariantCulture),
+                EditDate = prescription.EditDate.ToString("dd.MM.yyyy"),
                 Dispenses = prescription.Dispenses.ConvertToDtos(),
                 Drugs = prescription.DrugItems.ConvertToDtos(),
                 CounterProposals = prescription.CounterProposals.ConvertToDtos(),
@@ -88,11 +96,21 @@ namespace com.pharmscription.BusinessLogic.Converter
                     DrugItems = prescriptionDto.Drugs.ConvertToEntites(),
                     Dispenses = prescriptionDto.Dispenses.ConvertToEntites(),
                     Patient = prescriptionDto.Patient.ConvertToEntity(),
-                    IssueDate = DateTime.Parse(prescriptionDto.IssueDate),
-                    PrescriptionHistory = prescriptionDto.PrescriptionHistory.ConvertToEntites(),
-                    SignDate = DateTime.Parse(prescriptionDto.SignDate),
-                    EditDate = DateTime.Parse(prescriptionDto.EditDate)
+                    PrescriptionHistory = prescriptionDto.PrescriptionHistory.ConvertToEntites()
                 };
+                if (prescriptionDto.SignDate != null)
+                {
+                    prescription.SignDate = DateTime.Parse(prescriptionDto.SignDate);
+                }
+                if (prescriptionDto.EditDate != null)
+                {
+                    prescription.EditDate = DateTime.Parse(prescriptionDto.EditDate);
+                }
+                if (prescriptionDto.IssueDate != null)
+                {
+                    prescription.IssueDate = DateTime.Parse(prescriptionDto.IssueDate);
+                }
+
             }
             else
             {
@@ -107,10 +125,10 @@ namespace com.pharmscription.BusinessLogic.Converter
                    prescriptionDto.CounterProposals.DtoListEqualsEntityList(prescription.CounterProposals) &&
                    prescriptionDto.Dispenses.DtoListEqualsEntityList(prescription.Dispenses) &&
                    prescriptionDto.Drugs.DtoListEqualsEntityList(prescription.DrugItems) &&
-                   prescriptionDto.EditDate == prescription.EditDate.ToString(CultureInfo.InvariantCulture) &&
-                   prescriptionDto.IssueDate == prescription.IssueDate.ToString(CultureInfo.InvariantCulture) &&
+                   prescriptionDto.EditDate == prescription.EditDate.ToString("D") &&
+                   prescriptionDto.IssueDate == prescription.IssueDate.ToString("D") &&
                    prescriptionDto.Type == "Bla" &&
-                   prescriptionDto.SignDate == prescription.SignDate.ToString(CultureInfo.InvariantCulture) &&
+                   prescriptionDto.SignDate == prescription.SignDate.ToString("D") &&
                    prescriptionDto.PrescriptionHistory.DtoListEqualsEntityList(prescription.PrescriptionHistory);
         }
         public static bool EntityEqualsDto(this Prescription prescription, PrescriptionDto prescriptionDto)

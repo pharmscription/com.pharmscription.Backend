@@ -1,8 +1,7 @@
-﻿/*
+﻿
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.BusinessLogic.Prescription;
@@ -24,7 +23,10 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         {
             var prescriptionRepository = TestEnvironmentHelper.GetMockedPrescriptionRepository();
             var patientRepository = TestEnvironmentHelper.GetMockedPatientRepository();
-            _prescriptionManager = new PrescriptionManager(prescriptionRepository.Object, patientRepository.Object);
+            var counterProposalRepository = TestEnvironmentHelper.GetMockedCounterProposalRepository();
+            var dispenseRepository = TestEnvironmentHelper.GetMockedDispenseRepository();
+            var drugItemRepository = TestEnvironmentHelper.GetMockedDrugItemsRepository();
+            _prescriptionManager = new PrescriptionManager(prescriptionRepository.Object, patientRepository.Object, counterProposalRepository.Object, dispenseRepository.Object, drugItemRepository.Object);
         }
 
 
@@ -32,7 +34,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(InvalidArgumentException))]
         public void TestManagerThrowsWhenPatientRepoWasNull()
         {
-            var manager = new PrescriptionManager(null, null);
+            var manager = new PrescriptionManager(null, null, null, null, null);
         }
 
         [TestMethod]
@@ -138,17 +140,17 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
             };
             var prescriptionToInsert = new PrescriptionDto
             {
-                EditDate = DateTime.Now.ToString(CultureInfo.InvariantCulture),
-                IssueDate = DateTime.Now.ToString(CultureInfo.InvariantCulture),
+                EditDate = DateTime.Now.ToString("dd.MM.yyyy"),
+                IssueDate = DateTime.Now.ToString("dd.MM.yyyy"),
                 IsValid = true,
                 Type = "Standing",
-                ValidUntil = DateTime.Now.AddDays(2).ToString(CultureInfo.InvariantCulture),
+                ValidUntil = DateTime.Now.AddDays(2).ToString("dd.MM.yyyy"),
                 Drugs = drugs
 
             };
-            var prescription = await _prescriptionManager.Add("IdIsInDatabase", prescriptionToInsert);
+            var prescription = await _prescriptionManager.Add("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", prescriptionToInsert);
             Assert.IsNotNull(prescription);
-            var prescriptionInserted = await _prescriptionManager.Get("IdIsInDatabase", prescription.Id);
+            var prescriptionInserted = await _prescriptionManager.Get("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", prescription.Id);
             Assert.IsNotNull(prescriptionInserted);
             var insertedDrugs = prescriptionInserted.Drugs;
             Assert.IsNotNull(insertedDrugs);
@@ -175,7 +177,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         public async Task TestAddCounterProposalThrowsOnPatientNotFound()
         {
             var counterProposalDto = new CounterProposalDto();
-            await _prescriptionManager.AddCounterProposal("jksdjksadfksd", "IdIsInDatabase",  counterProposalDto);
+            await _prescriptionManager.AddCounterProposal("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", counterProposalDto);
         }
 
         [TestMethod]
@@ -183,24 +185,23 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         public async Task TestAddCounterProposalThrowsOnPrescriptionNotFound()
         {
             var counterProposalDto = new CounterProposalDto();
-            await _prescriptionManager.AddCounterProposal("IdIsInDatabase", "sndfsfsfjlks", counterProposalDto);
+            await _prescriptionManager.AddCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sndfsfsfjlks", counterProposalDto);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
         public async Task TestAddCounterProposal()
         {
             const string message = "Dieses Rezept ist gemein gefährlich";
             var prescriptionToInsert = new CounterProposalDto
             {
-                Date = DateTime.Now.ToString(CultureInfo.InvariantCulture),
+                Date = DateTime.Now.ToString("dd.MM.yyyy"),
                 Message = message
-          
+
 
             };
-            var counterProposal = await _prescriptionManager.AddCounterProposal("IdIsInDatabase", "IdIsINDatabase", prescriptionToInsert);
+            var counterProposal = await _prescriptionManager.AddCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", prescriptionToInsert);
             Assert.IsNotNull(counterProposal);
-            var counterProposalInserted = await _prescriptionManager.GetCounterProposal("IdIsInDatabase", "IdIsInDatabase", counterProposal.Id);
+            var counterProposalInserted = await _prescriptionManager.GetCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", counterProposal.Id);
             Assert.IsNotNull(counterProposalInserted);
             Assert.AreEqual(message, counterProposalInserted.Message);
         }
@@ -223,23 +224,23 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestGetCounterProposalsThrowsOnPatientNotFound()
         {
-            await _prescriptionManager.GetCounterProposal("jksdjksadfksd", "IDIsInDatabase");
+            await _prescriptionManager.GetCounterProposal("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37");
         }
 
         [TestMethod]
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestGetCounterProposalsThrowsOnPrescriptionNotFound()
         {
-            await _prescriptionManager.GetCounterProposal("IDIsInDatabse", "sdfklsdf");
+            await _prescriptionManager.GetCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sdfklsdf");
         }
 
         [TestMethod]
         public async Task TestGetCounterProposals()
         {
-            var prescriptions = await _prescriptionManager.GetCounterProposal("IdIsInDatabase", "IdIsInDatabse");
-            Assert.IsNotNull(prescriptions);
-            Assert.AreEqual(5, prescriptions.Count);
-            Assert.AreEqual("Dieses Rezept war für Malaria, der Patient hat aber Gelbfieber", prescriptions.First().Message);
+            var counterProposals = await _prescriptionManager.GetCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37");
+            Assert.IsNotNull(counterProposals);
+            Assert.AreEqual(5, counterProposals.Count);
+            Assert.AreEqual("This is not right", counterProposals.First().Message);
         }
 
         [TestMethod]
@@ -260,29 +261,29 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestGetCounterProposalThrowsOnPatientNotFound()
         {
-            await _prescriptionManager.GetCounterProposal("jksdjksadfksd", "IDIsInDatabase", "IDIsInDatabase");
+            await _prescriptionManager.GetCounterProposal("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", "IDIsInDatabase");
         }
 
         [TestMethod]
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestGetCounterProposalThrowsOnPrescriptionNotFound()
         {
-            await _prescriptionManager.GetCounterProposal("IDIsInDatabse", "sdfklsdf", "IDIsInDatabase");
+            await _prescriptionManager.GetCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sdfklsdf", "IDIsInDatabase");
         }
 
         [TestMethod]
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestGetCounterProposalThrowsOnCounterProposalNotFound()
         {
-            await _prescriptionManager.GetCounterProposal("IDIsInDatabse", "IDIsIDatabse", "sdfskjdfkjsfkj");
+            await _prescriptionManager.GetCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", "sdfskjdfkjsfkj");
         }
 
         [TestMethod]
         public async Task TestGetCounterProposal()
         {
-            var prescription = await _prescriptionManager.GetCounterProposal("IdIsInDatabase", "IdIsInDatabse", "IdIsInDatabse");
+            var prescription = await _prescriptionManager.GetCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e42");
             Assert.IsNotNull(prescription);
-            Assert.AreEqual("Dieses Rezept war für Malaria, der Patient hat aber Gelbfieber", prescription.Message);
+            Assert.AreEqual("This is not right", prescription.Message);
         }
 
         [TestMethod]
@@ -303,37 +304,44 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestEditCounterProposalThrowsOnPatientNotFound()
         {
-            await _prescriptionManager.EditCounterProposal("jksdjksadfksd", "IDIsInDatabase", new CounterProposalDto());
+            await _prescriptionManager.EditCounterProposal("1baf86d5-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", new CounterProposalDto
+            {
+                Id = "1bcb86b0-1e14-4f4c-b05a-5c9dd00e8e38"
+            });
         }
 
         [TestMethod]
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestEditCounterProposalThrowsOnPrescriptionNotFound()
         {
-            await _prescriptionManager.EditCounterProposal("IDIsInDatabse", "sdfklsdf", new CounterProposalDto());
+            await _prescriptionManager.EditCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e69-4f4c-b05a-5c9dd00e8e38", new CounterProposalDto
+            {
+                Id = "1bcb86b0-1e14-4f4c-b05a-5c9dd00e8e38"
+            });
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
+        [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestEditCounterProposalThrowsOnCounterProposalNotFound()
         {
-            await _prescriptionManager.EditCounterProposal("IDIsInDatabse", "IDIsIDatabse", new CounterProposalDto());
+            await _prescriptionManager.EditCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", new CounterProposalDto());
         }
 
         [TestMethod]
         public async Task TestEditCounterProposal()
         {
-            const string id = "IdIsInDatabase";
+            const string id = "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e42";
             var counterPropsal = new CounterProposalDto
             {
                 Id = id,
-                Message = "Rezept geändert"
+                Message = "Rezept geändert",
+                Date = DateTime.Now.ToString("dd.MM.yyyy")
             };
             var counterProposalBeforeEdit =
-                await _prescriptionManager.GetCounterProposal("IdIsInDatabase", "IdIsInDatabse", id);
-            await _prescriptionManager.EditCounterProposal("IdIsInDatabase", "IdIsInDatabse", counterPropsal);
+                await _prescriptionManager.GetCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", id);
+            await _prescriptionManager.EditCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", counterPropsal);
             var counterProposalAfterEdit =
-                await _prescriptionManager.GetCounterProposal("IdIsInDatabase", "IdIsInDatabse", id);
+                await _prescriptionManager.GetCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", id);
             Assert.IsNotNull(counterProposalAfterEdit);
             Assert.AreNotEqual(counterProposalBeforeEdit.Message, counterProposalAfterEdit.Message);
             Assert.AreEqual(counterPropsal.Message, counterProposalAfterEdit.Message);
@@ -359,7 +367,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         public async Task TestAddDispenseThrowsOnPatientNotFound()
         {
             var dispenseDto = new DispenseDto();
-            await _prescriptionManager.AddDispense("jksdjksadfksd", "IdIsInDatabase", dispenseDto);
+            await _prescriptionManager.AddDispense("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", dispenseDto);
         }
 
         [TestMethod]
@@ -367,22 +375,21 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         public async Task TestAddDispenseThrowsOnPrescriptionNotFound()
         {
             var dispenseDto = new DispenseDto();
-            await _prescriptionManager.AddDispense("IdIsInDatabase", "sndfsfsfjlks", dispenseDto);
+            await _prescriptionManager.AddDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sndfsfsfjlks", dispenseDto);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
         public async Task TestAddDispense()
         {
             const string remark = "Dieses Rezept ist gemein gefährlich";
-            var dispenseToInsert = new DispenseDto()
+            var dispenseToInsert = new DispenseDto
             {
-                Date = DateTime.Now.ToString(CultureInfo.InvariantCulture),
-                Remark = "Diese Ausgabe gelang super"
+                Date = DateTime.Now.ToString("dd.MM.yyyy"),
+                Remark = remark
             };
-            var dispense = await _prescriptionManager.AddDispense("IdIsInDatabase", "IdIsINDatabase", dispenseToInsert);
+            var dispense = await _prescriptionManager.AddDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", dispenseToInsert);
             Assert.IsNotNull(dispense);
-            var dispenseInserted = await _prescriptionManager.GetDispense("IdIsInDatabase", "IdIsInDatabase", dispense.Id);
+            var dispenseInserted = await _prescriptionManager.GetDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", dispense.Id);
             Assert.IsNotNull(dispenseInserted);
             Assert.AreEqual(remark, dispenseInserted.Remark);
         }
@@ -405,23 +412,23 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestGetDispensesThrowsOnPatientNotFound()
         {
-            await _prescriptionManager.GetDispense("jksdjksadfksd", "IDIsInDatabase");
+            await _prescriptionManager.GetDispense("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37");
         }
 
         [TestMethod]
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestGetDispensesThrowsOnPrescriptionNotFound()
         {
-            await _prescriptionManager.GetDispense("IDIsInDatabse", "sdfklsdf");
+            await _prescriptionManager.GetDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sdfklsdf");
         }
 
         [TestMethod]
         public async Task TestGetDispenses()
         {
-            var dispenses = await _prescriptionManager.GetDispense("IdIsInDatabase", "IdIsInDatabse");
+            var dispenses = await _prescriptionManager.GetDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37");
             Assert.IsNotNull(dispenses);
-            Assert.AreEqual(3, dispenses.Count);
-            Assert.AreEqual("Dies ist meine Lieblingsausgabe", dispenses.First().Remark);
+            Assert.AreEqual(1, dispenses.Count);
+            Assert.AreEqual("Did a Dispense", dispenses.First().Remark);
         }
 
         [TestMethod]
@@ -442,29 +449,29 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestGetDispenseThrowsOnPatientNotFound()
         {
-            await _prescriptionManager.GetDispense("jksdjksadfksd", "IDIsInDatabase", "IDIsInDatabase");
+            await _prescriptionManager.GetDispense("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", "IDIsInDatabase");
         }
 
         [TestMethod]
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestGetDispenseThrowsOnPrescriptionNotFound()
         {
-            await _prescriptionManager.GetDispense("IDIsInDatabse", "sdfklsdf", "IDIsInDatabase");
+            await _prescriptionManager.GetDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sdfklsdf", "IDIsInDatabase");
         }
 
         [TestMethod]
         [ExpectedException(typeof(NotFoundException))]
-        public async Task TestGetDispenseThrowsOnCounterProposalNotFound()
+        public async Task TestGetDispenseThrowsOnDispenseNotFound()
         {
-            await _prescriptionManager.GetDispense("IDIsInDatabse", "IDIsIDatabse", "sdfskjdfkjsfkj");
+            await _prescriptionManager.GetDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", "sdfskjdfkjsfkj");
         }
 
         [TestMethod]
         public async Task TestGetDispense()
         {
-            var dispense = await _prescriptionManager.GetDispense("IdIsInDatabase", "IdIsInDatabse", "IdIsInDatabse");
+            var dispense = await _prescriptionManager.GetDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e43");
             Assert.IsNotNull(dispense);
-            Assert.AreEqual("Dies ist meine Lieblingsausgabe", dispense.Remark);
+            Assert.AreEqual("Did a Dispense", dispense.Remark);
         }
 
         [TestMethod]
@@ -485,30 +492,30 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestGetGetPrescriptionDrugThrowsOnPatientNotFound()
         {
-            await _prescriptionManager.GetPrescriptionDrug("jksdjksadfksd", "IDIsInDatabase", "IDIsInDatabase");
+            await _prescriptionManager.GetPrescriptionDrug("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e39");
         }
 
         [TestMethod]
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestGetPrescriptionDrugThrowsOnPrescriptionNotFound()
         {
-            await _prescriptionManager.GetPrescriptionDrug("IDIsInDatabse", "sdfklsdf", "IDIsInDatabase");
+            await _prescriptionManager.GetPrescriptionDrug("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sdfklsdf", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e39");
         }
 
         [TestMethod]
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestGetPrescriptionDrugThrowsOnCounterProposalNotFound()
         {
-            await _prescriptionManager.GetPrescriptionDrug("IDIsInDatabse", "IDIsIDatabse", "sdfskjdfkjsfkj");
+            await _prescriptionManager.GetPrescriptionDrug("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", "sdfskjdfkjsfkj");
         }
 
         [TestMethod]
         public async Task TestGetPrescriptionDrug()
         {
-            var drug = await _prescriptionManager.GetPrescriptionDrug("IdIsInDatabase", "IdIsInDatabse", "IdIsInDatabse");
+            var drug = await _prescriptionManager.GetPrescriptionDrug("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e39");
             Assert.IsNotNull(drug);
             Assert.AreEqual("Aspirin", drug.Drug.DrugDescription);
         }
     }
 }
-*/
+

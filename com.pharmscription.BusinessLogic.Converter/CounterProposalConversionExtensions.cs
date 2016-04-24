@@ -12,6 +12,10 @@ namespace com.pharmscription.BusinessLogic.Converter
     {
         public static List<CounterProposalDto> ConvertToDtos(this List<CounterProposal> list)
         {
+            if (list == null)
+            {
+                return null;
+            }
             var newList = new List<CounterProposalDto>(list.Count);
             newList.AddRange(list.Select(counterProposal => counterProposal.ConvertToDto()));
             return newList;
@@ -19,6 +23,10 @@ namespace com.pharmscription.BusinessLogic.Converter
 
         public static List<CounterProposal> ConvertToEntites(this List<CounterProposalDto> list)
         {
+            if (list == null)
+            {
+                return null;
+            }
             var newList = new List<CounterProposal>(list.Count);
             newList.AddRange(list.Select(counterProposalDto => counterProposalDto.ConvertToEntity()));
             return newList;

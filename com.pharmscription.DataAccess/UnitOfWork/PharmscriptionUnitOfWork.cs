@@ -6,7 +6,10 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.DataAccess.Entities.BaseEntity;
+using com.pharmscription.DataAccess.Entities.CounterProposalEntity;
+using com.pharmscription.DataAccess.Entities.DispenseEntity;
 using com.pharmscription.DataAccess.Entities.DrugEntity;
+using com.pharmscription.DataAccess.Entities.DrugItemEntity;
 using com.pharmscription.DataAccess.Entities.PatientEntity;
 using com.pharmscription.DataAccess.Entities.PrescriptionEntity;
 using com.pharmscription.DataAccess.Migrations;
@@ -29,9 +32,24 @@ namespace com.pharmscription.DataAccess.UnitOfWork
         public virtual IDbSet<Drug> Drugs => _drugs ?? (_drugs = base.Set<Drug>());
 
         private IDbSet<Prescription> _prescriptions;
-
         public virtual IDbSet<Prescription> Prescriptions
             => _prescriptions ?? (_prescriptions = base.Set<Prescription>());
+
+        private IDbSet<CounterProposal> _counterProposals;
+
+        public virtual IDbSet<CounterProposal> CounterProposals
+            => _counterProposals ?? (_counterProposals
+            = base.Set<CounterProposal>());
+
+        private IDbSet<Dispense> _dispenses;
+        public virtual IDbSet<Dispense> Dispenses
+            => _dispenses ?? (_dispenses
+            = base.Set<Dispense>());
+
+        private IDbSet<DrugItem> _drugItems;
+        public virtual IDbSet<DrugItem> DrugItems
+            => _drugItems ?? (_drugItems
+            = base.Set<DrugItem>());
         #endregion
 
         #region IQueryableUnitOfWork Members
