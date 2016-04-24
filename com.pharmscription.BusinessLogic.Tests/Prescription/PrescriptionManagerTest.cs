@@ -478,14 +478,14 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetPrescriptionDrugThrowsOnNull()
         {
-            await _prescriptionManager.GetPrescriptionDrug(null, null, null);
+            await _prescriptionManager.GetPrescriptionDrugs(null, null, null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetPrescriptionDrugThrowsOnEmpty()
         {
-            await _prescriptionManager.GetPrescriptionDrug("", "", "");
+            await _prescriptionManager.GetPrescriptionDrugs("", "", "");
         }
 
         [TestMethod]

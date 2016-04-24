@@ -426,7 +426,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
 
         public async Task<DrugItemDto> GetPrescriptionDrug(string patientId, string prescriptionId, string drugItemId)
         {
-            if (string.IsNullOrWhiteSpace(patientId) || string.IsNullOrWhiteSpace(prescriptionId) || string.IsNullOrWhiteSpace(drugItemId))
+            if (string.IsNullOrWhiteSpace(patientId) || string.IsNullOrWhiteSpace(prescriptionId))
             {
                 throw new InvalidArgumentException("Patient Id or prescription Id or drug item id was null or empty");
             }
