@@ -2,7 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Mvc;
+using System.Web.Http.Results;
 using com.pharmscription.BusinessLogic.Patient;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.Exception;
@@ -11,17 +11,17 @@ using Service.Routes;
 namespace Service.Controllers
 {
     [System.Web.Mvc.RoutePrefix("/patients")]
-    public class patientsController : Controller
+    public class PatientController : ApiController
     {
         private readonly IPatientManager _patientManager;
 
-        public patientsController(IPatientManager patientManager)
+        public PatientController(IPatientManager patientManager)
         {
             _patientManager = patientManager;
         }
 
         [System.Web.Mvc.Route(PatientRoutes.GetPatientById)]
-        public async Task<ActionResult> GetById(string id)
+        public async Task<JsonResult<PatientDto>> GetById(string id)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace Service.Controllers
         }
         [System.Web.Mvc.Route(PatientRoutes.AddPatient)]
         [System.Web.Mvc.HttpPut]
-        public async Task<ActionResult> Add(PatientDto patientDto)
+        public async Task<JsonResult<PatientDto>> Add(PatientDto patientDto)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace Service.Controllers
         }
 
         [System.Web.Mvc.Route(PatientRoutes.GetPatientByAhvNumber)]
-        public async Task<ActionResult> GetByAhv(string ahvNumber)
+        public async Task<JsonResult<PatientDto>> GetByAhv(string ahvNumber)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace Service.Controllers
         }
 
         [System.Web.Mvc.Route(PatientRoutes.LookupPatientByAhvNumber)]
-        public async Task<ActionResult> LookupByAhvNumber(string ahvNumber)
+        public async Task<JsonResult<PatientDto>> LookupByAhvNumber(string ahvNumber)
         {
             try
             {

@@ -424,7 +424,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             return dispense.ConvertToDto();
         }
 
-        public async Task<DrugItemDto> GetPrescriptionDrug(string patientId, string prescriptionId, string drugItemId)
+        public async Task<List<DrugItemDto>> GetPrescriptionDrugs(string patientId, string prescriptionId)
         {
             if (string.IsNullOrWhiteSpace(patientId) || string.IsNullOrWhiteSpace(prescriptionId))
             {
@@ -456,20 +456,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             {
                 throw new NotFoundException("Prescription Does not Exist");
             }
-            Guid drugItemGuid;
-            try
-            {
-                drugItemGuid = new Guid(drugItemId);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Drugitem Id");
-            }
-            if (await _drugItemRepository.GetAsync(drugItemGuid) == null)
-            {
-                throw new NotFoundException("Drugitem Does not Exist");
-            }
-            return (await _drugItemRepository.GetAsync(drugItemGuid)).ConvertToDto();
+            return (await _prescriptionRepository.GetAsync(prescriptionGuid)).DrugItems.ConvertToDtos();
         }
 
     }

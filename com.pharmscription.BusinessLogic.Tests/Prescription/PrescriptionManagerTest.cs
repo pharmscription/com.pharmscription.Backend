@@ -478,43 +478,36 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetPrescriptionDrugThrowsOnNull()
         {
-            await _prescriptionManager.GetPrescriptionDrugs(null, null, null);
+            await _prescriptionManager.GetPrescriptionDrugs(null, null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetPrescriptionDrugThrowsOnEmpty()
         {
-            await _prescriptionManager.GetPrescriptionDrugs("", "", "");
+            await _prescriptionManager.GetPrescriptionDrugs("", "");
         }
 
         [TestMethod]
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestGetGetPrescriptionDrugThrowsOnPatientNotFound()
         {
-            await _prescriptionManager.GetPrescriptionDrug("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e39");
+            await _prescriptionManager.GetPrescriptionDrugs("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37");
         }
 
         [TestMethod]
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestGetPrescriptionDrugThrowsOnPrescriptionNotFound()
         {
-            await _prescriptionManager.GetPrescriptionDrug("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sdfklsdf", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e39");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
-        public async Task TestGetPrescriptionDrugThrowsOnCounterProposalNotFound()
-        {
-            await _prescriptionManager.GetPrescriptionDrug("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", "sdfskjdfkjsfkj");
+            await _prescriptionManager.GetPrescriptionDrugs("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sdfklsdf");
         }
 
         [TestMethod]
         public async Task TestGetPrescriptionDrug()
         {
-            var drug = await _prescriptionManager.GetPrescriptionDrug("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e39");
-            Assert.IsNotNull(drug);
-            Assert.AreEqual("Aspirin", drug.Drug.DrugDescription);
+            var drugs = await _prescriptionManager.GetPrescriptionDrugs("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37");
+            Assert.IsNotNull(drugs);
+            Assert.AreEqual("Aspirin", drugs.FirstOrDefault().Drug.DrugDescription);
         }
     }
 }
