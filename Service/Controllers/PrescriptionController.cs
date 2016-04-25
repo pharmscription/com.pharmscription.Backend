@@ -1,11 +1,9 @@
 ﻿namespace Service.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.Net;
     using System.Threading.Tasks;
     using System.Web.Http;
-    using System.Web.Http.Results;
     using System.Web.Mvc;
 
     using com.pharmscription.BusinessLogic.Prescription;
@@ -29,15 +27,15 @@
             {
                 return Json(await _prescriptionManager.Get(patientid));
             }
-            catch (NotFoundException e)
+            catch (NotFoundException)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }
@@ -71,15 +69,15 @@
             {
                 return Json(await _prescriptionManager.Add(patientid, dto));
             }
-            catch (NotFoundException e)
+            catch (NotFoundException)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }

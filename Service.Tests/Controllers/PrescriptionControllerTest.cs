@@ -49,7 +49,6 @@ namespace Service.Tests.Controllers
 
         private void SetupTestData()
         {
-            var patientsInData = _patientRepository.GetAll().ToList();
             var patients = TestEnvironmentHelper.GetTestPatients();
             foreach (var patient in patients)
             {
@@ -132,8 +131,6 @@ namespace Service.Tests.Controllers
                 _patientRepository.Remove(patient);
             }
             _puow.Commit();
-            var patients = _patientRepository.GetAll().ToList();
-            var cx = 2;
         }
 
         [TestMethod]

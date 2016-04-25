@@ -1,4 +1,6 @@
-﻿namespace com.pharmscription.DataAccess.Tests.Entities.PrescriptionEntity
+﻿using System.Linq;
+
+namespace com.pharmscription.DataAccess.Tests.Entities.PrescriptionEntity
 {
     using System.Collections.Generic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -32,12 +34,12 @@
         [TestMethod]
         public void TestClone()
         {
-/*            var clone = _prescription.Clone();
-            CollectionAssert.AreNotEquivalent(_prescription.CounterProposals, clone.CounterProposals, "Counter proposal list is equivalent to original");
-            CollectionAssert.AreNotEquivalent(_prescription.Dispenses, clone.Dispenses, "Dispnese list is equivalent to original");
-            CollectionAssert.AreNotEquivalent(_prescription.DrugItems, clone.DrugItems, "DrugItem list is equivalent to original");
+            var clone = _prescription.Clone();
+            CollectionAssert.AreNotEquivalent(_prescription.CounterProposals.ToList(), clone.CounterProposals.ToList(), "Counter proposal list is equivalent to original");
+            CollectionAssert.AreNotEquivalent(_prescription.Dispenses.ToList(), clone.Dispenses.ToList(), "Dispnese list is equivalent to original");
+            CollectionAssert.AreNotEquivalent(_prescription.DrugItems.ToList(), clone.DrugItems.ToList(), "DrugItem list is equivalent to original");
             //// Hier wird nicht `CollectionAssert` verwendet, da es sich um eine leere Liste handelt, und leere Konstruktoren nicht getestet werden
-            Assert.AreNotEqual(_prescription.PrescriptionHistory, clone.PrescriptionHistory, "Prescription history is equivalent to original");*/
+            Assert.AreNotEqual(_prescription.PrescriptionHistory, clone.PrescriptionHistory, "Prescription history is equivalent to original");
         }
     }
 }
