@@ -13,7 +13,8 @@ using Service.Routes;
 
 namespace Service.Controllers
 {
-    public class DrugController : ApiController
+    [System.Web.Mvc.RoutePrefix("")]
+    public class DrugController : Controller
     {
         private readonly IDrugManager _drugManager;
 
@@ -23,11 +24,11 @@ namespace Service.Controllers
         }
 
         [System.Web.Mvc.Route(DrugRoutes.GetDrugById)]
-        public async Task<JsonResult<DrugDto>> GetById(string id)
+        public async Task<JsonResult> GetById(string id)
         {
             try
             {
-                return Json(await _drugManager.GetById(id));
+                return Json(await _drugManager.GetById(id), JsonRequestBehavior.AllowGet);
             }
             catch (NotFoundException)
             {
@@ -44,11 +45,11 @@ namespace Service.Controllers
         }
 
         [System.Web.Mvc.Route(DrugRoutes.GetDrugsCountBySearchTerm)]
-        public async Task<JsonResult<List<DrugDto>>> GetCountBySearchTerm(string keyword)
+        public async Task<JsonResult> GetCountBySearchTerm(string keyword)
         {
             try
             {
-                return Json(await _drugManager.Search(keyword));
+                return Json(await _drugManager.Search(keyword), JsonRequestBehavior.AllowGet);
             }
             catch (NotFoundException)
             {
@@ -65,11 +66,11 @@ namespace Service.Controllers
         }
 
         [System.Web.Mvc.Route(DrugRoutes.GetDrugsBySearchTermPaged)]
-        public async Task<JsonResult<List<DrugDto>>> GetBySearchTermPaged(string keyword, string page, string amount)
+        public async Task<JsonResult> GetBySearchTermPaged(string keyword, string page, string amount)
         {
             try
             {
-                return Json(await _drugManager.SearchPaged(keyword, page, amount));
+                return Json(await _drugManager.SearchPaged(keyword, page, amount), JsonRequestBehavior.AllowGet);
             }
             catch (NotFoundException)
             {

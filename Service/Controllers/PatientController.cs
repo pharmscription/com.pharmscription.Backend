@@ -10,8 +10,10 @@ using Service.Routes;
 
 namespace Service.Controllers
 {
-    [System.Web.Mvc.RoutePrefix("/patients")]
-    public class PatientController : ApiController
+    using System.Web.Mvc;
+
+    [System.Web.Mvc.RoutePrefix("")]
+    public class PatientController : Controller
     {
         private readonly IPatientManager _patientManager;
 
@@ -21,11 +23,11 @@ namespace Service.Controllers
         }
 
         [System.Web.Mvc.Route(PatientRoutes.GetPatientById)]
-        public async Task<JsonResult<PatientDto>> GetById(string id)
+        public async Task<JsonResult> GetById(string id)
         {
             try
             {
-                return Json(await _patientManager.GetById(id));
+                return Json(await _patientManager.GetById(id), JsonRequestBehavior.AllowGet);
             }
             catch (NotFoundException)
             {
@@ -42,11 +44,11 @@ namespace Service.Controllers
         }
         [System.Web.Mvc.Route(PatientRoutes.AddPatient)]
         [System.Web.Mvc.HttpPut]
-        public async Task<JsonResult<PatientDto>> Add(PatientDto patientDto)
+        public async Task<JsonResult> Add(PatientDto patientDto)
         {
             try
             {
-                return Json(await _patientManager.Add(patientDto));
+                return Json(await _patientManager.Add(patientDto), JsonRequestBehavior.AllowGet);
             }
             catch (ArgumentException e )
             {
@@ -59,12 +61,12 @@ namespace Service.Controllers
         }
 
         [System.Web.Mvc.Route(PatientRoutes.GetPatientByAhvNumber)]
-        public async Task<JsonResult<PatientDto>> GetByAhv(string ahvNumber)
+        public async Task<JsonResult> GetByAhv(string ahvNumber)
         {
             try
             {
 
-                return Json(await _patientManager.Find(ahvNumber));
+                return Json(await _patientManager.Find(ahvNumber), JsonRequestBehavior.AllowGet);
             }
 
             catch (ArgumentException)
@@ -78,11 +80,11 @@ namespace Service.Controllers
         }
 
         [System.Web.Mvc.Route(PatientRoutes.LookupPatientByAhvNumber)]
-        public async Task<JsonResult<PatientDto>> LookupByAhvNumber(string ahvNumber)
+        public async Task<JsonResult> LookupByAhvNumber(string ahvNumber)
         {
             try
             {
-                return Json(await _patientManager.Lookup(ahvNumber));
+                return Json(await _patientManager.Lookup(ahvNumber), JsonRequestBehavior.AllowGet);
             }
             catch (NotFoundException)
             {
