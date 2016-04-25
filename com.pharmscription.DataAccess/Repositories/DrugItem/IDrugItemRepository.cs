@@ -1,7 +1,7 @@
 ﻿namespace com.pharmscription.DataAccess.Repositories.DrugItem
 {
-    using com.pharmscription.DataAccess.Entities.DrugItemEntity;
-    using com.pharmscription.DataAccess.SharedInterfaces;
+    using Entities.DrugItemEntity;
+    using SharedInterfaces;
 
     /// <summary>
     /// The DrugItemRepository interface.

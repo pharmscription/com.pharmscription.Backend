@@ -3,8 +3,8 @@
 namespace com.pharmscription.DataAccess.Repositories.Patient
 {
     using System.Threading.Tasks;
-    using com.pharmscription.DataAccess.SharedInterfaces;
-    using com.pharmscription.DataAccess.Entities.PatientEntity;
+    using SharedInterfaces;
+    using Entities.PatientEntity;
 
     public interface IPatientRepository : IRepository<Patient>
     {

@@ -22,14 +22,6 @@ namespace com.pharmscription.ApplicationFascade
 
         public IDrugManager DrugManager => new DrugManager(_drugRepository);
 
-        public IPrescriptionManager PrescriptionManager
-        {
-            get
-            {
-                //return new PrescriptionManager(_prescriptionRepository);
-                return null;
-            }
-        }
-
+        public IPrescriptionManager PrescriptionManager => null;
     }
 }

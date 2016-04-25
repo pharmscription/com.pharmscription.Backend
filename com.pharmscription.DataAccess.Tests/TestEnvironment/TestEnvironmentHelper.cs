@@ -10,7 +10,6 @@ using com.pharmscription.DataAccess.Entities.DispenseEntity;
 using com.pharmscription.DataAccess.Entities.DrugItemEntity;
 using com.pharmscription.DataAccess.Entities.PatientEntity;
 using com.pharmscription.DataAccess.Entities.PrescriptionEntity;
-using com.pharmscription.DataAccess.EntityHelper;
 using com.pharmscription.DataAccess.Repositories.CounterProposal;
 using com.pharmscription.DataAccess.Repositories.Dispense;
 using com.pharmscription.DataAccess.Repositories.DrugItem;
@@ -18,6 +17,7 @@ using com.pharmscription.DataAccess.Repositories.Patient;
 using com.pharmscription.DataAccess.Repositories.Prescription;
 using com.pharmscription.DataAccess.SharedInterfaces;
 using com.pharmscription.DataAccess.UnitOfWork;
+using com.pharmscription.Infrastructure.EntityHelper;
 using Moq;
 
 namespace com.pharmscription.DataAccess.Tests.TestEnvironment

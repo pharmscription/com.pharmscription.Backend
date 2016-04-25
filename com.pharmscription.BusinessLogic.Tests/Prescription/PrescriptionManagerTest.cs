@@ -25,8 +25,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
             var patientRepository = TestEnvironmentHelper.GetMockedPatientRepository();
             var counterProposalRepository = TestEnvironmentHelper.GetMockedCounterProposalRepository();
             var dispenseRepository = TestEnvironmentHelper.GetMockedDispenseRepository();
-            var drugItemRepository = TestEnvironmentHelper.GetMockedDrugItemsRepository();
-            _prescriptionManager = new PrescriptionManager(prescriptionRepository.Object, patientRepository.Object, counterProposalRepository.Object, dispenseRepository.Object, drugItemRepository.Object);
+            _prescriptionManager = new PrescriptionManager(prescriptionRepository.Object, patientRepository.Object, counterProposalRepository.Object, dispenseRepository.Object);
         }
 
 
@@ -34,7 +33,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(InvalidArgumentException))]
         public void TestManagerThrowsWhenPatientRepoWasNull()
         {
-            var manager = new PrescriptionManager(null, null, null, null, null);
+            var manager = new PrescriptionManager(null, null, null, null);
         }
 
         [TestMethod]

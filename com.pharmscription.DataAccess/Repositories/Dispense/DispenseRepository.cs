@@ -1,8 +1,8 @@
 ﻿namespace com.pharmscription.DataAccess.Repositories.Dispense
 {
-    using com.pharmscription.DataAccess.Entities.DispenseEntity;
-    using com.pharmscription.DataAccess.Repositories.BaseRepository;
-    using com.pharmscription.DataAccess.UnitOfWork;
+    using Entities.DispenseEntity;
+    using BaseRepository;
+    using UnitOfWork;
 
     public class DispenseRepository : Repository<Dispense>, IDispenseRepository
     {

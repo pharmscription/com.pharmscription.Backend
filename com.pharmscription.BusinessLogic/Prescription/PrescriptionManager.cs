@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using com.pharmscription.BusinessLogic.Converter;
 using com.pharmscription.DataAccess.Repositories.CounterProposal;
 using com.pharmscription.DataAccess.Repositories.Dispense;
-using com.pharmscription.DataAccess.Repositories.DrugItem;
 using com.pharmscription.DataAccess.Repositories.Patient;
 using com.pharmscription.DataAccess.Repositories.Prescription;
 using com.pharmscription.Infrastructure.Dto;
@@ -19,10 +18,9 @@ namespace com.pharmscription.BusinessLogic.Prescription
         private readonly IPatientRepository _patientRepository;
         private readonly ICounterProposalRepository _counterProposalRepository;
         private readonly IDispenseRepository _dispenseRepository;
-        private readonly IDrugItemRepository _drugItemRepository;
-        public PrescriptionManager(IPrescriptionRepository prescriptionRepository, IPatientRepository patientRepository, ICounterProposalRepository counterProposalRepository, IDispenseRepository dispenseRepository, IDrugItemRepository drugItemRepository)
+        public PrescriptionManager(IPrescriptionRepository prescriptionRepository, IPatientRepository patientRepository, ICounterProposalRepository counterProposalRepository, IDispenseRepository dispenseRepository)
         {
-            if (prescriptionRepository == null || patientRepository == null || counterProposalRepository == null || dispenseRepository == null || drugItemRepository == null)
+            if (prescriptionRepository == null || patientRepository == null || counterProposalRepository == null || dispenseRepository == null)
             {
                 throw new InvalidArgumentException("Depended Upon Arguments were null");
             }
@@ -30,7 +28,6 @@ namespace com.pharmscription.BusinessLogic.Prescription
             _patientRepository = patientRepository;
             _counterProposalRepository = counterProposalRepository;
             _dispenseRepository = dispenseRepository;
-            _drugItemRepository = drugItemRepository;
         }
         public async Task<List<PrescriptionDto>> Get(string patientId)
         {

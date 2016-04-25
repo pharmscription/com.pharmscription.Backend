@@ -6,18 +6,17 @@
     using System.Threading.Tasks;
     using System.Web.Http;
     using System.Web.Http.Results;
-    using System.Web.Mvc;
 
     using com.pharmscription.BusinessLogic.Prescription;
     using com.pharmscription.Infrastructure.Dto;
 
-    using Service.Routes;
+    using Routes;
     using com.pharmscription.Infrastructure.Exception;
-    public class prescriptionsController : ApiController
+    public class PrescriptionController : ApiController
     {
         private readonly IPrescriptionManager _prescriptionManager;
 
-        public prescriptionsController(IPrescriptionManager manager)
+        public PrescriptionController(IPrescriptionManager manager)
         {
             _prescriptionManager = manager;
         }

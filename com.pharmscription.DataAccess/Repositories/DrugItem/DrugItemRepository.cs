@@ -1,8 +1,8 @@
 ﻿namespace com.pharmscription.DataAccess.Repositories.DrugItem
 {
-    using com.pharmscription.DataAccess.Entities.DrugItemEntity;
-    using com.pharmscription.DataAccess.Repositories.BaseRepository;
-    using com.pharmscription.DataAccess.UnitOfWork;
+    using Entities.DrugItemEntity;
+    using BaseRepository;
+    using UnitOfWork;
 
     public class DrugItemRepository : Repository<DrugItem>, IDrugItemRepository
     {

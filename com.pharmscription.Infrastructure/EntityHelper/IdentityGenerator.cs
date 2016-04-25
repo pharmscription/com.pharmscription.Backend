@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace com.pharmscription.DataAccess.EntityHelper
+namespace com.pharmscription.Infrastructure.EntityHelper
 {
     public static class IdentityGenerator
     {

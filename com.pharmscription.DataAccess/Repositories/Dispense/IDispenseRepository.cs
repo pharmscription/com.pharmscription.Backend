@@ -1,7 +1,7 @@
 ﻿namespace com.pharmscription.DataAccess.Repositories.Dispense
 {
-    using com.pharmscription.DataAccess.Entities.DispenseEntity;
-    using com.pharmscription.DataAccess.SharedInterfaces;
+    using Entities.DispenseEntity;
+    using SharedInterfaces;
 
     /// <summary>
     /// The DispenseRepository interface.

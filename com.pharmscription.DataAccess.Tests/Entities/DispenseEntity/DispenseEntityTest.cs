@@ -1,11 +1,10 @@
-﻿namespace com.pharmscription.DataAccess.Tests.Entities
+﻿using System.Collections.Generic;
+using com.pharmscription.DataAccess.Entities.DispenseEntity;
+using com.pharmscription.DataAccess.Entities.DrugItemEntity;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace com.pharmscription.DataAccess.Tests.Entities.DispenseEntity
 {
-    using System.Collections.Generic;
-
-    using com.pharmscription.DataAccess.Entities.DispenseEntity;
-    using com.pharmscription.DataAccess.Entities.DrugItemEntity;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     [TestClass]
     public class DispenseEntityTest
     {
