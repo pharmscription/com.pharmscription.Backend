@@ -1,4 +1,6 @@
-﻿namespace com.pharmscription.DataAccess.Entities.DispenseEntity
+﻿using com.pharmscription.DataAccess.Entities.PrescriptionEntity;
+
+namespace com.pharmscription.DataAccess.Entities.DispenseEntity
 {
     using System;
     using System.Collections.Generic;
@@ -11,7 +13,15 @@
     {
         public DateTime Date { get; set; }
         public string Remark { get; set; }
-        public List<DrugItem> DrugItems { get; set; } 
+        public virtual ICollection<DrugItem> DrugItems { get; set; }
+
+        public virtual StandingPrescription StandingPrescription { get; set; }
+        public virtual SinglePrescription SinglePrescription { get; set; }
+        public virtual Prescription Prescription
+        {
+            get;
+            set;
+        }
 
         public Dispense Clone()
         {

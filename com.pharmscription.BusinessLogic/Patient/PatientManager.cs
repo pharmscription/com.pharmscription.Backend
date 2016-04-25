@@ -32,7 +32,9 @@ namespace com.pharmscription.BusinessLogic.Patient
         public async Task<PatientDto> Add(PatientDto patient)
         {
             AhvValidator ahvValidator = new AhvValidator();
+            BirthDateValidator birthDateValidator = new BirthDateValidator();
             ahvValidator.Validate(patient);
+            birthDateValidator.Validate(patient);
             _patientRepository.Add(patient.ConvertToEntity());
             await _patientRepository.UnitOfWork.CommitAsync();
             return (await _patientRepository.GetByAhvNumber(patient.AhvNumber)).ConvertToDto();

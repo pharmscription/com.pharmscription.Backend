@@ -19,7 +19,7 @@ namespace Service.Tests.Controllers
     {
 
         private PatientController _patientController;
-
+        private IPatientRepository _patientRepository;
         private const string TestAhvNumber = "756.1234.5678.97";
 
         private static readonly PatientDto TestPatientDto = new PatientDto
@@ -34,8 +34,8 @@ namespace Service.Tests.Controllers
         public void SetUp()
         {
             IPharmscriptionUnitOfWork puow = new PharmscriptionUnitOfWork();
-            IPatientRepository repo = new PatientRepository(puow);
-            IPatientManager patientManager = new PatientManager(repo);
+            _patientRepository = new PatientRepository(puow);
+            IPatientManager patientManager = new PatientManager(_patientRepository);
             _patientController = new PatientController(patientManager);
 
         }
@@ -43,15 +43,14 @@ namespace Service.Tests.Controllers
         [TestCleanup]
         public void TearDown()
         {
-            IPharmscriptionUnitOfWork puow = new PharmscriptionUnitOfWork();
-            IPatientRepository repo = new PatientRepository(puow);
-            var testPatient = repo.GetAll().FirstOrDefault(e => e.AhvNumber == TestAhvNumber);
+            var patients = _patientRepository.GetAll().ToList();
+            var testPatient = patients.FirstOrDefault(e => e.AhvNumber == TestAhvNumber);
             if (testPatient != null)
             {
-                repo.Remove(testPatient);
+                _patientRepository.Remove(testPatient);
             }
-            
-            repo.UnitOfWork.Commit();
+
+            _patientRepository.UnitOfWork.Commit();
 
         }
 
@@ -81,11 +80,27 @@ namespace Service.Tests.Controllers
         [TestMethod]
         public async Task TestAddPatient()
         {
-
             await _patientController.Add(TestPatientDto);
             var patientInserted = (await _patientController.GetByAhv(TestAhvNumber)).Content;
             Assert.IsNotNull(patientInserted);
             Assert.AreEqual(TestPatientDto.FirstName, patientInserted.FirstName);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(HttpResponseException))]
+        public async Task TestAddPatientThrowsIfBirthDateNoneGiven()
+        {
+            var patientDto = new PatientDto
+            {
+                FirstName = "Jessi",
+                LastName = "SuperJessi",
+                AhvNumber = TestAhvNumber
+            };
+            var patientInserted = (await _patientController.Add(patientDto)).Content;
+            var patientInsertedFresh = (await _patientController.GetById(patientInserted.Id)).Content;
+            Assert.IsNotNull(patientInsertedFresh);
+            Assert.AreEqual(patientDto.FirstName, patientInsertedFresh.FirstName);
+
         }
 
         [TestMethod]

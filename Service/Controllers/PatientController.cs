@@ -48,11 +48,11 @@ namespace Service.Controllers
             {
                 return Json(await _patientManager.Add(patientDto));
             }
-            catch (ArgumentException)
+            catch (ArgumentException e )
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }

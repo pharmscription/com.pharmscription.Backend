@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace com.pharmscription.DataAccess.Repositories.Patient
 {
@@ -29,6 +30,11 @@ namespace com.pharmscription.DataAccess.Repositories.Patient
         public Task<Patient> GetWithPrescriptions(Guid id)
         {
             return GetSet().Where(e => e.Id == id).Include(e => e.Prescriptions).FirstOrDefaultAsync();
+        }
+
+        public IQueryable<Patient> GetWithAllNavs()
+        {
+            return GetSet().Include(e => e.Prescriptions);
         }
     }
 }

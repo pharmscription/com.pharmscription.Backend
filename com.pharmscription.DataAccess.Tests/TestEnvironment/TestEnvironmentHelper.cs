@@ -30,9 +30,9 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
             return new Mock<PharmscriptionUnitOfWork>();
         }
 
-        public static Mock<PrescriptionRepository> GetMockedPrescriptionRepository()
+        public static List<Prescription> GetTestPrescriptions()
         {
-            var prescriptions = new List<Prescription>
+            return new List<Prescription>
             {
                 new StandingPrescription
                 {
@@ -41,12 +41,6 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                     SignDate = DateTime.Now,
                     IssueDate = DateTime.Now,
                     ValidUntill = DateTime.Now.AddDays(2),
-                    Patient = new Patient
-                    {
-                        Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38"),
-                        FirstName = "Rafael",
-                        LastName = "Krucker"
-                    },
                     EditDate = DateTime.Now,
                     DrugItems = new List<DrugItem>
                     {
@@ -59,45 +53,7 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                                 IsValid = true,
                                 DrugDescription = "Aspirin"
                             },
-                            DosageDescription = "2/3/2",
-                            Dispense = new Dispense
-                            {
-                                Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e41"),
-                                Remark = "Did it"
-                            }
-                        }
-                    },
-                    CounterProposals = new List<CounterProposal>
-                    {
-                        new CounterProposal
-                        {
-                            Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e42"),
-                            Message = "This is not right",
-                            Date = DateTime.Now
-                        },
-                        new CounterProposal
-                        {
-                            Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd01e8e42"),
-                            Message = "This is not for Malaria",
-                            Date = DateTime.Now
-                        },
-                        new CounterProposal
-                        {
-                            Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5d9dd00e8e42"),
-                            Message = "The Patient is already dead",
-                            Date = DateTime.Now
-                        },
-                        new CounterProposal
-                        {
-                            Id = Guid.Parse("1baf86b0-1e14-5f4c-b05a-5c9dd00e8e42"),
-                            Message = "Aspirin is better than a plaster",
-                            Date = DateTime.Now
-                        },
-                        new CounterProposal
-                        {
-                            Id = Guid.Parse("1baf86b1-1e14-4f4c-b05a-5c9dd00e8e42"),
-                            Message = "This isnt even a Prescription, it is a giraffe",
-                            Date = DateTime.Now
+                            DosageDescription = "2/3/2"
                         }
                     },
                     Dispenses = new List<Dispense>
@@ -120,12 +76,7 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                                 IsValid = true,
                                 DrugDescription = "Aspirin"
                             },
-                            DosageDescription = "2/3/2",
-                            Dispense = new Dispense
-                            {
-                                Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e46"),
-                                Remark = "Did it"
-                            }
+                            DosageDescription = "2/3/2"
 
                                 }
                             }
@@ -139,12 +90,6 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                     SignDate = DateTime.Now,
                     IssueDate = DateTime.Now,
                     ValidUntill = DateTime.Now.AddDays(2),
-                    Patient = new Patient
-                    {
-                        Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e48"),
-                        FirstName = "Markus",
-                        LastName = "Schaden"
-                    },
                     EditDate = DateTime.Now,
                     DrugItems = new List<DrugItem>
                     {
@@ -157,21 +102,7 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                                 IsValid = true,
                                 DrugDescription = "Mebucain"
                             },
-                            DosageDescription = "2/3/2",
-                            Dispense = new Dispense
-                            {
-                                Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e52"),
-                                Remark = "Did it"
-                            }
-                        }
-                    },
-                    CounterProposals = new List<CounterProposal>
-                    {
-                        new CounterProposal
-                        {
-                            Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e53"),
-                            Message = "This is not right",
-                            Date = DateTime.Now
+                            DosageDescription = "2/3/2"
                         }
                     },
                     Dispenses = new List<Dispense>
@@ -194,12 +125,7 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                                 IsValid = true,
                                 DrugDescription = "Aspirin"
                             },
-                            DosageDescription = "2/3/2",
-                            Dispense = new Dispense
-                            {
-                                Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e57"),
-                                Remark = "Did it"
-                            }
+                            DosageDescription = "2/3/2"
 
                                 }
                             }
@@ -207,111 +133,106 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                     }
                 }
             };
-            var mockSet = GetMockedAsyncProviderDbSet(prescriptions);
-            var mockPuow = GetMockedDataContext();
-            mockPuow.Setup(m => m.Prescriptions).Returns(mockSet.Object);
-            mockPuow.Setup(m => m.CreateSet<Prescription>()).Returns(mockSet.Object);
-            var mockedRepository = new Mock<PrescriptionRepository>(mockPuow.Object);
-            mockedRepository.Setup(m=>m.GetByPatientId(It.IsAny<Guid>())).Returns<Guid>(e =>Task.FromResult(prescriptions.Where(a => a.Patient.Id == e).ToList()));
-            mockedRepository.Setup(m => m.GetAll()).Returns(prescriptions);
-            mockedRepository.Setup(m => m.GetAsync(It.IsAny<Guid>()))
-                .Returns<Guid>(e => Task.FromResult(prescriptions.FirstOrDefault(a => a.Id == e)));
-            mockedRepository.Setup(m => m.UnitOfWork).Returns(mockPuow.Object);
-            mockedRepository.Setup(m => m.Add(It.IsAny<Prescription>()))
-                .Callback<Prescription>(e => mockSet.Object.Add(e));
-            return mockedRepository;
         }
 
-        public static Mock<PatientRepository> GetMockedPatientRepository()
+        public static List<DrugItem> GetTestDrugItems()
         {
-            var patients = new List<Patient>
+            return new List<DrugItem>
+            {
+                new DrugItem
+                {
+                    Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e39"),
+                    Drug = new DataAccess.Entities.DrugEntity.Drug
+                    {
+                        Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e40"),
+                        IsValid = true,
+                        DrugDescription = "Aspirin"
+                    },
+                    DosageDescription = "2/3/2",
+                    Dispense = new Dispense
+                    {
+                        Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e41"),
+                        Remark = "Did it"
+                    }
+                }
+            };
+        }
+
+        public static List<Patient> GetTestPatients()
+        {
+            return new List<Patient>
             {
                 new Patient
-                {  
-                        Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38"),
-                        FirstName = "Rafael",
-                        LastName = "Krucker"
+                {
+                    Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38"),
+                    FirstName = "Rafael",
+                    LastName = "Krucker",
+                    AhvNumber = "756.1234.5678.97",
+                    BirthDate = DateTime.Parse("17.03.1991")
                 },
                 new Patient
                 {
-                        Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e48"),
-                        FirstName = "Markus",
-                        LastName = "Schaden"
+                    Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e48"),
+                    FirstName = "Markus",
+                    LastName = "Schaden",
+                    AhvNumber = "756.1390.2077.81",
+                    BirthDate = DateTime.Parse("24.05.1991")
+
                 }
             };
-            var mockSet = GetMockedAsyncProviderDbSet(patients);
-            var mockPuow = GetMockedDataContext();
-            mockPuow.Setup(m => m.Patients).Returns(mockSet.Object);
-            mockPuow.Setup(m => m.CreateSet<Patient>()).Returns(mockSet.Object);
-            var mockedRepository = new Mock<PatientRepository>(mockPuow.Object);
-            mockedRepository.Setup(m => m.GetAsync(It.IsAny<Guid>())).Returns<Guid>(e => Task.FromResult(patients.FirstOrDefault(a => a.Id == e)));
-            return mockedRepository;
         }
 
-        public static Mock<CounterProposalRepository> GetMockedCounterProposalRepository()
+
+
+        public static List<CounterProposal> GetTestCounterProposals()
         {
-            var counterProposals = new List<CounterProposal>
+            return new List<CounterProposal>
             {
                 new CounterProposal
-                    {
-                        Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e42"),
-                        Message = "This is not right",
-                        Date = DateTime.Now
-                    },
-                    new CounterProposal
-                    {
-                        Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd01e8e42"),
-                        Message = "This is not for Malaria",
-                        Date = DateTime.Now
-                    },
-                    new CounterProposal
-                    {
-                        Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5d9dd00e8e42"),
-                        Message = "The Patient is already dead",
-                        Date = DateTime.Now
-                    },
-                    new CounterProposal
-                    {
-                        Id = Guid.Parse("1baf86b0-1e14-5f4c-b05a-5c9dd00e8e42"),
-                        Message = "Aspirin is better than a plaster",
-                        Date = DateTime.Now
-                    },
-                    new CounterProposal
-                    {
-                        Id = Guid.Parse("1baf86b1-1e14-4f4c-b05a-5c9dd00e8e42"),
-                        Message = "This isnt even a Prescription, it is a giraffe",
-                        Date = DateTime.Now
-                    }
+                {
+                    Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e42"),
+                    Message = "This is not right",
+                    Date = DateTime.Now
+                },
+                new CounterProposal
+                {
+                    Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd01e8e42"),
+                    Message = "This is not for Malaria",
+                    Date = DateTime.Now
+                },
+                new CounterProposal
+                {
+                    Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5d9dd00e8e42"),
+                    Message = "The Patient is already dead",
+                    Date = DateTime.Now
+                },
+                new CounterProposal
+                {
+                    Id = Guid.Parse("1baf86b0-1e14-5f4c-b05a-5c9dd00e8e42"),
+                    Message = "Aspirin is better than a plaster",
+                    Date = DateTime.Now
+                },
+                new CounterProposal
+                {
+                    Id = Guid.Parse("1baf86b1-1e14-4f4c-b05a-5c9dd00e8e42"),
+                    Message = "This isnt even a Prescription, it is a giraffe",
+                    Date = DateTime.Now
+                }
             };
-            var mockSet = GetMockedAsyncProviderDbSet(counterProposals);
-            var mockPuow = GetMockedDataContext();
-            mockPuow.Setup(m => m.CounterProposals).Returns(mockSet.Object);
-            mockPuow.Setup(m => m.CreateSet<CounterProposal>()).Returns(mockSet.Object);
-            var mockedRepository = new Mock<CounterProposalRepository>(mockPuow.Object);
-            mockedRepository.Setup(m => m.GetAsync(It.IsAny<Guid>())).Returns<Guid>(e => Task.FromResult(counterProposals.FirstOrDefault(a => a.Id == e)));
-            mockedRepository.Setup(m => m.GetAll()).Returns(counterProposals);
-            mockedRepository.Setup(m => m.GetAsync(It.IsAny<Guid>()))
-                .Returns<Guid>(e => Task.FromResult(counterProposals.FirstOrDefault(a => a.Id == e)));
-            mockedRepository.Setup(m => m.UnitOfWork).Returns(mockPuow.Object);
-            mockedRepository.Setup(m => m.Add(It.IsAny<CounterProposal>()))
-                .Callback<CounterProposal>(e => mockSet.Object.Add(e));
-            return mockedRepository;
         }
 
-        public static Mock<DispenseRepository> GetMockedDispenseRepository()
+        public static List<Dispense> GetTestDispenses()
         {
-            var dispenses = new List<Dispense>
+            return new List<Dispense>
             {
                 new Dispense
-                        {
-                            Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e43"),
-                            Date = DateTime.Now,
-                            Remark = "Did a Dispense",
-                            DrugItems = new List<DrugItem>
-                            {
-
-
-                                    new DrugItem
+                {
+                    Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e43"),
+                    Date = DateTime.Now,
+                    Remark = "Did a Dispense",
+                    DrugItems = new List<DrugItem>
+                    {
+                        new DrugItem
                         {
                             Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e44"),
                             Drug = new DataAccess.Entities.DrugEntity.Drug
@@ -327,58 +248,85 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                                 Remark = "Did it"
                             }
 
-                                }
-                            }
                         }
+                    }
+                }
             };
-            var mockSet = GetMockedAsyncProviderDbSet(dispenses);
+        }
+
+        public static Mock<PrescriptionRepository> GetMockedPrescriptionRepository()
+        {
+            var prescriptions = GetTestPrescriptions();
+            var mockSet = GetMockedAsyncProviderDbSet(prescriptions);
             var mockPuow = GetMockedDataContext();
-            mockPuow.Setup(m => m.Dispenses).Returns(mockSet.Object);
-            mockPuow.Setup(m => m.CreateSet<Dispense>()).Returns(mockSet.Object);
-            var mockedRepository = new Mock<DispenseRepository>(mockPuow.Object);
-            mockedRepository.Setup(m => m.GetAsync(It.IsAny<Guid>())).Returns<Guid>(e => Task.FromResult(dispenses.FirstOrDefault(a => a.Id == e)));
-            mockedRepository.Setup(m => m.GetAll()).Returns(dispenses);
+            mockPuow.Setup(m => m.Prescriptions).Returns(mockSet.Object);
+            mockPuow.Setup(m => m.CreateSet<Prescription>()).Returns(mockSet.Object);
+            var mockedRepository = new Mock<PrescriptionRepository>(mockPuow.Object);
+            mockedRepository.Setup(m => m.GetByPatientId(It.IsAny<Guid>())).Returns<Guid>(e => Task.FromResult(prescriptions.Where(a => a.Patient.Id == e).ToList()));
+            mockedRepository.Setup(m => m.GetAll()).Returns(prescriptions);
             mockedRepository.Setup(m => m.GetAsync(It.IsAny<Guid>()))
-                .Returns<Guid>(e => Task.FromResult(dispenses.FirstOrDefault(a => a.Id == e)));
+                .Returns<Guid>(e => Task.FromResult(prescriptions.FirstOrDefault(a => a.Id == e)));
             mockedRepository.Setup(m => m.UnitOfWork).Returns(mockPuow.Object);
-            mockedRepository.Setup(m => m.Add(It.IsAny<Dispense>()))
-                .Callback<Dispense>(e => mockSet.Object.Add(e));
+            mockedRepository.Setup(m => m.Add(It.IsAny<Prescription>()))
+                .Callback<Prescription>(e => mockSet.Object.Add(e));
             return mockedRepository;
         }
 
+        public static Mock<PatientRepository> GetMockedPatientRepository()
+        {
+            var patients = GetTestPatients();
+            var mockSet = GetMockedAsyncProviderDbSet(patients);
+            var mockPuow = GetMockedDataContext();
+            mockPuow.Setup(m => m.Patients).Returns(mockSet.Object);
+            var mockedRepository = CreateMockedRepository<Patient, PatientRepository>(mockPuow, mockSet, patients);
+            return mockedRepository;
+        }
+        public static Mock<CounterProposalRepository> GetMockedCounterProposalRepository()
+        {
+            var counterProposals = GetTestCounterProposals();
+            var mockSet = GetMockedAsyncProviderDbSet(counterProposals);
+            var mockPuow = GetMockedDataContext();
+            mockPuow.Setup(m => m.CounterProposals).Returns(mockSet.Object);
+            var mockedRepository = CreateMockedRepository<CounterProposal, CounterProposalRepository>(mockPuow, mockSet, counterProposals);
+            return mockedRepository;
+        }
+
+        public static Mock<DispenseRepository> GetMockedDispenseRepository()
+        {
+            var dispenses = GetTestDispenses();
+            var mockSet = GetMockedAsyncProviderDbSet(dispenses);
+            var mockPuow = GetMockedDataContext();
+            mockPuow.Setup(m => m.Dispenses).Returns(mockSet.Object);
+            var mockedRepository = CreateMockedRepository<Dispense, DispenseRepository>(mockPuow, mockSet, dispenses);
+            return mockedRepository;
+        }
+
+
+
         public static Mock<DrugItemRepository> GetMockedDrugItemsRepository()
         {
-            var drugItems = new List<DrugItem>
-            {
-                    new DrugItem
-                    {
-                        Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e39"),
-                        Drug = new DataAccess.Entities.DrugEntity.Drug
-                        {
-                            Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e40"),
-                            IsValid = true,
-                            DrugDescription = "Aspirin"
-                        },
-                        DosageDescription = "2/3/2",
-                        Dispense = new Dispense
-                        {
-                            Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e41"),
-                            Remark = "Did it"
-                        }
-                    }
-            };
+            var drugItems = GetTestDrugItems();
             var mockSet = GetMockedAsyncProviderDbSet(drugItems);
             var mockPuow = GetMockedDataContext();
             mockPuow.Setup(m => m.DrugItems).Returns(mockSet.Object);
-            mockPuow.Setup(m => m.CreateSet<DrugItem>()).Returns(mockSet.Object);
-            var mockedRepository = new Mock<DrugItemRepository>(mockPuow.Object);
-            mockedRepository.Setup(m => m.GetAsync(It.IsAny<Guid>())).Returns<Guid>(e => Task.FromResult(drugItems.FirstOrDefault(a => a.Id == e)));
-            mockedRepository.Setup(m => m.GetAll()).Returns(drugItems);
+            var mockedRepository = CreateMockedRepository<DrugItem, DrugItemRepository>(mockPuow, mockSet, drugItems);
+            return mockedRepository;
+        }
+
+        private static Mock<TRepository> CreateMockedRepository<TEntity, TRepository>(
+    Mock<PharmscriptionUnitOfWork> mockPuow, Mock<DbSet<TEntity>> mockSet, List<TEntity> initialData)
+    where TEntity : class, IEntity, ICloneable<TEntity> where TRepository : class, IRepository<TEntity>
+        {
+            mockPuow.Setup(m => m.CreateSet<TEntity>()).Returns(mockSet.Object);
+            var mockedRepository = new Mock<TRepository>(mockPuow.Object);
             mockedRepository.Setup(m => m.GetAsync(It.IsAny<Guid>()))
-                .Returns<Guid>(e => Task.FromResult(drugItems.FirstOrDefault(a => a.Id == e)));
+                .Returns<Guid>(e => Task.FromResult(initialData.FirstOrDefault(a => a.Id == e)));
+            mockedRepository.Setup(m => m.GetAll()).Returns(initialData);
+            mockedRepository.Setup(m => m.GetAsync(It.IsAny<Guid>()))
+                .Returns<Guid>(e => Task.FromResult(initialData.FirstOrDefault(a => a.Id == e)));
             mockedRepository.Setup(m => m.UnitOfWork).Returns(mockPuow.Object);
-            mockedRepository.Setup(m => m.Add(It.IsAny<DrugItem>()))
-                .Callback<DrugItem>(e => mockSet.Object.Add(e));
+            mockedRepository.Setup(m => m.Add(It.IsAny<TEntity>()))
+                .Callback<TEntity>(e => mockSet.Object.Add(e));
             return mockedRepository;
         }
 

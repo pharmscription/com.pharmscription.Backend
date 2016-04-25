@@ -1,16 +1,19 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
 using System.Web.Mvc;
 using com.pharmscription.BusinessLogic.Drug;
+using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.Exception;
 using Service.Routes;
 
 namespace Service.Controllers
 {
-    public class DrugController : Controller
+    public class DrugController : ApiController
     {
         private readonly IDrugManager _drugManager;
 
@@ -20,7 +23,7 @@ namespace Service.Controllers
         }
 
         [System.Web.Mvc.Route(DrugRoutes.GetDrugById)]
-        public async Task<ActionResult> GetById(string id)
+        public async Task<JsonResult<DrugDto>> GetById(string id)
         {
             try
             {
@@ -41,7 +44,7 @@ namespace Service.Controllers
         }
 
         [System.Web.Mvc.Route(DrugRoutes.GetDrugsCountBySearchTerm)]
-        public async Task<ActionResult> GetCountBySearchTerm(string keyword)
+        public async Task<JsonResult<List<DrugDto>>> GetCountBySearchTerm(string keyword)
         {
             try
             {
@@ -62,11 +65,11 @@ namespace Service.Controllers
         }
 
         [System.Web.Mvc.Route(DrugRoutes.GetDrugsBySearchTermPaged)]
-        public async Task<ActionResult> GetBySearchTermPaged(string keyword, string page, string amount)
+        public async Task<JsonResult<List<DrugDto>>> GetBySearchTermPaged(string keyword, string page, string amount)
         {
             try
             {
-                return Json((await _drugManager.SearchPaged(keyword, page, amount)).ToArray());
+                return Json(await _drugManager.SearchPaged(keyword, page, amount));
             }
             catch (NotFoundException)
             {

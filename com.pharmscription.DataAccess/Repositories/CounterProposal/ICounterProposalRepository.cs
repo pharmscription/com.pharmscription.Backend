@@ -1,7 +1,7 @@
 ﻿namespace com.pharmscription.DataAccess.Repositories.CounterProposal
 {
-    using com.pharmscription.DataAccess.Entities.CounterProposalEntity;
-    using com.pharmscription.DataAccess.SharedInterfaces;
+    using Entities.CounterProposalEntity;
+    using SharedInterfaces;
 
     /// <summary>
     /// The CounterProposalRepository interface.

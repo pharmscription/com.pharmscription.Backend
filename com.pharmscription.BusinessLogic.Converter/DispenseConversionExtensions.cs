@@ -9,7 +9,7 @@ namespace com.pharmscription.BusinessLogic.Converter
 {
     public static class DispenseConversionExtensions
     {
-        public static List<DispenseDto> ConvertToDtos(this List<Dispense> list)
+        public static List<DispenseDto> ConvertToDtos(this ICollection<Dispense> list)
         {
             if (list == null)
             {
@@ -20,7 +20,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return newList;
         }
 
-        public static List<Dispense> ConvertToEntites(this List<DispenseDto> list)
+        public static ICollection<Dispense> ConvertToEntites(this ICollection<DispenseDto> list)
         {
             if (list == null)
             {
@@ -72,7 +72,7 @@ namespace com.pharmscription.BusinessLogic.Converter
         {
             return dispenseDto.Remark == dispense.Remark && dispense.Id.ToString() == dispenseDto.Id &&
                    dispenseDto.Date == dispense.Date.ToString(CultureInfo.InvariantCulture) &&
-                   dispenseDto.DrugItems.DtoListEqualsEntityList(dispense.DrugItems);
+                   dispenseDto.DrugItems.DtoListEqualsEntityList(dispense.DrugItems.ToList());
         }
         public static bool EntityEqualsDto(this Dispense dispense, DispenseDto dispenseDto)
         {

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace com.pharmscription.DataAccess.Repositories.Patient
 {
@@ -11,7 +13,7 @@ namespace com.pharmscription.DataAccess.Repositories.Patient
         Task<Patient> GetByAhvNumber(string ahvNumber);
         bool Exists(string ahvNumber);
         Task<Patient> GetWithPrescriptions(Guid id);
-
+        IQueryable<Patient> GetWithAllNavs();
 
     }
 }

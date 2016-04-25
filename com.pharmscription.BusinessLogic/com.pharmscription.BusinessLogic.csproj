@@ -52,6 +52,7 @@
     <Compile Include="Prescription\PrescriptionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\AHVValidator.cs" />
+    <Compile Include="Validation\BirthDateValidator.cs" />
     <Compile Include="Validation\IValidator.cs" />
   </ItemGroup>
   <ItemGroup />

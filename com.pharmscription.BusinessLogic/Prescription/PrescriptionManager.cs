@@ -153,7 +153,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             {
                 throw new NotFoundException("Prescription Does not Exist");
             }
-            return (await _prescriptionRepository.GetAsync(prescriptionGuid)).CounterProposals.ConvertToDtos();
+            return (await _prescriptionRepository.GetAsync(prescriptionGuid)).CounterProposals.ConvertToDtos().ToList();
         }
 
         public async Task<CounterProposalDto> GetCounterProposal(string patientId, string prescriptionId, string proposalId)

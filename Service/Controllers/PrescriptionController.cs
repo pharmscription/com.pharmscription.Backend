@@ -62,7 +62,7 @@
         }
 
         [System.Web.Mvc.Route(PrescriptionRoutes.CreatePrescription)]
-        [System.Web.Http.HttpPut]
+        [HttpPut]
         public async Task<JsonResult<PrescriptionDto>> CreatePrescription(string patientid, PrescriptionDto dto)
         {
             try
@@ -105,7 +105,7 @@
         }
 
         [System.Web.Mvc.Route(PrescriptionRoutes.CreateCounterProposal)]
-        [System.Web.Http.HttpPut]
+        [HttpPut]
         public async Task<JsonResult<CounterProposalDto>> CreateCounterProposal(
             string patientid,
             string prescriptionid,
@@ -151,7 +151,7 @@
         }
 
         [System.Web.Mvc.Route(PrescriptionRoutes.CreateDispense)]
-        [System.Web.Http.HttpPut]
+        [HttpPut]
         public async Task<JsonResult<DispenseDto>> CreateDispense(
             string patientid,
             string prescriptionid,
@@ -176,11 +176,11 @@
         }
 
         [System.Web.Mvc.Route(PrescriptionRoutes.GetDrugs)]
-        public async Task<JsonResult<DrugItemDto[]>> GetDrugs(string patientid, string prescriptionid)
+        public async Task<JsonResult<List<DrugItemDto>>> GetDrugs(string patientid, string prescriptionid)
         {
             try
             {
-                return Json((await _prescriptionManager.GetPrescriptionDrugs(patientid, prescriptionid)).ToArray());
+                return Json((await _prescriptionManager.GetPrescriptionDrugs(patientid, prescriptionid)));
             }
             catch (NotFoundException)
             {

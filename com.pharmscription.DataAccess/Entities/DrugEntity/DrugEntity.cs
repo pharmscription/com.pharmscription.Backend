@@ -1,4 +1,5 @@
-﻿using com.pharmscription.DataAccess.Entities.BaseEntity;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using com.pharmscription.DataAccess.Entities.BaseEntity;
 using com.pharmscription.DataAccess.SharedInterfaces;
 
 namespace com.pharmscription.DataAccess.Entities.DrugEntity

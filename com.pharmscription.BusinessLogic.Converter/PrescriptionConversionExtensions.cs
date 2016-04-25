@@ -1,8 +1,5 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using com.pharmscription.DataAccess.Entities.PrescriptionEntity;
 using com.pharmscription.Infrastructure.Dto;
@@ -13,7 +10,7 @@ namespace com.pharmscription.BusinessLogic.Converter
 
     public static class PrescriptionConversionExtensions
     {
-        public static List<PrescriptionDto> ConvertToDtos(this List<Prescription> list)
+        public static List<PrescriptionDto> ConvertToDtos(this ICollection<Prescription> list)
         {
             if (list == null)
             {
@@ -24,7 +21,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return newList;
         }
 
-        public static List<Prescription> ConvertToEntites(this List<PrescriptionDto> list)
+        public static List<Prescription> ConvertToEntites(this ICollection<PrescriptionDto> list)
         {
             if (list == null)
             {
@@ -54,7 +51,7 @@ namespace com.pharmscription.BusinessLogic.Converter
                 EditDate = prescription.EditDate.ToString("dd.MM.yyyy"),
                 Dispenses = prescription.Dispenses.ConvertToDtos(),
                 Drugs = prescription.DrugItems.ConvertToDtos(),
-                CounterProposals = prescription.CounterProposals.ConvertToDtos(),
+                CounterProposals = prescription.CounterProposals.ConvertToDtos().ToList(),
                 PrescriptionHistory = prescription.PrescriptionHistory.ConvertToDtos()
             };
             return prescriptionDto;
@@ -122,14 +119,14 @@ namespace com.pharmscription.BusinessLogic.Converter
         public static bool DtoEqualsEntity(this PrescriptionDto prescriptionDto, Prescription prescription)
         {
             return prescriptionDto.IsValid == prescription.IsValid &&
-                   prescriptionDto.CounterProposals.DtoListEqualsEntityList(prescription.CounterProposals) &&
-                   prescriptionDto.Dispenses.DtoListEqualsEntityList(prescription.Dispenses) &&
-                   prescriptionDto.Drugs.DtoListEqualsEntityList(prescription.DrugItems) &&
+                   prescriptionDto.CounterProposals.DtoListEqualsEntityList(prescription.CounterProposals.ToList()) &&
+                   prescriptionDto.Dispenses.DtoListEqualsEntityList(prescription.Dispenses.ToList()) &&
+                   prescriptionDto.Drugs.DtoListEqualsEntityList(prescription.DrugItems.ToList()) &&
                    prescriptionDto.EditDate == prescription.EditDate.ToString("D") &&
                    prescriptionDto.IssueDate == prescription.IssueDate.ToString("D") &&
                    prescriptionDto.Type == "Bla" &&
                    prescriptionDto.SignDate == prescription.SignDate.ToString("D") &&
-                   prescriptionDto.PrescriptionHistory.DtoListEqualsEntityList(prescription.PrescriptionHistory);
+                   prescriptionDto.PrescriptionHistory.DtoListEqualsEntityList(prescription.PrescriptionHistory.ToList());
         }
         public static bool EntityEqualsDto(this Prescription prescription, PrescriptionDto prescriptionDto)
         {

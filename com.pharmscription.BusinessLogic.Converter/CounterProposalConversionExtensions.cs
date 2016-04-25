@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using com.pharmscription.DataAccess.Entities.CounterProposalEntity;
@@ -10,7 +11,7 @@ namespace com.pharmscription.BusinessLogic.Converter
 {
     public static class CounterProposalConversionExtensions
     {
-        public static List<CounterProposalDto> ConvertToDtos(this List<CounterProposal> list)
+        public static ICollection<CounterProposalDto> ConvertToDtos(this ICollection<CounterProposal> list)
         {
             if (list == null)
             {
@@ -21,7 +22,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return newList;
         }
 
-        public static List<CounterProposal> ConvertToEntites(this List<CounterProposalDto> list)
+        public static ICollection<CounterProposal> ConvertToEntites(this ICollection<CounterProposalDto> list)
         {
             if (list == null)
             {

@@ -7,9 +7,11 @@
     using SharedInterfaces;
     public class DrugItem : Entity, ICloneable<DrugItem>
     {
-        public Drug Drug { get; set; }
-        public Dispense Dispense { get; set; }
-        public Prescription Prescription { get; set; }
+        public virtual Drug Drug { get; set; }
+        public virtual Dispense Dispense { get; set; }
+        public virtual Prescription Prescription { get; set; }
+        public virtual StandingPrescription StandingPrescription { get; set; }
+        public virtual SinglePrescription SinglePrescription { get; set; }
         public string DosageDescription { get; set; }
 
         public DrugItem Clone()

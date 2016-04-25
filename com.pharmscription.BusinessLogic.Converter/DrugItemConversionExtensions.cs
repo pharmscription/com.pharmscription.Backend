@@ -8,7 +8,7 @@ namespace com.pharmscription.BusinessLogic.Converter
 {
     public static class DrugItemConversionExtensions
     {
-        public static List<DrugItemDto> ConvertToDtos(this List<DrugItem> list)
+        public static List<DrugItemDto> ConvertToDtos(this ICollection<DrugItem> list)
         {
             if (list == null)
             {
@@ -19,7 +19,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return newList;
         }
 
-        public static List<DrugItem> ConvertToEntites(this List<DrugItemDto> list)
+        public static List<DrugItem> ConvertToEntites(this ICollection<DrugItemDto> list)
         {
             if (list == null)
             {
