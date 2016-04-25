@@ -27,15 +27,15 @@
             {
                 return Json(await _prescriptionManager.Get(patientid));
             }
-            catch (NotFoundException)
+            catch (NotFoundException e)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }
@@ -69,15 +69,15 @@
             {
                 return Json(await _prescriptionManager.Add(patientid, dto));
             }
-            catch (NotFoundException)
+            catch (NotFoundException e)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }

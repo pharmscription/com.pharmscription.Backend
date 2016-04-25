@@ -54,6 +54,7 @@
     <Compile Include="Validation\AHVValidator.cs" />
     <Compile Include="Validation\BirthDateValidator.cs" />
     <Compile Include="Validation\IValidator.cs" />
+    <Compile Include="Validation\PrescriptionValidator.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

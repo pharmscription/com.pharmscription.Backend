@@ -1,10 +1,13 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Common.CommandTrees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.BusinessLogic.Prescription;
+using com.pharmscription.DataAccess.Entities.CounterProposalEntity;
+using com.pharmscription.DataAccess.Entities.DispenseEntity;
 using com.pharmscription.DataAccess.Tests.TestEnvironment;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.Exception;
@@ -21,10 +24,47 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [TestInitialize]
         public void SetUp()
         {
-            var prescriptionRepository = TestEnvironmentHelper.GetMockedPrescriptionRepository();
-            var patientRepository = TestEnvironmentHelper.GetMockedPatientRepository();
+
             var counterProposalRepository = TestEnvironmentHelper.GetMockedCounterProposalRepository();
             var dispenseRepository = TestEnvironmentHelper.GetMockedDispenseRepository();
+            var prescriptionRepository = TestEnvironmentHelper.GetMockedPrescriptionRepository();
+            foreach (var prescription in prescriptionRepository.Object.GetAll())
+            {
+                if (prescription.Dispenses == null)
+                {
+                    prescription.Dispenses = new List<Dispense>();
+                }
+                if (prescription.CounterProposals == null)
+                {
+                    prescription.CounterProposals = new List<CounterProposal>();
+                }
+            }
+            var patientRepository = TestEnvironmentHelper.GetMockedPatientRepository();
+            foreach (var patient in patientRepository.Object.GetAll())
+            {
+                if (patient.Prescriptions == null)
+                {
+                    patient.Prescriptions = new List<DataAccess.Entities.PrescriptionEntity.Prescription>();
+                }
+            }
+            var patientA = patientRepository.Object.GetAll().FirstOrDefault();
+            var prescriptionA = prescriptionRepository.Object.GetAll().FirstOrDefault();
+            patientA.Prescriptions.Add(prescriptionA);
+            prescriptionA.Patient = patientA;
+            foreach (var counterProposal in counterProposalRepository.Object.GetAll())
+            {
+                prescriptionA.CounterProposals.Add(counterProposal);
+
+            }
+            foreach (var dispense in dispenseRepository.Object.GetAll())
+            {
+                prescriptionA.Dispenses.Add(dispense);
+            }
+            var patientB = patientRepository.Object.GetAll().Skip(1).FirstOrDefault();
+            var prescriptionB = prescriptionRepository.Object.GetAll().Skip(1).FirstOrDefault();
+            patientB.Prescriptions.Add(prescriptionB);
+            prescriptionB.Patient = patientB;
+
             _prescriptionManager = new PrescriptionManager(prescriptionRepository.Object, patientRepository.Object, counterProposalRepository.Object, dispenseRepository.Object);
         }
 
@@ -88,6 +128,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [TestMethod]
         public async Task TestGetPrescriptionByPrescriptionIdReturnsOnFound()
         {
+
             var prescription = await _prescriptionManager.Get("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37");
             Assert.IsNotNull(prescription);
         }
@@ -108,7 +149,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
+        [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestAddPrescriptionThrowsOnPatientNotFound()
         {
             var prescription = new PrescriptionDto();

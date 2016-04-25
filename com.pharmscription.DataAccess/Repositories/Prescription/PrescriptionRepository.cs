@@ -19,7 +19,7 @@ namespace com.pharmscription.DataAccess.Repositories.Prescription
 
         public virtual Task<List<Prescription>> GetByPatientId(Guid patientId)
         {
-            throw new NotImplementedException();
+            return GetSet().Where(e => e.Patient.Id == patientId).ToListAsync();
         }
 
         public IQueryable<Prescription> GetWithAllNavs()

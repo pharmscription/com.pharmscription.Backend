@@ -11,7 +11,7 @@ namespace com.pharmscription.BusinessLogic.Converter
 {
     public static class CounterProposalConversionExtensions
     {
-        public static ICollection<CounterProposalDto> ConvertToDtos(this ICollection<CounterProposal> list)
+        public static List<CounterProposalDto> ConvertToDtos(this ICollection<CounterProposal> list)
         {
             if (list == null)
             {
@@ -22,7 +22,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return newList;
         }
 
-        public static ICollection<CounterProposal> ConvertToEntites(this ICollection<CounterProposalDto> list)
+        public static List<CounterProposal> ConvertToEntites(this ICollection<CounterProposalDto> list)
         {
             if (list == null)
             {

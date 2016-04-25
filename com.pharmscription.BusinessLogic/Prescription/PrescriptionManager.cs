@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.BusinessLogic.Converter;
+using com.pharmscription.BusinessLogic.Validation;
 using com.pharmscription.DataAccess.Repositories.CounterProposal;
 using com.pharmscription.DataAccess.Repositories.Dispense;
 using com.pharmscription.DataAccess.Repositories.Patient;
@@ -92,6 +93,8 @@ namespace com.pharmscription.BusinessLogic.Prescription
             {
                 throw new InvalidArgumentException("Patient Id or prescriptionDto was null or empty");
             }
+            var prescriptionValidator = new PrescriptionValidator();
+            prescriptionValidator.Validate(prescriptionDto);
             Guid patientGuid;
             try
             {
@@ -107,11 +110,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             }
 
             
-            var patient = await _patientRepository.GetAsync(patientGuid);
-            if (patient.Prescriptions == null)
-            {
-                patient.Prescriptions = new List<DataAccess.Entities.PrescriptionEntity.Prescription>();
-            }
+            var patient = await _patientRepository.GetWithPrescriptions(patientGuid);
             var prescription = prescriptionDto.ConvertToEntity();
             prescription.Patient = patient;
             _prescriptionRepository.Add(prescription);

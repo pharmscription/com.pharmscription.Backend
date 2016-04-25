@@ -90,6 +90,10 @@
     <Compile Include="Migrations\201604251325330_init6.Designer.cs">
       <DependentUpon>201604251325330_init6.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604251637458_MAde Signdate optional.cs" />
+    <Compile Include="Migrations\201604251637458_MAde Signdate optional.Designer.cs">
+      <DependentUpon>201604251637458_MAde Signdate optional.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PharmscriptionDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -139,6 +143,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604251325330_init6.resx">
       <DependentUpon>201604251325330_init6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604251637458_MAde Signdate optional.resx">
+      <DependentUpon>201604251637458_MAde Signdate optional.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
