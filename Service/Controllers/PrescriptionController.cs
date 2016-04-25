@@ -6,13 +6,15 @@
     using System.Threading.Tasks;
     using System.Web.Http;
     using System.Web.Http.Results;
+    using System.Web.Mvc;
 
     using com.pharmscription.BusinessLogic.Prescription;
     using com.pharmscription.Infrastructure.Dto;
 
     using Routes;
     using com.pharmscription.Infrastructure.Exception;
-    public class PrescriptionController : ApiController
+    [System.Web.Mvc.RoutePrefix("")]
+    public class PrescriptionController : Controller
     {
         private readonly IPrescriptionManager _prescriptionManager;
 
@@ -21,7 +23,7 @@
             _prescriptionManager = manager;
         }
         [System.Web.Mvc.Route(PrescriptionRoutes.GetPrescriptions)]
-        public async Task<JsonResult<List<PrescriptionDto>>> GetPrescriptions(string patientid)
+        public async Task<JsonResult> GetPrescriptions(string patientid)
         {
             try
             {
@@ -41,7 +43,7 @@
             }
         }
         [System.Web.Mvc.Route(PrescriptionRoutes.GetPrescriptionById)]
-        public async Task<JsonResult<PrescriptionDto>> GetPrescriptionById(string patientid, string prescriptionid)
+        public async Task<JsonResult> GetPrescriptionById(string patientid, string prescriptionid)
         {
             try
             {
@@ -62,8 +64,8 @@
         }
 
         [System.Web.Mvc.Route(PrescriptionRoutes.CreatePrescription)]
-        [HttpPut]
-        public async Task<JsonResult<PrescriptionDto>> CreatePrescription(string patientid, PrescriptionDto dto)
+        [System.Web.Http.HttpPut]
+        public async Task<JsonResult> CreatePrescription(string patientid, PrescriptionDto dto)
         {
             try
             {
@@ -84,7 +86,7 @@
         }
 
         [System.Web.Mvc.Route(PrescriptionRoutes.GetCounterProposals)]
-        public async Task<JsonResult<List<CounterProposalDto>>> GetCounterProposals(string patientid, string prescriptionid)
+        public async Task<JsonResult> GetCounterProposals(string patientid, string prescriptionid)
         {
             try
             {
@@ -105,8 +107,8 @@
         }
 
         [System.Web.Mvc.Route(PrescriptionRoutes.CreateCounterProposal)]
-        [HttpPut]
-        public async Task<JsonResult<CounterProposalDto>> CreateCounterProposal(
+        [System.Web.Http.HttpPut]
+        public async Task<JsonResult> CreateCounterProposal(
             string patientid,
             string prescriptionid,
             CounterProposalDto dto)
@@ -130,7 +132,7 @@
         }
 
         [System.Web.Mvc.Route(PrescriptionRoutes.GetDispenses)]
-        public async Task<JsonResult<List<DispenseDto>>> GetDispenses(string patientid, string prescriptionid)
+        public async Task<JsonResult> GetDispenses(string patientid, string prescriptionid)
         {
             try
             {
@@ -151,8 +153,8 @@
         }
 
         [System.Web.Mvc.Route(PrescriptionRoutes.CreateDispense)]
-        [HttpPut]
-        public async Task<JsonResult<DispenseDto>> CreateDispense(
+        [System.Web.Http.HttpPut]
+        public async Task<JsonResult> CreateDispense(
             string patientid,
             string prescriptionid,
             DispenseDto dto)
@@ -176,7 +178,7 @@
         }
 
         [System.Web.Mvc.Route(PrescriptionRoutes.GetDrugs)]
-        public async Task<JsonResult<List<DrugItemDto>>> GetDrugs(string patientid, string prescriptionid)
+        public async Task<JsonResult> GetDrugs(string patientid, string prescriptionid)
         {
             try
             {

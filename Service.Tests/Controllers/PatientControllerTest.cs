@@ -12,7 +12,6 @@ using Service.Controllers;
 
 namespace Service.Tests.Controllers
 {
-
     [ExcludeFromCodeCoverage]
     [TestClass]
     public class PatientControllerTest
@@ -64,8 +63,9 @@ namespace Service.Tests.Controllers
         [TestMethod]
         public async Task TestGetById()
         {
-            var patientInserted = (await _patientController.Add(TestPatientDto)).Content;
-            var patientFound = (await _patientController.GetById(patientInserted.Id)).Content;
+            var patientInserted = (PatientDto)(await _patientController.Add(TestPatientDto)).Data;
+            var patientFound =
+                (PatientDto)(await _patientController.GetById(patientInserted.Id)).Data;
             Assert.IsNotNull(patientFound);
             Assert.AreEqual(TestPatientDto.FirstName, patientFound.FirstName);
         }
@@ -81,7 +81,7 @@ namespace Service.Tests.Controllers
         public async Task TestAddPatient()
         {
             await _patientController.Add(TestPatientDto);
-            var patientInserted = (await _patientController.GetByAhv(TestAhvNumber)).Content;
+            var patientInserted = (PatientDto)(await _patientController.GetByAhv(TestAhvNumber)).Data;
             Assert.IsNotNull(patientInserted);
             Assert.AreEqual(TestPatientDto.FirstName, patientInserted.FirstName);
         }
@@ -96,8 +96,8 @@ namespace Service.Tests.Controllers
                 LastName = "SuperJessi",
                 AhvNumber = TestAhvNumber
             };
-            var patientInserted = (await _patientController.Add(patientDto)).Content;
-            var patientInsertedFresh = (await _patientController.GetById(patientInserted.Id)).Content;
+            var patientInserted = (PatientDto)(await _patientController.Add(patientDto)).Data;
+            var patientInsertedFresh = (PatientDto)(await _patientController.GetById(patientInserted.Id)).Data;
             Assert.IsNotNull(patientInsertedFresh);
             Assert.AreEqual(patientDto.FirstName, patientInsertedFresh.FirstName);
 
@@ -113,8 +113,9 @@ namespace Service.Tests.Controllers
         [TestMethod]
         public async Task TestGetByAhv()
         {
-            var patientInserted = (await _patientController.Add(TestPatientDto)).Content;
-            var patientFound = (await _patientController.GetByAhv(patientInserted.AhvNumber)).Content;
+            var patientInserted = (PatientDto)(await _patientController.Add(TestPatientDto)).Data;
+            var patientFound =
+                (PatientDto)(await _patientController.GetByAhv(patientInserted.AhvNumber)).Data;
             Assert.IsNotNull(patientFound);
             Assert.AreEqual(TestPatientDto.FirstName, patientFound.FirstName);
         }
@@ -129,8 +130,8 @@ namespace Service.Tests.Controllers
         [TestMethod]
         public async Task TestLookupByAhv()
         {
-            var patientInserted = (await _patientController.Add(TestPatientDto)).Content;
-            var patientFound = (await _patientController.LookupByAhvNumber(patientInserted.AhvNumber)).Content;
+            var patientInserted = (PatientDto)(await _patientController.Add(TestPatientDto)).Data;
+            var patientFound = (PatientDto)(await _patientController.LookupByAhvNumber(patientInserted.AhvNumber)).Data;
             Assert.IsNotNull(patientFound);
             Assert.AreEqual("Max", patientFound.FirstName);
         }

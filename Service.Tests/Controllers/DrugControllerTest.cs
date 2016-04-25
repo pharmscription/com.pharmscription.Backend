@@ -4,12 +4,16 @@ using System.Web.Http;
 using com.pharmscription.BusinessLogic.Drug;
 using com.pharmscription.DataAccess.Repositories.Drug;
 using com.pharmscription.DataAccess.UnitOfWork;
-using com.pharmscription.Infrastructure.Exception;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Service.Controllers;
 
 namespace Service.Tests.Controllers
 {
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+
+    using com.pharmscription.Infrastructure.Dto;
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class DrugControllerTest
     {
@@ -43,9 +47,9 @@ namespace Service.Tests.Controllers
         [TestMethod]
         public async Task TestCanDoSearchPaged()
         {
-            var drugs = (await _drugController.GetBySearchTermPaged("Redimune", "0", "2")).Content;
-            var drugsPageTwo = (await _drugController.GetBySearchTermPaged("Redimune", "1", "2")).Content;
-            var drugsPageThree = (await _drugController.GetBySearchTermPaged("Redimune", "2", "2")).Content;
+            var drugs = (List<DrugDto>)(await _drugController.GetBySearchTermPaged("Redimune", "0", "2")).Data;
+            var drugsPageTwo = (List<DrugDto>)(await _drugController.GetBySearchTermPaged("Redimune", "1", "2")).Data;
+            var drugsPageThree = (List<DrugDto>)(await _drugController.GetBySearchTermPaged("Redimune", "2", "2")).Data;
             Assert.AreEqual(2, drugs.Count);
             Assert.AreEqual(2, drugsPageTwo.Count);
             Assert.IsFalse(drugsPageThree.Any());
