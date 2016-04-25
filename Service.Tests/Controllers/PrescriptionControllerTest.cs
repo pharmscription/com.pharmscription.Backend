@@ -196,9 +196,9 @@ namespace Service.Tests.Controllers
                 Drugs = drugs
 
             };
-            var prescription = (await _prescriptionController.CreatePrescription("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", prescriptionToInsert)).Content;
+            var prescription = (PrescriptionDto)(await _prescriptionController.CreatePrescription("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", prescriptionToInsert)).Data;
             Assert.IsNotNull(prescription);
-            var prescriptionInserted = (await _prescriptionController.GetPrescriptionById("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", prescription.Id)).Content;
+            var prescriptionInserted = (PrescriptionDto)(await _prescriptionController.GetPrescriptionById("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", prescription.Id)).Data;
             Assert.IsNotNull(prescriptionInserted);
             var insertedDrugs = prescriptionInserted.Drugs;
             Assert.IsNotNull(insertedDrugs);
@@ -247,9 +247,9 @@ namespace Service.Tests.Controllers
 
 
             };
-            var counterProposal = (await _prescriptionController.CreateCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", prescriptionToInsert)).Content;
+            var counterProposal = (CounterProposalDto)(await _prescriptionController.CreateCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", prescriptionToInsert)).Data;
             Assert.IsNotNull(counterProposal);
-            var counterProposalInserted = (await _prescriptionController.GetCounterProposals("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Content.FirstOrDefault();
+            var counterProposalInserted = ((List<CounterProposalDto>)(await _prescriptionController.GetCounterProposals("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Data).FirstOrDefault();
             Assert.IsNotNull(counterProposalInserted);
             Assert.AreEqual(message, counterProposalInserted.Message);
         }
@@ -285,7 +285,7 @@ namespace Service.Tests.Controllers
         [TestMethod]
         public async Task TestGetCounterProposals()
         {
-            var counterProposals = (await _prescriptionController.GetCounterProposals("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Content;
+            var counterProposals = (List<CounterProposalDto>)(await _prescriptionController.GetCounterProposals("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Data;
             Assert.IsNotNull(counterProposals);
             Assert.AreEqual(5, counterProposals.Count);
             Assert.AreEqual("This is not right", counterProposals.First().Message);
@@ -331,9 +331,9 @@ namespace Service.Tests.Controllers
                 Date = DateTime.Now.ToString("dd.MM.yyyy"),
                 Remark = remark
             };
-            var dispense = (await _prescriptionController.CreateDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", dispenseToInsert)).Content;
+            var dispense = (DispenseDto)(await _prescriptionController.CreateDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", dispenseToInsert)).Data;
             Assert.IsNotNull(dispense);
-            var dispenseInserted = (await _prescriptionController.GetDispenses("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Content.FirstOrDefault(e => e.Id == dispense.Id);
+            var dispenseInserted = ((List<DispenseDto>)(await _prescriptionController.GetDispenses("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Data).FirstOrDefault(e => e.Id == dispense.Id);
             Assert.IsNotNull(dispenseInserted);
             Assert.AreEqual(remark, dispenseInserted.Remark);
         }
@@ -369,7 +369,7 @@ namespace Service.Tests.Controllers
         [TestMethod]
         public async Task TestGetDispenses()
         {
-            var dispenses = (await _prescriptionController.GetDispenses("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Content;
+            var dispenses = (List<DispenseDto>)(await _prescriptionController.GetDispenses("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Data;
             Assert.IsNotNull(dispenses);
             Assert.AreEqual(1, dispenses.Count);
             Assert.AreEqual("Did a Dispense", dispenses.First().Remark);
@@ -407,7 +407,7 @@ namespace Service.Tests.Controllers
         [TestMethod]
         public async Task TestGetPrescriptionDrug()
         {
-            var drugs = (await _prescriptionController.GetDrugs("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Content;
+            var drugs = (List<DrugItemDto>)(await _prescriptionController.GetDrugs("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Data;
             Assert.IsNotNull(drugs);
             Assert.AreEqual("Aspirin", drugs.FirstOrDefault().Drug.DrugDescription);
         }
