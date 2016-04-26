@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -19,6 +20,7 @@ using Service.Controllers;
 namespace Service.Tests.Controllers
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class PrescriptionControllerTest
     {
         private PrescriptionController _prescriptionController;

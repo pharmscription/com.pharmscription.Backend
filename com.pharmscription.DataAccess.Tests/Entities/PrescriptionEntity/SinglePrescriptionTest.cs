@@ -1,4 +1,6 @@
-﻿namespace com.pharmscription.DataAccess.Tests.Entities.PrescriptionEntity
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace com.pharmscription.DataAccess.Tests.Entities.PrescriptionEntity
 {
     using System.Collections.Generic;
 
@@ -10,6 +12,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class SinglePrescriptionTest
     {
         private Prescription _prescription;

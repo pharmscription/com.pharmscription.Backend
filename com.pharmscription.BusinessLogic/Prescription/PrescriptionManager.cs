@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.BusinessLogic.Converter;
+using com.pharmscription.BusinessLogic.GuidHelper;
 using com.pharmscription.BusinessLogic.Validation;
 using com.pharmscription.DataAccess.Repositories.CounterProposal;
 using com.pharmscription.DataAccess.Repositories.Dispense;
@@ -32,19 +33,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
         }
         public async Task<List<PrescriptionDto>> Get(string patientId)
         {
-            if (string.IsNullOrWhiteSpace(patientId))
-            {
-                throw new InvalidArgumentException("Patient Id was null or empty");
-            }
-            Guid patientGuid;
-            try
-            {
-                patientGuid = new Guid(patientId);
-            }
-            catch (FormatException )
-            {
-                throw new NotFoundException("Inavlid Patient Id");
-            }
+            var patientGuid = GuidParser.ParseGuid(patientId);
             if (await _patientRepository.GetAsync(patientGuid) == null)
             {
                 throw  new NotFoundException("Patient Does not Exist");
@@ -54,188 +43,58 @@ namespace com.pharmscription.BusinessLogic.Prescription
 
         public async Task<PrescriptionDto> Get(string patientId, string prescriptionId)
         {
-            if (string.IsNullOrWhiteSpace(patientId) || string.IsNullOrWhiteSpace(prescriptionId))
-            {
-                throw new InvalidArgumentException("Patient Id or prescription Id was null or empty");
-            }
-            Guid patientGuid;
-            try
-            {
-                patientGuid = new Guid(patientId);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Patient Id");
-            }
-            if (await _patientRepository.GetAsync(patientGuid) == null)
-            {
-                throw new NotFoundException("Patient Does not Exist");
-            }
-            Guid prescriptionGuid;
-            try
-            {
-                prescriptionGuid = new Guid(prescriptionId);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Prescription Id");
-            }
-            if (await _prescriptionRepository.GetAsync(prescriptionGuid) == null)
-            {
-                throw new NotFoundException("Prescription Does not Exist");
-            }
+            var patientGuid = GuidParser.ParseGuid(patientId);
+            await _patientRepository.CheckIfEntityExists(patientGuid);
+            var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
+            await _prescriptionRepository.CheckIfEntityExists(prescriptionGuid);
             return (await _prescriptionRepository.GetByPatientId(patientGuid)).FirstOrDefault(e => e.Id == prescriptionGuid).ConvertToDto();
         }
 
         public async Task<PrescriptionDto> Add(string patientId, PrescriptionDto prescriptionDto)
         {
-            if (string.IsNullOrWhiteSpace(patientId) || prescriptionDto == null)
+            if (prescriptionDto == null)
             {
                 throw new InvalidArgumentException("Patient Id or prescriptionDto was null or empty");
             }
             var prescriptionValidator = new PrescriptionValidator();
             prescriptionValidator.Validate(prescriptionDto);
-            Guid patientGuid;
-            try
-            {
-                patientGuid = new Guid(patientId);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Patient Id");
-            }
-            if (await _patientRepository.GetAsync(patientGuid) == null)
-            {
-                throw new NotFoundException("Patient Does not Exist");
-            }
-
-            
+            var patientGuid = GuidParser.ParseGuid(patientId);
+            await _patientRepository.CheckIfEntityExists(patientGuid);
             var patient = await _patientRepository.GetWithPrescriptions(patientGuid);
             var prescription = prescriptionDto.ConvertToEntity();
             prescription.Patient = patient;
             _prescriptionRepository.Add(prescription);
             patient.Prescriptions.Add(prescription);
-
             await _prescriptionRepository.UnitOfWork.CommitAsync();
             return prescription.ConvertToDto();
         }
 
         public async Task<List<CounterProposalDto>> GetCounterProposal(string patientId, string prescriptionId)
         {
-            if (string.IsNullOrWhiteSpace(patientId) || string.IsNullOrWhiteSpace(prescriptionId))
-            {
-                throw new InvalidArgumentException("Patient Id or prescription Id was null or empty");
-            }
-            Guid patientGuid;
-            try
-            {
-                patientGuid = new Guid(patientId);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Patient Id");
-            }
-            if (await _patientRepository.GetAsync(patientGuid) == null)
-            {
-                throw new NotFoundException("Patient Does not Exist");
-            }
-            Guid prescriptionGuid;
-            try
-            {
-                prescriptionGuid = new Guid(prescriptionId);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Prescription Id");
-            }
-            if (await _prescriptionRepository.GetAsync(prescriptionGuid) == null)
-            {
-                throw new NotFoundException("Prescription Does not Exist");
-            }
+            await _patientRepository.CheckIfEntityExists(GuidParser.ParseGuid(patientId));
+            var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
+            await _prescriptionRepository.CheckIfEntityExists(prescriptionGuid);
             return (await _prescriptionRepository.GetAsync(prescriptionGuid)).CounterProposals.ConvertToDtos().ToList();
         }
 
         public async Task<CounterProposalDto> GetCounterProposal(string patientId, string prescriptionId, string proposalId)
         {
-            if (string.IsNullOrWhiteSpace(patientId) || string.IsNullOrWhiteSpace(prescriptionId) || string.IsNullOrWhiteSpace(proposalId))
-            {
-                throw new InvalidArgumentException("Patient Id or prescription Id or proposalid was null or empty");
-            }
-            Guid patientGuid;
-            try
-            {
-                patientGuid = new Guid(patientId);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Patient Id");
-            }
-            if (await _patientRepository.GetAsync(patientGuid) == null)
-            {
-                throw new NotFoundException("Patient Does not Exist");
-            }
-            Guid prescriptionGuid;
-            try
-            {
-                prescriptionGuid = new Guid(prescriptionId);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Prescription Id");
-            }
-            if (await _prescriptionRepository.GetAsync(prescriptionGuid) == null)
-            {
-                throw new NotFoundException("Prescription Does not Exist");
-            }
-            Guid counterProposalGuid;
-            try
-            {
-                counterProposalGuid = new Guid(proposalId);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Counter Proposal Id");
-            }
-            if (await _counterProposalRepository.GetAsync(counterProposalGuid) == null)
-            {
-                throw new NotFoundException("Counter Proposal Does not Exist");
-            }
+            await _patientRepository.CheckIfEntityExists(GuidParser.ParseGuid(patientId));
+            await _prescriptionRepository.CheckIfEntityExists(GuidParser.ParseGuid(prescriptionId));
+            var counterProposalGuid = GuidParser.ParseGuid(proposalId);
+            await _counterProposalRepository.CheckIfEntityExists(counterProposalGuid);
             return (await _counterProposalRepository.GetAsync(counterProposalGuid)).ConvertToDto();
         }
 
         public async Task<CounterProposalDto> AddCounterProposal(string patientId, string prescriptionId, CounterProposalDto counterProposalDto)
         {
-            if (string.IsNullOrWhiteSpace(patientId) || string.IsNullOrWhiteSpace(prescriptionId) || counterProposalDto == null)
+            if (counterProposalDto == null)
             {
-                throw new InvalidArgumentException("Patient Id or prescription Id or counterproposal was null or empty");
+                throw new InvalidArgumentException("counterproposal was null or empty");
             }
-            Guid patientGuid;
-            try
-            {
-                patientGuid = new Guid(patientId);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Patient Id");
-            }
-            if (await _patientRepository.GetAsync(patientGuid) == null)
-            {
-                throw new NotFoundException("Patient Does not Exist");
-            }
-            Guid prescriptionGuid;
-            try
-            {
-                prescriptionGuid = new Guid(prescriptionId);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Prescription Id");
-            }
-            if (await _prescriptionRepository.GetAsync(prescriptionGuid) == null)
-            {
-                throw new NotFoundException("Prescription Does not Exist");
-            }
-
+            await _patientRepository.CheckIfEntityExists(GuidParser.ParseGuid(patientId));
+            var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
+            await _prescriptionRepository.CheckIfEntityExists(prescriptionGuid);
             var counterProposal = counterProposalDto.ConvertToEntity();
             _counterProposalRepository.Add(counterProposal);
             var prescription = await _prescriptionRepository.GetAsync(prescriptionGuid);
@@ -246,49 +105,14 @@ namespace com.pharmscription.BusinessLogic.Prescription
 
         public async Task<CounterProposalDto> EditCounterProposal(string patientId, string prescriptionId, CounterProposalDto counterProposalDto)
         {
-            if (string.IsNullOrWhiteSpace(patientId) || string.IsNullOrWhiteSpace(prescriptionId) || string.IsNullOrWhiteSpace(counterProposalDto?.Id))
+            if (counterProposalDto == null)
             {
-                throw new InvalidArgumentException("Patient Id or prescription Id or counterproposal was null or empty");
+                throw new InvalidArgumentException("counterproposal was null");
             }
-            Guid patientGuid;
-            try
-            {
-                patientGuid = new Guid(patientId);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Patient Id");
-            }
-            if (await _patientRepository.GetAsync(patientGuid) == null)
-            {
-                throw new NotFoundException("Patient Does not Exist");
-            }
-            Guid prescriptionGuid;
-            try
-            {
-                prescriptionGuid = new Guid(prescriptionId);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Prescription Id");
-            }
-            if (await _prescriptionRepository.GetAsync(prescriptionGuid) == null)
-            {
-                throw new NotFoundException("Prescription Does not Exist");
-            }
-            Guid counterProposalGuid;
-            try
-            {
-                counterProposalGuid = new Guid(counterProposalDto.Id);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Counter Proposal Id");
-            }
-            if (await _counterProposalRepository.GetAsync(counterProposalGuid) == null)
-            {
-                throw new NotFoundException("Counter Proposal Does not Exist");
-            }
+            await _patientRepository.CheckIfEntityExists(GuidParser.ParseGuid(patientId));
+            await _prescriptionRepository.CheckIfEntityExists(GuidParser.ParseGuid(prescriptionId));
+            var counterProposalGuid = GuidParser.ParseGuid(counterProposalDto.Id);
+            await _counterProposalRepository.CheckIfEntityExists(counterProposalGuid);
             var counterProposal = await _counterProposalRepository.GetAsync(counterProposalGuid);
             counterProposal.Message = counterProposalDto.Message;
             counterProposal.Date = DateTime.Parse(counterProposalDto.Date);
@@ -298,115 +122,30 @@ namespace com.pharmscription.BusinessLogic.Prescription
 
         public async Task<List<DispenseDto>> GetDispense(string patientId, string prescriptionId)
         {
-            if (string.IsNullOrWhiteSpace(patientId) || string.IsNullOrWhiteSpace(prescriptionId))
-            {
-                throw new InvalidArgumentException("Patient Id or prescription Id was null or empty");
-            }
-            Guid patientGuid;
-            try
-            {
-                patientGuid = new Guid(patientId);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Patient Id");
-            }
-            if (await _patientRepository.GetAsync(patientGuid) == null)
-            {
-                throw new NotFoundException("Patient Does not Exist");
-            }
-            Guid prescriptionGuid;
-            try
-            {
-                prescriptionGuid = new Guid(prescriptionId);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Prescription Id");
-            }
-            if (await _prescriptionRepository.GetAsync(prescriptionGuid) == null)
-            {
-                throw new NotFoundException("Prescription Does not Exist");
-            }
+            await _patientRepository.CheckIfEntityExists(GuidParser.ParseGuid(patientId));
+            var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
+            await _prescriptionRepository.CheckIfEntityExists(prescriptionGuid);
             return (await _prescriptionRepository.GetAsync(prescriptionGuid)).Dispenses.ConvertToDtos();
         }
 
         public async Task<DispenseDto> GetDispense(string patientId, string prescriptionId, string dispenseId)
         {
-            if (string.IsNullOrWhiteSpace(patientId) || string.IsNullOrWhiteSpace(prescriptionId) || string.IsNullOrWhiteSpace(dispenseId))
-            {
-                throw new InvalidArgumentException("Patient Id or prescription Id or dispenseDto id was null or empty");
-            }
-            Guid patientGuid;
-            try
-            {
-                patientGuid = new Guid(patientId);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Patient Id");
-            }
-            if (await _patientRepository.GetAsync(patientGuid) == null)
-            {
-                throw new NotFoundException("Patient Does not Exist");
-            }
-            Guid prescriptionGuid;
-            try
-            {
-                prescriptionGuid = new Guid(prescriptionId);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Prescription Id");
-            }
-            if (await _prescriptionRepository.GetAsync(prescriptionGuid) == null)
-            {
-                throw new NotFoundException("Prescription Does not Exist");
-            }
-            Guid dispenseGuid;
-            try
-            {
-                dispenseGuid = new Guid(dispenseId);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Dispense Id");
-            }
-            if (await _dispenseRepository.GetAsync(dispenseGuid) == null)
-            {
-                throw new NotFoundException("Dispense Does not Exist");
-            }
+            var dispenseGuid = GuidParser.ParseGuid(dispenseId);
+            await _patientRepository.CheckIfEntityExists(GuidParser.ParseGuid(patientId));
+            await _prescriptionRepository.CheckIfEntityExists(GuidParser.ParseGuid(prescriptionId));
+            await _dispenseRepository.CheckIfEntityExists(dispenseGuid);
             return (await _dispenseRepository.GetAsync(dispenseGuid)).ConvertToDto();
         }
 
         public async Task<DispenseDto> AddDispense(string patientId, string prescriptionId, DispenseDto dispenseDto)
         {
-            if (string.IsNullOrWhiteSpace(patientId) || string.IsNullOrWhiteSpace(prescriptionId) || dispenseDto == null)
+            if (dispenseDto == null)
             {
-                throw new InvalidArgumentException("Patient Id or prescription Id or counterproposal was null or empty");
+                throw new InvalidArgumentException("dispense was null or empty");
             }
-            Guid patientGuid;
-            try
-            {
-                patientGuid = new Guid(patientId);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Patient Id");
-            }
-            if (await _patientRepository.GetAsync(patientGuid) == null)
-            {
-                throw new NotFoundException("Patient Does not Exist");
-            }
-            Guid prescriptionGuid;
-            try
-            {
-                prescriptionGuid = new Guid(prescriptionId);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Prescription Id");
-            }
+            var patientGuid = GuidParser.ParseGuid(patientId);
+            await _patientRepository.CheckIfEntityExists(patientGuid);
+            var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
             if (await _prescriptionRepository.GetAsync(prescriptionGuid) == null)
             {
                 throw new NotFoundException("Prescription Does not Exist");
@@ -422,38 +161,11 @@ namespace com.pharmscription.BusinessLogic.Prescription
 
         public async Task<List<DrugItemDto>> GetPrescriptionDrugs(string patientId, string prescriptionId)
         {
-            if (string.IsNullOrWhiteSpace(patientId) || string.IsNullOrWhiteSpace(prescriptionId))
-            {
-                throw new InvalidArgumentException("Patient Id or prescription Id or drug item id was null or empty");
-            }
-            Guid patientGuid;
-            try
-            {
-                patientGuid = new Guid(patientId);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Patient Id");
-            }
-            if (await _patientRepository.GetAsync(patientGuid) == null)
-            {
-                throw new NotFoundException("Patient Does not Exist");
-            }
-            Guid prescriptionGuid;
-            try
-            {
-                prescriptionGuid = new Guid(prescriptionId);
-            }
-            catch (FormatException)
-            {
-                throw new NotFoundException("Inavlid Prescription Id");
-            }
-            if (await _prescriptionRepository.GetAsync(prescriptionGuid) == null)
-            {
-                throw new NotFoundException("Prescription Does not Exist");
-            }
+            var patientGuid = GuidParser.ParseGuid(patientId);
+            var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
+            await _patientRepository.CheckIfEntityExists(patientGuid);
+            await _prescriptionRepository.CheckIfEntityExists(prescriptionGuid);
             return (await _prescriptionRepository.GetAsync(prescriptionGuid)).DrugItems.ConvertToDtos();
         }
-
     }
 }

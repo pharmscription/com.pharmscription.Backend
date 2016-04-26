@@ -45,6 +45,7 @@
     <Compile Include="Drug\DrugManager.cs" />
     <Compile Include="Drug\IDrugManager.cs" />
     <Compile Include="Drug\SwissMedicConnector.cs" />
+    <Compile Include="GuidHelper\GuidParser.cs" />
     <Compile Include="Patient\InsuranceConnector.cs" />
     <Compile Include="Patient\IPatientManager.cs" />
     <Compile Include="Patient\PatientManager.cs" />

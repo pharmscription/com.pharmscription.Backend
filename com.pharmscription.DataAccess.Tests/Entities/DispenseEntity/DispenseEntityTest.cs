@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using com.pharmscription.DataAccess.Entities.DispenseEntity;
 using com.pharmscription.DataAccess.Entities.DrugItemEntity;
@@ -7,6 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace com.pharmscription.DataAccess.Tests.Entities.DispenseEntity
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class DispenseEntityTest
     {
         private Dispense _dispense;

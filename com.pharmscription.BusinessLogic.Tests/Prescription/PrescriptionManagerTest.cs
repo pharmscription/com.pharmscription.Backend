@@ -90,8 +90,8 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
-        public async Task TestGetPrescriptionByPatientIdThrowsOnNotFound()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestGetPrescriptionByPatientIdThrowsOnGarbageID()
         {
             await _prescriptionManager.Get("jksdjksadfksd");
         }
@@ -118,8 +118,8 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
-        public async Task TestGetPrescriptionByPrescriptionIdThrowsOnNotFound()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestGetPrescriptionByPrescriptionIdThrowsOnGarbagePrescriptionId()
         {
             await _prescriptionManager.Get("jksdjksadfksd", "ajsksdk");
         }
@@ -212,16 +212,16 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
-        public async Task TestAddCounterProposalThrowsOnPatientNotFound()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestAddCounterProposalThrowsOnPatientIdInvalid()
         {
             var counterProposalDto = new CounterProposalDto();
             await _prescriptionManager.AddCounterProposal("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", counterProposalDto);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
-        public async Task TestAddCounterProposalThrowsOnPrescriptionNotFound()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestAddCounterProposalThrowsOnPrescriptionIdInvalid()
         {
             var counterProposalDto = new CounterProposalDto();
             await _prescriptionManager.AddCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sndfsfsfjlks", counterProposalDto);
@@ -260,15 +260,15 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
-        public async Task TestGetCounterProposalsThrowsOnPatientNotFound()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestGetCounterProposalsThrowsOnPatientIdInvalid()
         {
             await _prescriptionManager.GetCounterProposal("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
-        public async Task TestGetCounterProposalsThrowsOnPrescriptionNotFound()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestGetCounterProposalsThrowsOnPrescriptionIdInvalid()
         {
             await _prescriptionManager.GetCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sdfklsdf");
         }
@@ -297,22 +297,22 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
-        public async Task TestGetCounterProposalThrowsOnPatientNotFound()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestGetCounterProposalThrowsOnPatientIdInvalid()
         {
             await _prescriptionManager.GetCounterProposal("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", "IDIsInDatabase");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
-        public async Task TestGetCounterProposalThrowsOnPrescriptionNotFound()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestGetCounterProposalThrowsOnPrescriptionIdInvalid()
         {
             await _prescriptionManager.GetCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sdfklsdf", "IDIsInDatabase");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
-        public async Task TestGetCounterProposalThrowsOnCounterProposalNotFound()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestGetCounterProposalThrowsOnCounterProposalIdInvalid()
         {
             await _prescriptionManager.GetCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", "sdfskjdfkjsfkj");
         }
@@ -402,16 +402,16 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
-        public async Task TestAddDispenseThrowsOnPatientNotFound()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestAddDispenseThrowsOnPatientIdInvalid()
         {
             var dispenseDto = new DispenseDto();
             await _prescriptionManager.AddDispense("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", dispenseDto);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
-        public async Task TestAddDispenseThrowsOnPrescriptionNotFound()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestAddDispenseThrowsOnPrescriptionIdInvalid()
         {
             var dispenseDto = new DispenseDto();
             await _prescriptionManager.AddDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sndfsfsfjlks", dispenseDto);
@@ -448,15 +448,15 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
-        public async Task TestGetDispensesThrowsOnPatientNotFound()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestGetDispensesThrowsOnPatientIdInvalid()
         {
             await _prescriptionManager.GetDispense("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
-        public async Task TestGetDispensesThrowsOnPrescriptionNotFound()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestGetDispensesThrowsOnPrescriptionIdInvalid()
         {
             await _prescriptionManager.GetDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sdfklsdf");
         }
@@ -485,22 +485,22 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
-        public async Task TestGetDispenseThrowsOnPatientNotFound()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestGetDispenseThrowsOnPatientIdInvalid()
         {
             await _prescriptionManager.GetDispense("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", "IDIsInDatabase");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
-        public async Task TestGetDispenseThrowsOnPrescriptionNotFound()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestGetDispenseThrowsOnPrescriptionIdInvalid()
         {
             await _prescriptionManager.GetDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sdfklsdf", "IDIsInDatabase");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
-        public async Task TestGetDispenseThrowsOnDispenseNotFound()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestGetDispenseThrowsOnDispenseIdInvalid()
         {
             await _prescriptionManager.GetDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", "sdfskjdfkjsfkj");
         }
@@ -528,15 +528,15 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
-        public async Task TestGetGetPrescriptionDrugThrowsOnPatientNotFound()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestGetGetPrescriptionDrugThrowsOnPatientIdInvalid()
         {
             await _prescriptionManager.GetPrescriptionDrugs("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotFoundException))]
-        public async Task TestGetPrescriptionDrugThrowsOnPrescriptionNotFound()
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestGetPrescriptionDrugThrowsOnPrescriptionIdInvalid()
         {
             await _prescriptionManager.GetPrescriptionDrugs("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sdfklsdf");
         }

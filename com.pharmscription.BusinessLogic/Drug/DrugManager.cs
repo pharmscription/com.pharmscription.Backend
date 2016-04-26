@@ -1,9 +1,9 @@
 ﻿
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.BusinessLogic.Converter;
+using com.pharmscription.BusinessLogic.GuidHelper;
 using com.pharmscription.DataAccess.Repositories.Drug;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.Exception;
@@ -95,11 +95,7 @@ namespace com.pharmscription.BusinessLogic.Drug
 
         public async Task<DrugDto> GetById(string id)
         {
-            if (string.IsNullOrWhiteSpace(id))
-            {
-                throw new InvalidArgumentException("Id was empty");
-            }
-            return (await _repository.GetAsync(new Guid(id))).ConvertToDto();
+            return (await _repository.GetAsync(GuidParser.ParseGuid(id))).ConvertToDto();
         }
     }
 }

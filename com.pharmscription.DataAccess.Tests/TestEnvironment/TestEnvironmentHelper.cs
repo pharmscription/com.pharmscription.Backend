@@ -18,6 +18,7 @@ using com.pharmscription.DataAccess.Repositories.Prescription;
 using com.pharmscription.DataAccess.SharedInterfaces;
 using com.pharmscription.DataAccess.UnitOfWork;
 using com.pharmscription.Infrastructure.EntityHelper;
+using com.pharmscription.Infrastructure.Exception;
 using Moq;
 
 namespace com.pharmscription.DataAccess.Tests.TestEnvironment
@@ -257,6 +258,26 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
             mockedRepository.Setup(m => m.UnitOfWork).Returns(mockPuow.Object);
             mockedRepository.Setup(m => m.Add(It.IsAny<TEntity>()))
                 .Callback<TEntity>(e => mockSet.Object.Add(e));
+            mockedRepository.Setup(m => m.GetAsyncOrThrow(It.IsAny<Guid>())).Returns<Guid>(e =>
+            {
+                var entity = initialData.FirstOrDefault(a => a.Id == e);
+                if (entity == null)
+                {
+                    throw new NotFoundException("No Such Entity");
+                }
+                return Task.FromResult(entity);
+            });
+            mockedRepository.Setup(m => m.CheckIfEntityExists(It.IsAny<Guid>())).Returns<Guid>(e =>
+            {
+                {
+                    var entity = initialData.FirstOrDefault(a => a.Id == e);
+                    if (entity == null)
+                    {
+                        throw new NotFoundException("No Such Entity");
+                    }
+                    return Task.FromResult(true);
+                }
+            });
             return mockedRepository;
         }
 

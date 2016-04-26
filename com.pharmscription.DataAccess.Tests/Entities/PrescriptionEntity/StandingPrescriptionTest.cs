@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace com.pharmscription.DataAccess.Tests.Entities.PrescriptionEntity
 {
@@ -12,6 +13,7 @@ namespace com.pharmscription.DataAccess.Tests.Entities.PrescriptionEntity
 
 
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class StandingPrescriptionTest
     {
         private Prescription _prescription;
