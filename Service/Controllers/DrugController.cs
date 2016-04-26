@@ -46,8 +46,8 @@ namespace Service.Controllers
             }
         }
 
-        [System.Web.Mvc.Route(DrugRoutes.GetDrugsCountBySearchTerm)]
-        public async Task<JsonResult> GetCountBySearchTerm(string keyword)
+        [System.Web.Mvc.Route(DrugRoutes.GetDrugsBySearchTerm)]
+        public async Task<JsonResult> GetDrugsBySearchTerm(string keyword)
         {
             try
             {
@@ -66,6 +66,29 @@ namespace Service.Controllers
                 throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }
         }
+
+        [System.Web.Mvc.Route(DrugRoutes.GetDrugsCountBySearchTerm)]
+        public async Task<JsonResult> GetDrugsCountBySearchTerm(string keyword)
+        {
+            try
+            {
+                return Json(await _drugManager.Count(keyword), JsonRequestBehavior.AllowGet);
+            }
+            catch (NotFoundException)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+            catch (ArgumentException)
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+            catch (Exception)
+            {
+                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            }
+        }
+
+
 
         [System.Web.Mvc.Route(DrugRoutes.GetDrugsBySearchTermPaged)]
         public async Task<JsonResult> GetBySearchTermPaged(string keyword, string page, string amount)
