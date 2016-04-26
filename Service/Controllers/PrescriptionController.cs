@@ -70,10 +70,6 @@
             {
                 return Json(await _prescriptionManager.Add(patientid, dto));
             }
-            catch (NotFoundException)
-            {
-                throw new HttpResponseException(HttpStatusCode.NoContent);
-            }
             catch (ArgumentException)
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
@@ -116,10 +112,6 @@
             {
                 return Json(await _prescriptionManager.AddCounterProposal(patientid, prescriptionid, dto));
             }
-            catch (NotFoundException)
-            {
-                throw new HttpResponseException(HttpStatusCode.NoContent);
-            }
             catch (ArgumentException)
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
@@ -161,10 +153,6 @@
             try
             {
                 return Json(await _prescriptionManager.AddDispense(patientid, prescriptionid, dto));
-            }
-            catch (NotFoundException)
-            {
-                throw new HttpResponseException(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {

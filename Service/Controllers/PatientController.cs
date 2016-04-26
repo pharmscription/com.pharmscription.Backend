@@ -66,7 +66,10 @@ namespace Service.Controllers
             {
                 return Json(await _patientManager.Find(ahv), JsonRequestBehavior.AllowGet);
             }
-
+            catch (NotFoundException)
+            {
+                throw new HttpResponseException(HttpStatusCode.NoContent);
+            }
             catch (ArgumentException)
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
