@@ -13,14 +13,19 @@ using Service.Routes;
 
 namespace Service.Controllers
 {
+    using log4net;
+
     [System.Web.Mvc.RoutePrefix("")]
     public class DrugController : Controller
     {
+        private readonly ILog log = log4net.LogManager.GetLogger(typeof(DrugController));
+
         private readonly IDrugManager _drugManager;
 
         public DrugController(IDrugManager drugManager)
         {
             _drugManager = drugManager;
+            log.Debug("DrugController called");
         }
 
         [System.Web.Mvc.Route(DrugRoutes.GetDrugById)]

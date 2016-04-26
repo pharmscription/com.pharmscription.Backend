@@ -6,6 +6,8 @@ using System.Web.Routing;
 
 namespace Service
 {
+    using log4net.Config;
+
     public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
@@ -14,6 +16,8 @@ namespace Service
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            XmlConfigurator.Configure();
         }
 
         protected void Application_BeginRequest(object sender, EventArgs e)
