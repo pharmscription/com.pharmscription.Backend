@@ -11,7 +11,7 @@ namespace Service.Controllers
 {
     using System.Web.Mvc;
 
-    [RoutePrefix("")]
+    [System.Web.Mvc.RoutePrefix("")]
     public class PatientController : Controller
     {
         private readonly IPatientManager _patientManager;
@@ -21,7 +21,7 @@ namespace Service.Controllers
             _patientManager = patientManager;
         }
 
-        [Route(PatientRoutes.GetPatientById)]
+        [System.Web.Mvc.Route(PatientRoutes.GetPatientById)]
         public async Task<JsonResult> GetById(string id)
         {
             try
@@ -30,7 +30,7 @@ namespace Service.Controllers
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
@@ -41,7 +41,7 @@ namespace Service.Controllers
                 throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }
         }
-        [Route(PatientRoutes.AddPatient)]
+        [System.Web.Mvc.Route(PatientRoutes.AddPatient)]
         [HttpPut]
         public async Task<JsonResult> Add(PatientDto patientDto)
         {
@@ -59,15 +59,17 @@ namespace Service.Controllers
             }
         }
 
-        [Route(PatientRoutes.GetPatientByAhvNumber)]
-        public async Task<JsonResult> GetByAhv(string ahvNumber)
+        [System.Web.Mvc.Route(PatientRoutes.GetPatientByAhvNumber)]
+        public async Task<JsonResult> GetByAhv(string ahv)
         {
             try
             {
-
-                return Json(await _patientManager.Find(ahvNumber), JsonRequestBehavior.AllowGet);
+                return Json(await _patientManager.Find(ahv), JsonRequestBehavior.AllowGet);
             }
-
+            catch (NotFoundException)
+            {
+                throw new HttpResponseException(HttpStatusCode.NoContent);
+            }
             catch (ArgumentException)
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
@@ -78,16 +80,16 @@ namespace Service.Controllers
             }
         }
 
-        [Route(PatientRoutes.LookupPatientByAhvNumber)]
-        public async Task<JsonResult> LookupByAhvNumber(string ahvNumber)
+        [System.Web.Mvc.Route(PatientRoutes.LookupPatientByAhvNumber)]
+        public async Task<JsonResult> LookupByAhvNumber(string ahv)
         {
             try
             {
-                return Json(await _patientManager.Lookup(ahvNumber), JsonRequestBehavior.AllowGet);
+                return Json(await _patientManager.Lookup(ahv), JsonRequestBehavior.AllowGet);
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {

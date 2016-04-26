@@ -11,6 +11,7 @@
 
     using Routes;
     using com.pharmscription.Infrastructure.Exception;
+
     [System.Web.Mvc.RoutePrefix("")]
     public class PrescriptionController : Controller
     {
@@ -29,7 +30,7 @@
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
@@ -49,7 +50,7 @@
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
@@ -68,10 +69,6 @@
             try
             {
                 return Json(await _prescriptionManager.Add(patientid, dto));
-            }
-            catch (NotFoundException)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
             catch (ArgumentException)
             {
@@ -92,7 +89,7 @@
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
@@ -115,10 +112,6 @@
             {
                 return Json(await _prescriptionManager.AddCounterProposal(patientid, prescriptionid, dto));
             }
-            catch (NotFoundException)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
             catch (ArgumentException)
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
@@ -138,7 +131,7 @@
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
@@ -161,10 +154,6 @@
             {
                 return Json(await _prescriptionManager.AddDispense(patientid, prescriptionid, dto));
             }
-            catch (NotFoundException)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
             catch (ArgumentException)
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
@@ -180,11 +169,11 @@
         {
             try
             {
-                return Json((await _prescriptionManager.GetPrescriptionDrugs(patientid, prescriptionid)));
+                return Json(await _prescriptionManager.GetPrescriptionDrugs(patientid, prescriptionid));
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {

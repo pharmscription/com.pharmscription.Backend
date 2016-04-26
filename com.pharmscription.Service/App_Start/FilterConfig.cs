@@ -1,7 +1,6 @@
-﻿using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
-namespace com.pharmscription.Service
+namespace Service
 {
     public class FilterConfig
     {
