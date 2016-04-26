@@ -12,6 +12,9 @@ using Service.Controllers;
 
 namespace Service.Tests.Controllers
 {
+    using System.Net;
+    using System.Web.Mvc;
+
     [ExcludeFromCodeCoverage]
     [TestClass]
     public class PatientControllerTest
@@ -54,40 +57,39 @@ namespace Service.Tests.Controllers
         }
 
         [TestMethod]
-        [ExpectedException(typeof(HttpResponseException))]
         public async Task TestGetByIdThrowsOnGarbage()
         {
-            await _patientController.GetById("ksadfksdf");
+            var result = (HttpStatusCodeResult)await _patientController.GetById("ksadfksdf");
+            Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
         }
 
         [TestMethod]
         public async Task TestGetById()
         {
-            var patientInserted = (PatientDto)(await _patientController.Add(TestPatientDto)).Data;
+            var patientInserted = (PatientDto)((JsonResult)await _patientController.Add(TestPatientDto)).Data;
             var patientFound =
-                (PatientDto)(await _patientController.GetById(patientInserted.Id)).Data;
+                (PatientDto)((JsonResult)await _patientController.GetById(patientInserted.Id)).Data;
             Assert.IsNotNull(patientFound);
             Assert.AreEqual(TestPatientDto.FirstName, patientFound.FirstName);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(HttpResponseException))]
         public async Task TestAddPatientThrowsOnNull()
         {
-            await _patientController.Add(null);
+            var result = (HttpStatusCodeResult)await _patientController.Add(null);
+            Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
         }
 
         [TestMethod]
         public async Task TestAddPatient()
         {
             await _patientController.Add(TestPatientDto);
-            var patientInserted = (PatientDto)(await _patientController.GetByAhv(TestAhvNumber)).Data;
+            var patientInserted = (PatientDto)((JsonResult)await _patientController.GetByAhv(TestAhvNumber)).Data;
             Assert.IsNotNull(patientInserted);
             Assert.AreEqual(TestPatientDto.FirstName, patientInserted.FirstName);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(HttpResponseException))]
         public async Task TestAddPatientThrowsIfBirthDateNoneGiven()
         {
             var patientDto = new PatientDto
@@ -96,42 +98,44 @@ namespace Service.Tests.Controllers
                 LastName = "SuperJessi",
                 AhvNumber = TestAhvNumber
             };
-            var patientInserted = (PatientDto)(await _patientController.Add(patientDto)).Data;
-            var patientInsertedFresh = (PatientDto)(await _patientController.GetById(patientInserted.Id)).Data;
+            var result = (HttpStatusCodeResult)await _patientController.Add(patientDto);
+            Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
+            /*var patientInsertedFresh = (PatientDto)((JsonResult)await _patientController.GetById(patientInserted.Id)).Data;
             Assert.IsNotNull(patientInsertedFresh);
-            Assert.AreEqual(patientDto.FirstName, patientInsertedFresh.FirstName);
+            Assert.AreEqual(patientDto.FirstName, patientInsertedFresh.FirstName);*/
+
 
         }
 
         [TestMethod]
-        [ExpectedException(typeof(HttpResponseException))]
         public async Task TestGetByAhvThrowsOnGarbage()
         {
-            await _patientController.GetByAhv(null);
+            var result = (HttpStatusCodeResult)await _patientController.GetByAhv(null);
+            Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
         }
 
         [TestMethod]
         public async Task TestGetByAhv()
         {
-            var patientInserted = (PatientDto)(await _patientController.Add(TestPatientDto)).Data;
+            var patientInserted = (PatientDto)((JsonResult)await _patientController.Add(TestPatientDto)).Data;
             var patientFound =
-                (PatientDto)(await _patientController.GetByAhv(patientInserted.AhvNumber)).Data;
+                (PatientDto)((JsonResult)await _patientController.GetByAhv(patientInserted.AhvNumber)).Data;
             Assert.IsNotNull(patientFound);
             Assert.AreEqual(TestPatientDto.FirstName, patientFound.FirstName);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(HttpResponseException))]
         public async Task TestLookupByAhvThrowsOnGarbage()
         {
-            await _patientController.LookupByAhvNumber(null);
+            var result = (HttpStatusCodeResult)await _patientController.LookupByAhvNumber(null);
+            Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
         }
 
         [TestMethod]
         public async Task TestLookupByAhv()
         {
-            var patientInserted = (PatientDto)(await _patientController.Add(TestPatientDto)).Data;
-            var patientFound = (PatientDto)(await _patientController.LookupByAhvNumber(patientInserted.AhvNumber)).Data;
+            var patientInserted = (PatientDto)((JsonResult)await _patientController.Add(TestPatientDto)).Data;
+            var patientFound = (PatientDto)((JsonResult)await _patientController.LookupByAhvNumber(patientInserted.AhvNumber)).Data;
             Assert.IsNotNull(patientFound);
             Assert.AreEqual("Max", patientFound.FirstName);
         }
