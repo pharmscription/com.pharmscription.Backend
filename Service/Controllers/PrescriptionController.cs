@@ -30,7 +30,7 @@
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
@@ -50,7 +50,7 @@
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
@@ -72,7 +72,7 @@
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
@@ -93,7 +93,7 @@
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
@@ -118,7 +118,7 @@
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
@@ -139,7 +139,7 @@
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
@@ -164,7 +164,7 @@
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
@@ -181,11 +181,11 @@
         {
             try
             {
-                return Json((await _prescriptionManager.GetPrescriptionDrugs(patientid, prescriptionid)));
+                return Json(await _prescriptionManager.GetPrescriptionDrugs(patientid, prescriptionid));
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {

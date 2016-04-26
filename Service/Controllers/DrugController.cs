@@ -34,7 +34,7 @@ namespace Service.Controllers
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
@@ -55,7 +55,7 @@ namespace Service.Controllers
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
@@ -76,7 +76,7 @@ namespace Service.Controllers
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
@@ -99,7 +99,7 @@ namespace Service.Controllers
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
