@@ -98,40 +98,17 @@ namespace Service.Tests.Controllers
         [TestCleanup]
         public void CleanUp()
         {
-            foreach (var prescription in _prescriptionRepository.GetWithAllNavs().ToList())
-            {
-                _prescriptionRepository.Remove(prescription);
-            }
+            _puow.ExecuteCommand("Delete From DrugItems");
             _puow.Commit();
-
-            foreach (var counterProposal in _counterProposalRepository.GetAll().ToList())
-            {
-                _counterProposalRepository.Remove(counterProposal);
-            }
+            _puow.ExecuteCommand("Delete From CounterProposals");
             _puow.Commit();
-
-            foreach (var drugItem in _drugItemRepository.GetAll().ToList())
-            {
-                _drugItemRepository.Remove(drugItem);
-            }
+            _puow.ExecuteCommand("Delete From Dispenses");
             _puow.Commit();
-            
-            foreach (var drug in _drugRepository.GetAll().ToList())
-            {
-                _drugRepository.Remove(drug);
-            }
+            _puow.ExecuteCommand("Delete From Prescriptions");
             _puow.Commit();
-
-            foreach (var dispense in _dispenseRepository.GetAll().ToList())
-            {
-                _dispenseRepository.Remove(dispense);
-            }
+            _puow.ExecuteCommand("Delete From Drugs");
             _puow.Commit();
-
-            foreach (var patient in _patientRepository.GetAll().ToList())
-            {
-                _patientRepository.Remove(patient);
-            }
+            _puow.ExecuteCommand("Delete From Patients");
             _puow.Commit();
         }
 
