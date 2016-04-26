@@ -55,32 +55,6 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                             },
                             DosageDescription = "2/3/2"
                         }
-                    },
-                    Dispenses = new List<Dispense>
-                    {
-                        new Dispense
-                        {
-                            Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e43"),
-                            Date = DateTime.Now,
-                            Remark = "Did a Dispense",
-                            DrugItems = new List<DrugItem>
-                            {
-
-
-                                    new DrugItem
-                        {
-                            Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e44"),
-                            Drug = new DataAccess.Entities.DrugEntity.Drug
-                            {
-                                Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e45"),
-                                IsValid = true,
-                                DrugDescription = "Aspirin"
-                            },
-                            DosageDescription = "2/3/2"
-
-                                }
-                            }
-                        }
                     }
                 },
                 new StandingPrescription
@@ -103,32 +77,6 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                                 DrugDescription = "Mebucain"
                             },
                             DosageDescription = "2/3/2"
-                        }
-                    },
-                    Dispenses = new List<Dispense>
-                    {
-                        new Dispense
-                        {
-                            Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e54"),
-                            Date = DateTime.Now,
-                            Remark = "Did a Dispense",
-                            DrugItems = new List<DrugItem>
-                            {
-
-
-                                    new DrugItem
-                        {
-                            Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e55"),
-                            Drug = new DataAccess.Entities.DrugEntity.Drug
-                            {
-                                Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e56"),
-                                IsValid = true,
-                                DrugDescription = "Aspirin"
-                            },
-                            DosageDescription = "2/3/2"
-
-                                }
-                            }
                         }
                     }
                 }
@@ -230,26 +178,6 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                     Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e43"),
                     Date = DateTime.Now,
                     Remark = "Did a Dispense",
-                    DrugItems = new List<DrugItem>
-                    {
-                        new DrugItem
-                        {
-                            Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e44"),
-                            Drug = new DataAccess.Entities.DrugEntity.Drug
-                            {
-                                Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e45"),
-                                IsValid = true,
-                                DrugDescription = "Aspirin"
-                            },
-                            DosageDescription = "2/3/2",
-                            Dispense = new Dispense
-                            {
-                                Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e46"),
-                                Remark = "Did it"
-                            }
-
-                        }
-                    }
                 }
             };
         }
@@ -279,6 +207,8 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
             var mockPuow = GetMockedDataContext();
             mockPuow.Setup(m => m.Patients).Returns(mockSet.Object);
             var mockedRepository = CreateMockedRepository<Patient, PatientRepository>(mockPuow, mockSet, patients);
+            mockedRepository.Setup(m => m.GetWithPrescriptions(It.IsAny<Guid>()))
+            .Returns<Guid>(e => Task.FromResult(patients.FirstOrDefault(a => a.Id == e)));
             return mockedRepository;
         }
         public static Mock<CounterProposalRepository> GetMockedCounterProposalRepository()

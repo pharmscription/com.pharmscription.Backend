@@ -42,7 +42,6 @@ namespace com.pharmscription.BusinessLogic.Converter
             {
                 Drug = drug.Drug.ConvertToDto(),
                 DosageDescription = drug.DosageDescription,
-                Prescription = drug.Prescription.ConvertToDto(),
                 Dispense = drug.Dispense.ConvertToDto()
             };
             return drugItemDto;
@@ -60,7 +59,6 @@ namespace com.pharmscription.BusinessLogic.Converter
             var drugItem = new DrugItem
             {
                 Dispense = drugItemDto.Dispense.ConvertToEntity(),
-                Prescription = drugItemDto.Prescription.ConvertToEntity(),
                 Drug = drugItemDto.Drug.ConvertToEntity(),
                 Id = drugGuid,
                 DosageDescription = drugItemDto.DosageDescription

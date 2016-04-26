@@ -6,6 +6,8 @@ using System.Web.Http;
 using com.pharmscription.BusinessLogic.Prescription;
 using com.pharmscription.DataAccess.Repositories.CounterProposal;
 using com.pharmscription.DataAccess.Repositories.Dispense;
+using com.pharmscription.DataAccess.Repositories.Drug;
+using com.pharmscription.DataAccess.Repositories.DrugItem;
 using com.pharmscription.DataAccess.Repositories.Patient;
 using com.pharmscription.DataAccess.Repositories.Prescription;
 using com.pharmscription.DataAccess.Tests.TestEnvironment;
@@ -26,6 +28,9 @@ namespace Service.Tests.Controllers
         private ICounterProposalRepository _counterProposalRepository;
         private IDispenseRepository _dispenseRepository;
         private IPrescriptionManager _prescriptionManager;
+        private IDrugRepository _drugRepository;
+        private IDrugItemRepository _drugItemRepository;
+
         [TestInitialize]
         public void SetUp()
         {
@@ -34,6 +39,8 @@ namespace Service.Tests.Controllers
             _patientRepository = new PatientRepository(_puow);
             _counterProposalRepository = new CounterProposalRepository(_puow);
             _dispenseRepository = new DispenseRepository(_puow);
+            _drugRepository = new DrugRepository(_puow);
+            _drugItemRepository = new DrugItemRepository(_puow);
             _prescriptionManager= new PrescriptionManager(_prescriptionRepository, _patientRepository, _counterProposalRepository, _dispenseRepository);
             _prescriptionController = new PrescriptionController(_prescriptionManager);
             SetupTestData();
@@ -78,13 +85,54 @@ namespace Service.Tests.Controllers
 
             }
 
-            var prescriptionsToConnect = _prescriptionRepository.GetWithAllNavs();
-            foreach (var counterProposal in counterProposalsToConnect)
+            var prescriptionsToConnect = _prescriptionRepository.GetWithAllNavs().OrderBy(e => e.Id);
+            foreach (var counterProposal in counterProposalsToConnect.Skip(1))
             {
                 prescriptionsToConnect.FirstOrDefault().CounterProposals.Add(counterProposal);
             }
-            prescriptionsToConnect.Skip(1).FirstOrDefault().CounterProposals.Add(counterProposalsToConnect.FirstOrDefault());
+            prescriptionsToConnect.OrderBy(e => e.Id).Skip(1).FirstOrDefault().CounterProposals.Add(counterProposalsToConnect.FirstOrDefault());
         }
+
+        [TestCleanup]
+        public void CleanUp()
+        {
+            foreach (var prescription in _prescriptionRepository.GetWithAllNavs().ToList())
+            {
+                _prescriptionRepository.Remove(prescription);
+            }
+            _puow.Commit();
+
+            foreach (var counterProposal in _counterProposalRepository.GetAll().ToList())
+            {
+                _counterProposalRepository.Remove(counterProposal);
+            }
+            _puow.Commit();
+
+            foreach (var drugItem in _drugItemRepository.GetAll().ToList())
+            {
+                _drugItemRepository.Remove(drugItem);
+            }
+            _puow.Commit();
+            
+            foreach (var drug in _drugRepository.GetAll().ToList())
+            {
+                _drugRepository.Remove(drug);
+            }
+            _puow.Commit();
+
+            foreach (var dispense in _dispenseRepository.GetAll().ToList())
+            {
+                _dispenseRepository.Remove(dispense);
+            }
+            _puow.Commit();
+
+            foreach (var patient in _patientRepository.GetAll().ToList())
+            {
+                _patientRepository.Remove(patient);
+            }
+            _puow.Commit();
+        }
+
         [TestMethod]
         [ExpectedException(typeof(HttpResponseException))]
         public async Task TestGetPrescriptionByPatientIdThrowsOnNull()
@@ -162,6 +210,47 @@ namespace Service.Tests.Controllers
         {
             var prescription = new PrescriptionDto();
             await _prescriptionController.CreatePrescription("jksdjksadfksd", prescription);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(HttpResponseException))]
+        public async Task TestAddPrescriptionThrowWithNoValidUntilDate()
+        {
+            var drugs = new List<DrugItemDto>
+            {
+                new DrugItemDto
+                {
+                    Drug = new DrugDto
+                    {
+                        IsValid = true,
+                        DrugDescription = "Aspirin"
+                    }
+                },
+                new DrugItemDto
+                {
+                    Drug = new DrugDto
+                    {
+                        IsValid = true,
+                        DrugDescription = "Mebucain"
+                    }
+                }
+            };
+            var prescriptionToInsert = new PrescriptionDto
+            {
+                EditDate = DateTime.Now.ToString("dd.MM.yyyy"),
+                IssueDate = DateTime.Now.ToString("dd.MM.yyyy"),
+                IsValid = true,
+                Type = "Standing",
+                Drugs = drugs
+
+            };
+            var prescription = (PrescriptionDto)(await _prescriptionController.CreatePrescription("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", prescriptionToInsert)).Data;
+            Assert.IsNotNull(prescription);
+            var prescriptionInserted = (PrescriptionDto)(await _prescriptionController.GetPrescriptionById("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", prescription.Id)).Data;
+            Assert.IsNotNull(prescriptionInserted);
+            var insertedDrugs = prescriptionInserted.Drugs;
+            Assert.IsNotNull(insertedDrugs);
+            Assert.AreEqual("Aspirin", insertedDrugs.First().Drug.DrugDescription);
         }
 
         [TestMethod]
@@ -244,14 +333,13 @@ namespace Service.Tests.Controllers
             {
                 Date = DateTime.Now.ToString("dd.MM.yyyy"),
                 Message = message
-
-
             };
             var counterProposal = (CounterProposalDto)(await _prescriptionController.CreateCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", prescriptionToInsert)).Data;
             Assert.IsNotNull(counterProposal);
-            var counterProposalInserted = ((List<CounterProposalDto>)(await _prescriptionController.GetCounterProposals("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Data).FirstOrDefault();
+            var counterProposals = (List<CounterProposalDto>)(await _prescriptionController.GetCounterProposals("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Data;
+            Assert.IsNotNull(counterProposals);
+            var counterProposalInserted = counterProposals.FirstOrDefault(e => e.Message == message);
             Assert.IsNotNull(counterProposalInserted);
-            Assert.AreEqual(message, counterProposalInserted.Message);
         }
 
         [TestMethod]
@@ -287,8 +375,8 @@ namespace Service.Tests.Controllers
         {
             var counterProposals = (List<CounterProposalDto>)(await _prescriptionController.GetCounterProposals("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Data;
             Assert.IsNotNull(counterProposals);
-            Assert.AreEqual(5, counterProposals.Count);
-            Assert.AreEqual("This is not right", counterProposals.First().Message);
+            Assert.AreEqual(4, counterProposals.Count);
+            Assert.AreEqual("This isnt even a Prescription, it is a giraffe", counterProposals.First().Message);
         }
 
         [TestMethod]
@@ -369,10 +457,18 @@ namespace Service.Tests.Controllers
         [TestMethod]
         public async Task TestGetDispenses()
         {
+            const string remark = "Dieses Rezept ist gemein gefährlich";
+            var dispenseToInsert = new DispenseDto
+            {
+                Date = DateTime.Now.ToString("dd.MM.yyyy"),
+                Remark = remark
+            };
+            var dispense = (DispenseDto)(await _prescriptionController.CreateDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", dispenseToInsert)).Data;
+            Assert.IsNotNull(dispense);
             var dispenses = (List<DispenseDto>)(await _prescriptionController.GetDispenses("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Data;
             Assert.IsNotNull(dispenses);
             Assert.AreEqual(1, dispenses.Count);
-            Assert.AreEqual("Did a Dispense", dispenses.First().Remark);
+            Assert.AreEqual(remark, dispenses.First().Remark);
         }
 
 

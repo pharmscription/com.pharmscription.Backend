@@ -1,13 +1,10 @@
 ﻿
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Results;
 using System.Web.Mvc;
 using com.pharmscription.BusinessLogic.Drug;
-using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.Exception;
 using Service.Routes;
 

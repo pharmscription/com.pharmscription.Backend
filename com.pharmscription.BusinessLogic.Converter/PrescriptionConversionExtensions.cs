@@ -45,15 +45,19 @@ namespace com.pharmscription.BusinessLogic.Converter
                 IsValid = prescription.IsValid,
                 Id = prescription.Id.ToString(),
                 IssueDate = prescription.IssueDate.ToString("dd.MM.yyyy"),
-                Patient = prescription.Patient.ConvertToDto(),
-                SignDate = prescription.SignDate.ToString("dd.MM.yyyy"),
                 Type = "Bla",
                 EditDate = prescription.EditDate.ToString("dd.MM.yyyy"),
                 Dispenses = prescription.Dispenses.ConvertToDtos(),
                 Drugs = prescription.DrugItems.ConvertToDtos(),
-                CounterProposals = prescription.CounterProposals.ConvertToDtos().ToList(),
+                CounterProposals = prescription.CounterProposals.ConvertToDtos(),
                 PrescriptionHistory = prescription.PrescriptionHistory.ConvertToDtos()
             };
+            if (prescription.SignDate != null)
+            {
+                prescriptionDto.SignDate = prescription.SignDate.Value.ToString("dd.MM.yyyy");
+            }
+
+
             return prescriptionDto;
         }
 
@@ -93,7 +97,8 @@ namespace com.pharmscription.BusinessLogic.Converter
                     DrugItems = prescriptionDto.Drugs.ConvertToEntites(),
                     Dispenses = prescriptionDto.Dispenses.ConvertToEntites(),
                     Patient = prescriptionDto.Patient.ConvertToEntity(),
-                    PrescriptionHistory = prescriptionDto.PrescriptionHistory.ConvertToEntites()
+                    PrescriptionHistory = prescriptionDto.PrescriptionHistory.ConvertToEntites(),
+                    ValidUntill = DateTime.Parse(prescriptionDto.ValidUntil)
                 };
                 if (prescriptionDto.SignDate != null)
                 {
@@ -125,7 +130,6 @@ namespace com.pharmscription.BusinessLogic.Converter
                    prescriptionDto.EditDate == prescription.EditDate.ToString("D") &&
                    prescriptionDto.IssueDate == prescription.IssueDate.ToString("D") &&
                    prescriptionDto.Type == "Bla" &&
-                   prescriptionDto.SignDate == prescription.SignDate.ToString("D") &&
                    prescriptionDto.PrescriptionHistory.DtoListEqualsEntityList(prescription.PrescriptionHistory.ToList());
         }
         public static bool EntityEqualsDto(this Prescription prescription, PrescriptionDto prescriptionDto)

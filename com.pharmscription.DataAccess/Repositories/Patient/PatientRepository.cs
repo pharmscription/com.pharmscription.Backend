@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace com.pharmscription.DataAccess.Repositories.Patient
 {
@@ -27,7 +26,7 @@ namespace com.pharmscription.DataAccess.Repositories.Patient
             return GetSet().Any(e => e.AhvNumber == ahvNumber);
         }
 
-        public Task<Patient> GetWithPrescriptions(Guid id)
+        public virtual Task<Patient> GetWithPrescriptions(Guid id)
         {
             return GetSet().Where(e => e.Id == id).Include(e => e.Prescriptions).FirstOrDefaultAsync();
         }

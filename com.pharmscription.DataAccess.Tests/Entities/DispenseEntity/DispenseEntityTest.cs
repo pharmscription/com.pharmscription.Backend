@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using com.pharmscription.DataAccess.Entities.DispenseEntity;
 using com.pharmscription.DataAccess.Entities.DrugItemEntity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -20,8 +21,8 @@ namespace com.pharmscription.DataAccess.Tests.Entities.DispenseEntity
         [TestMethod]
         public void TestClone()
         {
-/*            var clone = _dispense.Clone();
-            CollectionAssert.AreNotEquivalent(_dispense.DrugItems, clone.DrugItems);*/
+            var clone = _dispense.Clone();
+            CollectionAssert.AreNotEquivalent(_dispense.DrugItems.ToList(), clone.DrugItems.ToList());
         }
     }
 }
