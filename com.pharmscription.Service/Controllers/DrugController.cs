@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -51,11 +52,13 @@ namespace Service.Controllers
         {
             try
             {
-                return Json(await _drugManager.Search(keyword), JsonRequestBehavior.AllowGet);
-            }
-            catch (NotFoundException)
-            {
+                var drugs = await _drugManager.Search(keyword);
+                if (drugs.Any())
+                {
+                    return Json(drugs, JsonRequestBehavior.AllowGet);
+                }
                 return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+
             }
             catch (ArgumentException)
             {
@@ -74,10 +77,6 @@ namespace Service.Controllers
             {
                 return Json(await _drugManager.Count(keyword), JsonRequestBehavior.AllowGet);
             }
-            catch (NotFoundException)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
-            }
             catch (ArgumentException)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -95,10 +94,11 @@ namespace Service.Controllers
         {
             try
             {
-                return Json(await _drugManager.SearchPaged(keyword, page, amount), JsonRequestBehavior.AllowGet);
-            }
-            catch (NotFoundException)
-            {
+                var drugs = await _drugManager.SearchPaged(keyword, page, amount);
+                if (drugs.Any())
+                {
+                    return Json(drugs, JsonRequestBehavior.AllowGet);
+                }
                 return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)

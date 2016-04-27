@@ -95,7 +95,7 @@ namespace com.pharmscription.BusinessLogic.Drug
 
         public async Task<DrugDto> GetById(string id)
         {
-            return (await _repository.GetAsync(GuidParser.ParseGuid(id))).ConvertToDto();
+            return (await _repository.GetAsyncOrThrow(GuidParser.ParseGuid(id))).ConvertToDto();
         }
     }
 }
