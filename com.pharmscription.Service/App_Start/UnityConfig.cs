@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using com.pharmscription.BusinessLogic.Drug;
 using com.pharmscription.BusinessLogic.Patient;
 using com.pharmscription.BusinessLogic.Prescription;
@@ -15,6 +16,7 @@ namespace Service.App_Start
     /// <summary>
     /// Specifies the Unity configuration for the main container.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class UnityConfig
     {
         #region Unity Container

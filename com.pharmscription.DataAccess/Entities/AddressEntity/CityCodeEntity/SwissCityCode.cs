@@ -36,5 +36,10 @@ namespace com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity
             }
             return isNumeric;
         }
+
+        public override string ToString()
+        {
+            return CityCode;
+        }
     }
 }

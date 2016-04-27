@@ -54,7 +54,8 @@ namespace com.pharmscription.BusinessLogic.Converter
                     Number = patient.Address.Number,
                     Location = patient.Address.Location,
                     CityCode = patient.Address.CityCode.CityCode,
-                    StreetExtension = patient.Address.StreetExtension
+                    StreetExtension = patient.Address.StreetExtension,
+                    State = patient.Address.State
                 };
             }
             return patientDto;
@@ -86,7 +87,8 @@ namespace com.pharmscription.BusinessLogic.Converter
                     Number = patientDto.Address.Number,
                     Location = patientDto.Address.Location,
                     CityCode = SwissCityCode.CreateInstance(patientDto.Address.CityCode),
-                    StreetExtension = patientDto.Address.StreetExtension
+                    StreetExtension = patientDto.Address.StreetExtension,
+                    State = patientDto.Address.State,
 
                 };
             }
