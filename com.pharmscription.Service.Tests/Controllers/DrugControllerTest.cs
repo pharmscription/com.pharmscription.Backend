@@ -34,35 +34,6 @@ namespace com.pharmscription.Service.Tests.Controllers
             _drugController = new DrugController(_drugManager);
         }
 
-
-        [TestMethod]
-        public async Task TestPagedReturnsBadRequestOnNull()
-        {
-            var result = (HttpStatusCodeResult)await _drugController.GetDrugsBySearchTerm(null);
-            Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
-        }
-
-        [TestMethod]
-        public async Task TestSearchReturnsBadRequestOnEmpty()
-        {
-            var result = (HttpStatusCodeResult)await _drugController.GetDrugsBySearchTerm("     ");
-            Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
-        }
-
-        [TestMethod]
-        public async Task TestCanDoSearch()
-        {
-            var drugs = (List<DrugDto>)((JsonResult)await _drugController.GetDrugsBySearchTerm("Redimune")).Data;
-            Assert.AreEqual(4, drugs.Count);
-        }
-
-        [TestMethod]
-        public async Task TestSearchReturnsNoContentOnNotFound()
-        {
-            var result = (HttpStatusCodeResult)await _drugController.GetDrugsBySearchTerm("asdfiasdölkfklsadfkjasdfklasdf");
-            Assert.AreEqual((int)HttpStatusCode.NoContent, result.StatusCode);
-        }
-
         [TestMethod]
         public async Task TestSearchPagedThrowsOnNegativeAmountPerPage()
         {
@@ -120,7 +91,7 @@ namespace com.pharmscription.Service.Tests.Controllers
         [TestMethod]
         public async Task TestById()
         {
-            var testDrug = (await _drugManager.Search("Redimune")).FirstOrDefault();
+            var testDrug = (await _drugManager.SearchPaged("Redimune", "1", "1")).FirstOrDefault();
             Assert.IsNotNull(testDrug);
             var drugFoundById = (DrugDto)((JsonResult)await _drugController.GetById(testDrug.Id)).Data;
             Assert.AreEqual(testDrug.DrugDescription, drugFoundById.DrugDescription);

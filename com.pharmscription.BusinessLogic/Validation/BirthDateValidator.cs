@@ -8,6 +8,10 @@ namespace com.pharmscription.BusinessLogic.Validation
     {
         public void Validate(PatientDto dto)
         {
+            if (dto.BirthDate == "01.01.0001")
+            {
+                throw new InvalidArgumentException("Date must be initialized first");
+            }
             try
             {
                  DateTime.Parse(dto.BirthDate);

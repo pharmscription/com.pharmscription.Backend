@@ -152,10 +152,10 @@ namespace com.pharmscription.Service.Tests.Controllers
         }
 
         [TestMethod]
-        public async Task TestGetByAhvReturnsNoContentOnNotFound()
+        public async Task TestGetByAhvReturnsBadRequesttMalformedAhv()
         {
             var result = (HttpStatusCodeResult)await _patientController.GetByAhv("1.2333.43.12");
-            Assert.AreEqual((int)HttpStatusCode.NoContent, result.StatusCode);
+            Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
         }
         [TestMethod]
         public async Task TestGetByAhv()

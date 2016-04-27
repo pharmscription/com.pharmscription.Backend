@@ -33,35 +33,6 @@ namespace com.pharmscription.BusinessLogic.Tests.Drug
 
         [TestMethod]
         [ExpectedException(typeof(InvalidArgumentException))]
-        public async Task TestSearchThrowsOnNull()
-        {
-            await _drugManager.Search(null);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof (InvalidArgumentException))]
-        public async Task TestSearchThrowsOnEmpty()
-        {
-            await _drugManager.Search("");
-        }
-
-        [TestMethod]
-        public async Task TestCanDoSearch()
-        {
-            var drugs = await _drugManager.Search("Redimune");
-            Assert.AreEqual(4, drugs.Count);
-        }
-
-        [TestMethod]
-        public async Task TestSearchReturnsEmptyListOnGarbage()
-        {
-            var drugs = await _drugManager.Search("jsdfkasdncknsacion");
-            Assert.AreEqual(drugs.Count, 0);
-        }
-
-
-        [TestMethod]
-        [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestSearchPagedThrowsOnNegativeAmountPerPage()
         {
             await _drugManager.SearchPaged("Redimune", "2", "-1");

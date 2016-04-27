@@ -52,6 +52,8 @@ namespace com.pharmscription.BusinessLogic.Patient
 
         public async Task<PatientDto> Find(string ahvNumber)
         {
+            AhvValidator ahvValidator = new AhvValidator();
+            ahvValidator.Validate(ahvNumber);
             if (_patientRepository.Exists(ahvNumber))
             {
                 return (await _patientRepository.GetByAhvNumber(ahvNumber)).ConvertToDto();
