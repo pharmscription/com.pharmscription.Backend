@@ -14,9 +14,7 @@ namespace com.pharmscription.BusinessLogic.Validation
             }
             try
             {
-
                 DateTime.Parse(dto.ValidUntil);
-
             }
             catch (Exception)
             {
