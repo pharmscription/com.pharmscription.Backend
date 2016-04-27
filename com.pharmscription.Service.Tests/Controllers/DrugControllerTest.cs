@@ -68,14 +68,5 @@ namespace Service.Tests.Controllers
         {
             await _drugController.GetById("");
         }
-
-/*        [TestMethod]
-        public async Task TestCanDoSearchPagedCount()
-        {
-            var drugs = (await _drugController.GetCountBySearchTerm("Redimune")).Content;
-            Assert.AreEqual(2, drugs.Count);
-            Assert.AreEqual(2, drugsPageTwo.Count);
-            Assert.IsFalse(drugsPageThree.Any());
-        }*/
     }
 }
