@@ -1,7 +1,11 @@
 using System;
 using com.pharmscription.BusinessLogic.Drug;
 using com.pharmscription.BusinessLogic.Patient;
+using com.pharmscription.BusinessLogic.Prescription;
+using com.pharmscription.DataAccess.Repositories.CounterProposal;
+using com.pharmscription.DataAccess.Repositories.Dispense;
 using com.pharmscription.DataAccess.Repositories.Drug;
+using com.pharmscription.DataAccess.Repositories.DrugItem;
 using com.pharmscription.DataAccess.Repositories.Patient;
 using com.pharmscription.DataAccess.UnitOfWork;
 using Microsoft.Practices.Unity;
@@ -41,7 +45,11 @@ namespace Service.App_Start
 
             // TODO: Register your types here
             container.RegisterType<IPatientManager, PatientManager>();
+            container.RegisterType<IPrescriptionManager, PrescriptionManager>();
             container.RegisterType<IDrugManager, DrugManager>();
+            container.RegisterType<ICounterProposalRepository, CounterProposalRepository>();
+            container.RegisterType<IDrugItemRepository, DrugItemRepository>();
+            container.RegisterType<IDispenseRepository, DispenseRepository>();
             container.RegisterType<IDrugRepository, DrugRepository>();
             container.RegisterType<IPatientRepository, PatientRepository>();
             container.RegisterType<IPharmscriptionUnitOfWork, PharmscriptionUnitOfWork>();
