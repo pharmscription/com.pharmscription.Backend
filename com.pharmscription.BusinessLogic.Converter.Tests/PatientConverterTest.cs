@@ -46,7 +46,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
                     Location = " Zürich"
                 },
                 AhvNumber = "123-1234-1234-12",
-                BirthDate = birthDate,
+                BirthDate = birthDate.ToString(@"dd.MM.yyyy"),
                 InsuranceNumber = "Zurich-12345",
                 PhoneNumber = "056 217 21 21",
                 Insurance = "Zurich"
@@ -103,7 +103,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
                     Location = " Zürich"
                 },
                 AhvNumber = "123-1234-1234-12",
-                BirthDate = birthDate,
+                BirthDate = birthDate.ToString(@"dd.MM.yyyy"),
                 InsuranceNumber = "Zurich-12345",
                 PhoneNumber = "056 217 21 21",
                 Insurance = "Zurich"
@@ -161,7 +161,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
                     StreetExtension = "Postfach 1234"
                 },
                 AhvNumber = "123-1234-1234-12",
-                BirthDate = birthDate,
+                BirthDate = birthDate.ToString(@"dd.MM.yyyy"),
                 InsuranceNumber = "Zurich-12345",
                 PhoneNumber = "056 217 21 21",
                 Insurance = "Zurich"

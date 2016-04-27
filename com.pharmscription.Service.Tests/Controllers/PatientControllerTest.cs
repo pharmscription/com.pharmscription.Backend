@@ -25,7 +25,7 @@ namespace Service.Tests.Controllers
 
         private static readonly PatientDto TestPatientDto = new PatientDto
         {
-            BirthDateStr = DateTime.Now.ToString("dd.MM.yyyy"),
+            BirthDate = DateTime.Now.ToString("dd.MM.yyyy"),
             FirstName = "Bruce",
             LastName = "Wayne",
             AhvNumber = TestAhvNumber
