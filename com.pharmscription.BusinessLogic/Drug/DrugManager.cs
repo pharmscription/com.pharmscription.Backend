@@ -75,7 +75,7 @@ namespace com.pharmscription.BusinessLogic.Drug
                 await LoadDrugsFromSwissMedic();
             }
             var drugsFittingSearch = await _repository.SearchByName(partialDescription);
-            return drugsFittingSearch.ConvertToDtos().Count;
+            return drugsFittingSearch.ConvertToDtos();
         }
 
         private async Task LoadDrugsFromSwissMedic()
