@@ -97,7 +97,7 @@ namespace Service.Tests.Controllers
                 FirstName = "Rafael",
                 LastName = "Krucker",
                 Address = address,
-                BirthDate = DateTime.Parse("17.03.1991"),
+                BirthDate = DateTime.Parse("17.03.1991").ToString("dd.MM.yyyy"),
                 AhvNumber = testAhvNumber
             };
             await _patientController.Add(patient);
