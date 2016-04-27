@@ -100,7 +100,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [TestMethod]
         public async Task TestGetPrescriptionByPatientIdReturnsOnFound()
         {
-            var prescription = await _prescriptionManager.Get("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38");
+            var prescription = await _prescriptionManager.Get(PatientTestEnvironment.PatientIdOne);
             Assert.IsNotNull(prescription);
         }
 
@@ -129,7 +129,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         public async Task TestGetPrescriptionByPrescriptionIdReturnsOnFound()
         {
 
-            var prescription = await _prescriptionManager.Get("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37");
+            var prescription = await _prescriptionManager.Get(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId);
             Assert.IsNotNull(prescription);
         }
 
@@ -188,9 +188,9 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
                 Drugs = drugs
 
             };
-            var prescription = await _prescriptionManager.Add("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", prescriptionToInsert);
+            var prescription = await _prescriptionManager.Add(PatientTestEnvironment.PatientIdOne, prescriptionToInsert);
             Assert.IsNotNull(prescription);
-            var prescriptionInserted = await _prescriptionManager.Get("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", prescription.Id);
+            var prescriptionInserted = await _prescriptionManager.Get(PatientTestEnvironment.PatientIdOne, prescription.Id);
             Assert.IsNotNull(prescriptionInserted);
             var insertedDrugs = prescriptionInserted.Drugs;
             Assert.IsNotNull(insertedDrugs);
@@ -217,7 +217,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         public async Task TestAddCounterProposalThrowsOnPatientIdInvalid()
         {
             var counterProposalDto = new CounterProposalDto();
-            await _prescriptionManager.AddCounterProposal("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", counterProposalDto);
+            await _prescriptionManager.AddCounterProposal("jksdjksadfksd", PrescriptionTestEnvironment.StandingPrescriptionOneId, counterProposalDto);
         }
 
         [TestMethod]
@@ -225,7 +225,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         public async Task TestAddCounterProposalThrowsOnPrescriptionIdInvalid()
         {
             var counterProposalDto = new CounterProposalDto();
-            await _prescriptionManager.AddCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sndfsfsfjlks", counterProposalDto);
+            await _prescriptionManager.AddCounterProposal(PatientTestEnvironment.PatientIdOne, "sndfsfsfjlks", counterProposalDto);
         }
 
         [TestMethod]
@@ -239,9 +239,9 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
 
 
             };
-            var counterProposal = await _prescriptionManager.AddCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", prescriptionToInsert);
+            var counterProposal = await _prescriptionManager.AddCounterProposal(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, prescriptionToInsert);
             Assert.IsNotNull(counterProposal);
-            var counterProposalInserted = await _prescriptionManager.GetCounterProposals("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", counterProposal.Id);
+            var counterProposalInserted = await _prescriptionManager.GetCounterProposals(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, counterProposal.Id);
             Assert.IsNotNull(counterProposalInserted);
             Assert.AreEqual(message, counterProposalInserted.Message);
         }
@@ -264,20 +264,20 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetCounterProposalsThrowsOnPatientIdInvalid()
         {
-            await _prescriptionManager.GetCounterProposals("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37");
+            await _prescriptionManager.GetCounterProposals("jksdjksadfksd", PrescriptionTestEnvironment.StandingPrescriptionOneId);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetCounterProposalsThrowsOnPrescriptionIdInvalid()
         {
-            await _prescriptionManager.GetCounterProposals("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sdfklsdf");
+            await _prescriptionManager.GetCounterProposals(PatientTestEnvironment.PatientIdOne, "sdfklsdf");
         }
 
         [TestMethod]
         public async Task TestGetCounterProposals()
         {
-            var counterProposals = await _prescriptionManager.GetCounterProposals("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37");
+            var counterProposals = await _prescriptionManager.GetCounterProposals(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId);
             Assert.IsNotNull(counterProposals);
             Assert.AreEqual(5, counterProposals.Count);
             Assert.AreEqual("This is not right", counterProposals.First().Message);
@@ -301,27 +301,27 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetCounterProposalThrowsOnPatientIdInvalid()
         {
-            await _prescriptionManager.GetCounterProposals("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", "IDIsInDatabase");
+            await _prescriptionManager.GetCounterProposals("jksdjksadfksd", PrescriptionTestEnvironment.StandingPrescriptionOneId, "IDIsInDatabase");
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetCounterProposalThrowsOnPrescriptionIdInvalid()
         {
-            await _prescriptionManager.GetCounterProposals("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sdfklsdf", "IDIsInDatabase");
+            await _prescriptionManager.GetCounterProposals(PatientTestEnvironment.PatientIdOne, "sdfklsdf", "IDIsInDatabase");
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetCounterProposalThrowsOnCounterProposalIdInvalid()
         {
-            await _prescriptionManager.GetCounterProposals("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", "sdfskjdfkjsfkj");
+            await _prescriptionManager.GetCounterProposals(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, "sdfskjdfkjsfkj");
         }
 
         [TestMethod]
         public async Task TestGetCounterProposal()
         {
-            var prescription = await _prescriptionManager.GetCounterProposals("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e42");
+            var prescription = await _prescriptionManager.GetCounterProposals(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e42");
             Assert.IsNotNull(prescription);
             Assert.AreEqual("This is not right", prescription.Message);
         }
@@ -344,7 +344,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestEditCounterProposalThrowsOnPatientNotFound()
         {
-            await _prescriptionManager.EditCounterProposal("1baf86d5-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", new CounterProposalDto
+            await _prescriptionManager.EditCounterProposal(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, new CounterProposalDto
             {
                 Id = "1bcb86b0-1e14-4f4c-b05a-5c9dd00e8e38"
             });
@@ -354,7 +354,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestEditCounterProposalThrowsOnPrescriptionNotFound()
         {
-            await _prescriptionManager.EditCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e69-4f4c-b05a-5c9dd00e8e38", new CounterProposalDto
+            await _prescriptionManager.EditCounterProposal(PatientTestEnvironment.PatientIdOne, "1baf86b0-1e69-4f4c-b05a-5c9dd00e8e38", new CounterProposalDto
             {
                 Id = "1bcb86b0-1e14-4f4c-b05a-5c9dd00e8e38"
             });
@@ -364,7 +364,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestEditCounterProposalThrowsOnCounterProposalNotFound()
         {
-            await _prescriptionManager.EditCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", new CounterProposalDto());
+            await _prescriptionManager.EditCounterProposal(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, new CounterProposalDto());
         }
 
         [TestMethod]
@@ -378,10 +378,10 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
                 Date = DateTime.Now.ToString(PharmscriptionConstants.DateFormat)
             };
             var counterProposalBeforeEdit =
-                await _prescriptionManager.GetCounterProposals("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", id);
-            await _prescriptionManager.EditCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", counterPropsal);
+                await _prescriptionManager.GetCounterProposals(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, id);
+            await _prescriptionManager.EditCounterProposal(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, counterPropsal);
             var counterProposalAfterEdit =
-                await _prescriptionManager.GetCounterProposals("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", id);
+                await _prescriptionManager.GetCounterProposals(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, id);
             Assert.IsNotNull(counterProposalAfterEdit);
             Assert.AreNotEqual(counterProposalBeforeEdit.Message, counterProposalAfterEdit.Message);
             Assert.AreEqual(counterPropsal.Message, counterProposalAfterEdit.Message);
@@ -407,7 +407,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         public async Task TestAddDispenseThrowsOnPatientIdInvalid()
         {
             var dispenseDto = new DispenseDto();
-            await _prescriptionManager.AddDispense("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", dispenseDto);
+            await _prescriptionManager.AddDispense("jksdjksadfksd", PrescriptionTestEnvironment.StandingPrescriptionOneId, dispenseDto);
         }
 
         [TestMethod]
@@ -415,7 +415,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         public async Task TestAddDispenseThrowsOnPrescriptionIdInvalid()
         {
             var dispenseDto = new DispenseDto();
-            await _prescriptionManager.AddDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sndfsfsfjlks", dispenseDto);
+            await _prescriptionManager.AddDispense(PatientTestEnvironment.PatientIdOne, "sndfsfsfjlks", dispenseDto);
         }
 
         [TestMethod]
@@ -427,9 +427,9 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
                 Date = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
                 Remark = remark
             };
-            var dispense = await _prescriptionManager.AddDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", dispenseToInsert);
+            var dispense = await _prescriptionManager.AddDispense(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, dispenseToInsert);
             Assert.IsNotNull(dispense);
-            var dispenseInserted = await _prescriptionManager.GetDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", dispense.Id);
+            var dispenseInserted = await _prescriptionManager.GetDispense(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, dispense.Id);
             Assert.IsNotNull(dispenseInserted);
             Assert.AreEqual(remark, dispenseInserted.Remark);
         }
@@ -452,20 +452,20 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetDispensesThrowsOnPatientIdInvalid()
         {
-            await _prescriptionManager.GetDispense("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37");
+            await _prescriptionManager.GetDispense("jksdjksadfksd", PrescriptionTestEnvironment.StandingPrescriptionOneId);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetDispensesThrowsOnPrescriptionIdInvalid()
         {
-            await _prescriptionManager.GetDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sdfklsdf");
+            await _prescriptionManager.GetDispense(PatientTestEnvironment.PatientIdOne, "sdfklsdf");
         }
 
         [TestMethod]
         public async Task TestGetDispenses()
         {
-            var dispenses = await _prescriptionManager.GetDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37");
+            var dispenses = await _prescriptionManager.GetDispense(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId);
             Assert.IsNotNull(dispenses);
             Assert.AreEqual(1, dispenses.Count);
             Assert.AreEqual("Did a Dispense", dispenses.First().Remark);
@@ -489,27 +489,27 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetDispenseThrowsOnPatientIdInvalid()
         {
-            await _prescriptionManager.GetDispense("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", "IDIsInDatabase");
+            await _prescriptionManager.GetDispense("jksdjksadfksd", PrescriptionTestEnvironment.StandingPrescriptionOneId, "IDIsInDatabase");
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetDispenseThrowsOnPrescriptionIdInvalid()
         {
-            await _prescriptionManager.GetDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sdfklsdf", "IDIsInDatabase");
+            await _prescriptionManager.GetDispense(PatientTestEnvironment.PatientIdOne, "sdfklsdf", "IDIsInDatabase");
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetDispenseThrowsOnDispenseIdInvalid()
         {
-            await _prescriptionManager.GetDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", "sdfskjdfkjsfkj");
+            await _prescriptionManager.GetDispense(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, "sdfskjdfkjsfkj");
         }
 
         [TestMethod]
         public async Task TestGetDispense()
         {
-            var dispense = await _prescriptionManager.GetDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e43");
+            var dispense = await _prescriptionManager.GetDispense(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e43");
             Assert.IsNotNull(dispense);
             Assert.AreEqual("Did a Dispense", dispense.Remark);
         }
@@ -532,22 +532,22 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetGetPrescriptionDrugThrowsOnPatientIdInvalid()
         {
-            await _prescriptionManager.GetPrescriptionDrugs("jksdjksadfksd", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37");
+            await _prescriptionManager.GetPrescriptionDrugs("jksdjksadfksd", PrescriptionTestEnvironment.StandingPrescriptionOneId);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetPrescriptionDrugThrowsOnPrescriptionIdInvalid()
         {
-            await _prescriptionManager.GetPrescriptionDrugs("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sdfklsdf");
+            await _prescriptionManager.GetPrescriptionDrugs(PatientTestEnvironment.PatientIdOne, "sdfklsdf");
         }
 
         [TestMethod]
         public async Task TestGetPrescriptionDrug()
         {
-            var drugs = await _prescriptionManager.GetPrescriptionDrugs("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37");
+            var drugs = await _prescriptionManager.GetPrescriptionDrugs(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId);
             Assert.IsNotNull(drugs);
-            Assert.AreEqual("Aspirin", drugs.FirstOrDefault().Drug.DrugDescription);
+            Assert.AreEqual(PrescriptionTestEnvironment.DrugDescriptionOne, drugs.First().Drug.DrugDescription);
         }
     }
 }

@@ -18,6 +18,8 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
         public const string DrugOneId = "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e40";
         public const string DrugItemTwoId = "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e49";
         public const string DrugTwoId = "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e50";
+        public const string DrugDescriptionOne = "Aspirin";
+        public const string DrugDescriptionTwo = "Mebucain";
 
         public static List<Prescription> GetTestPrescriptions()
         {
@@ -40,7 +42,7 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                             {
                                 Id = Guid.Parse(DrugOneId),
                                 IsValid = true,
-                                DrugDescription = "Aspirin"
+                                DrugDescription = DrugDescriptionOne
                             },
                             DosageDescription = "2/3/2"
                         }
@@ -63,7 +65,7 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                             {
                                 Id = Guid.Parse(DrugTwoId),
                                 IsValid = true,
-                                DrugDescription = "Mebucain"
+                                DrugDescription = DrugDescriptionTwo
                             },
                             DosageDescription = "2/3/2"
                         }
