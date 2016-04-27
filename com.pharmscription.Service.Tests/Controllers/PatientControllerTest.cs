@@ -6,6 +6,7 @@ using com.pharmscription.BusinessLogic.Patient;
 using com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity;
 using com.pharmscription.DataAccess.Repositories.Patient;
 using com.pharmscription.DataAccess.UnitOfWork;
+using com.pharmscription.Infrastructure.Constants;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.EntityHelper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -27,7 +28,7 @@ namespace Service.Tests.Controllers
 
         private static readonly PatientDto TestPatientDto = new PatientDto
         {
-            BirthDate = DateTime.Now.ToString("dd.MM.yyyy"),
+            BirthDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
             FirstName = "Bruce",
             LastName = "Wayne",
             AhvNumber = TestAhvNumber
@@ -103,7 +104,7 @@ namespace Service.Tests.Controllers
                 FirstName = "Rafael",
                 LastName = "Krucker",
                 Address = address,
-                BirthDate = DateTime.Parse("17.03.1991").ToString("dd.MM.yyyy"),
+                BirthDate = DateTime.Parse("17.03.1991").ToString(PharmscriptionConstants.DateFormat),
                 AhvNumber = testAhvNumber
             };
             await _patientController.Add(patient);

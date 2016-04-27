@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using com.pharmscription.DataAccess.Entities.CounterProposalEntity;
+using com.pharmscription.Infrastructure.Constants;
 using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.BusinessLogic.Converter
@@ -69,7 +70,7 @@ namespace com.pharmscription.BusinessLogic.Converter
 
         public static bool DtoEqualsEntity(this CounterProposalDto counterProposalDto, CounterProposal counterProposal)
         {
-            return counterProposalDto.Date.Equals(counterProposal.Date.ToString(CultureInfo.InvariantCulture)) &&
+            return counterProposalDto.Date.Equals(counterProposal.Date.ToString(PharmscriptionConstants.DateFormat)) &&
                    counterProposalDto.Message == counterProposal.Message &&
                    counterProposalDto.Id == counterProposal.Id.ToString();
         }

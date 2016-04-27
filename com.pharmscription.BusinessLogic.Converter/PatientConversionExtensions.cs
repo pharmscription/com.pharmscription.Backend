@@ -2,6 +2,7 @@
 using com.pharmscription.DataAccess.Entities.AddressEntity;
 using com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity;
 using com.pharmscription.DataAccess.Entities.PatientEntity;
+using com.pharmscription.Infrastructure.Constants;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
 
@@ -15,7 +16,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return new PatientDto
             {
                 PhoneNumber = patient.PhoneNumber,
-                BirthDate = patient.BirthDate.ToString(@"dd.MM.yyyy"),
+                BirthDate = patient.BirthDate.ToString(PharmscriptionConstants.DateFormat),
                 AhvNumber = patient.AhvNumber,
                 InsuranceNumber = patient.InsuranceNumber,
                 LastName = patient.LastName,
@@ -37,7 +38,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             var patientDto = new PatientDto
             {
                 PhoneNumber = patient.PhoneNumber,
-                BirthDate = patient.BirthDate.ToString(@"dd.MM.yyyy"),
+                BirthDate = patient.BirthDate.ToString(PharmscriptionConstants.DateFormat),
                 AhvNumber = patient.AhvNumber,
                 InsuranceNumber = patient.InsuranceNumber,
                 LastName = patient.LastName,
@@ -67,7 +68,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             var patient = new Patient
             {
                 PhoneNumber = patientDto.PhoneNumber,
-                BirthDate = DateTime.ParseExact(patientDto.BirthDate, @"dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture),
+                BirthDate = DateTime.ParseExact(patientDto.BirthDate, PharmscriptionConstants.DateFormat, System.Globalization.CultureInfo.InvariantCulture),
                 AhvNumber = patientDto.AhvNumber,
                 InsuranceNumber = patientDto.InsuranceNumber,
                 LastName = patientDto.LastName,

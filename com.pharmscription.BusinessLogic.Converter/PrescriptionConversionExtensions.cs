@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using com.pharmscription.DataAccess.Entities.PrescriptionEntity;
+using com.pharmscription.Infrastructure.Constants;
 using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.BusinessLogic.Converter
@@ -44,9 +45,9 @@ namespace com.pharmscription.BusinessLogic.Converter
             {
                 IsValid = prescription.IsValid,
                 Id = prescription.Id.ToString(),
-                IssueDate = prescription.IssueDate.ToString("dd.MM.yyyy"),
+                IssueDate = prescription.IssueDate.ToString(PharmscriptionConstants.DateFormat),
                 Type = "Bla",
-                EditDate = prescription.EditDate.ToString("dd.MM.yyyy"),
+                EditDate = prescription.EditDate.ToString(PharmscriptionConstants.DateFormat),
                 Dispenses = prescription.Dispenses.ConvertToDtos(),
                 Drugs = prescription.DrugItems.ConvertToDtos(),
                 CounterProposals = prescription.CounterProposals.ConvertToDtos(),
@@ -54,7 +55,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             };
             if (prescription.SignDate != null)
             {
-                prescriptionDto.SignDate = prescription.SignDate.Value.ToString("dd.MM.yyyy");
+                prescriptionDto.SignDate = prescription.SignDate.Value.ToString(PharmscriptionConstants.DateFormat);
             }
 
 

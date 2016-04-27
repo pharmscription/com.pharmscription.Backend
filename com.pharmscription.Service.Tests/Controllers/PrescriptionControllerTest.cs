@@ -10,6 +10,7 @@ using com.pharmscription.DataAccess.Repositories.Patient;
 using com.pharmscription.DataAccess.Repositories.Prescription;
 using com.pharmscription.DataAccess.Tests.TestEnvironment;
 using com.pharmscription.DataAccess.UnitOfWork;
+using com.pharmscription.Infrastructure.Constants;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.EntityHelper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -242,11 +243,11 @@ namespace Service.Tests.Controllers
             };
             var prescriptionToInsert = new PrescriptionDto
             {
-                EditDate = DateTime.Now.ToString("dd.MM.yyyy"),
-                IssueDate = DateTime.Now.ToString("dd.MM.yyyy"),
+                EditDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
+                IssueDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
                 IsValid = true,
                 Type = "Standing",
-                ValidUntil = DateTime.Now.AddDays(2).ToString("dd.MM.yyyy"),
+                ValidUntil = DateTime.Now.AddDays(2).ToString(PharmscriptionConstants.DateFormat),
                 Drugs = drugs
             };
             var result = (HttpStatusCodeResult)await _prescriptionController.CreatePrescription(IdentityGenerator.NewSequentialGuid().ToString(), prescriptionToInsert);
@@ -277,8 +278,8 @@ namespace Service.Tests.Controllers
             };
             var prescriptionToInsert = new PrescriptionDto
             {
-                EditDate = DateTime.Now.ToString("dd.MM.yyyy"),
-                IssueDate = DateTime.Now.ToString("dd.MM.yyyy"),
+                EditDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
+                IssueDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
                 IsValid = true,
                 Type = "Standing",
                 Drugs = drugs
@@ -317,11 +318,11 @@ namespace Service.Tests.Controllers
             };
             var prescriptionToInsert = new PrescriptionDto
             {
-                EditDate = DateTime.Now.ToString("dd.MM.yyyy"),
-                IssueDate = DateTime.Now.ToString("dd.MM.yyyy"),
+                EditDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
+                IssueDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
                 IsValid = true,
                 Type = "Standing",
-                ValidUntil = DateTime.Now.AddDays(2).ToString("dd.MM.yyyy"),
+                ValidUntil = DateTime.Now.AddDays(2).ToString(PharmscriptionConstants.DateFormat),
                 Drugs = drugs
             };
             var prescription = (PrescriptionDto)((JsonResult)await _prescriptionController.CreatePrescription("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", prescriptionToInsert)).Data;
@@ -384,7 +385,7 @@ namespace Service.Tests.Controllers
             const string Message = "Dieses Rezept ist gemein gefährlich";
             var prescriptionToInsert = new CounterProposalDto
             {
-                Date = DateTime.Now.ToString("dd.MM.yyyy"),
+                Date = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
                 Message = Message
             };
             var counterProposal = (CounterProposalDto)((JsonResult)await _prescriptionController.CreateCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", prescriptionToInsert)).Data;
@@ -504,7 +505,7 @@ namespace Service.Tests.Controllers
             const string remark = "Dieses Rezept ist gemein gefährlich";
             var dispenseToInsert = new DispenseDto
             {
-                Date = DateTime.Now.ToString("dd.MM.yyyy"),
+                Date = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
                 Remark = remark
             };
             var dispense = (DispenseDto)((JsonResult)await _prescriptionController.CreateDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", dispenseToInsert)).Data;
@@ -566,7 +567,7 @@ namespace Service.Tests.Controllers
             const string remark = "Dieses Rezept ist gemein gefährlich";
             var dispenseToInsert = new DispenseDto
             {
-                Date = DateTime.Now.ToString("dd.MM.yyyy"),
+                Date = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
                 Remark = remark
             };
             var dispense = (DispenseDto)((JsonResult)await _prescriptionController.CreateDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", dispenseToInsert)).Data;

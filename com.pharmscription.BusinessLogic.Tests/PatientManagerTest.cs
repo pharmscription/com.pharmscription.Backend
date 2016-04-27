@@ -7,6 +7,7 @@ using com.pharmscription.BusinessLogic.Patient;
 using com.pharmscription.DataAccess.Repositories.Patient;
 using com.pharmscription.DataAccess.Tests.TestEnvironment;
 using com.pharmscription.DataAccess.UnitOfWork;
+using com.pharmscription.Infrastructure.Constants;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.Exception;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -102,7 +103,7 @@ namespace com.pharmscription.BusinessLogic.Tests
                     StreetExtension = "Postfach 1234"
                 },
                 AhvNumber = "1231234123412",
-                BirthDate = birthDate.ToString(@"dd.MM.yyyy"),
+                BirthDate = birthDate.ToString(PharmscriptionConstants.DateFormat),
                 InsuranceNumber = "Zurich-12345",
                 PhoneNumber = "056 217 21 21",
                 Insurance = "Zurich"
@@ -130,7 +131,7 @@ namespace com.pharmscription.BusinessLogic.Tests
                     StreetExtension = "Postfach 1234"
                 },
                 AhvNumber = "7561234567897",
-                BirthDate = birthDate.ToString(@"dd.MM.yyyy"),
+                BirthDate = birthDate.ToString(PharmscriptionConstants.DateFormat),
                 InsuranceNumber = "Zurich-12345",
                 PhoneNumber = "056 217 21 21",
                 Insurance = "Zurich"
