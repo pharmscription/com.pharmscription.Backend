@@ -148,7 +148,7 @@ namespace Service.Tests.Controllers
         [TestMethod]
         public async Task TestGetPrescriptionByPatientIdReturnsOnFound()
         {
-            var prescription = await _prescriptionController.GetPrescriptions("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38");
+            var prescription = await _prescriptionController.GetPrescriptions(PatientTestEnvironment.PatientIdOne);
             Assert.IsNotNull(prescription);
         }
 
@@ -182,14 +182,14 @@ namespace Service.Tests.Controllers
         [TestMethod]
         public async Task TestGetPrescriptionByPrescriptionIdReturnsNoContentOnPrescriptionNotFound()
         {
-            var prescription = (HttpStatusCodeResult)await _prescriptionController.GetPrescriptionById("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", IdentityGenerator.NewSequentialGuid().ToString());
+            var prescription = (HttpStatusCodeResult)await _prescriptionController.GetPrescriptionById(PatientTestEnvironment.PatientIdOne, IdentityGenerator.NewSequentialGuid().ToString());
             Assert.AreEqual((int)HttpStatusCode.NoContent, prescription.StatusCode);
         }
 
         [TestMethod]
         public async Task TestGetPrescriptionByPrescriptionIdReturnsOnFound()
         {
-            var prescription = await _prescriptionController.GetPrescriptionById("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37");
+            var prescription = await _prescriptionController.GetPrescriptionById(PatientTestEnvironment.PatientIdOne, "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37");
             Assert.IsNotNull(prescription);
         }
 
@@ -286,7 +286,7 @@ namespace Service.Tests.Controllers
                 (HttpStatusCodeResult)
                  await
                  _prescriptionController.CreatePrescription(
-                     "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38",
+                     PatientTestEnvironment.PatientIdOne,
                      prescriptionToInsert);
             Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
         }
@@ -322,9 +322,9 @@ namespace Service.Tests.Controllers
                 ValidUntil = DateTime.Now.AddDays(2).ToString(PharmscriptionConstants.DateFormat),
                 Drugs = drugs
             };
-            var prescription = (PrescriptionDto)((JsonResult)await _prescriptionController.CreatePrescription("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", prescriptionToInsert)).Data;
+            var prescription = (PrescriptionDto)((JsonResult)await _prescriptionController.CreatePrescription(PatientTestEnvironment.PatientIdOne, prescriptionToInsert)).Data;
             Assert.IsNotNull(prescription);
-            var prescriptionInserted = (PrescriptionDto)((JsonResult)await _prescriptionController.GetPrescriptionById("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", prescription.Id)).Data;
+            var prescriptionInserted = (PrescriptionDto)((JsonResult)await _prescriptionController.GetPrescriptionById(PatientTestEnvironment.PatientIdOne, prescription.Id)).Data;
             Assert.IsNotNull(prescriptionInserted);
             var insertedDrugs = prescriptionInserted.Drugs;
             Assert.IsNotNull(insertedDrugs);
@@ -358,7 +358,7 @@ namespace Service.Tests.Controllers
         public async Task TestAddCounterProposalThrowsOnPrescriptionNotFound()
         {
             var counterProposalDto = new CounterProposalDto();
-            var result = (HttpStatusCodeResult)await _prescriptionController.CreateCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sndfsfsfjlks", counterProposalDto);
+            var result = (HttpStatusCodeResult)await _prescriptionController.CreateCounterProposal(PatientTestEnvironment.PatientIdOne, "sndfsfsfjlks", counterProposalDto);
             Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
         }
         [TestMethod]
@@ -372,7 +372,7 @@ namespace Service.Tests.Controllers
         public async Task TestAddCounterProposalReturnsNoContentOnPrescriptionNotFound()
         {
             var counterProposalDto = new CounterProposalDto();
-            var result = (HttpStatusCodeResult)await _prescriptionController.CreateCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", IdentityGenerator.NewSequentialGuid().ToString(), counterProposalDto);
+            var result = (HttpStatusCodeResult)await _prescriptionController.CreateCounterProposal(PatientTestEnvironment.PatientIdOne, IdentityGenerator.NewSequentialGuid().ToString(), counterProposalDto);
             Assert.AreEqual((int)HttpStatusCode.NoContent, result.StatusCode);
         }
 
@@ -385,9 +385,9 @@ namespace Service.Tests.Controllers
                 Date = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
                 Message = Message
             };
-            var counterProposal = (CounterProposalDto)((JsonResult)await _prescriptionController.CreateCounterProposal("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", prescriptionToInsert)).Data;
+            var counterProposal = (CounterProposalDto)((JsonResult)await _prescriptionController.CreateCounterProposal(PatientTestEnvironment.PatientIdOne, "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", prescriptionToInsert)).Data;
             Assert.IsNotNull(counterProposal);
-            var counterProposals = (List<CounterProposalDto>)((JsonResult)await _prescriptionController.GetCounterProposals("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Data;
+            var counterProposals = (List<CounterProposalDto>)((JsonResult)await _prescriptionController.GetCounterProposals(PatientTestEnvironment.PatientIdOne, "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Data;
             Assert.IsNotNull(counterProposals);
             var counterProposalInserted = counterProposals.FirstOrDefault(e => e.Message == Message);
             Assert.IsNotNull(counterProposalInserted);
@@ -417,7 +417,7 @@ namespace Service.Tests.Controllers
         [TestMethod]
         public async Task TestGetCounterProposalsThrowsOnPrescriptionNotFound()
         {
-            var result = (HttpStatusCodeResult)await _prescriptionController.GetCounterProposals("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sdfklsdf");
+            var result = (HttpStatusCodeResult)await _prescriptionController.GetCounterProposals(PatientTestEnvironment.PatientIdOne, "sdfklsdf");
             Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
         }
 
@@ -430,7 +430,7 @@ namespace Service.Tests.Controllers
         [TestMethod]
         public async Task TestGetCounterProposalsReturnsNoContentOnPrescriptonNotFound()
         {
-            var result = (HttpStatusCodeResult)await _prescriptionController.GetCounterProposals("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", IdentityGenerator.NewSequentialGuid().ToString());
+            var result = (HttpStatusCodeResult)await _prescriptionController.GetCounterProposals(PatientTestEnvironment.PatientIdOne, IdentityGenerator.NewSequentialGuid().ToString());
             Assert.AreEqual((int)HttpStatusCode.NoContent, result.StatusCode);
         }
         [TestMethod]
@@ -444,7 +444,7 @@ namespace Service.Tests.Controllers
         [TestMethod]
         public async Task TestGetCounterProposals()
         {
-            var counterProposals = (List<CounterProposalDto>)((JsonResult)await _prescriptionController.GetCounterProposals("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Data;
+            var counterProposals = (List<CounterProposalDto>)((JsonResult)await _prescriptionController.GetCounterProposals(PatientTestEnvironment.PatientIdOne, "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Data;
             Assert.IsNotNull(counterProposals);
             Assert.AreEqual(4, counterProposals.Count);
             Assert.AreEqual("This isnt even a Prescription, it is a giraffe", counterProposals.First().Message);
@@ -477,7 +477,7 @@ namespace Service.Tests.Controllers
         public async Task TestAddDispenseThrowsOnPrescriptionNotFound()
         {
             var dispenseDto = new DispenseDto();
-            var result = (HttpStatusCodeResult)await _prescriptionController.CreateDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sndfsfsfjlks", dispenseDto);
+            var result = (HttpStatusCodeResult)await _prescriptionController.CreateDispense(PatientTestEnvironment.PatientIdOne, "sndfsfsfjlks", dispenseDto);
             Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
         }
 
@@ -485,7 +485,7 @@ namespace Service.Tests.Controllers
         public async Task TestAddDispenseReturnNoContentOnPrescriptionNotFound()
         {
             var dispenseDto = new DispenseDto();
-            var result = (HttpStatusCodeResult)await _prescriptionController.CreateDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", IdentityGenerator.NewSequentialGuid().ToString(), dispenseDto);
+            var result = (HttpStatusCodeResult)await _prescriptionController.CreateDispense(PatientTestEnvironment.PatientIdOne, IdentityGenerator.NewSequentialGuid().ToString(), dispenseDto);
             Assert.AreEqual((int)HttpStatusCode.NoContent, result.StatusCode);
         }
 
@@ -506,9 +506,9 @@ namespace Service.Tests.Controllers
                 Date = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
                 Remark = remark
             };
-            var dispense = (DispenseDto)((JsonResult)await _prescriptionController.CreateDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", dispenseToInsert)).Data;
+            var dispense = (DispenseDto)((JsonResult)await _prescriptionController.CreateDispense(PatientTestEnvironment.PatientIdOne, "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", dispenseToInsert)).Data;
             Assert.IsNotNull(dispense);
-            var dispenseInserted = ((List<DispenseDto>)((JsonResult)await _prescriptionController.GetDispenses("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Data).FirstOrDefault(e => e.Id == dispense.Id);
+            var dispenseInserted = ((List<DispenseDto>)((JsonResult)await _prescriptionController.GetDispenses(PatientTestEnvironment.PatientIdOne, "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Data).FirstOrDefault(e => e.Id == dispense.Id);
             Assert.IsNotNull(dispenseInserted);
             Assert.AreEqual(remark, dispenseInserted.Remark);
         }
@@ -537,13 +537,13 @@ namespace Service.Tests.Controllers
         [TestMethod]
         public async Task TestGetDispensesThrowsOnPrescriptionNotFound()
         {
-            var result = (HttpStatusCodeResult)await _prescriptionController.GetDispenses("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sdfklsdf");
+            var result = (HttpStatusCodeResult)await _prescriptionController.GetDispenses(PatientTestEnvironment.PatientIdOne, "sdfklsdf");
             Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
         }
         [TestMethod]
         public async Task TestGetDispensesReturnNoContentOnPrescriptionNotFound()
         {
-            var result = (HttpStatusCodeResult)await _prescriptionController.GetDispenses("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", IdentityGenerator.NewSequentialGuid().ToString());
+            var result = (HttpStatusCodeResult)await _prescriptionController.GetDispenses(PatientTestEnvironment.PatientIdOne, IdentityGenerator.NewSequentialGuid().ToString());
             Assert.AreEqual((int)HttpStatusCode.NoContent, result.StatusCode);
         }
         [TestMethod]
@@ -568,9 +568,9 @@ namespace Service.Tests.Controllers
                 Date = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
                 Remark = remark
             };
-            var dispense = (DispenseDto)((JsonResult)await _prescriptionController.CreateDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", dispenseToInsert)).Data;
+            var dispense = (DispenseDto)((JsonResult)await _prescriptionController.CreateDispense(PatientTestEnvironment.PatientIdOne, "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", dispenseToInsert)).Data;
             Assert.IsNotNull(dispense);
-            var dispenses = (List<DispenseDto>)((JsonResult)await _prescriptionController.GetDispenses("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Data;
+            var dispenses = (List<DispenseDto>)((JsonResult)await _prescriptionController.GetDispenses(PatientTestEnvironment.PatientIdOne, "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Data;
             Assert.IsNotNull(dispenses);
             Assert.AreEqual(1, dispenses.Count);
             Assert.AreEqual(remark, dispenses.First().Remark);
@@ -599,13 +599,13 @@ namespace Service.Tests.Controllers
         [TestMethod]
         public async Task TestGetPrescriptionDrugThrowsOnPrescriptionNotFound()
         {
-            var result = (HttpStatusCodeResult)await _prescriptionController.GetDrugs("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "sdfklsdf");
+            var result = (HttpStatusCodeResult)await _prescriptionController.GetDrugs(PatientTestEnvironment.PatientIdOne, "sdfklsdf");
             Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
         }
         [TestMethod]
         public async Task TestGetPrescriptionDrugReturnNoContentOnPatientNotFound()
         {
-            var result = (HttpStatusCodeResult)await _prescriptionController.GetDrugs("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", IdentityGenerator.NewSequentialGuid().ToString());
+            var result = (HttpStatusCodeResult)await _prescriptionController.GetDrugs(PatientTestEnvironment.PatientIdOne, IdentityGenerator.NewSequentialGuid().ToString());
             Assert.AreEqual((int)HttpStatusCode.NoContent, result.StatusCode);
         }
         [TestMethod]
