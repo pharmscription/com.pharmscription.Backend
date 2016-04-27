@@ -8,15 +8,13 @@ namespace com.pharmscription.BusinessLogic.Validation
     {
         public void Validate(PatientDto dto)
         {
-            if (dto.BirthDateStr == "01.01.0001")
+            if (dto.BirthDate == "01.01.0001")
             {
                 throw new InvalidArgumentException("No valid Birthdate was supplied");
             }
             try
             {
-                
-                 DateTime.Parse(dto.BirthDateStr);
-
+                 DateTime.Parse(dto.BirthDate);
             }
             catch (Exception)
             {
