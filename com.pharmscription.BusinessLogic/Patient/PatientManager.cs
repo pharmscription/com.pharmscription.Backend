@@ -21,6 +21,10 @@ namespace com.pharmscription.BusinessLogic.Patient
 
         public async Task<PatientDto> Lookup(string ahvNumber)
         {
+            if (ahvNumber == null)
+            {
+                throw new InvalidArgumentException("ahvNumber must not be null");
+            }
             AhvValidator ahvValidator = new AhvValidator();
             ahvValidator.Validate(ahvNumber);
 
@@ -31,6 +35,10 @@ namespace com.pharmscription.BusinessLogic.Patient
 
         public async Task<PatientDto> Add(PatientDto patient)
         {
+            if (patient == null)
+            {
+                throw new InvalidArgumentException("DTO must not be null");
+            }
             AhvValidator ahvValidator = new AhvValidator();
             BirthDateValidator birthDateValidator = new BirthDateValidator();
             ahvValidator.Validate(patient);
@@ -47,6 +55,10 @@ namespace com.pharmscription.BusinessLogic.Patient
 
         public async Task<PatientDto> Find(string ahvNumber)
         {
+            if (ahvNumber == null)
+            {
+                throw new InvalidArgumentException("ahvNumber must not be null");
+            }
             if (_patientRepository.Exists(ahvNumber))
             {
                 return (await _patientRepository.GetByAhvNumber(ahvNumber)).ConvertToDto();

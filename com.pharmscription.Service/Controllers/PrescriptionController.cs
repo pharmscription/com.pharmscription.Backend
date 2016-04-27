@@ -22,7 +22,7 @@
             _prescriptionManager = manager;
         }
         [System.Web.Mvc.Route(PrescriptionRoutes.GetPrescriptions)]
-        public async Task<JsonResult> GetPrescriptions(string patientid)
+        public async Task<ActionResult> GetPrescriptions(string patientid)
         {
             try
             {
@@ -30,19 +30,19 @@
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NoContent);
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             catch (Exception)
             {
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
         [System.Web.Mvc.Route(PrescriptionRoutes.GetPrescriptionById)]
-        public async Task<JsonResult> GetPrescriptionById(string patientid, string prescriptionid)
+        public async Task<ActionResult> GetPrescriptionById(string patientid, string prescriptionid)
         {
             try
             {
@@ -50,38 +50,42 @@
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NoContent);
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             catch (Exception)
             {
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
 
         [System.Web.Mvc.Route(PrescriptionRoutes.CreatePrescription)]
         [System.Web.Http.HttpPut]
-        public async Task<JsonResult> CreatePrescription(string patientid, PrescriptionDto dto)
+        public async Task<ActionResult> CreatePrescription(string patientid, PrescriptionDto dto)
         {
             try
             {
                 return Json(await _prescriptionManager.Add(patientid, dto));
             }
+            catch (NotFoundException)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
             catch (ArgumentException)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             catch (Exception)
             {
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
 
         [System.Web.Mvc.Route(PrescriptionRoutes.GetCounterProposals)]
-        public async Task<JsonResult> GetCounterProposals(string patientid, string prescriptionid)
+        public async Task<ActionResult> GetCounterProposals(string patientid, string prescriptionid)
         {
             try
             {
@@ -89,21 +93,21 @@
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NoContent);
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             catch (Exception)
             {
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
 
         [System.Web.Mvc.Route(PrescriptionRoutes.CreateCounterProposal)]
         [System.Web.Http.HttpPut]
-        public async Task<JsonResult> CreateCounterProposal(
+        public async Task<ActionResult> CreateCounterProposal(
             string patientid,
             string prescriptionid,
             CounterProposalDto dto)
@@ -112,18 +116,22 @@
             {
                 return Json(await _prescriptionManager.AddCounterProposal(patientid, prescriptionid, dto));
             }
+            catch (NotFoundException)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
             catch (ArgumentException)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             catch (Exception)
             {
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
 
         [System.Web.Mvc.Route(PrescriptionRoutes.GetDispenses)]
-        public async Task<JsonResult> GetDispenses(string patientid, string prescriptionid)
+        public async Task<ActionResult> GetDispenses(string patientid, string prescriptionid)
         {
             try
             {
@@ -131,21 +139,21 @@
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NoContent);
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             catch (Exception)
             {
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
 
         [System.Web.Mvc.Route(PrescriptionRoutes.CreateDispense)]
         [System.Web.Http.HttpPut]
-        public async Task<JsonResult> CreateDispense(
+        public async Task<ActionResult> CreateDispense(
             string patientid,
             string prescriptionid,
             DispenseDto dto)
@@ -154,18 +162,22 @@
             {
                 return Json(await _prescriptionManager.AddDispense(patientid, prescriptionid, dto));
             }
+            catch (NotFoundException)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
             catch (ArgumentException)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             catch (Exception)
             {
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
 
         [System.Web.Mvc.Route(PrescriptionRoutes.GetDrugs)]
-        public async Task<JsonResult> GetDrugs(string patientid, string prescriptionid)
+        public async Task<ActionResult> GetDrugs(string patientid, string prescriptionid)
         {
             try
             {
@@ -173,15 +185,15 @@
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NoContent);
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             catch (Exception)
             {
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
     }

@@ -22,7 +22,7 @@ namespace Service.Controllers
         }
 
         [System.Web.Mvc.Route(PatientRoutes.GetPatientById)]
-        public async Task<JsonResult> GetById(string id)
+        public async Task<ActionResult> GetById(string id)
         {
             try
             {
@@ -30,37 +30,41 @@ namespace Service.Controllers
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NoContent);
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             catch (Exception)
             {
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
         [System.Web.Mvc.Route(PatientRoutes.AddPatient)]
         [HttpPut]
-        public async Task<JsonResult> Add(PatientDto patientDto)
+        public async Task<ActionResult> Add(PatientDto patientDto)
         {
             try
             {
                 return Json(await _patientManager.Add(patientDto), JsonRequestBehavior.AllowGet);
             }
+            catch (NotFoundException)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
             catch (ArgumentException)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             catch (Exception)
             {
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
 
         [System.Web.Mvc.Route(PatientRoutes.GetPatientByAhvNumber)]
-        public async Task<JsonResult> GetByAhv(string ahv)
+        public async Task<ActionResult> GetByAhv(string ahv)
         {
             try
             {
@@ -68,20 +72,20 @@ namespace Service.Controllers
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NoContent);
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             catch (Exception)
             {
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
 
         [System.Web.Mvc.Route(PatientRoutes.LookupPatientByAhvNumber)]
-        public async Task<JsonResult> LookupByAhvNumber(string ahv)
+        public async Task<ActionResult> LookupByAhvNumber(string ahv)
         {
             try
             {
@@ -89,15 +93,15 @@ namespace Service.Controllers
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NoContent);
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             catch (Exception)
             {
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
     }

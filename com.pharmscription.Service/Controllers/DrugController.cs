@@ -10,6 +10,8 @@ using Service.Routes;
 
 namespace Service.Controllers
 {
+    using System.Web.Http.Results;
+
     using log4net;
 
     [System.Web.Mvc.RoutePrefix("")]
@@ -26,7 +28,7 @@ namespace Service.Controllers
         }
 
         [System.Web.Mvc.Route(DrugRoutes.GetDrugById)]
-        public async Task<JsonResult> GetById(string id)
+        public async Task<ActionResult> GetById(string id)
         {
             try
             {
@@ -34,20 +36,20 @@ namespace Service.Controllers
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NoContent);
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             catch (Exception)
             {
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
 
         [System.Web.Mvc.Route(DrugRoutes.GetDrugsBySearchTerm)]
-        public async Task<JsonResult> GetDrugsBySearchTerm(string keyword)
+        public async Task<ActionResult> GetDrugsBySearchTerm(string keyword)
         {
             try
             {
@@ -55,20 +57,20 @@ namespace Service.Controllers
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NoContent);
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             catch (Exception)
             {
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
 
         [System.Web.Mvc.Route(DrugRoutes.GetDrugsCountBySearchTerm)]
-        public async Task<JsonResult> GetDrugsCountBySearchTerm(string keyword)
+        public async Task<ActionResult> GetDrugsCountBySearchTerm(string keyword)
         {
             try
             {
@@ -76,22 +78,22 @@ namespace Service.Controllers
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NoContent);
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             catch (Exception)
             {
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
 
 
 
         [System.Web.Mvc.Route(DrugRoutes.GetDrugsBySearchTermPaged)]
-        public async Task<JsonResult> GetBySearchTermPaged(string keyword, string page, string amount)
+        public async Task<ActionResult> GetBySearchTermPaged(string keyword, string page, string amount)
         {
             try
             {
@@ -99,15 +101,15 @@ namespace Service.Controllers
             }
             catch (NotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NoContent);
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             catch (Exception)
             {
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
 
