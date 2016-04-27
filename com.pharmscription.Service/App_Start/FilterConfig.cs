@@ -1,7 +1,9 @@
-﻿using System.Web.Mvc;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Web.Mvc;
 
 namespace Service
 {
+    [ExcludeFromCodeCoverage]
     public class FilterConfig
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)

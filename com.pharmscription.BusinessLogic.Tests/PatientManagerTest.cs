@@ -84,8 +84,8 @@ namespace com.pharmscription.BusinessLogic.Tests
             puow.Commit();
         }
 
-        //[TestMethod]
-        //[ExpectedException(typeof(InvalidAhvNumberException))]
+        [TestMethod]
+        [ExpectedException(typeof(InvalidAhvNumberException))]
         public async Task InvalidAhvNumberTest()
         {
             DateTime birthDate = new DateTime(2000, 10, 10);
@@ -102,7 +102,7 @@ namespace com.pharmscription.BusinessLogic.Tests
                     StreetExtension = "Postfach 1234"
                 },
                 AhvNumber = "1231234123412",
-                BirthDate = birthDate,
+                BirthDate = birthDate.ToString(@"dd.MM.yyyy"),
                 InsuranceNumber = "Zurich-12345",
                 PhoneNumber = "056 217 21 21",
                 Insurance = "Zurich"
@@ -130,7 +130,7 @@ namespace com.pharmscription.BusinessLogic.Tests
                     StreetExtension = "Postfach 1234"
                 },
                 AhvNumber = "7561234567897",
-                BirthDate = birthDate,
+                BirthDate = birthDate.ToString(@"dd.MM.yyyy"),
                 InsuranceNumber = "Zurich-12345",
                 PhoneNumber = "056 217 21 21",
                 Insurance = "Zurich"

@@ -2,8 +2,10 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Http;
 using com.pharmscription.BusinessLogic.Patient;
+using com.pharmscription.DataAccess.Entities.AddressEntity;
+using com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity;
+using com.pharmscription.DataAccess.Entities.PatientEntity;
 using com.pharmscription.DataAccess.Repositories.Patient;
 using com.pharmscription.DataAccess.UnitOfWork;
 using com.pharmscription.Infrastructure.Dto;
@@ -26,7 +28,7 @@ namespace Service.Tests.Controllers
 
         private static readonly PatientDto TestPatientDto = new PatientDto
         {
-            BirthDateStr = DateTime.Now.ToString("dd.MM.yyyy"),
+            BirthDate = DateTime.Now.ToString("dd.MM.yyyy"),
             FirstName = "Bruce",
             LastName = "Wayne",
             AhvNumber = TestAhvNumber
@@ -39,7 +41,6 @@ namespace Service.Tests.Controllers
             _patientRepository = new PatientRepository(puow);
             IPatientManager patientManager = new PatientManager(_patientRepository);
             _patientController = new PatientController(patientManager);
-
         }
 
         [TestCleanup]
@@ -51,9 +52,7 @@ namespace Service.Tests.Controllers
             {
                 _patientRepository.Remove(testPatient);
             }
-
             _patientRepository.UnitOfWork.Commit();
-
         }
 
         [TestMethod]
@@ -81,6 +80,40 @@ namespace Service.Tests.Controllers
         }
 
         [TestMethod]
+        public async Task TestStoresPatientWithWholeAdress()
+        {
+            const string testAhvNumber = "7561234567897";
+            var address = new AddressDto
+            {
+                Location = "Wil",
+                Number = "17",
+                State = "Thurgau",
+                Street = "Steigstrasse",
+                StreetExtension = "None",
+                CityCode = SwissCityCode.CreateInstance("9535").ToString()
+            };
+            var patient = new PatientDto
+            {
+                FirstName = "Rafael",
+                LastName = "Krucker",
+                Address = address,
+                BirthDate = DateTime.Parse("17.03.1991").ToString("dd.MM.yyyy"),
+                AhvNumber = testAhvNumber
+            };
+            await _patientController.Add(patient);
+            var patientInserted = (PatientDto)((JsonResult)await _patientController.GetByAhv(testAhvNumber)).Data;
+            Assert.IsNotNull(patientInserted);
+            var addressInserted = patientInserted.Address;
+            Assert.IsNotNull(addressInserted);
+            Assert.AreEqual(address.CityCode, addressInserted.CityCode);
+            Assert.AreEqual(address.Location, addressInserted.Location);
+            Assert.AreEqual(address.Number, addressInserted.Number);
+            Assert.AreEqual(address.State, addressInserted.State);
+            Assert.AreEqual(address.Street, addressInserted.Street);
+            Assert.AreEqual(address.StreetExtension, addressInserted.StreetExtension);
+        }
+
+        [TestMethod]
         public async Task TestAddPatient()
         {
             await _patientController.Add(TestPatientDto);
@@ -100,11 +133,6 @@ namespace Service.Tests.Controllers
             };
             var result = (HttpStatusCodeResult)await _patientController.Add(patientDto);
             Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
-            /*var patientInsertedFresh = (PatientDto)((JsonResult)await _patientController.GetById(patientInserted.Id)).Data;
-            Assert.IsNotNull(patientInsertedFresh);
-            Assert.AreEqual(patientDto.FirstName, patientInsertedFresh.FirstName);*/
-
-
         }
 
         [TestMethod]

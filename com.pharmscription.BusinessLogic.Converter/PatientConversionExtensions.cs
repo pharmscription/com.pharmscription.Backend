@@ -15,7 +15,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return new PatientDto
             {
                 PhoneNumber = patient.PhoneNumber,
-                BirthDate = patient.BirthDate,
+                BirthDate = patient.BirthDate.ToString(@"dd.MM.yyyy"),
                 AhvNumber = patient.AhvNumber,
                 InsuranceNumber = patient.InsuranceNumber,
                 LastName = patient.LastName,
@@ -37,7 +37,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             var patientDto = new PatientDto
             {
                 PhoneNumber = patient.PhoneNumber,
-                BirthDate = patient.BirthDate,
+                BirthDate = patient.BirthDate.ToString(@"dd.MM.yyyy"),
                 AhvNumber = patient.AhvNumber,
                 InsuranceNumber = patient.InsuranceNumber,
                 LastName = patient.LastName,
@@ -54,7 +54,8 @@ namespace com.pharmscription.BusinessLogic.Converter
                     Number = patient.Address.Number,
                     Location = patient.Address.Location,
                     CityCode = patient.Address.CityCode.CityCode,
-                    StreetExtension = patient.Address.StreetExtension
+                    StreetExtension = patient.Address.StreetExtension,
+                    State = patient.Address.State
                 };
             }
             return patientDto;
@@ -66,7 +67,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             var patient = new Patient
             {
                 PhoneNumber = patientDto.PhoneNumber,
-                BirthDate = patientDto.BirthDate,
+                BirthDate = DateTime.ParseExact(patientDto.BirthDate, @"dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture),
                 AhvNumber = patientDto.AhvNumber,
                 InsuranceNumber = patientDto.InsuranceNumber,
                 LastName = patientDto.LastName,
@@ -86,7 +87,8 @@ namespace com.pharmscription.BusinessLogic.Converter
                     Number = patientDto.Address.Number,
                     Location = patientDto.Address.Location,
                     CityCode = SwissCityCode.CreateInstance(patientDto.Address.CityCode),
-                    StreetExtension = patientDto.Address.StreetExtension
+                    StreetExtension = patientDto.Address.StreetExtension,
+                    State = patientDto.Address.State,
 
                 };
             }

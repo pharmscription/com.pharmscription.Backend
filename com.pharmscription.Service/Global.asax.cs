@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -7,7 +8,7 @@ using System.Web.Routing;
 namespace Service
 {
     using log4net.Config;
-
+    [ExcludeFromCodeCoverage]
     public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
