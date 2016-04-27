@@ -63,7 +63,7 @@ namespace com.pharmscription.BusinessLogic.Patient
             {
                 return (await _patientRepository.GetByAhvNumber(ahvNumber)).ConvertToDto();
             }
-            throw new ArgumentNullException("Patient with AHV number " + ahvNumber + " not found");
+            throw new NotFoundException("Patient with AHV number " + ahvNumber + " not found");
         }
 
         public async Task<PatientDto> GetById(string id)
