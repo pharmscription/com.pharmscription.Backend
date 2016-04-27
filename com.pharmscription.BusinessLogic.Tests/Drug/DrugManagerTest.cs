@@ -49,7 +49,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Drug
         public async Task TestCanDoSearch()
         {
             var drugs = await _drugManager.Search("Redimune");
-            Assert.AreEqual(4, drugs);
+            Assert.AreEqual(4, drugs.Count);
         }
 
         [TestMethod]
