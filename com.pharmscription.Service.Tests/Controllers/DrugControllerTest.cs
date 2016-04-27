@@ -5,9 +5,9 @@ using com.pharmscription.DataAccess.Repositories.Drug;
 using com.pharmscription.DataAccess.UnitOfWork;
 using com.pharmscription.Infrastructure.EntityHelper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Service.Controllers;
+using com.pharmscription.Service.Controllers;
 
-namespace Service.Tests.Controllers
+namespace com.pharmscription.Service.Tests.Controllers
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
@@ -15,6 +15,8 @@ namespace Service.Tests.Controllers
     using System.Web.Mvc;
 
     using com.pharmscription.Infrastructure.Dto;
+    using com.pharmscription.Service.Controllers;
+
     [ExcludeFromCodeCoverage]
     [TestClass]
     public class DrugControllerTest

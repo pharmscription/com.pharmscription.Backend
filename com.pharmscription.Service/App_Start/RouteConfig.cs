@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Service
+namespace com.pharmscription.Service
 {
     [ExcludeFromCodeCoverage]
     public class RouteConfig

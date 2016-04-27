@@ -5,10 +5,11 @@ using com.pharmscription.BusinessLogic.Validation;
 using com.pharmscription.DataAccess.Repositories.Patient;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
+using com.pharmscription.Infrastructure.Exception;
 
 namespace com.pharmscription.BusinessLogic.Patient
 {
-    using Infrastructure.Exception;
+    
 
     public class PatientManager : CoreWorkflow, IPatientManager
     {
@@ -21,10 +22,6 @@ namespace com.pharmscription.BusinessLogic.Patient
 
         public async Task<PatientDto> Lookup(string ahvNumber)
         {
-            if (ahvNumber == null)
-            {
-                throw new InvalidArgumentException("ahvNumber must not be null");
-            }
             AhvValidator ahvValidator = new AhvValidator();
             ahvValidator.Validate(ahvNumber);
 
@@ -55,10 +52,6 @@ namespace com.pharmscription.BusinessLogic.Patient
 
         public async Task<PatientDto> Find(string ahvNumber)
         {
-            if (ahvNumber == null)
-            {
-                throw new InvalidArgumentException("ahvNumber must not be null");
-            }
             if (_patientRepository.Exists(ahvNumber))
             {
                 return (await _patientRepository.GetByAhvNumber(ahvNumber)).ConvertToDto();

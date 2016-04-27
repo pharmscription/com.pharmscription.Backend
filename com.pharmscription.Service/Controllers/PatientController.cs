@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using com.pharmscription.BusinessLogic.Patient;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.Exception;
-using Service.Routes;
+using com.pharmscription.Service.Routes;
 
-namespace Service.Controllers
+namespace com.pharmscription.Service.Controllers
 {
     using System.Web.Mvc;
 

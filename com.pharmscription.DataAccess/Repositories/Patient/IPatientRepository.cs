@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
+using com.pharmscription.DataAccess.SharedInterfaces;
 
 namespace com.pharmscription.DataAccess.Repositories.Patient
 {
-    using System.Threading.Tasks;
-    using SharedInterfaces;
-    using Entities.PatientEntity;
-
-    public interface IPatientRepository : IRepository<Patient>
+    public interface IPatientRepository : IRepository<Entities.PatientEntity.Patient>
     {
-        Task<Patient> GetByAhvNumber(string ahvNumber);
+        Task<Entities.PatientEntity.Patient> GetByAhvNumber(string ahvNumber);
         bool Exists(string ahvNumber);
-        Task<Patient> GetWithPrescriptions(Guid id);
-        IQueryable<Patient> GetWithAllNavs();
+        Task<Entities.PatientEntity.Patient> GetWithPrescriptions(Guid id);
+        IQueryable<Entities.PatientEntity.Patient> GetWithAllNavs();
 
     }
 }

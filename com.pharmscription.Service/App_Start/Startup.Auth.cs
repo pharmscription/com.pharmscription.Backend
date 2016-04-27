@@ -5,10 +5,12 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
-using Service.Models;
+using com.pharmscription.Service.Models;
 
-namespace Service
+namespace com.pharmscription.Service
 {
+    using com.pharmscription.Service.Models;
+
     public partial class Startup
     {
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864

@@ -11,7 +11,7 @@ using com.pharmscription.DataAccess.Repositories.Patient;
 using com.pharmscription.DataAccess.UnitOfWork;
 using Microsoft.Practices.Unity;
 
-namespace Service.App_Start
+namespace com.pharmscription.Service.App_Start
 {
     /// <summary>
     /// Specifies the Unity configuration for the main container.

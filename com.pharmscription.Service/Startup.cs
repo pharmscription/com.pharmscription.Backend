@@ -2,8 +2,8 @@
 using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(Service.Startup))]
-namespace Service
+[assembly: OwinStartupAttribute(typeof(com.pharmscription.Service.Startup))]
+namespace com.pharmscription.Service
 {
     [ExcludeFromCodeCoverage]
     public partial class Startup
