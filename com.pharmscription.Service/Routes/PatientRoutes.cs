@@ -1,4 +1,4 @@
-﻿namespace Service.Routes
+﻿namespace com.pharmscription.Service.Routes
 {
     public static class PatientRoutes
     {

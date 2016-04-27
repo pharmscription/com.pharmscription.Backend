@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Web.Mvc;
 
-namespace Service
+namespace com.pharmscription.Service
 {
     [ExcludeFromCodeCoverage]
     public class FilterConfig

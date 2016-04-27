@@ -30,13 +30,13 @@ namespace com.pharmscription.BusinessLogic.Tests
                 new DataAccess.Entities.PatientEntity.Patient
                 {
                     Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37"),
-                    AhvNumber = "123",
+                    AhvNumber = PatientTestEnvironment.AhvNumberPatientOne,
                     FirstName = "Rafael",
                     BirthDate = new DateTime(1991, 03, 17)
                 },
                 new DataAccess.Entities.PatientEntity.Patient
                 {
-                    AhvNumber = "124",
+                    AhvNumber = PatientTestEnvironment.AhvNumberPatientTwo,
                     FirstName = "Noah",
                     BirthDate = new DateTime(1990, 03, 17)
                 },
@@ -149,13 +149,13 @@ namespace com.pharmscription.BusinessLogic.Tests
         {
             var patient = await _patientManager.GetById("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37");
             Assert.IsNotNull(patient);
-            Assert.AreEqual("123", patient.AhvNumber);
+            Assert.AreEqual(PatientTestEnvironment.AhvNumberPatientOne, patient.AhvNumber);
         }
 
         [TestMethod]
         public async Task FindTest()
         {
-            var patient = await _patientManager.Find("123");
+            var patient = await _patientManager.Find(PatientTestEnvironment.AhvNumberPatientOne);
             Assert.IsNotNull(patient);
             Assert.AreEqual("Rafael", patient.FirstName);
         }

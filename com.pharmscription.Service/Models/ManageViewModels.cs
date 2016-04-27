@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
-namespace Service.Models
+namespace com.pharmscription.Service.Models
 {
     public class IndexViewModel
     {

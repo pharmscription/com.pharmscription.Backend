@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Web.Optimization;
 
-namespace Service
+namespace com.pharmscription.Service
 {
     [ExcludeFromCodeCoverage]
     public class BundleConfig

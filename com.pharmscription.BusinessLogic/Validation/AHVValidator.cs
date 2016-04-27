@@ -13,6 +13,10 @@ namespace com.pharmscription.BusinessLogic.Validation
 
         public void Validate(string socialNumber)
         {
+            if (string.IsNullOrWhiteSpace(socialNumber))
+            {
+                throw new InvalidArgumentException("socialNumber must not be null");
+            }
             socialNumber = socialNumber.Replace(".", "");
             if (socialNumber.Length != 13)
             {

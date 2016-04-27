@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using com.pharmscription.BusinessLogic.Drug;
 using com.pharmscription.Infrastructure.Exception;
-using Service.Routes;
 
-namespace Service.Controllers
+namespace com.pharmscription.Service.Controllers
 {
+    using com.pharmscription.Service.Routes;
 
     using log4net;
 
@@ -36,29 +36,6 @@ namespace Service.Controllers
             catch (NotFoundException)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NoContent);
-            }
-            catch (ArgumentException)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            catch (Exception)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
-            }
-        }
-
-        [Route(DrugRoutes.GetDrugsBySearchTerm)]
-        public async Task<ActionResult> GetDrugsBySearchTerm(string keyword)
-        {
-            try
-            {
-                var drugs = await _drugManager.Search(keyword);
-                if (drugs.Any())
-                {
-                    return Json(drugs, JsonRequestBehavior.AllowGet);
-                }
-                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
-
             }
             catch (ArgumentException)
             {

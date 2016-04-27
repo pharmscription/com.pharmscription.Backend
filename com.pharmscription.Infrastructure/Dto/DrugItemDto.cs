@@ -3,7 +3,7 @@
 namespace com.pharmscription.Infrastructure.Dto
 {
     [DataContract]
-    public class DrugItemDto: BaseDto
+    public class DrugItemDto : BaseDto
     {
         [DataMember]
         public DrugDto Drug { get; set; }

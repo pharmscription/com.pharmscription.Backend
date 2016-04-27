@@ -10,12 +10,14 @@ using com.pharmscription.Infrastructure.Constants;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.EntityHelper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Service.Controllers;
+using com.pharmscription.Service.Controllers;
 
-namespace Service.Tests.Controllers
+namespace com.pharmscription.Service.Tests.Controllers
 {
     using System.Net;
     using System.Web.Mvc;
+
+    using com.pharmscription.Service.Controllers;
 
     [ExcludeFromCodeCoverage]
     [TestClass]
@@ -150,10 +152,10 @@ namespace Service.Tests.Controllers
         }
 
         [TestMethod]
-        public async Task TestGetByAhvReturnsNoContentOnNotFound()
+        public async Task TestGetByAhvReturnsBadRequesttMalformedAhv()
         {
             var result = (HttpStatusCodeResult)await _patientController.GetByAhv("1.2333.43.12");
-            Assert.AreEqual((int)HttpStatusCode.NoContent, result.StatusCode);
+            Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
         }
         [TestMethod]
         public async Task TestGetByAhv()

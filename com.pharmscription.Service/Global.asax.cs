@@ -5,7 +5,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-namespace Service
+namespace com.pharmscription.Service
 {
     using log4net.Config;
     [ExcludeFromCodeCoverage]

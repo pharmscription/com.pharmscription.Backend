@@ -8,8 +8,8 @@ namespace Service.Controllers
     using System.Web.Mvc;
     using com.pharmscription.BusinessLogic.Prescription;
     using com.pharmscription.Infrastructure.Dto;
-    using Routes;
     using com.pharmscription.Infrastructure.Exception;
+    using com.pharmscription.Service.Routes;
 
     [System.Web.Mvc.RoutePrefix("")]
     public class PrescriptionController : Controller

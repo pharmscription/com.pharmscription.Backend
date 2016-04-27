@@ -10,7 +10,7 @@ namespace com.pharmscription.BusinessLogic.Validation
         {
             if (dto.BirthDate == "01.01.0001")
             {
-                throw new InvalidArgumentException("No valid Birthdate was supplied");
+                throw new InvalidArgumentException("Date must be initialized first");
             }
             try
             {

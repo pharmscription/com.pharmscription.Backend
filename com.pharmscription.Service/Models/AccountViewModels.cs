@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Service.Models
+namespace com.pharmscription.Service.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
