@@ -27,7 +27,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
 
             var counterProposalRepository = TestEnvironmentHelper.GetMockedCounterProposalRepository();
             var dispenseRepository = TestEnvironmentHelper.GetMockedDispenseRepository();
-            var prescriptionRepository = TestEnvironmentHelper.GetMockedPrescriptionRepository();
+            var prescriptionRepository = PrescriptionTestEnvironment.GetMockedPrescriptionRepository();
             foreach (var prescription in prescriptionRepository.Object.GetAll())
             {
                 if (prescription.Dispenses == null)
@@ -39,7 +39,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
                     prescription.CounterProposals = new List<CounterProposal>();
                 }
             }
-            var patientRepository = TestEnvironmentHelper.GetMockedPatientRepository();
+            var patientRepository = PatientTestEnvironment.GetMockedPatientRepository();
             foreach (var patient in patientRepository.Object.GetAll())
             {
                 if (patient.Prescriptions == null)
