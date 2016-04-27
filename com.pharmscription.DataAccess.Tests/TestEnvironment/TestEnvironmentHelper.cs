@@ -126,7 +126,28 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                     LastName = "Schaden",
                     AhvNumber = "756.1390.2077.81",
                     BirthDate = DateTime.Parse("24.05.1991")
+                },
+                new Patient {
+                    Id = Guid.Parse("1baf86b0-1e14-4f4c-b23a-5c9dd00e8e48"),
+                    FirstName = "I have no",
+                    LastName =  "Prescriptons",
+                    BirthDate = DateTime.Parse("28.05.1991")
+                },
+                new Patient {
+                    Id = Guid.Parse("1baf86b0-1e14-4f64-b23a-5c9dd00e8e48"),
+                    FirstName = "I have",
+                    LastName =  "an empty Prescripton",
+                    BirthDate = DateTime.Parse("28.05.1991"),
+                    Prescriptions = new List<Prescription>
+                    {
+                        new SinglePrescription
+                        {
+                            Id = Guid.Parse("1baf86d7-1e14-4f64-b23a-5c9dd00e8e48"),
+                            IssueDate = DateTime.Now,
+                            EditDate = DateTime.Now
 
+                        }
+                    }
                 }
             };
         }

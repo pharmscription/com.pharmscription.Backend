@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web.Http;
 using com.pharmscription.BusinessLogic.Patient;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.Exception;
@@ -11,7 +10,7 @@ namespace Service.Controllers
 {
     using System.Web.Mvc;
 
-    [System.Web.Mvc.RoutePrefix("")]
+    [RoutePrefix("")]
     public class PatientController : Controller
     {
         private readonly IPatientManager _patientManager;
@@ -21,7 +20,7 @@ namespace Service.Controllers
             _patientManager = patientManager;
         }
 
-        [System.Web.Mvc.Route(PatientRoutes.GetPatientById)]
+        [Route(PatientRoutes.GetPatientById)]
         public async Task<ActionResult> GetById(string id)
         {
             try
@@ -41,17 +40,13 @@ namespace Service.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
-        [System.Web.Mvc.Route(PatientRoutes.AddPatient)]
+        [Route(PatientRoutes.AddPatient)]
         [HttpPut]
         public async Task<ActionResult> Add(PatientDto patientDto)
         {
             try
             {
                 return Json(await _patientManager.Add(patientDto), JsonRequestBehavior.AllowGet);
-            }
-            catch (NotFoundException)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
             catch (ArgumentException)
             {
@@ -63,7 +58,7 @@ namespace Service.Controllers
             }
         }
 
-        [System.Web.Mvc.Route(PatientRoutes.GetPatientByAhvNumber)]
+        [Route(PatientRoutes.GetPatientByAhvNumber)]
         public async Task<ActionResult> GetByAhv(string ahv)
         {
             try
@@ -84,15 +79,16 @@ namespace Service.Controllers
             }
         }
 
-        [System.Web.Mvc.Route(PatientRoutes.LookupPatientByAhvNumber)]
+        [Route(PatientRoutes.LookupPatientByAhvNumber)]
         public async Task<ActionResult> LookupByAhvNumber(string ahv)
         {
             try
             {
-                return Json(await _patientManager.Lookup(ahv), JsonRequestBehavior.AllowGet);
-            }
-            catch (NotFoundException)
-            {
+                var patient = await _patientManager.Lookup(ahv);
+                if (patient != null)
+                {
+                    return Json(patient, JsonRequestBehavior.AllowGet);
+                }
                 return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)

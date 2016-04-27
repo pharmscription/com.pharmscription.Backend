@@ -69,7 +69,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             return prescription.ConvertToDto();
         }
 
-        public async Task<List<CounterProposalDto>> GetCounterProposal(string patientId, string prescriptionId)
+        public async Task<List<CounterProposalDto>> GetCounterProposals(string patientId, string prescriptionId)
         {
             await _patientRepository.CheckIfEntityExists(GuidParser.ParseGuid(patientId));
             var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
@@ -77,7 +77,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             return (await _prescriptionRepository.GetAsync(prescriptionGuid)).CounterProposals.ConvertToDtos().ToList();
         }
 
-        public async Task<CounterProposalDto> GetCounterProposal(string patientId, string prescriptionId, string proposalId)
+        public async Task<CounterProposalDto> GetCounterProposals(string patientId, string prescriptionId, string proposalId)
         {
             await _patientRepository.CheckIfEntityExists(GuidParser.ParseGuid(patientId));
             await _prescriptionRepository.CheckIfEntityExists(GuidParser.ParseGuid(prescriptionId));

@@ -1,6 +1,6 @@
-namespace com.pharmscription.BusinessLogic.Prescription
+﻿namespace com.pharmscription.BusinessLogic.Prescription
 {
-    ﻿using System.Collections.Generic;
+     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Infrastructure.Dto;
     public interface IPrescriptionManager
@@ -8,8 +8,8 @@ namespace com.pharmscription.BusinessLogic.Prescription
         Task<List<PrescriptionDto>> Get(string patientId);
         Task<PrescriptionDto> Get(string patientId, string prescriptionId);
         Task<PrescriptionDto> Add(string patientId, PrescriptionDto prescriptionDto);
-        Task<List<CounterProposalDto>> GetCounterProposal(string patientId, string prescriptionId);
-        Task<CounterProposalDto> GetCounterProposal(string patientId, string prescriptionId, string proposalId);
+        Task<List<CounterProposalDto>> GetCounterProposals(string patientId, string prescriptionId);
+        Task<CounterProposalDto> GetCounterProposals(string patientId, string prescriptionId, string proposalId);
 
         Task<CounterProposalDto> AddCounterProposal(string patientId, string prescriptionId,
             CounterProposalDto counterProposal);

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
 
 namespace com.pharmscription.DataAccess.Insurance
@@ -14,7 +15,7 @@ namespace com.pharmscription.DataAccess.Insurance
 
         public async Task<InsurancePatient> FindPatient(string ahvNumber)
         {
-            return await Task.Run(() => _patientStore.Patients.Find(p => p.AhvNumber == ahvNumber));
+            return await Task.Run(() => _patientStore.Patients.FirstOrDefault(p => p.AhvNumber == ahvNumber));
         }
 
         public static IInsurance RealInsurance => new Insurance(new PatientStore());

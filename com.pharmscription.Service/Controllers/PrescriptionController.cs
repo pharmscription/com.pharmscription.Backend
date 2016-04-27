@@ -1,14 +1,13 @@
-﻿namespace Service.Controllers
+﻿using System.Linq;
+
+namespace Service.Controllers
 {
     using System;
     using System.Net;
     using System.Threading.Tasks;
-    using System.Web.Http;
     using System.Web.Mvc;
-
     using com.pharmscription.BusinessLogic.Prescription;
     using com.pharmscription.Infrastructure.Dto;
-
     using Routes;
     using com.pharmscription.Infrastructure.Exception;
 
@@ -26,7 +25,12 @@
         {
             try
             {
-                return Json(await _prescriptionManager.Get(patientid));
+                var prescriptions = await _prescriptionManager.Get(patientid);
+                if (prescriptions.Any())
+                {
+                    return Json(prescriptions);
+                }
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
             catch (NotFoundException)
             {
@@ -72,7 +76,7 @@
             }
             catch (NotFoundException)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
@@ -89,7 +93,12 @@
         {
             try
             {
-                return Json(await _prescriptionManager.GetCounterProposal(patientid, prescriptionid));
+                var counterProposal = await _prescriptionManager.GetCounterProposals(patientid, prescriptionid);
+                if (counterProposal != null && counterProposal.Any())
+                {
+                    return Json(await _prescriptionManager.GetCounterProposals(patientid, prescriptionid));
+                }
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
             catch (NotFoundException)
             {
@@ -118,7 +127,7 @@
             }
             catch (NotFoundException)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
@@ -135,7 +144,12 @@
         {
             try
             {
-                return Json(await _prescriptionManager.GetDispense(patientid, prescriptionid));
+                var dispenses = await _prescriptionManager.GetDispense(patientid, prescriptionid);
+                if (dispenses != null && dispenses.Any())
+                {
+                    return Json(dispenses);
+                }
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
             catch (NotFoundException)
             {
@@ -164,7 +178,7 @@
             }
             catch (NotFoundException)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
             catch (ArgumentException)
             {
@@ -181,7 +195,12 @@
         {
             try
             {
-                return Json(await _prescriptionManager.GetPrescriptionDrugs(patientid, prescriptionid));
+                var drugs = await _prescriptionManager.GetPrescriptionDrugs(patientid, prescriptionid);
+                if (drugs != null && drugs.Any())
+                {
+                    return Json(drugs);
+                }
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
             catch (NotFoundException)
             {
