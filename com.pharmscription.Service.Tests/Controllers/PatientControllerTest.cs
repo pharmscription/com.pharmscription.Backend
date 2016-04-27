@@ -2,7 +2,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Http;
 using com.pharmscription.BusinessLogic.Patient;
 using com.pharmscription.DataAccess.Repositories.Patient;
 using com.pharmscription.DataAccess.UnitOfWork;
@@ -39,7 +38,6 @@ namespace Service.Tests.Controllers
             _patientRepository = new PatientRepository(puow);
             IPatientManager patientManager = new PatientManager(_patientRepository);
             _patientController = new PatientController(patientManager);
-
         }
 
         [TestCleanup]
@@ -51,9 +49,7 @@ namespace Service.Tests.Controllers
             {
                 _patientRepository.Remove(testPatient);
             }
-
             _patientRepository.UnitOfWork.Commit();
-
         }
 
         [TestMethod]
@@ -100,11 +96,6 @@ namespace Service.Tests.Controllers
             };
             var result = (HttpStatusCodeResult)await _patientController.Add(patientDto);
             Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
-            /*var patientInsertedFresh = (PatientDto)((JsonResult)await _patientController.GetById(patientInserted.Id)).Data;
-            Assert.IsNotNull(patientInsertedFresh);
-            Assert.AreEqual(patientDto.FirstName, patientInsertedFresh.FirstName);*/
-
-
         }
 
         [TestMethod]

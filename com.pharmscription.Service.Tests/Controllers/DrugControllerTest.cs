@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Http;
 using com.pharmscription.BusinessLogic.Drug;
 using com.pharmscription.DataAccess.Repositories.Drug;
 using com.pharmscription.DataAccess.UnitOfWork;

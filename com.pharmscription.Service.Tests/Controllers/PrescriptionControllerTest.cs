@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Http;
 using com.pharmscription.BusinessLogic.Prescription;
 using com.pharmscription.DataAccess.Repositories.CounterProposal;
 using com.pharmscription.DataAccess.Repositories.Dispense;
-using com.pharmscription.DataAccess.Repositories.Drug;
-using com.pharmscription.DataAccess.Repositories.DrugItem;
 using com.pharmscription.DataAccess.Repositories.Patient;
 using com.pharmscription.DataAccess.Repositories.Prescription;
 using com.pharmscription.DataAccess.Tests.TestEnvironment;
@@ -34,8 +31,6 @@ namespace Service.Tests.Controllers
         private ICounterProposalRepository _counterProposalRepository;
         private IDispenseRepository _dispenseRepository;
         private IPrescriptionManager _prescriptionManager;
-        private IDrugRepository _drugRepository;
-        private IDrugItemRepository _drugItemRepository;
 
         [TestInitialize]
         public void SetUp()
@@ -45,12 +40,9 @@ namespace Service.Tests.Controllers
             _patientRepository = new PatientRepository(_puow);
             _counterProposalRepository = new CounterProposalRepository(_puow);
             _dispenseRepository = new DispenseRepository(_puow);
-            _drugRepository = new DrugRepository(_puow);
-            _drugItemRepository = new DrugItemRepository(_puow);
             _prescriptionManager= new PrescriptionManager(_prescriptionRepository, _patientRepository, _counterProposalRepository, _dispenseRepository);
             _prescriptionController = new PrescriptionController(_prescriptionManager);
             SetupTestData();
-
         }
 
         private void SetupTestData()
@@ -265,7 +257,6 @@ namespace Service.Tests.Controllers
                 Type = "Standing",
                 ValidUntil = DateTime.Now.AddDays(2).ToString("dd.MM.yyyy"),
                 Drugs = drugs
-
             };
             var prescription = (PrescriptionDto)((JsonResult)await _prescriptionController.CreatePrescription("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", prescriptionToInsert)).Data;
             Assert.IsNotNull(prescription);
@@ -395,17 +386,17 @@ namespace Service.Tests.Controllers
         [TestMethod]
         public async Task TestAddDispense()
         {
-            const string Remark = "Dieses Rezept ist gemein gefährlich";
+            const string remark = "Dieses Rezept ist gemein gefährlich";
             var dispenseToInsert = new DispenseDto
             {
                 Date = DateTime.Now.ToString("dd.MM.yyyy"),
-                Remark = Remark
+                Remark = remark
             };
             var dispense = (DispenseDto)((JsonResult)await _prescriptionController.CreateDispense("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37", dispenseToInsert)).Data;
             Assert.IsNotNull(dispense);
             var dispenseInserted = ((List<DispenseDto>)((JsonResult)await _prescriptionController.GetDispenses("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Data).FirstOrDefault(e => e.Id == dispense.Id);
             Assert.IsNotNull(dispenseInserted);
-            Assert.AreEqual(Remark, dispenseInserted.Remark);
+            Assert.AreEqual(remark, dispenseInserted.Remark);
         }
 
         [TestMethod]
@@ -452,7 +443,6 @@ namespace Service.Tests.Controllers
             Assert.AreEqual(1, dispenses.Count);
             Assert.AreEqual(remark, dispenses.First().Remark);
         }
-
 
         [TestMethod]
         public async Task TestGetPrescriptionDrugThrowsOnNull()
