@@ -1,0 +1,80 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Threading.Tasks;
+using com.pharmscription.DataAccess.Entities.PatientEntity;
+using com.pharmscription.DataAccess.Entities.PrescriptionEntity;
+using com.pharmscription.DataAccess.Repositories.Patient;
+using Moq;
+
+namespace com.pharmscription.DataAccess.Tests.TestEnvironment
+{
+    [ExcludeFromCodeCoverage]
+    public static class PatientTestEnvironment
+    {
+        public const string PatientIdOne = "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38";
+        public const string AhvNumberPatientOne = "756.1234.5678.97";
+        public const string PatientIdTwo = "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e48";
+        public const string AhvNumberPatientTwo = "756.1390.2077.81";
+        public const string PatientWithNoPrescriptionId = "1baf86b0-1e14-4f4c-b23a-5c9dd00e8e48";
+        public const string PatientWithEmptyPrescriptionId = "1baf86b0-1e14-4f64-b23a-5c9dd00e8e48";
+        public const string EmptyPrescriptionId = "1baf86d7-1e14-4f64-b23a-5c9dd00e8e48";
+
+        public static List<Patient> GetTestPatients()
+        {
+            return new List<Patient>
+            {
+                new Patient
+                {
+                    Id = Guid.Parse(PatientIdOne),
+                    FirstName = "Rafael",
+                    LastName = "Krucker",
+                    AhvNumber = AhvNumberPatientOne,
+                    BirthDate = DateTime.Parse("17.03.1991")
+                },
+                new Patient
+                {
+                    Id = Guid.Parse(PatientIdTwo),
+                    FirstName = "Markus",
+                    LastName = "Schaden",
+                    AhvNumber = AhvNumberPatientTwo,
+                    BirthDate = DateTime.Parse("24.05.1991")
+                },
+                new Patient {
+                    Id = Guid.Parse(PatientWithNoPrescriptionId),
+                    FirstName = "I have no",
+                    LastName =  "Prescriptons",
+                    BirthDate = DateTime.Parse("28.05.1991")
+                },
+                new Patient {
+                    Id = Guid.Parse(PatientWithEmptyPrescriptionId),
+                    FirstName = "I have",
+                    LastName =  "an empty Prescripton",
+                    BirthDate = DateTime.Parse("28.05.1991"),
+                    Prescriptions = new List<Prescription>
+                    {
+                        new SinglePrescription
+                        {
+                            Id = Guid.Parse(EmptyPrescriptionId),
+                            IssueDate = DateTime.Now,
+                            EditDate = DateTime.Now
+                        }
+                    }
+                }
+            };
+        }
+
+        public static Mock<PatientRepository> GetMockedPatientRepository()
+        {
+            var patients = GetTestPatients();
+            var mockSet = TestEnvironmentHelper.GetMockedAsyncProviderDbSet(patients);
+            var mockPuow = TestEnvironmentHelper.GetMockedDataContext();
+            mockPuow.Setup(m => m.Patients).Returns(mockSet.Object);
+            var mockedRepository = TestEnvironmentHelper.CreateMockedRepository<Patient, PatientRepository>(mockPuow, mockSet, patients);
+            mockedRepository.Setup(m => m.GetWithPrescriptions(It.IsAny<Guid>()))
+            .Returns<Guid>(e => Task.FromResult(patients.FirstOrDefault(a => a.Id == e)));
+            return mockedRepository;
+        }
+    }
+}

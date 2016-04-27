@@ -33,9 +33,6 @@ namespace Service.Tests.Controllers
         private ICounterProposalRepository _counterProposalRepository;
         private IDispenseRepository _dispenseRepository;
         private IPrescriptionManager _prescriptionManager;
-        private string PatientWithNoPrescription = "1baf86b0-1e14-4f4c-b23a-5c9dd00e8e48";
-        private string PatientWithEmptyPrescription = "1baf86b0-1e14-4f64-b23a-5c9dd00e8e48";
-        private string EmptyPrescription = "1baf86d7-1e14-4f64-b23a-5c9dd00e8e48";
         
         [TestInitialize]
         public void SetUp()
@@ -52,7 +49,7 @@ namespace Service.Tests.Controllers
 
         private void SetupTestData()
         {
-            var patients = TestEnvironmentHelper.GetTestPatients();
+            var patients = PatientTestEnvironment.GetTestPatients();
             foreach (var patient in patients)
             {
                 _patientRepository.Add(patient);
@@ -69,7 +66,7 @@ namespace Service.Tests.Controllers
 
             }
             var counterProposalsToConnect = _counterProposalRepository.GetAll();
-            var prescriptions = TestEnvironmentHelper.GetTestPrescriptions();
+            var prescriptions = PrescriptionTestEnvironment.GetTestPrescriptions();
 
             foreach (var prescription in prescriptions)
             {
@@ -137,7 +134,7 @@ namespace Service.Tests.Controllers
         [TestMethod]
         public async Task TestGetPrescriptionByPatientIdReturnsNoContentOnNoPrescriptions()
         {
-            var result = (HttpStatusCodeResult)await _prescriptionController.GetPrescriptions(PatientWithNoPrescription);
+            var result = (HttpStatusCodeResult)await _prescriptionController.GetPrescriptions(PatientTestEnvironment.PatientWithNoPrescriptionId);
             Assert.AreEqual((int)HttpStatusCode.NoContent, result.StatusCode);
         }
 
@@ -439,7 +436,8 @@ namespace Service.Tests.Controllers
         [TestMethod]
         public async Task TestGetCounterProposalsReturnsNoContentOnEmptyCounterProposals()
         {
-            var result = (HttpStatusCodeResult)await _prescriptionController.GetCounterProposals(PatientWithEmptyPrescription, EmptyPrescription);
+            var result = (HttpStatusCodeResult)await _prescriptionController.GetCounterProposals(
+                PatientTestEnvironment.PatientWithEmptyPrescriptionId, PatientTestEnvironment.EmptyPrescriptionId);
             Assert.AreEqual((int)HttpStatusCode.NoContent, result.StatusCode);
         }
 
@@ -557,7 +555,7 @@ namespace Service.Tests.Controllers
         [TestMethod]
         public async Task TestGetDispensesReturnNoContentOnEmptyDispenses()
         {
-            var result = (HttpStatusCodeResult)await _prescriptionController.GetDispenses(PatientWithEmptyPrescription, EmptyPrescription);
+            var result = (HttpStatusCodeResult)await _prescriptionController.GetDispenses(PatientTestEnvironment.PatientWithEmptyPrescriptionId, PatientTestEnvironment.EmptyPrescriptionId);
             Assert.AreEqual((int)HttpStatusCode.NoContent, result.StatusCode);
         }
 
@@ -619,14 +617,15 @@ namespace Service.Tests.Controllers
         [TestMethod]
         public async Task TestGetPrescriptionDrugReturnNoContentOnEmptyDrugs()
         {
-            var result = (HttpStatusCodeResult)await _prescriptionController.GetDrugs(PatientWithEmptyPrescription, EmptyPrescription);
+            var result = (HttpStatusCodeResult)await _prescriptionController.GetDrugs(PatientTestEnvironment.PatientWithEmptyPrescriptionId, PatientTestEnvironment.EmptyPrescriptionId);
             Assert.AreEqual((int)HttpStatusCode.NoContent, result.StatusCode);
         }
 
         [TestMethod]
         public async Task TestGetPrescriptionDrug()
         {
-            var drugs = (List<DrugItemDto>)((JsonResult)await _prescriptionController.GetDrugs("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e38", "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37")).Data;
+            var drugs = (List<DrugItemDto>)((JsonResult)await _prescriptionController.GetDrugs(
+                PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId)).Data;
             Assert.IsNotNull(drugs);
             Assert.AreEqual("Aspirin", drugs.FirstOrDefault().Drug.DrugDescription);
         }
