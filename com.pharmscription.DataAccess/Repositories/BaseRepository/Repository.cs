@@ -40,7 +40,7 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
         /// <summary>
         /// <see cref="IRepository{TEntity}"/>
         /// </summary>
-        public IUnitOfWork UnitOfWork => _unitOfWork;
+        public virtual IUnitOfWork UnitOfWork => _unitOfWork;
 
         /// <summary>
         /// <see cref="IRepository{TEntity}"/>
@@ -144,6 +144,27 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
             }
             return null;
         }
+
+        public virtual async Task<TEntity> GetAsyncOrThrow(Guid id)
+        {
+            var entity = await GetSet().FirstOrDefaultAsync(e => e.Id == id);
+            if (entity == null)
+            {
+                throw new NotFoundException("No Entity with such an Id");
+            }
+            return entity;
+        }
+
+        public async Task<bool> CheckIfEntityExists(Guid id)
+        {
+            var entity = await GetSet().FirstOrDefaultAsync(e => e.Id == id);
+            if (entity == null)
+            {
+                throw new NotFoundException("No Such Entity was found");
+            }
+            return true;
+        }
+
         public virtual IEnumerable<TEntity> Find(Guid id)
         {
             if (id != Guid.Empty)

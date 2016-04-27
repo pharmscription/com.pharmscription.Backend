@@ -65,8 +65,12 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Drug\DrugManagerTest.cs" />
+    <Compile Include="GuidHelper\GuidParserTest.cs" />
     <Compile Include="PatientManagerTest.cs" />
+    <Compile Include="Prescription\PrescriptionManagerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\BirthDateValidatorTest.cs" />
+    <Compile Include="Validation\PrescriptionValidatorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\com.pharmscription.BusinessLogic\com.pharmscription.BusinessLogic.csproj">

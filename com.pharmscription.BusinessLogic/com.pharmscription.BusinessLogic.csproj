@@ -45,12 +45,17 @@
     <Compile Include="Drug\DrugManager.cs" />
     <Compile Include="Drug\IDrugManager.cs" />
     <Compile Include="Drug\SwissMedicConnector.cs" />
+    <Compile Include="GuidHelper\GuidParser.cs" />
     <Compile Include="Patient\InsuranceConnector.cs" />
     <Compile Include="Patient\IPatientManager.cs" />
     <Compile Include="Patient\PatientManager.cs" />
+    <Compile Include="Prescription\IPrescriptionManager.cs" />
+    <Compile Include="Prescription\PrescriptionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\AHVValidator.cs" />
+    <Compile Include="Validation\BirthDateValidator.cs" />
     <Compile Include="Validation\IValidator.cs" />
+    <Compile Include="Validation\PrescriptionValidator.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

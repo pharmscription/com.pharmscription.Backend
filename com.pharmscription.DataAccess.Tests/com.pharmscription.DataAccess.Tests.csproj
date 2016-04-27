@@ -66,10 +66,15 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Entities\AdressEntitiy\CityCodeEntity\SwissCityCodeTest.cs" />
+    <Compile Include="Entities\DispenseEntity\DispenseEntityTest.cs" />
+    <Compile Include="Entities\PrescriptionEntity\StandingPrescriptionTest.cs" />
+    <Compile Include="Entities\PrescriptionEntity\SinglePrescriptionTest.cs" />
     <Compile Include="Repositories\BaseRepository\RepositoryTest.cs" />
     <Compile Include="Repositories\DrugRepository\DrugRepositoryTest.cs" />
     <Compile Include="Repositories\PatientRepository\PatientRepositoryTest.cs" />
     <Compile Include="TestEnvironment\DbAsyncQueryProviderMock.cs" />
+    <Compile Include="TestEnvironment\PatientTestEnvironment.cs" />
+    <Compile Include="TestEnvironment\PrescriptionTestEnvironment.cs" />
     <Compile Include="TestEnvironment\TestEnvironmentHelper.cs" />
     <Compile Include="UnitOfWork\PharmscriptionUnitOfWorkTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
