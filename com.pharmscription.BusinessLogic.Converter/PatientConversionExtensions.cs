@@ -27,7 +27,7 @@ namespace com.pharmscription.BusinessLogic.Converter
                   Number = patient.StreetNumber,
                   Location = patient.City,
                   CityCode = patient.CityCode
-                } ,
+                },
                 Insurance = patient.Insurance
             };
         }
@@ -49,6 +49,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             };
             if (patient.Address != null)
             {
+               
                 patientDto.Address = new AddressDto
                 {
                     Street = patient.Address.Street,
@@ -56,8 +57,9 @@ namespace com.pharmscription.BusinessLogic.Converter
                     Location = patient.Address.Location,
                     CityCode = patient.Address.CityCode.CityCode,
                     StreetExtension = patient.Address.StreetExtension,
-                    State = patient.Address.State
-                };
+                    State = patient.Address.State,
+                    Id = patient.Address.Id.ToString()
+                };   
             }
             return patientDto;
         }
@@ -82,6 +84,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             }
             if (patientDto.Address != null)
             {
+                
                 patient.Address = new Address
                 {
                     Street = patientDto.Address.Street,
@@ -90,8 +93,11 @@ namespace com.pharmscription.BusinessLogic.Converter
                     CityCode = SwissCityCode.CreateInstance(patientDto.Address.CityCode),
                     StreetExtension = patientDto.Address.StreetExtension,
                     State = patientDto.Address.State,
-
                 };
+                if (patientDto.Address.Id != null)
+                {
+                    patient.Address.Id = Guid.Parse(patientDto.Address.Id);
+                }
             }
             return patient;
         }
