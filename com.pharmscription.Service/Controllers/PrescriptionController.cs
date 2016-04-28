@@ -20,7 +20,9 @@ namespace Service.Controllers
         {
             _prescriptionManager = manager;
         }
+
         [System.Web.Mvc.Route(PrescriptionRoutes.GetPrescriptions)]
+        [HttpGet]
         public async Task<ActionResult> GetPrescriptions(string patientid)
         {
             try
@@ -45,12 +47,13 @@ namespace Service.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
+
         [System.Web.Mvc.Route(PrescriptionRoutes.GetPrescriptionById)]
-        public async Task<ActionResult> GetPrescriptionById(string patientid, string prescriptionid)
+        public async Task<ActionResult> GetPrescriptionById(string patientid, string id)
         {
             try
             {
-                return Json(await _prescriptionManager.Get(patientid, prescriptionid));
+                return Json(await _prescriptionManager.Get(patientid, id));
             }
             catch (NotFoundException)
             {

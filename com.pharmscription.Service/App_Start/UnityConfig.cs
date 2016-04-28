@@ -13,6 +13,8 @@ using Microsoft.Practices.Unity;
 
 namespace com.pharmscription.Service.App_Start
 {
+    using com.pharmscription.DataAccess.Repositories.Prescription;
+
     /// <summary>
     /// Specifies the Unity configuration for the main container.
     /// </summary>
@@ -54,6 +56,7 @@ namespace com.pharmscription.Service.App_Start
             container.RegisterType<IDispenseRepository, DispenseRepository>();
             container.RegisterType<IDrugRepository, DrugRepository>();
             container.RegisterType<IPatientRepository, PatientRepository>();
+            container.RegisterType<IPrescriptionRepository, PrescriptionRepository>();
             container.RegisterType<IPharmscriptionUnitOfWork, PharmscriptionUnitOfWork>();
             // container.RegisterType<IProductRepository, ProductRepository>();
         }
