@@ -10,6 +10,6 @@ namespace com.pharmscription.DataAccess.Entities.AddressEntity
         public string State { get; set; }
         public string Number { get; set; }
         public string Location { get; set; }
-        public ICityCode CityCode { get; set; }
+        public virtual AbstractCityCode CityCode { get; set; }
     }
 }

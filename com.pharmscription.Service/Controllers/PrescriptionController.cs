@@ -30,7 +30,7 @@ namespace Service.Controllers
                 var prescriptions = await _prescriptionManager.Get(patientid);
                 if (prescriptions.Any())
                 {
-                    return Json(prescriptions);
+                    return Json(prescriptions, JsonRequestBehavior.AllowGet);
                 }
                 return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
@@ -53,7 +53,7 @@ namespace Service.Controllers
         {
             try
             {
-                return Json(await _prescriptionManager.Get(patientid, id));
+                return Json(await _prescriptionManager.Get(patientid, id), JsonRequestBehavior.AllowGet);
             }
             catch (NotFoundException)
             {

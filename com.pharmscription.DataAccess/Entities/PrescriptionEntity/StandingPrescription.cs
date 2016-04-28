@@ -24,5 +24,10 @@
                            ValidUntill = ValidUntill
                        };
         }
+
+        public override string GetPrescriptionType()
+        {
+            return "Standing";
+        }
     }
 }

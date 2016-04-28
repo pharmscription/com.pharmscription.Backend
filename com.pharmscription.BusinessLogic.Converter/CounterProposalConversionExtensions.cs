@@ -58,13 +58,15 @@ namespace com.pharmscription.BusinessLogic.Converter
         public static CounterProposal ConvertToEntity(this CounterProposalDto counterProposalDto)
         {
             if (counterProposalDto == null) return null;
-            var counterProposalGuid = string.IsNullOrWhiteSpace(counterProposalDto.Id) ? new Guid() : new Guid(counterProposalDto.Id);
             var counterProposal = new CounterProposal
             {
                 Message = counterProposalDto.Message,
                 Date = DateTime.Parse(counterProposalDto.Date),
-                Id = counterProposalGuid
             };
+            if (!string.IsNullOrWhiteSpace(counterProposalDto.Id))
+            {
+                counterProposal.Id = new Guid(counterProposalDto.Id);
+            }
             return counterProposal;
         }
 

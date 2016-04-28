@@ -40,6 +40,10 @@ namespace com.pharmscription.BusinessLogic.Patient
             BirthDateValidator birthDateValidator = new BirthDateValidator();
             ahvValidator.Validate(patient);
             birthDateValidator.Validate(patient);
+            if (_patientRepository.Exists(patient.AhvNumber))
+            {
+                throw new InvalidArgumentException("Patient with such an Ahv Number already exists");
+            }
             _patientRepository.Add(patient.ConvertToEntity());
             await _patientRepository.UnitOfWork.CommitAsync();
             return (await _patientRepository.GetByAhvNumber(patient.AhvNumber)).ConvertToDto();

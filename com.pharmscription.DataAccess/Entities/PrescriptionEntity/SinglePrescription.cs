@@ -20,5 +20,10 @@
                            PrescriptionHistory = PrescriptionHistory.Select(ph => ph.Clone()).ToList()
                        };
         }
+
+        public override string GetPrescriptionType()
+        {
+            return "Single";
+        }
     }
 }

@@ -46,7 +46,7 @@ namespace com.pharmscription.BusinessLogic.Converter
                 IsValid = prescription.IsValid,
                 Id = prescription.Id.ToString(),
                 IssueDate = prescription.IssueDate.ToString(PharmscriptionConstants.DateFormat),
-                Type = "Bla",
+                Type = prescription.GetPrescriptionType(),
                 EditDate = prescription.EditDate.ToString(PharmscriptionConstants.DateFormat),
                 Dispenses = prescription.Dispenses.ConvertToDtos(),
                 Drugs = prescription.DrugItems.ConvertToDtos(),
@@ -70,29 +70,35 @@ namespace com.pharmscription.BusinessLogic.Converter
         public static Prescription ConvertToEntity(this PrescriptionDto prescriptionDto)
         {
             if (prescriptionDto == null) return null;
-            var prescriptionId = string.IsNullOrWhiteSpace(prescriptionDto.Id) ? new Guid() : new Guid(prescriptionDto.Id);
             Prescription prescription;
             if (prescriptionDto.Type == "Single")
             {
                 prescription = new SinglePrescription
                 {
-                    Id = prescriptionId,
                     IsValid = prescriptionDto.IsValid,
                     CounterProposals = prescriptionDto.CounterProposals.ConvertToEntites(),
                     DrugItems = prescriptionDto.Drugs.ConvertToEntites(),
                     Dispenses = prescriptionDto.Dispenses.ConvertToEntites(),
                     Patient = prescriptionDto.Patient.ConvertToEntity(),
-                    IssueDate = DateTime.Parse(prescriptionDto.IssueDate),
                     PrescriptionHistory = prescriptionDto.PrescriptionHistory.ConvertToEntites(),
-                    SignDate = DateTime.Parse(prescriptionDto.SignDate),
-                    EditDate = DateTime.Parse(prescriptionDto.EditDate)
                 };
+                if (prescriptionDto.SignDate != null)
+                {
+                    prescription.SignDate = DateTime.Parse(prescriptionDto.SignDate);
+                }
+                if (prescriptionDto.EditDate != null)
+                {
+                    prescription.EditDate = DateTime.Parse(prescriptionDto.EditDate);
+                }
+                if (prescriptionDto.IssueDate != null)
+                {
+                    prescription.IssueDate = DateTime.Parse(prescriptionDto.IssueDate);
+                }
             }
             else if(prescriptionDto.Type == "Standing")
             {
                 prescription = new StandingPrescription
                 {
-                    Id = prescriptionId,
                     IsValid = prescriptionDto.IsValid,
                     CounterProposals = prescriptionDto.CounterProposals.ConvertToEntites(),
                     DrugItems = prescriptionDto.Drugs.ConvertToEntites(),
@@ -115,9 +121,14 @@ namespace com.pharmscription.BusinessLogic.Converter
                 }
 
             }
+
             else
             {
                 throw new InvalidArgumentException("Invalid type: " + prescriptionDto.Type);
+            }
+            if (!string.IsNullOrWhiteSpace(prescriptionDto.Id))
+            {
+                prescription.Id = new Guid(prescriptionDto.Id);
             }
             return prescription;
         }
@@ -130,7 +141,7 @@ namespace com.pharmscription.BusinessLogic.Converter
                    prescriptionDto.Drugs.DtoListEqualsEntityList(prescription.DrugItems.ToList()) &&
                    prescriptionDto.EditDate == prescription.EditDate.ToString("D") &&
                    prescriptionDto.IssueDate == prescription.IssueDate.ToString("D") &&
-                   prescriptionDto.Type == "Bla" &&
+                   prescriptionDto.Type == prescription.GetPrescriptionType() &&
                    prescriptionDto.PrescriptionHistory.DtoListEqualsEntityList(prescription.PrescriptionHistory.ToList());
         }
         public static bool EntityEqualsDto(this Prescription prescription, PrescriptionDto prescriptionDto)

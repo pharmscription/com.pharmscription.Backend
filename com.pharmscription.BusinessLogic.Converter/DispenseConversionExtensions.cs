@@ -7,6 +7,8 @@ using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.BusinessLogic.Converter
 {
+    using Infrastructure.Constants;
+
     public static class DispenseConversionExtensions
     {
         public static List<DispenseDto> ConvertToDtos(this ICollection<Dispense> list)
@@ -42,7 +44,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             var dispenseDto = new DispenseDto
             {
                 Remark = dispense.Remark,
-                Date = dispense.Date.ToString(CultureInfo.InvariantCulture),
+                Date = dispense.Date.ToString(PharmscriptionConstants.DateFormat),
                 Id = dispense.Id.ToString(),
                 DrugItems = dispense.DrugItems.ConvertToDtos()
             };
@@ -57,14 +59,16 @@ namespace com.pharmscription.BusinessLogic.Converter
         public static Dispense ConvertToEntity(this DispenseDto dispenseDto)
         {
             if (dispenseDto == null) return null;
-            var dispenseGuid = string.IsNullOrWhiteSpace(dispenseDto.Id) ? new Guid() : new Guid(dispenseDto.Id);
             var dispense = new Dispense
             {
                 Remark = dispenseDto.Remark,
-                Id = dispenseGuid,
                 DrugItems = dispenseDto.DrugItems.ConvertToEntites(),
                 Date = DateTime.Parse(dispenseDto.Date)
             };
+            if (!string.IsNullOrWhiteSpace(dispenseDto.Id))
+            {
+                dispense.Id = new Guid(dispenseDto.Id);
+            }
             return dispense;
         }
 

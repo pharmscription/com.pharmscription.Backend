@@ -51,7 +51,6 @@ namespace com.pharmscription.BusinessLogic.Converter
         public static Drug ConvertToEntity(this DrugDto drugDto)
         {
             if (drugDto == null) return null;
-            var drugGuid = string.IsNullOrWhiteSpace(drugDto.Id) ? new Guid() : new Guid(drugDto.Id);
             var drug = new Drug
             {
                 DrugDescription = drugDto.DrugDescription,
@@ -59,9 +58,12 @@ namespace com.pharmscription.BusinessLogic.Converter
                 NarcoticCategory = drugDto.NarcoticCategory,
                 PackageSize = drugDto.PackageSize,
                 Unit = drugDto.Unit,
-                Id = drugGuid,
                 IsValid = drugDto.IsValid
             };
+            if (!string.IsNullOrWhiteSpace(drugDto.Id))
+            {
+                drug.Id = new Guid(drugDto.Id);
+            }
             return drug;
         }
 

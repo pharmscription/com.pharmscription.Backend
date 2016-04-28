@@ -2,9 +2,14 @@
 
 namespace com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity
 {
-    public class SwissCityCode: ICityCode
+    using BaseEntity;
+
+    public class SwissCityCode: AbstractCityCode
     {
-        public string CityCode { get; set; }
+        public SwissCityCode()
+        {
+            
+        }
         private SwissCityCode(string cityCode)
         {
             CityCode = cityCode;
@@ -37,9 +42,6 @@ namespace com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity
             return isNumeric;
         }
 
-        public override string ToString()
-        {
-            return CityCode;
-        }
+
     }
 }

@@ -89,6 +89,14 @@ namespace com.pharmscription.Service.Tests.Controllers
         }
 
         [TestMethod]
+        public async Task TestAddPatientReturnsBadRequestWhenAhvAlreadyInSystem()
+        {
+            await _patientController.Add(TestPatientDto);
+            var result = (HttpStatusCodeResult)await _patientController.Add(TestPatientDto);
+            Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
+        }
+
+        [TestMethod]
         public async Task TestStoresPatientWithWholeAdress()
         {
             const string testAhvNumber = "7561234567897";
@@ -165,6 +173,40 @@ namespace com.pharmscription.Service.Tests.Controllers
                 (PatientDto)((JsonResult)await _patientController.GetByAhv(patientInserted.AhvNumber)).Data;
             Assert.IsNotNull(patientFound);
             Assert.AreEqual(TestPatientDto.FirstName, patientFound.FirstName);
+        }
+
+        [TestMethod]
+        public async Task TestGetByAhvReturnPatientWithAddress()
+        {
+            const string testAhvNumber = "7561234567897";
+            var address = new AddressDto
+            {
+                Location = "Wil",
+                Number = "17",
+                State = "Thurgau",
+                Street = "Steigstrasse",
+                StreetExtension = "None",
+                CityCode = SwissCityCode.CreateInstance("9535").ToString()
+            };
+            var patient = new PatientDto
+            {
+                FirstName = "Rafael",
+                LastName = "Krucker",
+                Address = address,
+                BirthDate = DateTime.Parse("17.03.1991").ToString(PharmscriptionConstants.DateFormat),
+                AhvNumber = testAhvNumber
+            };
+            await _patientController.Add(patient);
+            var patientInserted = (PatientDto)((JsonResult)await _patientController.GetByAhv(testAhvNumber)).Data;
+            Assert.IsNotNull(patientInserted);
+            var addressInserted = patientInserted.Address;
+            Assert.IsNotNull(addressInserted);
+            Assert.AreEqual(address.CityCode, addressInserted.CityCode);
+            Assert.AreEqual(address.Location, addressInserted.Location);
+            Assert.AreEqual(address.Number, addressInserted.Number);
+            Assert.AreEqual(address.State, addressInserted.State);
+            Assert.AreEqual(address.Street, addressInserted.Street);
+            Assert.AreEqual(address.StreetExtension, addressInserted.StreetExtension);
         }
 
         [TestMethod]

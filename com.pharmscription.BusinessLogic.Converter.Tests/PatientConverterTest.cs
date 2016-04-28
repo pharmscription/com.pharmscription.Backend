@@ -79,6 +79,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
                 LastName = "Müller",
                 Address = new Address
                 {
+                    Id = new Guid("bb3731be-7eac-4d95-af0e-8deae4efa656"),
                     Street = "Bergstrasse",
                     Number = "100",
                     CityCode = SwissCityCode.CreateInstance("8000"),
@@ -98,6 +99,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
                 LastName = "Müller",
                 Address = new AddressDto
                 {
+                    Id = "bb3731be-7eac-4d95-af0e-8deae4efa656",
                     Street = "Bergstrasse",
                     Number = "100",
                     CityCode = "8000",

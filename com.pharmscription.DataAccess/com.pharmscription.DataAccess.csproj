@@ -50,7 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\AddressEntity\Address.cs" />
-    <Compile Include="Entities\AddressEntity\CityCodeEntity\ICityCode.cs" />
+    <Compile Include="Entities\AddressEntity\CityCodeEntity\AbstractCityCode.cs" />
     <Compile Include="Entities\AddressEntity\CityCodeEntity\SwissCityCode.cs" />
     <Compile Include="Entities\BaseEntity\Entity.cs" />
     <Compile Include="Entities\CounterProposalEntity\CounterProposal.cs" />
@@ -93,6 +93,10 @@
     <Compile Include="Migrations\201604251637458_MAde Signdate optional.cs" />
     <Compile Include="Migrations\201604251637458_MAde Signdate optional.Designer.cs">
       <DependentUpon>201604251637458_MAde Signdate optional.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604281132334_Connected City Code to Patients.cs" />
+    <Compile Include="Migrations\201604281132334_Connected City Code to Patients.Designer.cs">
+      <DependentUpon>201604281132334_Connected City Code to Patients.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PharmscriptionDataAccess.cs" />
@@ -146,6 +150,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604251637458_MAde Signdate optional.resx">
       <DependentUpon>201604251637458_MAde Signdate optional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604281132334_Connected City Code to Patients.resx">
+      <DependentUpon>201604281132334_Connected City Code to Patients.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

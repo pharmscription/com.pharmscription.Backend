@@ -9,6 +9,8 @@ using com.pharmscription.DataAccess.UnitOfWork;
 
 namespace com.pharmscription.DataAccess.Repositories.Patient
 {
+    using System.Collections.Generic;
+    using Entities.PrescriptionEntity;
     using Patient = com.pharmscription.DataAccess.Entities.PatientEntity.Patient;
 
     public class PatientRepository : Repository<Patient>, IPatientRepository
@@ -19,7 +21,7 @@ namespace com.pharmscription.DataAccess.Repositories.Patient
 
         public Task<Patient> GetByAhvNumber(string ahvNumber)
         {
-            return GetSet().FirstOrDefaultAsync(e => e.AhvNumber == ahvNumber);
+            return GetSet().Where(e => e.AhvNumber == ahvNumber).Include(e => e.Address.CityCode).FirstOrDefaultAsync();
         }
 
         public bool Exists(string ahvNumber)
@@ -35,6 +37,11 @@ namespace com.pharmscription.DataAccess.Repositories.Patient
         public IQueryable<Patient> GetWithAllNavs()
         {
             return GetSet().Include(e => e.Prescriptions);
+        }
+
+        public Task<ICollection<Prescription>> GetPrescriptions(Guid id)
+        {
+            return GetSet().Where(e => e.Id == id).Include(e => e.Prescriptions).Select(e => e.Prescriptions).FirstOrDefaultAsync();
         }
     }
 }

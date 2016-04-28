@@ -57,7 +57,11 @@ namespace com.pharmscription.Service.App_Start
             container.RegisterType<IDrugRepository, DrugRepository>();
             container.RegisterType<IPatientRepository, PatientRepository>();
             container.RegisterType<IPrescriptionRepository, PrescriptionRepository>();
-            container.RegisterType<IPharmscriptionUnitOfWork, PharmscriptionUnitOfWork>();
+            container.RegisterType<IPharmscriptionUnitOfWork, PharmscriptionUnitOfWork>(new ContainerControlledLifetimeManager());
+            /*(new ContainerControlledLifetimeManager());
+            // Following code will return a singleton instance of MySingletonObject
+            // Container will take over lifetime management of the object
+            myContainer.Resolve<IMyObject>();*/
             // container.RegisterType<IProductRepository, ProductRepository>();
         }
     }

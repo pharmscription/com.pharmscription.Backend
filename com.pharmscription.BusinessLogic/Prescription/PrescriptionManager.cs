@@ -38,7 +38,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             {
                 throw  new NotFoundException("Patient Does not Exist");
             }
-            return (await _prescriptionRepository.GetByPatientId(patientGuid)).ConvertToDtos();
+            return (await _patientRepository.GetPrescriptions(patientGuid)).ConvertToDtos();
         }
 
         public async Task<PrescriptionDto> Get(string patientId, string prescriptionId)
@@ -62,9 +62,10 @@ namespace com.pharmscription.BusinessLogic.Prescription
             await _patientRepository.CheckIfEntityExists(patientGuid);
             var patient = await _patientRepository.GetWithPrescriptions(patientGuid);
             var prescription = prescriptionDto.ConvertToEntity();
-            prescription.Patient = patient;
             _prescriptionRepository.Add(prescription);
+            await _prescriptionRepository.UnitOfWork.CommitAsync();
             patient.Prescriptions.Add(prescription);
+            prescription.Patient = patient;
             await _prescriptionRepository.UnitOfWork.CommitAsync();
             return prescription.ConvertToDto();
         }

@@ -55,14 +55,16 @@ namespace com.pharmscription.BusinessLogic.Converter
         public static DrugItem ConvertToEntity(this DrugItemDto drugItemDto)
         {
             if (drugItemDto == null) return null;
-            var drugGuid = string.IsNullOrWhiteSpace(drugItemDto.Id) ? new Guid() : new Guid(drugItemDto.Id);
             var drugItem = new DrugItem
             {
                 Dispense = drugItemDto.Dispense.ConvertToEntity(),
                 Drug = drugItemDto.Drug.ConvertToEntity(),
-                Id = drugGuid,
                 DosageDescription = drugItemDto.DosageDescription
             };
+            if (!string.IsNullOrWhiteSpace(drugItemDto.Id))
+            {
+                drugItem.Id = new Guid(drugItemDto.Id);
+            }
             return drugItem;
         }
 
