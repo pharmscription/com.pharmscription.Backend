@@ -23,7 +23,7 @@
 
         public override string GetPrescriptionType()
         {
-            return "Single";
+            return "N";
         }
     }
 }

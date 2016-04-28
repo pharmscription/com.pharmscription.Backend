@@ -71,7 +71,7 @@ namespace com.pharmscription.BusinessLogic.Converter
         {
             if (prescriptionDto == null) return null;
             Prescription prescription;
-            if (prescriptionDto.Type == "Single")
+            if (prescriptionDto.Type == "N")
             {
                 prescription = new SinglePrescription
                 {
@@ -95,7 +95,7 @@ namespace com.pharmscription.BusinessLogic.Converter
                     prescription.IssueDate = DateTime.Parse(prescriptionDto.IssueDate);
                 }
             }
-            else if(prescriptionDto.Type == "Standing")
+            else if(prescriptionDto.Type == "S")
             {
                 prescription = new StandingPrescription
                 {
@@ -139,8 +139,8 @@ namespace com.pharmscription.BusinessLogic.Converter
                    prescriptionDto.CounterProposals.DtoListEqualsEntityList(prescription.CounterProposals.ToList()) &&
                    prescriptionDto.Dispenses.DtoListEqualsEntityList(prescription.Dispenses.ToList()) &&
                    prescriptionDto.Drugs.DtoListEqualsEntityList(prescription.DrugItems.ToList()) &&
-                   prescriptionDto.EditDate == prescription.EditDate.ToString("D") &&
-                   prescriptionDto.IssueDate == prescription.IssueDate.ToString("D") &&
+                   prescriptionDto.EditDate == prescription.EditDate.ToString(PharmscriptionConstants.DateFormat) &&
+                   prescriptionDto.IssueDate == prescription.IssueDate.ToString(PharmscriptionConstants.DateFormat) &&
                    prescriptionDto.Type == prescription.GetPrescriptionType() &&
                    prescriptionDto.PrescriptionHistory.DtoListEqualsEntityList(prescription.PrescriptionHistory.ToList());
         }

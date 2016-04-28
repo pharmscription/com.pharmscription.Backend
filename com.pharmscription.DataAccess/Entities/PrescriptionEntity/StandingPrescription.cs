@@ -27,7 +27,7 @@
 
         public override string GetPrescriptionType()
         {
-            return "Standing";
+            return "S";
         }
     }
 }
