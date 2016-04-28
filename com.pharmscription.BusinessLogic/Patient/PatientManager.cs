@@ -1,15 +1,15 @@
 ﻿using System;
-using System.IO;
 using System.Threading.Tasks;
 using com.pharmscription.BusinessLogic.Converter;
 using com.pharmscription.BusinessLogic.Validation;
 using com.pharmscription.DataAccess.Repositories.Patient;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
+using com.pharmscription.Infrastructure.Exception;
 
 namespace com.pharmscription.BusinessLogic.Patient
 {
-    using com.pharmscription.Infrastructure.Exception;
+    
 
     public class PatientManager : CoreWorkflow, IPatientManager
     {
@@ -32,8 +32,14 @@ namespace com.pharmscription.BusinessLogic.Patient
 
         public async Task<PatientDto> Add(PatientDto patient)
         {
+            if (patient == null)
+            {
+                throw new InvalidArgumentException("DTO must not be null");
+            }
             AhvValidator ahvValidator = new AhvValidator();
+            BirthDateValidator birthDateValidator = new BirthDateValidator();
             ahvValidator.Validate(patient);
+            birthDateValidator.Validate(patient);
             _patientRepository.Add(patient.ConvertToEntity());
             await _patientRepository.UnitOfWork.CommitAsync();
             return (await _patientRepository.GetByAhvNumber(patient.AhvNumber)).ConvertToDto();
@@ -46,11 +52,13 @@ namespace com.pharmscription.BusinessLogic.Patient
 
         public async Task<PatientDto> Find(string ahvNumber)
         {
+            AhvValidator ahvValidator = new AhvValidator();
+            ahvValidator.Validate(ahvNumber);
             if (_patientRepository.Exists(ahvNumber))
             {
                 return (await _patientRepository.GetByAhvNumber(ahvNumber)).ConvertToDto();
             }
-            throw new ArgumentNullException("Patient with AHV number " + ahvNumber + " not found");
+            throw new NotFoundException("Patient with AHV number " + ahvNumber + " not found");
         }
 
         public async Task<PatientDto> GetById(string id)
@@ -58,7 +66,7 @@ namespace com.pharmscription.BusinessLogic.Patient
             Guid gid;
             if (Guid.TryParse(id, out gid))
             {
-                var patient = await _patientRepository.GetAsync(gid);
+                var patient = await _patientRepository.GetAsyncOrThrow(gid);
                 return patient.ConvertToDto();
             }
             throw new InvalidArgumentException("Id " + id + " not found");

@@ -1,1 +1,0 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="com.pharmscription.Service.RestService" Factory="com.pharmscription.Service.DependencyInjection.UnityServiceHostFactory" CodeBehind="RestService.svc.cs" %>

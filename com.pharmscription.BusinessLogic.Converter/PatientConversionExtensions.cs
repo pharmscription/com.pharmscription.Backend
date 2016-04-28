@@ -2,6 +2,7 @@
 using com.pharmscription.DataAccess.Entities.AddressEntity;
 using com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity;
 using com.pharmscription.DataAccess.Entities.PatientEntity;
+using com.pharmscription.Infrastructure.Constants;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
 
@@ -15,7 +16,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return new PatientDto
             {
                 PhoneNumber = patient.PhoneNumber,
-                BirthDate = patient.BirthDate,
+                BirthDate = patient.BirthDate.ToString(PharmscriptionConstants.DateFormat),
                 AhvNumber = patient.AhvNumber,
                 InsuranceNumber = patient.InsuranceNumber,
                 LastName = patient.LastName,
@@ -37,7 +38,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             var patientDto = new PatientDto
             {
                 PhoneNumber = patient.PhoneNumber,
-                BirthDate = patient.BirthDate,
+                BirthDate = patient.BirthDate.ToString(PharmscriptionConstants.DateFormat),
                 AhvNumber = patient.AhvNumber,
                 InsuranceNumber = patient.InsuranceNumber,
                 LastName = patient.LastName,
@@ -54,7 +55,8 @@ namespace com.pharmscription.BusinessLogic.Converter
                     Number = patient.Address.Number,
                     Location = patient.Address.Location,
                     CityCode = patient.Address.CityCode.CityCode,
-                    StreetExtension = patient.Address.StreetExtension
+                    StreetExtension = patient.Address.StreetExtension,
+                    State = patient.Address.State
                 };
             }
             return patientDto;
@@ -66,7 +68,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             var patient = new Patient
             {
                 PhoneNumber = patientDto.PhoneNumber,
-                BirthDate = patientDto.BirthDate,
+                BirthDate = DateTime.ParseExact(patientDto.BirthDate, PharmscriptionConstants.DateFormat, System.Globalization.CultureInfo.InvariantCulture),
                 AhvNumber = patientDto.AhvNumber,
                 InsuranceNumber = patientDto.InsuranceNumber,
                 LastName = patientDto.LastName,
@@ -86,7 +88,8 @@ namespace com.pharmscription.BusinessLogic.Converter
                     Number = patientDto.Address.Number,
                     Location = patientDto.Address.Location,
                     CityCode = SwissCityCode.CreateInstance(patientDto.Address.CityCode),
-                    StreetExtension = patientDto.Address.StreetExtension
+                    StreetExtension = patientDto.Address.StreetExtension,
+                    State = patientDto.Address.State,
 
                 };
             }

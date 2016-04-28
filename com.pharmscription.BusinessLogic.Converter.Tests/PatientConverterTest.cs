@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using com.pharmscription.DataAccess.Entities.AddressEntity;
 using com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity;
 using com.pharmscription.DataAccess.Entities.PatientEntity;
+using com.pharmscription.Infrastructure.Constants;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
 using DeepEqual.Syntax;
@@ -46,7 +47,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
                     Location = " Zürich"
                 },
                 AhvNumber = "123-1234-1234-12",
-                BirthDate = birthDate,
+                BirthDate = birthDate.ToString(PharmscriptionConstants.DateFormat),
                 InsuranceNumber = "Zurich-12345",
                 PhoneNumber = "056 217 21 21",
                 Insurance = "Zurich"
@@ -103,7 +104,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
                     Location = " Zürich"
                 },
                 AhvNumber = "123-1234-1234-12",
-                BirthDate = birthDate,
+                BirthDate = birthDate.ToString(PharmscriptionConstants.DateFormat),
                 InsuranceNumber = "Zurich-12345",
                 PhoneNumber = "056 217 21 21",
                 Insurance = "Zurich"
@@ -161,7 +162,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
                     StreetExtension = "Postfach 1234"
                 },
                 AhvNumber = "123-1234-1234-12",
-                BirthDate = birthDate,
+                BirthDate = birthDate.ToString(PharmscriptionConstants.DateFormat),
                 InsuranceNumber = "Zurich-12345",
                 PhoneNumber = "056 217 21 21",
                 Insurance = "Zurich"

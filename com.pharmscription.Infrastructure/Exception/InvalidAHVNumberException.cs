@@ -1,7 +1,6 @@
 ﻿namespace com.pharmscription.Infrastructure.Exception
 {
     using System;
-    using Exception = System.Exception;
 
     [Serializable]
     public class InvalidAhvNumberException : ArgumentException
@@ -15,7 +14,7 @@
         {
         }
 
-        public InvalidAhvNumberException(string message, System.Exception inner)
+        public InvalidAhvNumberException(string message, Exception inner)
         : base(message, inner)
         {
         }

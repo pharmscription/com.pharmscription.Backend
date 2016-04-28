@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using com.pharmscription.DataAccess.Entities.AddressEntity;
 using com.pharmscription.DataAccess.Entities.BaseEntity;
+using com.pharmscription.DataAccess.Entities.PrescriptionEntity;
 using com.pharmscription.DataAccess.SharedInterfaces;
 
 namespace com.pharmscription.DataAccess.Entities.PatientEntity
@@ -17,6 +19,7 @@ namespace com.pharmscription.DataAccess.Entities.PatientEntity
         public string InsuranceNumber { get; set; }
         public string Insurance { get; set; }
 
+        public virtual ICollection<Prescription> Prescriptions { get; set; }
         public Patient Clone()
         {
             return new Patient
