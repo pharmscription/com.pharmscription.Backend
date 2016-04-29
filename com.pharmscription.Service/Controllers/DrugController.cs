@@ -9,7 +9,7 @@ using com.pharmscription.Infrastructure.Exception;
 
 namespace com.pharmscription.Service.Controllers
 {
-    using com.pharmscription.Service.Routes;
+    using Routes;
 
     using log4net;
 

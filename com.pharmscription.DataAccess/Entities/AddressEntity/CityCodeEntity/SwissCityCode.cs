@@ -2,7 +2,6 @@
 
 namespace com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity
 {
-    using BaseEntity;
 
     public class SwissCityCode: AbstractCityCode
     {

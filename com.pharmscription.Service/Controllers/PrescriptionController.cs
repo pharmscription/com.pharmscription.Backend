@@ -11,7 +11,7 @@ namespace Service.Controllers
     using com.pharmscription.Infrastructure.Exception;
     using com.pharmscription.Service.Routes;
 
-    [System.Web.Mvc.RoutePrefix("")]
+    [RoutePrefix("")]
     public class PrescriptionController : Controller
     {
         private readonly IPrescriptionManager _prescriptionManager;
@@ -21,7 +21,7 @@ namespace Service.Controllers
             _prescriptionManager = manager;
         }
 
-        [System.Web.Mvc.Route(PrescriptionRoutes.GetPrescriptions)]
+        [Route(PrescriptionRoutes.GetPrescriptions)]
         [HttpGet]
         public async Task<ActionResult> GetPrescriptions(string patientid)
         {
@@ -48,7 +48,7 @@ namespace Service.Controllers
             }
         }
 
-        [System.Web.Mvc.Route(PrescriptionRoutes.GetPrescriptionById)]
+        [Route(PrescriptionRoutes.GetPrescriptionById)]
         public async Task<ActionResult> GetPrescriptionById(string patientid, string id)
         {
             try
@@ -69,7 +69,7 @@ namespace Service.Controllers
             }
         }
 
-        [System.Web.Mvc.Route(PrescriptionRoutes.CreatePrescription)]
+        [Route(PrescriptionRoutes.CreatePrescription)]
         [System.Web.Http.HttpPut]
         public async Task<ActionResult> CreatePrescription(string patientid, PrescriptionDto dto)
         {
@@ -91,7 +91,7 @@ namespace Service.Controllers
             }
         }
 
-        [System.Web.Mvc.Route(PrescriptionRoutes.GetCounterProposals)]
+        [Route(PrescriptionRoutes.GetCounterProposals)]
         public async Task<ActionResult> GetCounterProposals(string patientid, string prescriptionid)
         {
             try
@@ -117,7 +117,7 @@ namespace Service.Controllers
             }
         }
 
-        [System.Web.Mvc.Route(PrescriptionRoutes.CreateCounterProposal)]
+        [Route(PrescriptionRoutes.CreateCounterProposal)]
         [System.Web.Http.HttpPut]
         public async Task<ActionResult> CreateCounterProposal(
             string patientid,
@@ -142,7 +142,7 @@ namespace Service.Controllers
             }
         }
 
-        [System.Web.Mvc.Route(PrescriptionRoutes.GetDispenses)]
+        [Route(PrescriptionRoutes.GetDispenses)]
         public async Task<ActionResult> GetDispenses(string patientid, string prescriptionid)
         {
             try
@@ -168,7 +168,7 @@ namespace Service.Controllers
             }
         }
 
-        [System.Web.Mvc.Route(PrescriptionRoutes.CreateDispense)]
+        [Route(PrescriptionRoutes.CreateDispense)]
         [System.Web.Http.HttpPut]
         public async Task<ActionResult> CreateDispense(
             string patientid,
@@ -193,7 +193,7 @@ namespace Service.Controllers
             }
         }
 
-        [System.Web.Mvc.Route(PrescriptionRoutes.GetDrugs)]
+        [Route(PrescriptionRoutes.GetDrugs)]
         public async Task<ActionResult> GetDrugs(string patientid, string prescriptionid)
         {
             try

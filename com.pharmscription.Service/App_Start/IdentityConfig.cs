@@ -7,11 +7,10 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using com.pharmscription.Service.Models;
 
 namespace com.pharmscription.Service
 {
-    using com.pharmscription.Service.Models;
+    using Models;
 
     [ExcludeFromCodeCoverage]
     public class EmailService : IIdentityMessageService

@@ -3,7 +3,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
-using com.pharmscription.DataAccess.Entities.PatientEntity;
 using com.pharmscription.DataAccess.Repositories.BaseRepository;
 using com.pharmscription.DataAccess.UnitOfWork;
 
@@ -11,7 +10,7 @@ namespace com.pharmscription.DataAccess.Repositories.Patient
 {
     using System.Collections.Generic;
     using Entities.PrescriptionEntity;
-    using Patient = com.pharmscription.DataAccess.Entities.PatientEntity.Patient;
+    using Patient = Entities.PatientEntity.Patient;
 
     public class PatientRepository : Repository<Patient>, IPatientRepository
     {

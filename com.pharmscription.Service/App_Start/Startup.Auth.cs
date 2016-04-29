@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
-using com.pharmscription.Service.Models;
 
 namespace com.pharmscription.Service
 {
-    using com.pharmscription.Service.Models;
+    using Models;
 
     public partial class Startup
     {

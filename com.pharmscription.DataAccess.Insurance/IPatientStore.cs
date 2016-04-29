@@ -3,7 +3,6 @@ using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
 
 namespace com.pharmscription.DataAccess.Insurance
 {
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// The PatientStore interface to fake a connection to a storage of patients from an insurance.

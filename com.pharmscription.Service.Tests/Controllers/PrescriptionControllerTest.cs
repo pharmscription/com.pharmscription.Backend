@@ -17,7 +17,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
 using System.Web.Mvc;
 
-using global::Service.Controllers;
+using Service.Controllers;
 namespace com.pharmscription.Service.Tests.Controllers
 {
     [TestClass]

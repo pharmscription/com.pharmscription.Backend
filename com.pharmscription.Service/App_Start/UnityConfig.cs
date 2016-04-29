@@ -13,7 +13,7 @@ using Microsoft.Practices.Unity;
 
 namespace com.pharmscription.Service.App_Start
 {
-    using com.pharmscription.DataAccess.Repositories.Prescription;
+    using DataAccess.Repositories.Prescription;
 
     /// <summary>
     /// Specifies the Unity configuration for the main container.

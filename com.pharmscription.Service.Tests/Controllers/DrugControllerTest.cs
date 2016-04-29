@@ -5,7 +5,6 @@ using com.pharmscription.DataAccess.Repositories.Drug;
 using com.pharmscription.DataAccess.UnitOfWork;
 using com.pharmscription.Infrastructure.EntityHelper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using com.pharmscription.Service.Controllers;
 
 namespace com.pharmscription.Service.Tests.Controllers
 {
@@ -14,8 +13,8 @@ namespace com.pharmscription.Service.Tests.Controllers
     using System.Net;
     using System.Web.Mvc;
 
-    using com.pharmscription.Infrastructure.Dto;
-    using com.pharmscription.Service.Controllers;
+    using Infrastructure.Dto;
+    using Service.Controllers;
 
     [ExcludeFromCodeCoverage]
     [TestClass]
