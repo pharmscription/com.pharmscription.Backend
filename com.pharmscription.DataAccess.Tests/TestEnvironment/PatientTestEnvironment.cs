@@ -76,6 +76,9 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
             var mockedRepository = TestEnvironmentHelper.CreateMockedRepository<Patient, PatientRepository>(mockPuow, mockSet, patients);
             mockedRepository.Setup(m => m.GetWithPrescriptions(It.IsAny<Guid>()))
             .Returns<Guid>(e => Task.FromResult(patients.FirstOrDefault(a => a.Id == e)));
+            mockedRepository.Setup(m => m.GetPrescriptions(It.IsAny<Guid>()))
+                .Returns<Guid>(
+                    e => Task.FromResult(patients.Where(a => a.Id == e).Select(a => a.Prescriptions).FirstOrDefault()));
             return mockedRepository;
         }
     }

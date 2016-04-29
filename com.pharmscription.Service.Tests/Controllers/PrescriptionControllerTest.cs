@@ -317,7 +317,7 @@ namespace com.pharmscription.Service.Tests.Controllers
                 EditDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
                 IssueDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
                 IsValid = true,
-                Type = "Standing",
+                Type = "S",
                 ValidUntil = DateTime.Now.AddDays(2).ToString(PharmscriptionConstants.DateFormat),
                 Drugs = drugs
             };

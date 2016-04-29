@@ -39,7 +39,7 @@ namespace com.pharmscription.DataAccess.Repositories.Patient
             return GetSet().Include(e => e.Prescriptions);
         }
 
-        public Task<ICollection<Prescription>> GetPrescriptions(Guid id)
+        public virtual Task<ICollection<Prescription>> GetPrescriptions(Guid id)
         {
             return GetSet().Where(e => e.Id == id).Include(e => e.Prescriptions).Select(e => e.Prescriptions).FirstOrDefaultAsync();
         }
