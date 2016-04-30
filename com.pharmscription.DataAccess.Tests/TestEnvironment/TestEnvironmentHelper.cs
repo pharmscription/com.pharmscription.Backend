@@ -19,6 +19,9 @@ using Moq;
 
 namespace com.pharmscription.DataAccess.Tests.TestEnvironment
 {
+    using DataAccess.Entities.DrugEntity;
+    using DataAccess.Repositories.Drug;
+
     [ExcludeFromCodeCoverage]
     public class TestEnvironmentHelper
     {
@@ -120,7 +123,15 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
             return mockedRepository;
         }
 
-
+        public static Mock<DrugRepository> GetMockedDrugsRepository()
+        {
+            var drugItems = new List<Drug>();
+            var mockSet = GetMockedAsyncProviderDbSet(drugItems);
+            var mockPuow = GetMockedDataContext();
+            mockPuow.Setup(m => m.Drugs).Returns(mockSet.Object);
+            var mockedRepository = CreateMockedRepository<Drug, DrugRepository>(mockPuow, mockSet, drugItems);
+            return mockedRepository;
+        }
 
         public static Mock<DrugItemRepository> GetMockedDrugItemsRepository()
         {

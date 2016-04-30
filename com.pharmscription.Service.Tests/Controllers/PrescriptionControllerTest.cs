@@ -20,6 +20,8 @@ using System.Web.Mvc;
 using Service.Controllers;
 namespace com.pharmscription.Service.Tests.Controllers
 {
+    using DataAccess.Repositories.Drug;
+
     [TestClass]
     [ExcludeFromCodeCoverage]
     [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1202:ElementsMustBeOrderedByAccess", Justification = "Rule makes no sense in tests.")]
@@ -32,6 +34,7 @@ namespace com.pharmscription.Service.Tests.Controllers
         private ICounterProposalRepository _counterProposalRepository;
         private IDispenseRepository _dispenseRepository;
         private IPrescriptionManager _prescriptionManager;
+        private IDrugRepository _drugRepository;
         
         [TestInitialize]
         public void SetUp()
@@ -41,7 +44,8 @@ namespace com.pharmscription.Service.Tests.Controllers
             _patientRepository = new PatientRepository(_puow);
             _counterProposalRepository = new CounterProposalRepository(_puow);
             _dispenseRepository = new DispenseRepository(_puow);
-            _prescriptionManager= new PrescriptionManager(_prescriptionRepository, _patientRepository, _counterProposalRepository, _dispenseRepository);
+            _drugRepository = new DrugRepository(_puow);
+            _prescriptionManager= new PrescriptionManager(_prescriptionRepository, _patientRepository, _counterProposalRepository, _dispenseRepository, _drugRepository);
             _prescriptionController = new PrescriptionController(_prescriptionManager);
             SetupTestData();
         }

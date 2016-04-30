@@ -28,6 +28,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
             var counterProposalRepository = TestEnvironmentHelper.GetMockedCounterProposalRepository();
             var dispenseRepository = TestEnvironmentHelper.GetMockedDispenseRepository();
             var prescriptionRepository = PrescriptionTestEnvironment.GetMockedPrescriptionRepository();
+            var drugRepository = TestEnvironmentHelper.GetMockedDrugsRepository();
             foreach (var prescription in prescriptionRepository.Object.GetAll())
             {
                 if (prescription.Dispenses == null)
@@ -65,7 +66,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
             patientB.Prescriptions.Add(prescriptionB);
             prescriptionB.Patient = patientB;
 
-            _prescriptionManager = new PrescriptionManager(prescriptionRepository.Object, patientRepository.Object, counterProposalRepository.Object, dispenseRepository.Object);
+            _prescriptionManager = new PrescriptionManager(prescriptionRepository.Object, patientRepository.Object, counterProposalRepository.Object, dispenseRepository.Object, drugRepository.Object);
         }
 
 
@@ -73,7 +74,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(InvalidArgumentException))]
         public void TestManagerThrowsWhenPatientRepoWasNull()
         {
-            var manager = new PrescriptionManager(null, null, null, null);
+            var manager = new PrescriptionManager(null, null, null, null, null);
         }
 
         [TestMethod]
