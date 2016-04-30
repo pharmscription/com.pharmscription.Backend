@@ -69,9 +69,9 @@ namespace com.pharmscription.BusinessLogic.Drug
             await CacheSwissMedicLocally(drugsFromSwissMedic);
         }
 
-        private async Task CacheSwissMedicLocally(IEnumerable<DataAccess.Entities.DrugEntity.Drug> drugsFromSwissMedic)
+        private async Task CacheSwissMedicLocally(List<DataAccess.Entities.DrugEntity.Drug> drugsFromSwissMedic)
         {
-            foreach (var drug in drugsFromSwissMedic)
+            foreach (var drug in drugsFromSwissMedic.ToList())
             {
                 _repository.Add(drug);
             }

@@ -14,15 +14,22 @@ using com.pharmscription.Infrastructure.Exception;
 
 namespace com.pharmscription.BusinessLogic.Prescription
 {
+    using DataAccess.Entities.CounterProposalEntity;
+    using DataAccess.Entities.DispenseEntity;
+    using DataAccess.Entities.DrugItemEntity;
+    using DataAccess.Entities.PrescriptionEntity;
+    using DataAccess.Repositories.Drug;
+
     public class PrescriptionManager : IPrescriptionManager
     {
         private readonly IPrescriptionRepository _prescriptionRepository;
         private readonly IPatientRepository _patientRepository;
         private readonly ICounterProposalRepository _counterProposalRepository;
         private readonly IDispenseRepository _dispenseRepository;
-        public PrescriptionManager(IPrescriptionRepository prescriptionRepository, IPatientRepository patientRepository, ICounterProposalRepository counterProposalRepository, IDispenseRepository dispenseRepository)
+        private readonly IDrugRepository _drugRepository;
+        public PrescriptionManager(IPrescriptionRepository prescriptionRepository, IPatientRepository patientRepository, ICounterProposalRepository counterProposalRepository, IDispenseRepository dispenseRepository, IDrugRepository drugRepository)
         {
-            if (prescriptionRepository == null || patientRepository == null || counterProposalRepository == null || dispenseRepository == null)
+            if (prescriptionRepository == null || patientRepository == null || counterProposalRepository == null || dispenseRepository == null || drugRepository == null)
             {
                 throw new InvalidArgumentException("Depended Upon Arguments were null");
             }
@@ -30,6 +37,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             _patientRepository = patientRepository;
             _counterProposalRepository = counterProposalRepository;
             _dispenseRepository = dispenseRepository;
+            _drugRepository = drugRepository;
         }
         public async Task<List<PrescriptionDto>> Get(string patientId)
         {
@@ -61,11 +69,12 @@ namespace com.pharmscription.BusinessLogic.Prescription
             var patientGuid = GuidParser.ParseGuid(patientId);
             await _patientRepository.CheckIfEntityExists(patientGuid);
             var patient = await _patientRepository.GetWithPrescriptions(patientGuid);
-            var prescription = prescriptionDto.ConvertToEntity();
+            var prescription = await MapNewPrescriptionToEntity(prescriptionDto);
             _prescriptionRepository.Add(prescription);
-            await _prescriptionRepository.UnitOfWork.CommitAsync();
             patient.Prescriptions.Add(prescription);
-            prescription.Patient = patient;
+            //prescription.Patient = patient;
+            await _prescriptionRepository.UnitOfWork.CommitAsync();
+
             await _prescriptionRepository.UnitOfWork.CommitAsync();
             return prescription.ConvertToDto();
         }
@@ -167,6 +176,86 @@ namespace com.pharmscription.BusinessLogic.Prescription
             await _patientRepository.CheckIfEntityExists(patientGuid);
             await _prescriptionRepository.CheckIfEntityExists(prescriptionGuid);
             return (await _prescriptionRepository.GetAsync(prescriptionGuid)).DrugItems.ConvertToDtos();
+        }
+
+        private async Task<Prescription> MapNewPrescriptionToEntity(PrescriptionDto prescriptionDto)
+        {
+            if (prescriptionDto == null) return null;
+            Prescription prescription;
+            if (prescriptionDto.Type == "N")
+            {
+                prescription = new SinglePrescription();
+            }
+            else if (prescriptionDto.Type == "S")
+            {
+                prescription = new StandingPrescription 
+                {
+                    ValidUntill = DateTime.Parse(prescriptionDto.ValidUntil)
+                };
+            }
+            else
+            {
+                throw new InvalidArgumentException("Invalid type: " + prescriptionDto.Type);
+            }
+
+            prescription.IsValid = prescriptionDto.IsValid;
+            if (prescriptionDto.CounterProposals != null && prescriptionDto.CounterProposals.Any())
+            {
+                prescription.CounterProposals = new List<CounterProposal>();
+                foreach (var counterProposalDto in prescriptionDto.CounterProposals)
+                {
+                    var counterProposal = new CounterProposal
+                    {
+                        Date = DateTime.Parse(counterProposalDto.Date),
+                        Message = counterProposalDto.Message
+                    };
+                    prescription.CounterProposals.Add(counterProposal);
+                }
+            }
+            if (prescriptionDto.Drugs != null && prescriptionDto.Drugs.Any())
+            {
+                prescription.DrugItems = new List<DrugItem>();
+                foreach (var drugItemDto in prescriptionDto.Drugs)
+                {
+                    var drugItem = new DrugItem
+                    {
+                        DosageDescription = drugItemDto.DosageDescription,
+                        Drug = await _drugRepository.GetAsyncOrThrow(GuidParser.ParseGuid(drugItemDto.Drug.Id))
+                    };
+                    prescription.DrugItems.Add(drugItem);
+                }
+            }
+
+            if (prescriptionDto.Dispenses != null && prescriptionDto.Dispenses.Any())
+            {
+                prescription.Dispenses = new List<Dispense>();
+                foreach (var dispenseDto in prescriptionDto.Dispenses)
+                {
+                    var dispense = new Dispense
+                    {
+                        Date = DateTime.Parse(dispenseDto.Date),
+                        Remark = dispenseDto.Remark
+                    };
+                    prescription.Dispenses.Add(dispense);
+                }
+            }
+
+            if (prescriptionDto.SignDate != null)
+            {
+                prescription.SignDate = DateTime.Parse(prescriptionDto.SignDate);
+            }
+            if (prescriptionDto.EditDate != null)
+            {
+                prescription.EditDate = DateTime.Parse(prescriptionDto.EditDate);
+            }
+            prescription.EditDate = DateTime.Now;
+            if (prescriptionDto.IssueDate != null)
+            {
+                prescription.IssueDate = DateTime.Parse(prescriptionDto.IssueDate);
+            }
+
+            return prescription;
+
         }
     }
 }
