@@ -6,15 +6,17 @@ using com.pharmscription.DataAccess.SharedInterfaces;
 namespace com.pharmscription.DataAccess.Repositories.Patient
 {
     using System.Collections.Generic;
+    using Entities.PatientEntity;
     using Entities.PrescriptionEntity;
 
-    public interface IPatientRepository : IRepository<Entities.PatientEntity.Patient>
+    public interface IPatientRepository : IRepository<Patient>
     {
-        Task<Entities.PatientEntity.Patient> GetByAhvNumber(string ahvNumber);
+        Task<Patient> GetByAhvNumber(string ahvNumber);
         bool Exists(string ahvNumber);
-        Task<Entities.PatientEntity.Patient> GetWithPrescriptions(Guid id);
-        IQueryable<Entities.PatientEntity.Patient> GetWithAllNavs();
+        Task<Patient> GetWithPrescriptions(Guid id);
+        IQueryable<Patient> GetWithAllNavs();
         Task<ICollection<Prescription>> GetPrescriptions(Guid id);
+        Task<Patient> GetWithAllNavs(Guid id);
 
     }
 }

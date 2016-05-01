@@ -35,12 +35,23 @@ namespace com.pharmscription.DataAccess.Repositories.Patient
 
         public IQueryable<Patient> GetWithAllNavs()
         {
-            return GetSet().Include(e => e.Prescriptions);
+            return GetSet().Include(e => e.Prescriptions).Include(e => e.Address).Include(e => e.Address.CityCode);
         }
 
         public virtual Task<ICollection<Prescription>> GetPrescriptions(Guid id)
         {
             return GetSet().Where(e => e.Id == id).Include(e => e.Prescriptions).Select(e => e.Prescriptions).FirstOrDefaultAsync();
+        }
+
+        public Task<Patient> GetWithAllNavs(Guid id)
+        {
+            return
+                GetSet()
+                    .Where(e => e.Id == id)
+                    .Include(e => e.Prescriptions)
+                    .Include(e => e.Address)
+                    .Include(e => e.Address.CityCode)
+                    .FirstOrDefaultAsync();
         }
     }
 }

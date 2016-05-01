@@ -147,7 +147,7 @@ namespace Service.Controllers
         {
             try
             {
-                var dispenses = await _prescriptionManager.GetDispense(patientid, prescriptionid);
+                var dispenses = await _prescriptionManager.GetDispenses(patientid, prescriptionid);
                 if (dispenses != null && dispenses.Any())
                 {
                     return Json(dispenses);

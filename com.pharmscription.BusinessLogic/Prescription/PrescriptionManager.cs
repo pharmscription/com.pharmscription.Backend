@@ -130,7 +130,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             return counterProposal.ConvertToDto();
         }
 
-        public async Task<List<DispenseDto>> GetDispense(string patientId, string prescriptionId)
+        public async Task<List<DispenseDto>> GetDispenses(string patientId, string prescriptionId)
         {
             await _patientRepository.CheckIfEntityExists(GuidParser.ParseGuid(patientId));
             var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
@@ -138,7 +138,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             return (await _prescriptionRepository.GetAsync(prescriptionGuid)).Dispenses.ConvertToDtos();
         }
 
-        public async Task<DispenseDto> GetDispense(string patientId, string prescriptionId, string dispenseId)
+        public async Task<DispenseDto> GetDispenses(string patientId, string prescriptionId, string dispenseId)
         {
             var dispenseGuid = GuidParser.ParseGuid(dispenseId);
             await _patientRepository.CheckIfEntityExists(GuidParser.ParseGuid(patientId));

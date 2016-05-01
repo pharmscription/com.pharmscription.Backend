@@ -70,7 +70,7 @@ namespace com.pharmscription.BusinessLogic.Patient
             Guid gid;
             if (Guid.TryParse(id, out gid))
             {
-                var patient = await _patientRepository.GetAsyncOrThrow(gid);
+                var patient = await _patientRepository.GetWithAllNavs(gid);
                 return patient.ConvertToDto();
             }
             throw new InvalidArgumentException("Id " + id + " not found");

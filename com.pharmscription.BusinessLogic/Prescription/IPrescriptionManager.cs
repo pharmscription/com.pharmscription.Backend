@@ -17,8 +17,8 @@
         Task<CounterProposalDto> EditCounterProposal(string patientId, string prescriptionId,
             CounterProposalDto counterProposalDto);
 
-        Task<List<DispenseDto>> GetDispense(string patientId, string prescriptionId);
-        Task<DispenseDto> GetDispense(string patientId, string prescriptionId, string dispenseId);
+        Task<List<DispenseDto>> GetDispenses(string patientId, string prescriptionId);
+        Task<DispenseDto> GetDispenses(string patientId, string prescriptionId, string dispenseId);
 
         Task<DispenseDto> AddDispense(string patientId, string prescriptionId, DispenseDto dispenseDto);
 
