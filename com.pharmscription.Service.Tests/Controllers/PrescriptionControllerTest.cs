@@ -297,10 +297,14 @@ namespace com.pharmscription.Service.Tests.Controllers
         [TestMethod]
         public async Task TestAddPrescription()
         {
-/*            foreach (var testDrug in DrugTestEnvironment.GetTestDrugs())
+            foreach (var testDrug in DrugTestEnvironment.GetTestDrugs())
             {
-                _drugRepository.Add(testDrug);
-            }*/
+                if (_drugRepository.Get(testDrug.Id) == null)
+                {
+                    _drugRepository.Add(testDrug);
+                }
+
+            }
             await _puow.CommitAsync();
             var drugs = new List<DrugItemDto>
             {
@@ -334,7 +338,11 @@ namespace com.pharmscription.Service.Tests.Controllers
             };
             var prescription = (PrescriptionDto)((JsonResult)await _prescriptionController.CreatePrescription(PatientTestEnvironment.PatientIdOne, prescriptionToInsert)).Data;
             Assert.IsNotNull(prescription);
-            var prescriptionInserted = (PrescriptionDto)((JsonResult)await _prescriptionController.GetPrescriptionById(PatientTestEnvironment.PatientIdOne, prescription.Id)).Data;
+            var prescriptions =
+                (List<PrescriptionDto>)
+                    ((JsonResult) await _prescriptionController.GetPrescriptions(PatientTestEnvironment.PatientIdOne))
+                        .Data;
+            var prescriptionInserted = prescriptions.FirstOrDefault(e => e.Id == prescription.Id);
             Assert.IsNotNull(prescriptionInserted);
             var insertedDrugs = prescriptionInserted.Drugs;
             Assert.IsNotNull(insertedDrugs);

@@ -195,7 +195,9 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
             };
             var prescription = await _prescriptionManager.Add(PatientTestEnvironment.PatientIdOne, prescriptionToInsert);
             Assert.IsNotNull(prescription);
-            var prescriptionInserted = await _prescriptionManager.Get(PatientTestEnvironment.PatientIdOne, prescription.Id);
+            var prescriptions = await _prescriptionManager.Get(PatientTestEnvironment.PatientIdOne);
+
+            var prescriptionInserted = prescriptions.FirstOrDefault(e => e.Id == prescription.Id);
             Assert.IsNotNull(prescriptionInserted);
             var insertedDrugs = prescriptionInserted.Drugs;
             Assert.IsNotNull(insertedDrugs);
