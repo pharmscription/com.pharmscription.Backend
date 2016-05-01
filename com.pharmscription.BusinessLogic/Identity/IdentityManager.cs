@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using com.pharmscription.DataAccess;
+using com.pharmscription.DataAccess.Identity;
+
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace com.pharmscription.BusinessLogic.Identity
 {
-    using com.pharmscription.DataAccess;
-    using com.pharmscription.DataAccess.Identity;
 
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
 
     public class IdentityManager : IIdentityManager
     {
@@ -19,8 +15,6 @@ namespace com.pharmscription.BusinessLogic.Identity
 
         public IdentityManager(IPharmscriptionDataAccess db)
         {
-            //MyIdentityDbContext db = new MyIdentityDbContext();
-
             UserStore<MyIdentityUser> userStore = new UserStore<MyIdentityUser>(db.IdentityDbContext);
             userManager = new UserManager<MyIdentityUser>(userStore);
 
@@ -30,12 +24,12 @@ namespace com.pharmscription.BusinessLogic.Identity
             string roleName = "Administrator";
             if (!roleManager.RoleExists(roleName))
             {
-                var roleResult = roleManager.Create(new MyIdentityRole(roleName, roleName));
+                 roleManager.Create(new MyIdentityRole(roleName, roleName));
             }
         }
 
-        public UserManager<MyIdentityUser> UserManager => this.userManager;
+        public UserManager<MyIdentityUser> UserManager => userManager;
 
-        public RoleManager<MyIdentityRole> RoleManager => this.roleManager;
+        public RoleManager<MyIdentityRole> RoleManager => roleManager;
     }
 }

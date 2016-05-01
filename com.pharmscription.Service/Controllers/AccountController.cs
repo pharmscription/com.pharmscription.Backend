@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Net;
+using System.Security.Claims;
+using System.Web.Mvc;
+
+using com.pharmscription.BusinessLogic.Identity;
+using com.pharmscription.DataAccess.Identity;
+using com.pharmscription.Infrastructure.Dto;
+
+using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
 
 namespace com.pharmscription.Service.Controllers
 {
-    using System.Security.Claims;
-    using System.Web.Mvc;
-    using System.Web.UI.WebControls;
-
-    using com.pharmscription.BusinessLogic.Identity;
-    using com.pharmscription.DataAccess.Identity;
-    using com.pharmscription.Infrastructure.Dto;
-
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
-    using Microsoft.Owin.Security;
 
     public class AccountController : Controller
     {
@@ -24,8 +22,8 @@ namespace com.pharmscription.Service.Controllers
 
         public AccountController(IIdentityManager manager)
         {
-            this.userManager = manager.UserManager;
-            this.roleManager = manager.RoleManager;
+            userManager = manager.UserManager;
+            roleManager = manager.RoleManager;
         }
 
 
@@ -40,7 +38,6 @@ namespace com.pharmscription.Service.Controllers
 
                 user.UserName = model.UserName;
                 user.BirthDate = DateTime.Now;
-                user.Bio = "bla";
 
                 IdentityResult result = userManager.Create(user, model.Password);
 
@@ -49,13 +46,10 @@ namespace com.pharmscription.Service.Controllers
                     var createdUser = userManager.AddToRole(user.Id, "Administrator");
                     return Json(createdUser, JsonRequestBehavior.AllowGet);
                 }
-                else
-                {
-                    return Json(result.Errors.ToList());
-                }
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             }
-            return Json("Error");
+            return new HttpStatusCodeResult(HttpStatusCode.BadGateway);
         }
 
 
@@ -76,10 +70,10 @@ namespace com.pharmscription.Service.Controllers
                     props.IsPersistent = model.RememberMe;
                     authenticationManager.SignIn(props, identity);
 
-                    return Json(true, JsonRequestBehavior.AllowGet);
+                    return new HttpStatusCodeResult(HttpStatusCode.OK);
                 }
             }
-            return Json(false, JsonRequestBehavior.AllowGet);
+            return new HttpStatusCodeResult(HttpStatusCode.BadGateway);
         }
         
         [Authorize(Roles = "Administrator")]
@@ -88,8 +82,6 @@ namespace com.pharmscription.Service.Controllers
         {
             IAuthenticationManager authenticationManager = HttpContext.GetOwinContext().Authentication;
             return Json(authenticationManager.User?.Identity?.Name, JsonRequestBehavior.AllowGet);
-
-            //return Json("secure", JsonRequestBehavior.AllowGet);
         }
 
 
@@ -100,7 +92,7 @@ namespace com.pharmscription.Service.Controllers
         {
             IAuthenticationManager authenticationManager = HttpContext.GetOwinContext().Authentication;
             authenticationManager.SignOut();
-            return Json("logoueddd..", JsonRequestBehavior.AllowGet);
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
 
