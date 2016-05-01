@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,12 +44,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Communication\EMailService.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="CoreWorkflow.cs" />
     <Compile Include="Drug\DrugManager.cs" />
     <Compile Include="Drug\IDrugManager.cs" />
     <Compile Include="Drug\SwissMedicConnector.cs" />
     <Compile Include="GuidHelper\GuidParser.cs" />
+    <Compile Include="Identity\IdentitiyUserManager.cs" />
+    <Compile Include="Identity\IdentityRoleManager.cs" />
     <Compile Include="Patient\InsuranceConnector.cs" />
     <Compile Include="Patient\IPatientManager.cs" />
     <Compile Include="Patient\PatientManager.cs" />
@@ -57,7 +64,9 @@
     <Compile Include="Validation\IValidator.cs" />
     <Compile Include="Validation\PrescriptionValidator.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\com.pharmscription.BusinessLogic.Converter\com.pharmscription.BusinessLogic.Converter.csproj">
       <Project>{7BE7799A-2AB7-4A59-BE2B-6364EA6C9BD0}</Project>
