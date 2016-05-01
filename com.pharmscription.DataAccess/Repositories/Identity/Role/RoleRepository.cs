@@ -1,15 +1,13 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using com.pharmscription.DataAccess.Entities.RoleEntity;
 using com.pharmscription.DataAccess.Repositories.BaseRepository;
-using com.pharmscription.DataAccess.Repositories.Identity.Role;
 using com.pharmscription.DataAccess.UnitOfWork;
 
-namespace com.pharmscription.DataAccess.Repositories.Identity.UserRole
+namespace com.pharmscription.DataAccess.Repositories.Identity.Role
 {
-    using System.Linq;
-
     public class RoleRepository : Repository<IdentityRole>, IRoleRepository
     {
         public RoleRepository(IPharmscriptionUnitOfWork unitOfWork)

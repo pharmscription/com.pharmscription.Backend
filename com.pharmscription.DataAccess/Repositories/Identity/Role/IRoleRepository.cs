@@ -7,7 +7,7 @@ using Microsoft.AspNet.Identity;
 
 namespace com.pharmscription.DataAccess.Repositories.Identity.Role
 {
-    public interface IRoleRepository : IRepository<Entities.RoleEntity.IdentityRole>, IRoleStore<IdentityRole, Guid>
+    public interface IRoleRepository : IRepository<IdentityRole>, IRoleStore<IdentityRole, Guid>
     {
          
     }
