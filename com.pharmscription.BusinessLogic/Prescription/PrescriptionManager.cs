@@ -220,7 +220,8 @@ namespace com.pharmscription.BusinessLogic.Prescription
                     var drugItem = new DrugItem
                     {
                         DosageDescription = drugItemDto.DosageDescription,
-                        Drug = await _drugRepository.GetAsyncOrThrow(GuidParser.ParseGuid(drugItemDto.Drug.Id))
+                        Drug = await _drugRepository.GetAsyncOrThrow(GuidParser.ParseGuid(drugItemDto.Drug.Id)),
+                        Quantity = drugItemDto.Quantity
                     };
                     prescription.DrugItems.Add(drugItem);
                 }
