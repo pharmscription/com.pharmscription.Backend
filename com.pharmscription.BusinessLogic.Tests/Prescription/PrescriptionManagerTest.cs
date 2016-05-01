@@ -15,6 +15,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace com.pharmscription.BusinessLogic.Tests.Prescription
 {
+    using Infrastructure.EntityHelper;
+
     [TestClass]
     [ExcludeFromCodeCoverage]
     public class PrescriptionManagerTest
@@ -25,10 +27,10 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         public void SetUp()
         {
 
-            var counterProposalRepository = TestEnvironmentHelper.GetMockedCounterProposalRepository();
-            var dispenseRepository = TestEnvironmentHelper.GetMockedDispenseRepository();
+            var counterProposalRepository = CounterProposalTestEnvironment.GetMockedCounterProposalRepository();
+            var dispenseRepository = DispenseTestEnvironment.GetMockedDispenseRepository();
             var prescriptionRepository = PrescriptionTestEnvironment.GetMockedPrescriptionRepository();
-            var drugRepository = TestEnvironmentHelper.GetMockedDrugsRepository();
+            var drugRepository = DrugTestEnvironment.GetMockedDrugsRepository();
             foreach (var prescription in prescriptionRepository.Object.GetAll())
             {
                 if (prescription.Dispenses == null)
@@ -166,16 +168,18 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
                 {
                     Drug = new DrugDto
                     {
+                        Id = DrugTestEnvironment.DrugOneId,
                         IsValid = true,
-                        DrugDescription = "Aspirin"
+                        DrugDescription = DrugTestEnvironment.DrugOneDescription
                     }
                 },
                 new DrugItemDto
                 {
                     Drug = new DrugDto
                     {
+                        Id = DrugTestEnvironment.DrugTwoId,
                         IsValid = true,
-                        DrugDescription = "Mebucain"
+                        DrugDescription = DrugTestEnvironment.DrugTwoDescription
                     }
                 }
             };
@@ -195,7 +199,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
             Assert.IsNotNull(prescriptionInserted);
             var insertedDrugs = prescriptionInserted.Drugs;
             Assert.IsNotNull(insertedDrugs);
-            Assert.AreEqual("Aspirin", insertedDrugs.First().Drug.DrugDescription);
+            Assert.AreEqual(DrugTestEnvironment.DrugOneDescription, insertedDrugs.First().Drug.DrugDescription);
         }
 
         [TestMethod]
@@ -281,7 +285,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
             var counterProposals = await _prescriptionManager.GetCounterProposals(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId);
             Assert.IsNotNull(counterProposals);
             Assert.AreEqual(5, counterProposals.Count);
-            Assert.AreEqual("This is not right", counterProposals.First().Message);
+            Assert.AreEqual(CounterProposalTestEnvironment.CounterProposalOneMessage, counterProposals.First().Message);
         }
 
         [TestMethod]
@@ -302,14 +306,14 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetCounterProposalThrowsOnPatientIdInvalid()
         {
-            await _prescriptionManager.GetCounterProposals("jksdjksadfksd", PrescriptionTestEnvironment.StandingPrescriptionOneId, "IDIsInDatabase");
+            await _prescriptionManager.GetCounterProposals("jksdjksadfksd", PrescriptionTestEnvironment.StandingPrescriptionOneId, CounterProposalTestEnvironment.CounterProposalOneId);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetCounterProposalThrowsOnPrescriptionIdInvalid()
         {
-            await _prescriptionManager.GetCounterProposals(PatientTestEnvironment.PatientIdOne, "sdfklsdf", "IDIsInDatabase");
+            await _prescriptionManager.GetCounterProposals(PatientTestEnvironment.PatientIdOne, "sdfklsdf", CounterProposalTestEnvironment.CounterProposalOneId);
         }
 
         [TestMethod]
@@ -322,9 +326,13 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [TestMethod]
         public async Task TestGetCounterProposal()
         {
-            var prescription = await _prescriptionManager.GetCounterProposals(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e42");
+            var prescription =
+                await
+                    _prescriptionManager.GetCounterProposals(PatientTestEnvironment.PatientIdOne,
+                        PrescriptionTestEnvironment.StandingPrescriptionOneId,
+                        CounterProposalTestEnvironment.CounterProposalOneId);
             Assert.IsNotNull(prescription);
-            Assert.AreEqual("This is not right", prescription.Message);
+            Assert.AreEqual(CounterProposalTestEnvironment.CounterProposalOneMessage, prescription.Message);
         }
 
         [TestMethod]
@@ -345,9 +353,9 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestEditCounterProposalThrowsOnPatientNotFound()
         {
-            await _prescriptionManager.EditCounterProposal(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, new CounterProposalDto
+            await _prescriptionManager.EditCounterProposal(IdentityGenerator.NewSequentialGuid().ToString(), PrescriptionTestEnvironment.StandingPrescriptionOneId, new CounterProposalDto
             {
-                Id = "1bcb86b0-1e14-4f4c-b05a-5c9dd00e8e38"
+                Id = CounterProposalTestEnvironment.CounterProposalOneId
             });
         }
 
@@ -355,9 +363,9 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(NotFoundException))]
         public async Task TestEditCounterProposalThrowsOnPrescriptionNotFound()
         {
-            await _prescriptionManager.EditCounterProposal(PatientTestEnvironment.PatientIdOne, "1baf86b0-1e69-4f4c-b05a-5c9dd00e8e38", new CounterProposalDto
+            await _prescriptionManager.EditCounterProposal(PatientTestEnvironment.PatientIdOne, IdentityGenerator.NewSequentialGuid().ToString(), new CounterProposalDto
             {
-                Id = "1bcb86b0-1e14-4f4c-b05a-5c9dd00e8e38"
+                Id = CounterProposalTestEnvironment.CounterProposalOneId
             });
         }
 
@@ -371,7 +379,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [TestMethod]
         public async Task TestEditCounterProposal()
         {
-            const string id = "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e42";
+            const string id = CounterProposalTestEnvironment.CounterProposalOneId;
             var counterPropsal = new CounterProposalDto
             {
                 Id = id,
@@ -469,7 +477,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
             var dispenses = await _prescriptionManager.GetDispense(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId);
             Assert.IsNotNull(dispenses);
             Assert.AreEqual(1, dispenses.Count);
-            Assert.AreEqual("Did a Dispense", dispenses.First().Remark);
+            Assert.AreEqual(DispenseTestEnvironment.DispenseOneRemark, dispenses.First().Remark);
         }
 
         [TestMethod]
@@ -490,14 +498,14 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetDispenseThrowsOnPatientIdInvalid()
         {
-            await _prescriptionManager.GetDispense("jksdjksadfksd", PrescriptionTestEnvironment.StandingPrescriptionOneId, "IDIsInDatabase");
+            await _prescriptionManager.GetDispense("jksdjksadfksd", PrescriptionTestEnvironment.StandingPrescriptionOneId, DispenseTestEnvironment.DispenseOneId);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestGetDispenseThrowsOnPrescriptionIdInvalid()
         {
-            await _prescriptionManager.GetDispense(PatientTestEnvironment.PatientIdOne, "sdfklsdf", "IDIsInDatabase");
+            await _prescriptionManager.GetDispense(PatientTestEnvironment.PatientIdOne, "sdfklsdf", DispenseTestEnvironment.DispenseOneId);
         }
 
         [TestMethod]
@@ -510,9 +518,9 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [TestMethod]
         public async Task TestGetDispense()
         {
-            var dispense = await _prescriptionManager.GetDispense(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e43");
+            var dispense = await _prescriptionManager.GetDispense(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, DispenseTestEnvironment.DispenseOneId);
             Assert.IsNotNull(dispense);
-            Assert.AreEqual("Did a Dispense", dispense.Remark);
+            Assert.AreEqual(DispenseTestEnvironment.DispenseOneRemark, dispense.Remark);
         }
 
         [TestMethod]

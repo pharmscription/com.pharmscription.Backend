@@ -61,7 +61,7 @@ namespace com.pharmscription.Service.Tests.Controllers
             var rafi = _patientRepository.GetWithAllNavs().FirstOrDefault(e => e.FirstName == "Rafael");
             var markus = _patientRepository.GetWithAllNavs().FirstOrDefault(e => e.FirstName == "Markus");
 
-            var counterProposals = TestEnvironmentHelper.GetTestCounterProposals();
+            var counterProposals = CounterProposalTestEnvironment.GetTestCounterProposals();
             foreach (var counterProposal in counterProposals)
             {
                 _counterProposalRepository.Add(counterProposal);
@@ -80,7 +80,7 @@ namespace com.pharmscription.Service.Tests.Controllers
             rafi.Prescriptions.Add(prescriptions.First());
             markus.Prescriptions.Add(prescriptions.Skip(1).FirstOrDefault());
 
-            var dispenses = TestEnvironmentHelper.GetTestDispenses();
+            var dispenses = DispenseTestEnvironment.GetTestDispenses();
             foreach (var dispense in dispenses)
             {
                 _dispenseRepository.Add(dispense);
@@ -229,7 +229,7 @@ namespace com.pharmscription.Service.Tests.Controllers
                     Drug = new DrugDto
                     {
                         IsValid = true,
-                        DrugDescription = "Aspirin"
+                        DrugDescription = DrugTestEnvironment.DrugOneDescription
                     }
                 },
                 new DrugItemDto
@@ -237,7 +237,7 @@ namespace com.pharmscription.Service.Tests.Controllers
                     Drug = new DrugDto
                     {
                         IsValid = true,
-                        DrugDescription = "Mebucain"
+                        DrugDescription = DrugTestEnvironment.DrugTwoDescription
                     }
                 }
             };
@@ -246,7 +246,7 @@ namespace com.pharmscription.Service.Tests.Controllers
                 EditDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
                 IssueDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
                 IsValid = true,
-                Type = "Standing",
+                Type = "S",
                 ValidUntil = DateTime.Now.AddDays(2).ToString(PharmscriptionConstants.DateFormat),
                 Drugs = drugs
             };
@@ -264,7 +264,7 @@ namespace com.pharmscription.Service.Tests.Controllers
                     Drug = new DrugDto
                     {
                         IsValid = true,
-                        DrugDescription = "Aspirin"
+                        DrugDescription = DrugTestEnvironment.DrugOneDescription
                     }
                 },
                 new DrugItemDto
@@ -272,7 +272,7 @@ namespace com.pharmscription.Service.Tests.Controllers
                     Drug = new DrugDto
                     {
                         IsValid = true,
-                        DrugDescription = "Mebucain"
+                        DrugDescription = DrugTestEnvironment.DrugTwoDescription
                     }
                 }
             };
@@ -281,7 +281,7 @@ namespace com.pharmscription.Service.Tests.Controllers
                 EditDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
                 IssueDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
                 IsValid = true,
-                Type = "Standing",
+                Type = "S",
                 Drugs = drugs
 
             };
@@ -297,22 +297,29 @@ namespace com.pharmscription.Service.Tests.Controllers
         [TestMethod]
         public async Task TestAddPrescription()
         {
+/*            foreach (var testDrug in DrugTestEnvironment.GetTestDrugs())
+            {
+                _drugRepository.Add(testDrug);
+            }*/
+            await _puow.CommitAsync();
             var drugs = new List<DrugItemDto>
             {
                 new DrugItemDto
                 {
                     Drug = new DrugDto
                     {
+                        Id = DrugTestEnvironment.DrugOneId,
                         IsValid = true,
-                        DrugDescription = "Aspirin"
+                        DrugDescription = DrugTestEnvironment.DrugOneDescription
                     }
                 },
                 new DrugItemDto
                 {
                     Drug = new DrugDto
                     {
+                        Id = DrugTestEnvironment.DrugTwoId,
                         IsValid = true,
-                        DrugDescription = "Mebucain"
+                        DrugDescription = DrugTestEnvironment.DrugTwoDescription
                     }
                 }
             };
@@ -331,7 +338,7 @@ namespace com.pharmscription.Service.Tests.Controllers
             Assert.IsNotNull(prescriptionInserted);
             var insertedDrugs = prescriptionInserted.Drugs;
             Assert.IsNotNull(insertedDrugs);
-            Assert.AreEqual("Aspirin", insertedDrugs.First().Drug.DrugDescription);
+            Assert.AreEqual(DrugTestEnvironment.DrugOneDescription, insertedDrugs.First().Drug.DrugDescription);
         }
 
         [TestMethod]
@@ -450,7 +457,7 @@ namespace com.pharmscription.Service.Tests.Controllers
             var counterProposals = (List<CounterProposalDto>)((JsonResult)await _prescriptionController.GetCounterProposals(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId)).Data;
             Assert.IsNotNull(counterProposals);
             Assert.AreEqual(4, counterProposals.Count);
-            Assert.AreEqual("This isnt even a Prescription, it is a giraffe", counterProposals.First().Message);
+            Assert.AreEqual(CounterProposalTestEnvironment.CounterProposalFiveMessage, counterProposals.First().Message);
         }
 
         [TestMethod]

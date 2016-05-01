@@ -80,15 +80,8 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
             var mockSet = TestEnvironmentHelper.GetMockedAsyncProviderDbSet(prescriptions);
             var mockPuow = TestEnvironmentHelper.GetMockedDataContext();
             mockPuow.Setup(m => m.Prescriptions).Returns(mockSet.Object);
-            mockPuow.Setup(m => m.CreateSet<Prescription>()).Returns(mockSet.Object);
-            var mockedRepository = new Mock<PrescriptionRepository>(mockPuow.Object);
+            var mockedRepository = TestEnvironmentHelper.CreateMockedRepository<Prescription, PrescriptionRepository>(mockPuow, mockSet, prescriptions);
             mockedRepository.Setup(m => m.GetByPatientId(It.IsAny<Guid>())).Returns<Guid>(e => Task.FromResult(prescriptions.Where(a => a.Patient.Id == e).ToList()));
-            mockedRepository.Setup(m => m.GetAll()).Returns(prescriptions);
-            mockedRepository.Setup(m => m.GetAsync(It.IsAny<Guid>()))
-                .Returns<Guid>(e => Task.FromResult(prescriptions.FirstOrDefault(a => a.Id == e)));
-            mockedRepository.Setup(m => m.UnitOfWork).Returns(mockPuow.Object);
-            mockedRepository.Setup(m => m.Add(It.IsAny<Prescription>()))
-                .Callback<Prescription>(e => mockSet.Object.Add(e));
             return mockedRepository;
         }
     }

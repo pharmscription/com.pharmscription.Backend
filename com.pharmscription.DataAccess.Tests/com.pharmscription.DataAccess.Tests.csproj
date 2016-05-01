@@ -72,7 +72,11 @@
     <Compile Include="Repositories\BaseRepository\RepositoryTest.cs" />
     <Compile Include="Repositories\DrugRepository\DrugRepositoryTest.cs" />
     <Compile Include="Repositories\PatientRepository\PatientRepositoryTest.cs" />
+    <Compile Include="TestEnvironment\CounterProposalTestEnvironment.cs" />
     <Compile Include="TestEnvironment\DbAsyncQueryProviderMock.cs" />
+    <Compile Include="TestEnvironment\DispenseTestEnvironment.cs" />
+    <Compile Include="TestEnvironment\DrugItemTestEnvironment.cs" />
+    <Compile Include="TestEnvironment\DrugTestEnvironment.cs" />
     <Compile Include="TestEnvironment\PatientTestEnvironment.cs" />
     <Compile Include="TestEnvironment\PrescriptionTestEnvironment.cs" />
     <Compile Include="TestEnvironment\TestEnvironmentHelper.cs" />
