@@ -13,7 +13,7 @@
         public virtual StandingPrescription StandingPrescription { get; set; }
         public virtual SinglePrescription SinglePrescription { get; set; }
         public string DosageDescription { get; set; }
-
+        public int Quantity { get; set; }
         public DrugItem Clone()
         {
             return new DrugItem

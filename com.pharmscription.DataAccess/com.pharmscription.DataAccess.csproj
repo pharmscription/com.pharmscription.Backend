@@ -98,6 +98,10 @@
     <Compile Include="Migrations\201604281132334_Connected City Code to Patients.Designer.cs">
       <DependentUpon>201604281132334_Connected City Code to Patients.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605011228280_Added Quantity to Drug.cs" />
+    <Compile Include="Migrations\201605011228280_Added Quantity to Drug.Designer.cs">
+      <DependentUpon>201605011228280_Added Quantity to Drug.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PharmscriptionDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -153,6 +157,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604281132334_Connected City Code to Patients.resx">
       <DependentUpon>201604281132334_Connected City Code to Patients.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605011228280_Added Quantity to Drug.resx">
+      <DependentUpon>201605011228280_Added Quantity to Drug.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

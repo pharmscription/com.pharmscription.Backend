@@ -42,8 +42,10 @@ namespace com.pharmscription.BusinessLogic.Converter
             {
                 Drug = drug.Drug.ConvertToDto(),
                 DosageDescription = drug.DosageDescription,
-                Dispense = drug.Dispense.ConvertToDto()
-            };
+                Quantity = drug.Quantity,
+                Id = drug.Id.ToString()
+                
+            }; 
             return drugItemDto;
         }
 
@@ -57,9 +59,9 @@ namespace com.pharmscription.BusinessLogic.Converter
             if (drugItemDto == null) return null;
             var drugItem = new DrugItem
             {
-                Dispense = drugItemDto.Dispense.ConvertToEntity(),
                 Drug = drugItemDto.Drug.ConvertToEntity(),
-                DosageDescription = drugItemDto.DosageDescription
+                DosageDescription = drugItemDto.DosageDescription,
+                Quantity = drugItemDto.Quantity
             };
             if (!string.IsNullOrWhiteSpace(drugItemDto.Id))
             {
@@ -71,10 +73,9 @@ namespace com.pharmscription.BusinessLogic.Converter
         public static bool DtoEqualsEntity(this DrugItemDto drugItemDto, DrugItem drugItem)
         {
             return drugItemDto.DosageDescription == drugItem.DosageDescription &&
-                    drugItem.Dispense.EntityEqualsDto(drugItemDto.Dispense) &&
-                    drugItemDto.Prescription.DtoEqualsEntity(drugItem.Prescription) &&
                    drugItemDto.Drug.DtoEqualsEntity(drugItem.Drug)
-                   && drugItemDto.Id == drugItem.Id.ToString();
+                   && drugItemDto.Id == drugItem.Id.ToString()
+                   && drugItemDto.Quantity == drugItem.Quantity;
         }
         public static bool EntityEqualsDto(this DrugItem drugItem, DrugItemDto drugItemDto)
         {
