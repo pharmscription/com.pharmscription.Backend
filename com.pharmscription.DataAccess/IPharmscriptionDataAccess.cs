@@ -3,9 +3,9 @@
 namespace com.pharmscription.DataAccess
 {
     using com.pharmscription.DataAccess.Identity;
-
-    public class PharmscriptionDataAccess : IPharmscriptionDataAccess
+    
+    public interface IPharmscriptionDataAccess
     {
-        public MyIdentityDbContext IdentityDbContext => new MyIdentityDbContext();
+        MyIdentityDbContext IdentityDbContext { get; }
     }
 }

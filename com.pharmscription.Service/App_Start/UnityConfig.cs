@@ -13,6 +13,9 @@ using Microsoft.Practices.Unity;
 
 namespace com.pharmscription.Service.App_Start
 {
+    using com.pharmscription.BusinessLogic.Identity;
+    using com.pharmscription.DataAccess;
+
     using DataAccess.Repositories.Prescription;
 
     /// <summary>
@@ -63,6 +66,9 @@ namespace com.pharmscription.Service.App_Start
             // Container will take over lifetime management of the object
             myContainer.Resolve<IMyObject>();*/
             // container.RegisterType<IProductRepository, ProductRepository>();
+
+            container.RegisterType<IIdentityManager, IdentityManager>();
+            container.RegisterType<IPharmscriptionDataAccess, PharmscriptionDataAccess>();
         }
     }
 }
