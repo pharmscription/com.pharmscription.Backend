@@ -28,6 +28,7 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
         public Repository(IQueryableUnitOfWork unitOfWork)
         {
             if (unitOfWork == null)
+                // TODO: This must be catched in business layer, as this exception will return a 4xx error instead of a 5xx
                 throw new InvalidArgumentException(nameof(unitOfWork));
 
             _unitOfWork = unitOfWork;
