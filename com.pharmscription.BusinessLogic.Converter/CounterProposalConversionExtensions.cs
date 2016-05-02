@@ -36,63 +36,63 @@ namespace com.pharmscription.BusinessLogic.Converter
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="counterProposal"></param>
+        /// <param name="counterproposal"></param>
         /// <returns>null when it get null as parameter</returns>
-        public static CounterProposalDto ConvertToDto(this CounterProposal counterProposal)
+        public static CounterProposalDto ConvertToDto(this CounterProposal counterproposal)
         {
-            if (counterProposal == null) return null;
-            var counterProposalDto = new CounterProposalDto
+            if (counterproposal == null) return null;
+            var counterproposalDto = new CounterProposalDto
             {
-                Message = counterProposal.Message,
-                Date = counterProposal.Date.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture),
-                Id = counterProposal.Id.ToString()
+                Message = counterproposal.Message,
+                Date = counterproposal.Date.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture),
+                Id = counterproposal.Id.ToString()
             };
-            return counterProposalDto;
+            return counterproposalDto;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="counterProposalDto"></param>
+        /// <param name="counterproposalDto"></param>
         /// <returns>null when it get null as parameter</returns>
-        public static CounterProposal ConvertToEntity(this CounterProposalDto counterProposalDto)
+        public static CounterProposal ConvertToEntity(this CounterProposalDto counterproposalDto)
         {
-            if (counterProposalDto == null) return null;
-            var counterProposal = new CounterProposal
+            if (counterproposalDto == null) return null;
+            var counterproposal = new CounterProposal
             {
-                Message = counterProposalDto.Message,
-                Date = DateTime.Parse(counterProposalDto.Date, CultureInfo.CurrentCulture)
+                Message = counterproposalDto.Message,
+                Date = DateTime.Parse(counterproposalDto.Date, CultureInfo.CurrentCulture)
             };
-            if (!string.IsNullOrWhiteSpace(counterProposalDto.Id))
+            if (!string.IsNullOrWhiteSpace(counterproposalDto.Id))
             {
-                counterProposal.Id = new Guid(counterProposalDto.Id);
+                counterproposal.Id = new Guid(counterproposalDto.Id);
             }
-            return counterProposal;
+            return counterproposal;
         }
 
-        public static bool DtoEqualsEntity(this CounterProposalDto counterProposalDto, CounterProposal counterProposal)
+        public static bool DtoEqualsEntity(this CounterProposalDto counterproposalDto, CounterProposal counterproposal)
         {
-            if (counterProposalDto == null || counterProposal == null)
+            if (counterproposalDto == null || counterproposal == null)
             {
                 return false;
             }
-            return counterProposalDto.Date.Equals(counterProposal.Date.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture)) &&
-                   counterProposalDto.Message == counterProposal.Message &&
-                   counterProposalDto.Id == counterProposal.Id.ToString();
+            return counterproposalDto.Date.Equals(counterproposal.Date.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture)) &&
+                   counterproposalDto.Message == counterproposal.Message &&
+                   counterproposalDto.Id == counterproposal.Id.ToString();
         }
-        public static bool EntityEqualsDto(this CounterProposal counterProposal, CounterProposalDto counterProposalDto)
+        public static bool EntityEqualsDto(this CounterProposal counterproposal, CounterProposalDto counterproposalDto)
         {
-            return DtoEqualsEntity(counterProposalDto, counterProposal);
-        }
-
-        public static bool DtoListEqualsEntityList(this IReadOnlyCollection<CounterProposalDto> counterProposalDtos, IReadOnlyCollection<CounterProposal> counterProposals)
-        {
-            return !counterProposalDtos.Where((t, i) => !counterProposalDtos.ElementAt(i).DtoEqualsEntity(counterProposals.ElementAt(i))).Any();
+            return DtoEqualsEntity(counterproposalDto, counterproposal);
         }
 
-        public static bool EntityListEqualsDtoList(this IReadOnlyCollection<CounterProposal> counterProposals, IReadOnlyCollection<CounterProposalDto> counterProposalDtos)
+        public static bool DtoListEqualsEntityList(this IReadOnlyCollection<CounterProposalDto> counterproposalDtos, IReadOnlyCollection<CounterProposal> counterproposals)
         {
-            return DtoListEqualsEntityList(counterProposalDtos, counterProposals);
+            return !counterproposalDtos.Where((t, i) => !counterproposalDtos.ElementAt(i).DtoEqualsEntity(counterproposals.ElementAt(i))).Any();
+        }
+
+        public static bool EntityListEqualsDtoList(this IReadOnlyCollection<CounterProposal> counterproposals, IReadOnlyCollection<CounterProposalDto> counterproposalDtos)
+        {
+            return DtoListEqualsEntityList(counterproposalDtos, counterproposals);
         }
     }
 }
