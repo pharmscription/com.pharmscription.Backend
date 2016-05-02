@@ -87,7 +87,7 @@ namespace com.pharmscription.BusinessLogic.Converter
                     DrugItems = prescriptionDto.Drugs.ConvertToEntites(),
                     Dispenses = prescriptionDto.Dispenses.ConvertToEntites(),
                     Patient = prescriptionDto.Patient.ConvertToEntity(),
-                    PrescriptionHistory = prescriptionDto.PrescriptionHistory.ConvertToEntities(),
+                    PrescriptionHistory = prescriptionDto.PrescriptionHistory.ConvertToEntities()
                 };
                 if (prescriptionDto.SignDate != null)
                 {

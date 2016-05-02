@@ -22,7 +22,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return newList;
         }
 
-        public static List<CounterProposal> ConvertToEntites(this ICollection<CounterProposalDto> list)
+        public static ICollection<CounterProposal> ConvertToEntites(this IReadOnlyCollection<CounterProposalDto> list)
         {
             if (list == null)
             {
@@ -44,7 +44,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             var counterProposalDto = new CounterProposalDto
             {
                 Message = counterProposal.Message,
-                Date = counterProposal.Date.ToString(PharmscriptionConstants.DateFormat),
+                Date = counterProposal.Date.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture),
                 Id = counterProposal.Id.ToString()
             };
             return counterProposalDto;
@@ -61,7 +61,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             var counterProposal = new CounterProposal
             {
                 Message = counterProposalDto.Message,
-                Date = DateTime.Parse(counterProposalDto.Date),
+                Date = DateTime.Parse(counterProposalDto.Date, CultureInfo.CurrentCulture)
             };
             if (!string.IsNullOrWhiteSpace(counterProposalDto.Id))
             {
@@ -72,7 +72,7 @@ namespace com.pharmscription.BusinessLogic.Converter
 
         public static bool DtoEqualsEntity(this CounterProposalDto counterProposalDto, CounterProposal counterProposal)
         {
-            return counterProposalDto.Date.Equals(counterProposal.Date.ToString(PharmscriptionConstants.DateFormat)) &&
+            return counterProposalDto.Date.Equals(counterProposal.Date.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture)) &&
                    counterProposalDto.Message == counterProposal.Message &&
                    counterProposalDto.Id == counterProposal.Id.ToString();
         }
@@ -81,12 +81,12 @@ namespace com.pharmscription.BusinessLogic.Converter
             return DtoEqualsEntity(counterProposalDto, counterProposal);
         }
 
-        public static bool DtoListEqualsEntityList(this List<CounterProposalDto> counterProposalDtos, List<CounterProposal> counterProposals)
+        public static bool DtoListEqualsEntityList(this IReadOnlyCollection<CounterProposalDto> counterProposalDtos, IReadOnlyCollection<CounterProposal> counterProposals)
         {
             return !counterProposalDtos.Where((t, i) => !counterProposalDtos.ElementAt(i).DtoEqualsEntity(counterProposals.ElementAt(i))).Any();
         }
 
-        public static bool EntityListEqualsDtoList(this List<CounterProposal> counterProposals, List<CounterProposalDto> counterProposalDtos)
+        public static bool EntityListEqualsDtoList(this IReadOnlyCollection<CounterProposal> counterProposals, IReadOnlyCollection<CounterProposalDto> counterProposalDtos)
         {
             return DtoListEqualsEntityList(counterProposalDtos, counterProposals);
         }
