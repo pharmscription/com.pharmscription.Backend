@@ -20,6 +20,8 @@ using System.Web.Mvc;
 using Service.Controllers;
 namespace com.pharmscription.Service.Tests.Controllers
 {
+    using System.Data.Entity;
+
     using DataAccess.Repositories.Drug;
 
     [TestClass]
@@ -52,6 +54,10 @@ namespace com.pharmscription.Service.Tests.Controllers
 
         private void SetupTestData()
         {
+            this.CleanUp();
+
+            //Database.SetInitializer(new DropCreateDatabaseAlways<PharmscriptionUnitOfWork>());
+
             var patients = PatientTestEnvironment.GetTestPatients();
             foreach (var patient in patients)
             {
@@ -88,29 +94,44 @@ namespace com.pharmscription.Service.Tests.Controllers
 
             }
 
-            var prescriptionsToConnect = _prescriptionRepository.GetWithAllNavs().OrderBy(e => e.Id);
-            foreach (var counterProposal in counterProposalsToConnect.Skip(1))
+            var prescriptionsToConnect = _prescriptionRepository.GetWithAllNavs().OrderBy(e => e.Id).ToList();
+            foreach (var counterProposal in counterProposalsToConnect.Skip(1).ToList())
             {
+                this._puow.Attach(counterProposal);
                 prescriptionsToConnect.FirstOrDefault().CounterProposals.Add(counterProposal);
+                this._puow.Attach(prescriptionsToConnect.FirstOrDefault());
+                _puow.Commit();
             }
             prescriptionsToConnect.OrderBy(e => e.Id).Skip(1).FirstOrDefault().CounterProposals.Add(counterProposalsToConnect.FirstOrDefault());
+            _puow.Commit();
         }
 
         [TestCleanup]
         public void CleanUp()
         {
-            _puow.ExecuteCommand("Delete From DrugItems");
-            _puow.Commit();
-            _puow.ExecuteCommand("Delete From CounterProposals");
-            _puow.Commit();
-            _puow.ExecuteCommand("Delete From Dispenses");
-            _puow.Commit();
-            _puow.ExecuteCommand("Delete From Prescriptions");
-            _puow.Commit();
-            _puow.ExecuteCommand("Delete From Drugs");
-            _puow.Commit();
-            _puow.ExecuteCommand("Delete From Patients");
-            _puow.Commit();
+            var x1 = new PharmscriptionUnitOfWork();
+            x1.ExecuteCommand("Delete From DrugItems");
+            x1.Commit();
+
+            var x3 = new PharmscriptionUnitOfWork();
+            x3.ExecuteCommand("Delete From CounterProposals");
+            x3.Commit();
+
+            var x4 = new PharmscriptionUnitOfWork();
+            x4.ExecuteCommand("Delete From Dispenses");
+            x4.Commit();
+
+            var x5 = new PharmscriptionUnitOfWork();
+            x5.ExecuteCommand("Delete From Prescriptions");
+            x5.Commit();
+
+            var x6 = new PharmscriptionUnitOfWork();
+            x6.ExecuteCommand("Delete From Drugs");
+            x6.Commit();
+
+            var x2 = new PharmscriptionUnitOfWork();
+            x2.ExecuteCommand("Delete From Patients");
+            x2.Commit();
         }
 
         [TestMethod]
