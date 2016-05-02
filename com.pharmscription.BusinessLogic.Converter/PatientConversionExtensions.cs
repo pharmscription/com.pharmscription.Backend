@@ -8,6 +8,8 @@ using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
 
 namespace com.pharmscription.BusinessLogic.Converter
 {
+    using System.Globalization;
+
     public static class PatientConversionExtensions
     {
         public static PatientDto ConvertToDto(this InsurancePatient patient)
@@ -16,7 +18,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return new PatientDto
             {
                 PhoneNumber = patient.PhoneNumber,
-                BirthDate = patient.BirthDate.ToString(PharmscriptionConstants.DateFormat),
+                BirthDate = patient.BirthDate.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture),
                 AhvNumber = patient.AhvNumber,
                 InsuranceNumber = patient.InsuranceNumber,
                 LastName = patient.LastName,
@@ -38,7 +40,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             var patientDto = new PatientDto
             {
                 PhoneNumber = patient.PhoneNumber,
-                BirthDate = patient.BirthDate.ToString(PharmscriptionConstants.DateFormat),
+                BirthDate = patient.BirthDate.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture),
                 AhvNumber = patient.AhvNumber,
                 InsuranceNumber = patient.InsuranceNumber,
                 LastName = patient.LastName,
@@ -70,7 +72,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             var patient = new Patient
             {
                 PhoneNumber = patientDto.PhoneNumber,
-                BirthDate = DateTime.ParseExact(patientDto.BirthDate, PharmscriptionConstants.DateFormat, System.Globalization.CultureInfo.InvariantCulture),
+                BirthDate = DateTime.ParseExact(patientDto.BirthDate, PharmscriptionConstants.DateFormat, CultureInfo.InvariantCulture),
                 AhvNumber = patientDto.AhvNumber,
                 InsuranceNumber = patientDto.InsuranceNumber,
                 LastName = patientDto.LastName,

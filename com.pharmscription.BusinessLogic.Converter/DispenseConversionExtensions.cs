@@ -22,7 +22,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return newList;
         }
 
-        public static ICollection<Dispense> ConvertToEntites(this ICollection<DispenseDto> list)
+        public static ICollection<Dispense> ConvertToEntites(this IReadOnlyCollection<DispenseDto> list)
         {
             if (list == null)
             {
@@ -44,7 +44,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             var dispenseDto = new DispenseDto
             {
                 Remark = dispense.Remark,
-                Date = dispense.Date.ToString(PharmscriptionConstants.DateFormat),
+                Date = dispense.Date.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture),
                 Id = dispense.Id.ToString(),
                 DrugItems = dispense.DrugItems.ConvertToDtos()
             };
@@ -66,7 +66,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             };
             if (dispenseDto.Date != null)
             {
-                dispense.Date = DateTime.Parse(dispenseDto.Date);
+                dispense.Date = DateTime.Parse(dispenseDto.Date, CultureInfo.CurrentCulture);
             }
             if (!string.IsNullOrWhiteSpace(dispenseDto.Id))
             {
@@ -79,7 +79,7 @@ namespace com.pharmscription.BusinessLogic.Converter
         {
             var ownPropertiesAreEqual = dispenseDto.Remark == dispense.Remark &&
                                         dispense.Id.ToString() == dispenseDto.Id &&
-                                        dispenseDto.Date == dispense.Date.ToString(PharmscriptionConstants.DateFormat);
+                                        dispenseDto.Date == dispense.Date.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture);
             if (dispense.DrugItems != null)
             {
                 return ownPropertiesAreEqual && dispenseDto.DrugItems.DtoListEqualsEntityList(dispense.DrugItems.ToList());
@@ -91,12 +91,12 @@ namespace com.pharmscription.BusinessLogic.Converter
             return DtoEqualsEntity(dispenseDto, dispense);
         }
 
-        public static bool DtoListEqualsEntityList(this List<DispenseDto> dispenseDtos, List<Dispense> dispenses)
+        public static bool DtoListEqualsEntityList(this IReadOnlyCollection<DispenseDto> dispenseDtos, IReadOnlyCollection<Dispense> dispenses)
         {
             return !dispenseDtos.Where((t, i) => !dispenseDtos.ElementAt(i).DtoEqualsEntity(dispenses.ElementAt(i))).Any();
         }
 
-        public static bool EntityListEqualsDtoList(this List<Dispense> dispenses, List<DispenseDto> dispenseDtos)
+        public static bool EntityListEqualsDtoList(this IReadOnlyCollection<Dispense> dispenses, IReadOnlyCollection<DispenseDto> dispenseDtos)
         {
             return DtoListEqualsEntityList(dispenseDtos, dispenses);
         }

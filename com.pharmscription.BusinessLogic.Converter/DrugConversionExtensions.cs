@@ -8,14 +8,14 @@ namespace com.pharmscription.BusinessLogic.Converter
 {
     public static class DrugConversionExtensions
     {
-        public static List<DrugDto> ConvertToDtos(this List<Drug> list)
+        public static List<DrugDto> ConvertToDtos(this ICollection<Drug> list)
         {
             var newList = new List<DrugDto>(list.Count);
             newList.AddRange(list.Select(drug => drug.ConvertToDto()));
             return newList;
         }
 
-        public static List<Drug> ConvertToEntites(this List<DrugDto> list)
+        public static ICollection<Drug> ConvertToEntites(this IReadOnlyCollection<DrugDto> list)
         {
             var newList = new List<Drug>(list.Count);
             newList.AddRange(list.Select(drug => drug.ConvertToEntity()));

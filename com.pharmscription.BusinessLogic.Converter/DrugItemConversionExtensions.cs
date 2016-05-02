@@ -19,7 +19,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return newList;
         }
 
-        public static List<DrugItem> ConvertToEntites(this ICollection<DrugItemDto> list)
+        public static ICollection<DrugItem> ConvertToEntites(this IReadOnlyCollection<DrugItemDto> list)
         {
             if (list == null)
             {
@@ -82,12 +82,12 @@ namespace com.pharmscription.BusinessLogic.Converter
             return DtoEqualsEntity(drugItemDto, drugItem);
         }
 
-        public static bool DtoListEqualsEntityList(this List<DrugItemDto> drugItemDtos, List<DrugItem> drugItems)
+        public static bool DtoListEqualsEntityList(this IReadOnlyCollection<DrugItemDto> drugItemDtos, IReadOnlyCollection<DrugItem> drugItems)
         {
             return !drugItemDtos.Where((t, i) => !drugItemDtos.ElementAt(i).DtoEqualsEntity(drugItems.ElementAt(i))).Any();
         }
 
-        public static bool EntityListEqualsDtoList(this List<DrugItem> drugItems, List<DrugItemDto> drugItemDtos)
+        public static bool EntityListEqualsDtoList(this IReadOnlyCollection<DrugItem> drugItems, IReadOnlyCollection<DrugItemDto> drugItemDtos)
         {
             return DtoListEqualsEntityList(drugItemDtos, drugItems);
         }
