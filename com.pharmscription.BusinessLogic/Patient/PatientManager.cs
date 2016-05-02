@@ -26,7 +26,7 @@ namespace com.pharmscription.BusinessLogic.Patient
             ahvValidator.Validate(ahvNumber);
 
             InsuranceConnector connector = new InsuranceConnector();
-            InsurancePatient insurancePatient = await connector.GetInsuranceConnection().FindPatient(ahvNumber);
+            InsurancePatient insurancePatient = await connector.GetInsuranceConnection.FindPatient(ahvNumber);
             return insurancePatient.ConvertToDto();
         }
 
