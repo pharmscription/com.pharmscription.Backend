@@ -63,6 +63,10 @@ namespace com.pharmscription.BusinessLogic.Patient
             Guid gid;
             if (Guid.TryParse(id, out gid))
             {
+                if (!await _patientRepository.CheckIfEntityExists(gid))
+                {
+                    throw new NotFoundException("Patient with id: " + id + " not found");
+                }
                 var patient = await _patientRepository.GetWithAllNavs(gid);
                 return patient.ConvertToDto();
             }
