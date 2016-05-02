@@ -26,15 +26,15 @@ namespace com.pharmscription.BusinessLogic.Prescription
         private readonly ICounterProposalRepository _counterProposalRepository;
         private readonly IDispenseRepository _dispenseRepository;
         private readonly IDrugRepository _drugRepository;
-        public PrescriptionManager(IPrescriptionRepository prescriptionRepository, IPatientRepository patientRepository, ICounterProposalRepository counterProposalRepository, IDispenseRepository dispenseRepository, IDrugRepository drugRepository)
+        public PrescriptionManager(IPrescriptionRepository prescriptionRepository, IPatientRepository patientRepository, ICounterProposalRepository counterproposalRepository, IDispenseRepository dispenseRepository, IDrugRepository drugRepository)
         {
-            if (prescriptionRepository == null || patientRepository == null || counterProposalRepository == null || dispenseRepository == null || drugRepository == null)
+            if (prescriptionRepository == null || patientRepository == null || counterproposalRepository == null || dispenseRepository == null || drugRepository == null)
             {
                 throw new InvalidArgumentException("Depended Upon Arguments were null");
             }
             _prescriptionRepository = prescriptionRepository;
             _patientRepository = patientRepository;
-            _counterProposalRepository = counterProposalRepository;
+            _counterProposalRepository = counterproposalRepository;
             _dispenseRepository = dispenseRepository;
             _drugRepository = drugRepository;
         }

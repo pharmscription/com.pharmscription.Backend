@@ -69,15 +69,17 @@ namespace com.pharmscription.BusinessLogic.Converter
 
         public static bool DtoEqualsEntity(this DrugDto drugDto, Drug drug)
         {
+            if (drugDto == null || drug == null)
+            {
+                return false;
+            }
             return drugDto.IsValid == drug.IsValid && drug.Composition == drugDto.Composition &&
                    drugDto.DrugDescription == drug.DrugDescription && drugDto.NarcoticCategory == drug.NarcoticCategory &&
                    drugDto.PackageSize == drug.PackageSize && drugDto.Unit == drug.Unit && drugDto.Id == drug.Id.ToString();
         }
         public static bool EntityEqualsDto(this Drug drug, DrugDto drugDto)
         {
-            return drug.IsValid == drugDto.IsValid && drugDto.Composition == drug.Composition &&
-                   drug.DrugDescription == drugDto.DrugDescription && drug.NarcoticCategory == drugDto.NarcoticCategory &&
-                   drug.PackageSize == drugDto.PackageSize && drug.Unit == drugDto.Unit && drug.Id.ToString() == drugDto.Id;
+            return DtoEqualsEntity(drugDto, drug);
         }
     }
 }

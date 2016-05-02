@@ -72,6 +72,10 @@ namespace com.pharmscription.BusinessLogic.Converter
 
         public static bool DtoEqualsEntity(this DrugItemDto drugItemDto, DrugItem drugItem)
         {
+            if (drugItemDto == null || drugItem == null)
+            {
+                return false;
+            }
             return drugItemDto.DosageDescription == drugItem.DosageDescription &&
                    drugItemDto.Drug.DtoEqualsEntity(drugItem.Drug)
                    && drugItemDto.Id == drugItem.Id.ToString()

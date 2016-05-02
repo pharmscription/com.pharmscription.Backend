@@ -28,7 +28,7 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
         public Repository(IQueryableUnitOfWork unitOfWork)
         {
             if (unitOfWork == null)
-                throw new InvalidArgumentException(nameof(unitOfWork));
+                throw new InvalidArgumentException("Repository was not given a valid Data Context to work on");
 
             _unitOfWork = unitOfWork;
         }

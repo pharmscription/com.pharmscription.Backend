@@ -23,7 +23,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return newList;
         }
 
-        public static List<Prescription> ConvertToEntities(this IReadOnlyCollection<PrescriptionDto> list)
+        public static ICollection<Prescription> ConvertToEntities(this IReadOnlyCollection<PrescriptionDto> list)
         {
             if (list == null)
             {
@@ -142,6 +142,10 @@ namespace com.pharmscription.BusinessLogic.Converter
 
         public static bool DtoEqualsEntity(this PrescriptionDto prescriptionDto, Prescription prescription)
         {
+            if (prescriptionDto == null || prescription == null)
+            {
+                return false;
+            }
             var ownPropertiesAreEqual = prescriptionDto.IsValid == prescription.IsValid
                                         &&
                                         prescriptionDto.EditDate ==

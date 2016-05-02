@@ -72,6 +72,10 @@ namespace com.pharmscription.BusinessLogic.Converter
 
         public static bool DtoEqualsEntity(this CounterProposalDto counterProposalDto, CounterProposal counterProposal)
         {
+            if (counterProposalDto == null || counterProposal == null)
+            {
+                return false;
+            }
             return counterProposalDto.Date.Equals(counterProposal.Date.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture)) &&
                    counterProposalDto.Message == counterProposal.Message &&
                    counterProposalDto.Id == counterProposal.Id.ToString();

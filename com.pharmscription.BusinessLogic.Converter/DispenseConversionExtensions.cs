@@ -77,6 +77,10 @@ namespace com.pharmscription.BusinessLogic.Converter
 
         public static bool DtoEqualsEntity(this DispenseDto dispenseDto, Dispense dispense)
         {
+            if (dispenseDto == null || dispense == null)
+            {
+                return false;
+            }
             var ownPropertiesAreEqual = dispenseDto.Remark == dispense.Remark &&
                                         dispense.Id.ToString() == dispenseDto.Id &&
                                         dispenseDto.Date == dispense.Date.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture);
