@@ -15,5 +15,7 @@ namespace com.pharmscription.Infrastructure.Dto
         [DataMember]
         public List<DrugItemDto> DrugItems { get; set; }
 
+
+
     }
 }
