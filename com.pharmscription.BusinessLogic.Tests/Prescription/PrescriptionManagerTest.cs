@@ -205,6 +205,107 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         }
 
         [TestMethod]
+        public async Task TestAddStandingPrescription()
+        {
+            var drugs = new List<DrugItemDto>
+            {
+                new DrugItemDto
+                {
+                    Drug = new DrugDto
+                    {
+                        Id = DrugTestEnvironment.DrugOneId,
+                        IsValid = true,
+                        DrugDescription = DrugTestEnvironment.DrugOneDescription
+                    }
+                },
+                new DrugItemDto
+                {
+                    Drug = new DrugDto
+                    {
+                        Id = DrugTestEnvironment.DrugTwoId,
+                        IsValid = true,
+                        DrugDescription = DrugTestEnvironment.DrugTwoDescription
+                    }
+                }
+            };
+            var prescriptionToInsert = new PrescriptionDto
+            {
+                EditDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
+                IssueDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
+                IsValid = true,
+                Type = "N",
+                ValidUntil = DateTime.Now.AddDays(2).ToString(PharmscriptionConstants.DateFormat),
+                Drugs = drugs
+
+            };
+            var prescription = await _prescriptionManager.Add(PatientTestEnvironment.PatientIdOne, prescriptionToInsert);
+            Assert.IsNotNull(prescription);
+            var prescriptions = await _prescriptionManager.Get(PatientTestEnvironment.PatientIdOne);
+
+            var prescriptionInserted = prescriptions.FirstOrDefault(e => e.Id == prescription.Id);
+            Assert.IsNotNull(prescriptionInserted);
+            var insertedDrugs = prescriptionInserted.Drugs;
+            Assert.IsNotNull(insertedDrugs);
+            Assert.AreEqual(DrugTestEnvironment.DrugOneDescription, insertedDrugs.First().Drug.DrugDescription);
+        }
+
+        [TestMethod]
+        public async Task TestAddPrescriptionAddsCounterProposals()
+        {
+            var counterProposals = new List<CounterProposalDto>
+            {
+                new CounterProposalDto
+                {
+                    Message = CounterProposalTestEnvironment.CounterProposalOneMessage
+                }
+            };
+            var drugs = new List<DrugItemDto>
+            {
+                new DrugItemDto
+                {
+                    Drug = new DrugDto
+                    {
+                        Id = DrugTestEnvironment.DrugOneId,
+                        IsValid = true,
+                        DrugDescription = DrugTestEnvironment.DrugOneDescription
+                    }
+                },
+                new DrugItemDto
+                {
+                    Drug = new DrugDto
+                    {
+                        Id = DrugTestEnvironment.DrugTwoId,
+                        IsValid = true,
+                        DrugDescription = DrugTestEnvironment.DrugTwoDescription
+                    }
+                }
+            };
+            var prescriptionToInsert = new PrescriptionDto
+            {
+                EditDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
+                IssueDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
+                IsValid = true,
+                Type = "S",
+                ValidUntil = DateTime.Now.AddDays(2).ToString(PharmscriptionConstants.DateFormat),
+                Drugs = drugs,
+                CounterProposals = counterProposals
+
+            };
+            var prescription = await _prescriptionManager.Add(PatientTestEnvironment.PatientIdOne, prescriptionToInsert);
+            Assert.IsNotNull(prescription);
+            var prescriptions = await _prescriptionManager.Get(PatientTestEnvironment.PatientIdOne);
+
+            var prescriptionInserted = prescriptions.FirstOrDefault(e => e.Id == prescription.Id);
+            Assert.IsNotNull(prescriptionInserted);
+            var insertedDrugs = prescriptionInserted.Drugs;
+            var insertedCounterProposals = prescriptionInserted.CounterProposals;
+            Assert.IsNotNull(insertedDrugs);
+            Assert.IsNotNull(insertedCounterProposals);
+            Assert.AreEqual(DrugTestEnvironment.DrugOneDescription, insertedDrugs.First().Drug.DrugDescription);
+            Assert.AreEqual(CounterProposalTestEnvironment.CounterProposalOneMessage, counterProposals.First().Message);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestAddCounterProposalThrowsOnNull()
         {

@@ -74,9 +74,14 @@ namespace com.pharmscription.BusinessLogic.Converter
 
         public static bool DtoEqualsEntity(this DispenseDto dispenseDto, Dispense dispense)
         {
-            return dispenseDto.Remark == dispense.Remark && dispense.Id.ToString() == dispenseDto.Id &&
-                   dispenseDto.Date == dispense.Date.ToString(CultureInfo.InvariantCulture) &&
-                   dispenseDto.DrugItems.DtoListEqualsEntityList(dispense.DrugItems.ToList());
+            var ownPropertiesAreEqual = dispenseDto.Remark == dispense.Remark &&
+                                        dispense.Id.ToString() == dispenseDto.Id &&
+                                        dispenseDto.Date == dispense.Date.ToString(PharmscriptionConstants.DateFormat);
+            if (dispense.DrugItems != null)
+            {
+                return ownPropertiesAreEqual && dispenseDto.DrugItems.DtoListEqualsEntityList(dispense.DrugItems.ToList());
+            }
+            return ownPropertiesAreEqual;
         }
         public static bool EntityEqualsDto(this Dispense dispense, DispenseDto dispenseDto)
         {

@@ -49,11 +49,6 @@ namespace com.pharmscription.BusinessLogic.Patient
             return (await _patientRepository.GetByAhvNumber(patient.AhvNumber)).ConvertToDto();
         }
 
-        public Task<PatientDto> Edit(PatientDto patient)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<PatientDto> Find(string ahvNumber)
         {
             AhvValidator ahvValidator = new AhvValidator();
@@ -74,11 +69,6 @@ namespace com.pharmscription.BusinessLogic.Patient
                 return patient.ConvertToDto();
             }
             throw new InvalidArgumentException("Id " + id + " not found");
-        }
-
-        public Task<PatientDto> RemoveById(string id)
-        {
-            throw new NotImplementedException();
         }
     }
 }

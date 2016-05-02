@@ -10,6 +10,7 @@ namespace com.pharmscription.DataAccess.Repositories.Patient
 {
     using System.Collections.Generic;
     using Entities.PrescriptionEntity;
+    using Infrastructure.Exception;
     using Patient = Entities.PatientEntity.Patient;
 
     public class PatientRepository : Repository<Patient>, IPatientRepository
@@ -43,15 +44,20 @@ namespace com.pharmscription.DataAccess.Repositories.Patient
             return GetSet().Where(e => e.Id == id).Include(e => e.Prescriptions).Select(e => e.Prescriptions).FirstOrDefaultAsync();
         }
 
-        public Task<Patient> GetWithAllNavs(Guid id)
+        public async Task<Patient> GetWithAllNavs(Guid id)
         {
-            return
-                GetSet()
+            var patient = 
+                await GetSet()
                     .Where(e => e.Id == id)
                     .Include(e => e.Prescriptions)
                     .Include(e => e.Address)
                     .Include(e => e.Address.CityCode)
                     .FirstOrDefaultAsync();
+            if (patient == null)
+            {
+                throw new NotFoundException("No Patient with such an Id exists");
+            }
+            return patient;
         }
     }
 }

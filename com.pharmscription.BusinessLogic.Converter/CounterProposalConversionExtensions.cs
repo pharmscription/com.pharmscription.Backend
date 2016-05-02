@@ -44,7 +44,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             var counterProposalDto = new CounterProposalDto
             {
                 Message = counterProposal.Message,
-                Date = counterProposal.Date.ToString(CultureInfo.InvariantCulture),
+                Date = counterProposal.Date.ToString(PharmscriptionConstants.DateFormat),
                 Id = counterProposal.Id.ToString()
             };
             return counterProposalDto;

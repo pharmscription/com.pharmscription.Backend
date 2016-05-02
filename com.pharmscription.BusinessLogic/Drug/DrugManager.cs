@@ -30,7 +30,7 @@ namespace com.pharmscription.BusinessLogic.Drug
             int pageNumber, amountPerPage;
             bool page = int.TryParse(pageNumberString, out pageNumber);
             bool amount = int.TryParse(amountPerPageString, out amountPerPage);
-            if (!page && !amount)
+            if (!page || !amount)
             {
                 throw new InvalidArgumentException("Either page number or amount per page are not numbers. page: " + pageNumberString + " , amount: " + amountPerPageString + ".");
             }

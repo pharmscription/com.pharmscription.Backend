@@ -22,6 +22,7 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
         public const string EmptyPrescriptionId = "1baf86d7-1e14-4f64-b23a-5c9dd00e8e48";
         public const string AhvNumberPatientThree = "756.4475.6859.48";
         public const string AhvNumberPatientFour = "756.8999.4760.82";
+        public const string AhvNumberNotInDatabase = "756.7362.0816.87";
 
         public static List<Patient> GetTestPatients()
         {
