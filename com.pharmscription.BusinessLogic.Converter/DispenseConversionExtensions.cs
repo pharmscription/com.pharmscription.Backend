@@ -62,9 +62,12 @@ namespace com.pharmscription.BusinessLogic.Converter
             var dispense = new Dispense
             {
                 Remark = dispenseDto.Remark,
-                DrugItems = dispenseDto.DrugItems.ConvertToEntites(),
-                Date = DateTime.Parse(dispenseDto.Date)
+                DrugItems = dispenseDto.DrugItems.ConvertToEntites()
             };
+            if (dispenseDto.Date != null)
+            {
+                dispense.Date = DateTime.Parse(dispenseDto.Date);
+            }
             if (!string.IsNullOrWhiteSpace(dispenseDto.Id))
             {
                 dispense.Id = new Guid(dispenseDto.Id);

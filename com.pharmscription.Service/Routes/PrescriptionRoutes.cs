@@ -14,7 +14,7 @@
 
         public const string GetDispenses = "patients/{patientid}/prescriptions/{prescriptionid}/dispenses";
 
-        public const string CreateDispense = GetDispenses;
+        public const string CreateDispense = "patients/{patientid}/prescriptions/{prescriptionid}/dispense";
 
         public const string GetDrugs = "patiens/{patientid}/prescriptions/{prescriptionid}/drugs";
 

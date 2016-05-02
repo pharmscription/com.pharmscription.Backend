@@ -160,6 +160,22 @@ namespace com.pharmscription.BusinessLogic.Prescription
             var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
             await _prescriptionRepository.CheckIfEntityExists(prescriptionGuid);
             var dispense = dispenseDto.ConvertToEntity();
+            dispense.Date = DateTime.Now;
+            dispense.DrugItems = null;
+            if (dispenseDto.DrugItems != null && dispenseDto.DrugItems.Any())
+            {
+                dispense.DrugItems = new List<DrugItem>();
+                foreach (var drugItemDto in dispenseDto.DrugItems)
+                {
+                    var drugItem = new DrugItem
+                    {
+                        DosageDescription = drugItemDto.DosageDescription,
+                        Drug = await _drugRepository.GetAsyncOrThrow(GuidParser.ParseGuid(drugItemDto.Drug.Id)),
+                        Quantity = drugItemDto.Quantity
+                    };
+                    dispense.DrugItems.Add(drugItem);
+                }
+            }
             _dispenseRepository.Add(dispense);
             var prescription = await _prescriptionRepository.GetAsync(prescriptionGuid);
             prescription.Dispenses.Add(dispense);
