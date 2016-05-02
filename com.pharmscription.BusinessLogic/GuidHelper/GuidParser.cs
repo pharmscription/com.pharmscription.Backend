@@ -5,16 +5,16 @@ namespace com.pharmscription.BusinessLogic.GuidHelper
 {
     public class GuidParser
     {
-        public static Guid ParseGuid(string guidString)
+        public static Guid ParseGuid(string guidValue)
         {
-            if (string.IsNullOrWhiteSpace(guidString))
+            if (string.IsNullOrWhiteSpace(guidValue))
             {
                 throw new InvalidArgumentException("Guidstring was empty");
             }
             Guid guid;
             try
             {
-                guid = new Guid(guidString);
+                guid = new Guid(guidValue);
             }
             catch (FormatException)
             {

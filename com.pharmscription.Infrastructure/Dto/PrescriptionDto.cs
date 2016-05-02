@@ -20,12 +20,12 @@ namespace com.pharmscription.Infrastructure.Dto
         [DataMember]
         public bool IsValid { get; set; }
         [DataMember]
-        public List<CounterProposalDto> CounterProposals { get; set; }
+        public IReadOnlyCollection<CounterProposalDto> CounterProposals { get; set; }
         [DataMember]
-        public List<DispenseDto> Dispenses { get; set; }
+        public IReadOnlyCollection<DispenseDto> Dispenses { get; set; }
         [DataMember]
-        public List<DrugItemDto> Drugs { get; set; }
+        public IReadOnlyCollection<DrugItemDto> Drugs { get; set; }
         [DataMember]
-        public List<PrescriptionDto> PrescriptionHistory { get; set; }
+        public IReadOnlyCollection<PrescriptionDto> PrescriptionHistory { get; set; }
     }
 }

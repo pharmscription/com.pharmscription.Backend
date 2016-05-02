@@ -13,7 +13,7 @@ namespace com.pharmscription.Infrastructure.Dto
         [DataMember]
         public string Remark { get; set; }
         [DataMember]
-        public List<DrugItemDto> DrugItems { get; set; }
+        public IReadOnlyCollection<DrugItemDto> DrugItems { get; set; }
 
 
 
