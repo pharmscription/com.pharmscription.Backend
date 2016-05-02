@@ -54,7 +54,11 @@ namespace com.pharmscription.BusinessLogic.Prescription
             await _patientRepository.CheckIfEntityExists(patientGuid);
             var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
             await _prescriptionRepository.CheckIfEntityExists(prescriptionGuid);
-            return (await _prescriptionRepository.GetByPatientId(patientGuid)).FirstOrDefault(e => e.Id == prescriptionGuid).ConvertToDto();
+            var prescription = (await _prescriptionRepository.GetByPatientId(patientGuid)).
+                FirstOrDefault(e => e.Id == prescriptionGuid).ConvertToDto();
+            var patient = (await _patientRepository.GetAsync(patientGuid)).ConvertToDto();
+            prescription.Patient = patient;
+            return (prescription);
         }
 
         public async Task<PrescriptionDto> Add(string patientId, PrescriptionDto prescriptionDto)
