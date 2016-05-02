@@ -4,6 +4,6 @@ namespace com.pharmscription.BusinessLogic.Patient
 {
     public class InsuranceConnector
     {
-        public IInsurance GetInsuranceConnection => Insurance.RealInsurance;
+        public static IInsurance InsuranceConnection => Insurance.RealInsurance;
     }
 }
