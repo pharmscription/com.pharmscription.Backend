@@ -38,6 +38,12 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -62,6 +68,7 @@
     <Compile Include="Entities\PrescriptionEntity\Prescription.cs" />
     <Compile Include="Entities\PrescriptionEntity\SinglePrescription.cs" />
     <Compile Include="Entities\PrescriptionEntity\StandingPrescription.cs" />
+    <Compile Include="Identity\MyIdentityDbContext.cs" />
     <Compile Include="Migrations\201604061207257_Init.cs" />
     <Compile Include="Migrations\201604061207257_Init.Designer.cs">
       <DependentUpon>201604061207257_Init.cs</DependentUpon>
@@ -103,6 +110,7 @@
       <DependentUpon>201605011228280_Added Quantity to Drug.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="IPharmscriptionDataAccess.cs" />
     <Compile Include="PharmscriptionDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository\Repository.cs" />
