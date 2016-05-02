@@ -7,7 +7,9 @@ using com.pharmscription.DataAccess.SharedInterfaces;
 
 namespace com.pharmscription.DataAccess.Entities.PatientEntity
 {
-    public class Patient : Entity, ICloneable<Patient>
+    using com.pharmscription.DataAccess.Entities.IdentityUserEntity;
+
+    public class Patient : Entity, ICloneable<Patient>, IIdentityEntity
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -18,8 +20,8 @@ namespace com.pharmscription.DataAccess.Entities.PatientEntity
         public string PhoneNumber { get; set; }
         public string InsuranceNumber { get; set; }
         public string Insurance { get; set; }
-
         public virtual ICollection<Prescription> Prescriptions { get; set; }
+        public IdentityUser User { get; set; }
         public Patient Clone()
         {
             return new Patient
