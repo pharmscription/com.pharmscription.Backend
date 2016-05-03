@@ -20,7 +20,6 @@ using System.Web.Mvc;
 using Service.Controllers;
 namespace com.pharmscription.Service.Tests.Controllers
 {
-    using System.Data.Entity;
 
     using DataAccess.Repositories.Drug;
 
@@ -54,10 +53,7 @@ namespace com.pharmscription.Service.Tests.Controllers
 
         private void SetupTestData()
         {
-            this.CleanUp();
-
-            //Database.SetInitializer(new DropCreateDatabaseAlways<PharmscriptionUnitOfWork>());
-
+            CleanUp();
             var patients = PatientTestEnvironment.GetTestPatients();
             foreach (var patient in patients)
             {
@@ -109,29 +105,12 @@ namespace com.pharmscription.Service.Tests.Controllers
         [TestCleanup]
         public void CleanUp()
         {
-            var x1 = new PharmscriptionUnitOfWork();
-            x1.ExecuteCommand("Delete From DrugItems");
-            x1.Commit();
-
-            var x3 = new PharmscriptionUnitOfWork();
-            x3.ExecuteCommand("Delete From CounterProposals");
-            x3.Commit();
-
-            var x4 = new PharmscriptionUnitOfWork();
-            x4.ExecuteCommand("Delete From Dispenses");
-            x4.Commit();
-
-            var x5 = new PharmscriptionUnitOfWork();
-            x5.ExecuteCommand("Delete From Prescriptions");
-            x5.Commit();
-
-            var x6 = new PharmscriptionUnitOfWork();
-            x6.ExecuteCommand("Delete From Drugs");
-            x6.Commit();
-
-            var x2 = new PharmscriptionUnitOfWork();
-            x2.ExecuteCommand("Delete From Patients");
-            x2.Commit();
+            foreach (var deleteStatment in TestEnvironmentHelper.DeleteStatments)
+            {
+                var newContext = new PharmscriptionUnitOfWork();
+                newContext.ExecuteCommand(deleteStatment);
+                newContext.Commit();
+            }
         }
 
         [TestMethod]

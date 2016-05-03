@@ -112,6 +112,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\com.pharmscription.BusinessLogic.Converter\com.pharmscription.BusinessLogic.Converter.csproj">
+      <Project>{7be7799a-2ab7-4a59-be2b-6364ea6c9bd0}</Project>
+      <Name>com.pharmscription.BusinessLogic.Converter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\com.pharmscription.BusinessLogic\com.pharmscription.BusinessLogic.csproj">
       <Project>{68EA9BAD-339D-49B4-A604-54EA4DA0952A}</Project>
       <Name>com.pharmscription.BusinessLogic</Name>

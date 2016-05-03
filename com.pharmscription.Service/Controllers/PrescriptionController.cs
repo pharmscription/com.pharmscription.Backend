@@ -96,10 +96,10 @@ namespace Service.Controllers
         {
             try
             {
-                var counterProposal = await _prescriptionManager.GetCounterProposals(patientid, prescriptionid);
-                if (counterProposal != null && counterProposal.Any())
+                var counterproposals = await _prescriptionManager.GetCounterProposals(patientid, prescriptionid);
+                if (counterproposals != null && counterproposals.Any())
                 {
-                    return Json(await _prescriptionManager.GetCounterProposals(patientid, prescriptionid));
+                    return Json(counterproposals);
                 }
                 return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }

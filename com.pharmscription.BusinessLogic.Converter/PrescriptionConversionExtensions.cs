@@ -64,8 +64,6 @@ namespace com.pharmscription.BusinessLogic.Converter
                 prescriptionDto.ValidUntil =
                     standingPrescription.ValidUntill.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture);
             }
-
-
             return prescriptionDto;
         }
 
@@ -80,58 +78,36 @@ namespace com.pharmscription.BusinessLogic.Converter
             Prescription prescription;
             if (prescriptionDto.Type == "N")
             {
-                prescription = new SinglePrescription
-                {
-                    IsValid = prescriptionDto.IsValid,
-                    CounterProposals = prescriptionDto.CounterProposals.ConvertToEntites(),
-                    DrugItems = prescriptionDto.Drugs.ConvertToEntites(),
-                    Dispenses = prescriptionDto.Dispenses.ConvertToEntites(),
-                    Patient = prescriptionDto.Patient.ConvertToEntity(),
-                    PrescriptionHistory = prescriptionDto.PrescriptionHistory.ConvertToEntities()
-                };
-                if (prescriptionDto.SignDate != null)
-                {
-                    prescription.SignDate = DateTime.Parse(prescriptionDto.SignDate, CultureInfo.CurrentCulture);
-                }
-                if (prescriptionDto.EditDate != null)
-                {
-                    prescription.EditDate = DateTime.Parse(prescriptionDto.EditDate, CultureInfo.CurrentCulture);
-                }
-                if (prescriptionDto.IssueDate != null)
-                {
-                    prescription.IssueDate = DateTime.Parse(prescriptionDto.IssueDate, CultureInfo.CurrentCulture);
-                }
+                prescription = new SinglePrescription();
             }
             else if(prescriptionDto.Type == "S")
             {
                 prescription = new StandingPrescription
                 {
-                    IsValid = prescriptionDto.IsValid,
-                    CounterProposals = prescriptionDto.CounterProposals.ConvertToEntites(),
-                    DrugItems = prescriptionDto.Drugs.ConvertToEntites(),
-                    Dispenses = prescriptionDto.Dispenses.ConvertToEntites(),
-                    Patient = prescriptionDto.Patient.ConvertToEntity(),
-                    PrescriptionHistory = prescriptionDto.PrescriptionHistory.ConvertToEntities(),
                     ValidUntill = DateTime.Parse(prescriptionDto.ValidUntil, CultureInfo.CurrentCulture)
                 };
-                if (prescriptionDto.SignDate != null)
-                {
-                    prescription.SignDate = DateTime.Parse(prescriptionDto.SignDate, CultureInfo.CurrentCulture);
-                }
-                if (prescriptionDto.EditDate != null)
-                {
-                    prescription.EditDate = DateTime.Parse(prescriptionDto.EditDate, CultureInfo.CurrentCulture);
-                }
-                if (prescriptionDto.IssueDate != null)
-                {
-                    prescription.IssueDate = DateTime.Parse(prescriptionDto.IssueDate, CultureInfo.CurrentCulture);
-                }
-
             }
-
             else
             {
                 throw new InvalidArgumentException("Invalid type: " + prescriptionDto.Type);
+            }
+            prescription.IsValid = prescriptionDto.IsValid;
+            prescription.CounterProposals = prescriptionDto.CounterProposals.ConvertToEntites();
+            prescription.DrugItems = prescriptionDto.Drugs.ConvertToEntites();
+            prescription.Dispenses = prescriptionDto.Dispenses.ConvertToEntites();
+            prescription.Patient = prescriptionDto.Patient.ConvertToEntity();
+            prescription.PrescriptionHistory = prescriptionDto.PrescriptionHistory.ConvertToEntities();
+            if (prescriptionDto.IssueDate != null)
+            {
+                prescription.IssueDate = DateTime.Parse(prescriptionDto.IssueDate, CultureInfo.CurrentCulture);
+            }
+            if (prescriptionDto.EditDate != null)
+            {
+                prescription.EditDate = DateTime.Parse(prescriptionDto.EditDate, CultureInfo.CurrentCulture);
+            }
+            if (prescriptionDto.SignDate != null)
+            {
+                prescription.SignDate = DateTime.Parse(prescriptionDto.SignDate, CultureInfo.CurrentCulture);
             }
             if (!string.IsNullOrWhiteSpace(prescriptionDto.Id))
             {

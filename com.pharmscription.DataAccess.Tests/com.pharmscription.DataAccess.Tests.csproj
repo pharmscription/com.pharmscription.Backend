@@ -84,6 +84,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\com.pharmscription.BusinessLogic.Converter\com.pharmscription.BusinessLogic.Converter.csproj">
+      <Project>{7BE7799A-2AB7-4A59-BE2B-6364EA6C9BD0}</Project>
+      <Name>com.pharmscription.BusinessLogic.Converter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\com.pharmscription.DataAccess\com.pharmscription.DataAccess.csproj">
       <Project>{45E80FD3-39D7-4112-AF49-BB25B67E0FEE}</Project>
       <Name>com.pharmscription.DataAccess</Name>

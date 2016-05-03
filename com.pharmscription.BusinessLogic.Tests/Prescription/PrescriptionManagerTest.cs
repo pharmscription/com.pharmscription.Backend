@@ -71,6 +71,45 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
             _prescriptionManager = new PrescriptionManager(prescriptionRepository.Object, patientRepository.Object, counterProposalRepository.Object, dispenseRepository.Object, drugRepository.Object);
         }
 
+        private static List<DrugItemDto> GetTestDrugItems()
+        {
+            var drugs = new List<DrugItemDto>
+            {
+                new DrugItemDto
+                {
+                    Drug = new DrugDto
+                    {
+                        Id = DrugTestEnvironment.DrugOneId,
+                        IsValid = true,
+                        DrugDescription = DrugTestEnvironment.DrugOneDescription
+                    }
+                },
+                new DrugItemDto
+                {
+                    Drug = new DrugDto
+                    {
+                        Id = DrugTestEnvironment.DrugTwoId,
+                        IsValid = true,
+                        DrugDescription = DrugTestEnvironment.DrugTwoDescription
+                    }
+                }
+            };
+            return drugs;
+        }
+
+        private static PrescriptionDto GetTestPrescriptionDto(string prescriptionType)
+        {
+            var prescriptionToInsert = new PrescriptionDto
+            {
+                EditDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
+                IssueDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
+                IsValid = true,
+                Type = prescriptionType,
+                ValidUntil = DateTime.Now.AddDays(2).ToString(PharmscriptionConstants.DateFormat),
+                Drugs = GetTestDrugItems()
+            };
+            return prescriptionToInsert;
+        }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidArgumentException))]
@@ -162,37 +201,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [TestMethod]
         public async Task TestAddPrescription()
         {
-            var drugs = new List<DrugItemDto>
-            {
-                new DrugItemDto
-                {
-                    Drug = new DrugDto
-                    {
-                        Id = DrugTestEnvironment.DrugOneId,
-                        IsValid = true,
-                        DrugDescription = DrugTestEnvironment.DrugOneDescription
-                    }
-                },
-                new DrugItemDto
-                {
-                    Drug = new DrugDto
-                    {
-                        Id = DrugTestEnvironment.DrugTwoId,
-                        IsValid = true,
-                        DrugDescription = DrugTestEnvironment.DrugTwoDescription
-                    }
-                }
-            };
-            var prescriptionToInsert = new PrescriptionDto
-            {
-                EditDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
-                IssueDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
-                IsValid = true,
-                Type = "S",
-                ValidUntil = DateTime.Now.AddDays(2).ToString(PharmscriptionConstants.DateFormat),
-                Drugs = drugs
-
-            };
+            var prescriptionToInsert = GetTestPrescriptionDto("N");
             var prescription = await _prescriptionManager.Add(PatientTestEnvironment.PatientIdOne, prescriptionToInsert);
             Assert.IsNotNull(prescription);
             var prescriptions = await _prescriptionManager.Get(PatientTestEnvironment.PatientIdOne);
@@ -207,37 +216,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         [TestMethod]
         public async Task TestAddStandingPrescription()
         {
-            var drugs = new List<DrugItemDto>
-            {
-                new DrugItemDto
-                {
-                    Drug = new DrugDto
-                    {
-                        Id = DrugTestEnvironment.DrugOneId,
-                        IsValid = true,
-                        DrugDescription = DrugTestEnvironment.DrugOneDescription
-                    }
-                },
-                new DrugItemDto
-                {
-                    Drug = new DrugDto
-                    {
-                        Id = DrugTestEnvironment.DrugTwoId,
-                        IsValid = true,
-                        DrugDescription = DrugTestEnvironment.DrugTwoDescription
-                    }
-                }
-            };
-            var prescriptionToInsert = new PrescriptionDto
-            {
-                EditDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
-                IssueDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
-                IsValid = true,
-                Type = "N",
-                ValidUntil = DateTime.Now.AddDays(2).ToString(PharmscriptionConstants.DateFormat),
-                Drugs = drugs
-
-            };
+            var prescriptionToInsert = GetTestPrescriptionDto("S");
             var prescription = await _prescriptionManager.Add(PatientTestEnvironment.PatientIdOne, prescriptionToInsert);
             Assert.IsNotNull(prescription);
             var prescriptions = await _prescriptionManager.Get(PatientTestEnvironment.PatientIdOne);

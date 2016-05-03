@@ -17,6 +17,17 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
     [ExcludeFromCodeCoverage]
     public class TestEnvironmentHelper
     {
+
+        public static ICollection<string> DeleteStatments => new List<string>
+        {
+            "Delete From DrugItems",
+            "Delete From CounterProposals",
+            "Delete From Dispenses",
+            "Delete From Prescriptions",
+            "Delete From Drugs",
+            "Delete From Patients"
+        };
+
         public static Mock<PharmscriptionUnitOfWork> GetMockedDataContext()
         {
             return new Mock<PharmscriptionUnitOfWork>();

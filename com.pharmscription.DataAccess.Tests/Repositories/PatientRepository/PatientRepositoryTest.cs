@@ -13,6 +13,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace com.pharmscription.DataAccess.Tests.Repositories.PatientRepository
 {
+    using BusinessLogic.Converter;
+
     [TestClass]
     [ExcludeFromCodeCoverage]
     public class PatientRepositoryTest
@@ -105,13 +107,7 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.PatientRepository
             var patientInserted = await _repository.GetByAhvNumber(testAhvNumber);
             Assert.IsNotNull(patientInserted);
             var addressInserted = patientInserted.Address;
-            Assert.IsNotNull(addressInserted);
-            Assert.AreEqual(address.CityCode, addressInserted.CityCode);
-            Assert.AreEqual(address.Location, addressInserted.Location);
-            Assert.AreEqual(address.Number, addressInserted.Number);
-            Assert.AreEqual(address.State, addressInserted.State);
-            Assert.AreEqual(address.Street, addressInserted.Street);
-            Assert.AreEqual(address.StreetExtension, addressInserted.StreetExtension);
+            Assert.IsTrue(address.IsEqual(addressInserted));
         }
         [TestMethod]
         public async Task TestCanFindPatientWithAhvNumber()
