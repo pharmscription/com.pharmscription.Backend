@@ -15,7 +15,7 @@ namespace com.pharmscription.Service.Tests.Controllers
 {
     using System.Net;
     using System.Web.Mvc;
-
+    using DataAccess.Tests.TestEnvironment;
     using Service.Controllers;
 
     [ExcludeFromCodeCoverage]
@@ -158,6 +158,14 @@ namespace com.pharmscription.Service.Tests.Controllers
             var result = (HttpStatusCodeResult)await _patientController.GetByAhv("1.2333.43.12");
             Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
         }
+
+        [TestMethod]
+        public async Task TestGetByAhvReturnsNoContentOnNotFound()
+        {
+            var result = (HttpStatusCodeResult)await _patientController.GetByAhv(PatientTestEnvironment.AhvNumberNotInDatabase);
+            Assert.AreEqual((int)HttpStatusCode.NoContent, result.StatusCode);
+        }
+
         [TestMethod]
         public async Task TestGetByAhv()
         {

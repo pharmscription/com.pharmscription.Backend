@@ -107,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
+    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

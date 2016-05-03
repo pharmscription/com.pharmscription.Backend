@@ -1,0 +1,28 @@
+   <Dictionary>
+      <Words>
+         <Unrecognized>
+            <Word>cb</Word>
+         </Unrecognized>
+         <Recognized>
+            <Word>Dto</Word>
+			<Word>Dtos</Word>
+			<Word>dtos</Word>
+            <Word>dto</Word>
+			<Word>Auth</Word>
+			<Word>auth</Word>
+			<Word>Ahv</Word>
+			<Word>ahv</Word>
+			<Word>BirthDate</Word>
+			<Word>EMail</Word>
+			<Word>Zsr</Word>
+			<Word>pharmscription</Word>
+			<Word>Pharmscription</Word>
+
+
+
+         </Recognized>
+
+      </Words>
+      <Acronyms>
+      </Acronyms>
+   </Dictionary>
