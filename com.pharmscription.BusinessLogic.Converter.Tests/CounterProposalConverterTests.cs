@@ -76,7 +76,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
         {
             var entityList = CounterProposalTestEnvironment.GetTestCounterProposals();
             var counterProposalDtos = entityList.ConvertToDtos();
-            var convertedEntities = counterProposalDtos.ConvertToEntites();
+            var convertedEntities = counterProposalDtos.ConvertToEntities();
             for (var i = 0; i < convertedEntities.Count; i++)
             {
                 Assert.IsTrue(convertedEntities.ElementAt(i).EntityEqualsDto(counterProposalDtos.ElementAt(i)));

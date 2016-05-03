@@ -92,9 +92,9 @@ namespace com.pharmscription.BusinessLogic.Converter
                 throw new InvalidArgumentException("Invalid type: " + prescriptionDto.Type);
             }
             prescription.IsValid = prescriptionDto.IsValid;
-            prescription.CounterProposals = prescriptionDto.CounterProposals.ConvertToEntites();
+            prescription.CounterProposals = prescriptionDto.CounterProposals.ConvertToEntities();
             prescription.DrugItems = prescriptionDto.Drugs.ConvertToEntites();
-            prescription.Dispenses = prescriptionDto.Dispenses.ConvertToEntites();
+            prescription.Dispenses = prescriptionDto.Dispenses.ConvertToEntities();
             prescription.Patient = prescriptionDto.Patient.ConvertToEntity();
             prescription.PrescriptionHistory = prescriptionDto.PrescriptionHistory.ConvertToEntities();
             if (prescriptionDto.IssueDate != null)

@@ -22,7 +22,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return newList;
         }
 
-        public static ICollection<CounterProposal> ConvertToEntites(this IReadOnlyCollection<CounterProposalDto> list)
+        public static ICollection<CounterProposal> ConvertToEntities(this IReadOnlyCollection<CounterProposalDto> list)
         {
             if (list == null)
             {

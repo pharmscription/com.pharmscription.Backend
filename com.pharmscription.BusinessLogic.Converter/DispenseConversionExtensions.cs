@@ -22,7 +22,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return newList;
         }
 
-        public static ICollection<Dispense> ConvertToEntites(this IReadOnlyCollection<DispenseDto> list)
+        public static ICollection<Dispense> ConvertToEntities(this IReadOnlyCollection<DispenseDto> list)
         {
             if (list == null)
             {
