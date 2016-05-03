@@ -93,9 +93,9 @@ namespace com.pharmscription.Service.Tests.Controllers
             var prescriptionsToConnect = _prescriptionRepository.GetWithAllNavs().OrderBy(e => e.Id).ToList();
             foreach (var counterProposal in counterProposalsToConnect.Skip(1).ToList())
             {
-                this._puow.Attach(counterProposal);
+                _puow.Attach(counterProposal);
                 prescriptionsToConnect.FirstOrDefault().CounterProposals.Add(counterProposal);
-                this._puow.Attach(prescriptionsToConnect.FirstOrDefault());
+                _puow.Attach(prescriptionsToConnect.FirstOrDefault());
                 _puow.Commit();
             }
             prescriptionsToConnect.OrderBy(e => e.Id).Skip(1).FirstOrDefault().CounterProposals.Add(counterProposalsToConnect.FirstOrDefault());
