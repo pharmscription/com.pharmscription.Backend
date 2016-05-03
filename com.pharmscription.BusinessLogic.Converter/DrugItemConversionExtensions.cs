@@ -19,7 +19,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return newList;
         }
 
-        public static ICollection<DrugItem> ConvertToEntites(this IReadOnlyCollection<DrugItemDto> list)
+        public static ICollection<DrugItem> ConvertToEntities(this IReadOnlyCollection<DrugItemDto> list)
         {
             if (list == null)
             {

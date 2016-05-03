@@ -93,7 +93,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             }
             prescription.IsValid = prescriptionDto.IsValid;
             prescription.CounterProposals = prescriptionDto.CounterProposals.ConvertToEntities();
-            prescription.DrugItems = prescriptionDto.Drugs.ConvertToEntites();
+            prescription.DrugItems = prescriptionDto.Drugs.ConvertToEntities();
             prescription.Dispenses = prescriptionDto.Dispenses.ConvertToEntities();
             prescription.Patient = prescriptionDto.Patient.ConvertToEntity();
             prescription.PrescriptionHistory = prescriptionDto.PrescriptionHistory.ConvertToEntities();

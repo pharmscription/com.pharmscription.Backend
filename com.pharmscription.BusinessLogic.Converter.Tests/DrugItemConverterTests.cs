@@ -98,7 +98,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
         {
             var entityList = DrugItemTestEnvironment.GetTestDrugItems();
             var prescriptionDtos = entityList.ConvertToDtos();
-            var convertedEntities = prescriptionDtos.ConvertToEntites();
+            var convertedEntities = prescriptionDtos.ConvertToEntities();
             for (var i = 0; i < convertedEntities.Count; i++)
             {
                 Assert.IsTrue(convertedEntities.ElementAt(i).EntityEqualsDto(prescriptionDtos.ElementAt(i)));

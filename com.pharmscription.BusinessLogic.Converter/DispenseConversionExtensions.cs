@@ -62,7 +62,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             var dispense = new Dispense
             {
                 Remark = dispenseDto.Remark,
-                DrugItems = dispenseDto.DrugItems.ConvertToEntites()
+                DrugItems = dispenseDto.DrugItems.ConvertToEntities()
             };
             if (dispenseDto.Date != null)
             {

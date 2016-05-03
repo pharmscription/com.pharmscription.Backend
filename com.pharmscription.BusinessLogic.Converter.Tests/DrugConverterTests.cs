@@ -138,7 +138,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
                     Composition = "UQ"
                 }
             };
-            var entitylist = dtoList.ConvertToEntites();
+            var entitylist = dtoList.ConvertToEntities();
             for (var i = 0; i < entitylist.Count; i++)
             {
                 Assert.IsTrue(entitylist.ElementAt(i).EntityEqualsDto(dtoList.ElementAt(i)));
