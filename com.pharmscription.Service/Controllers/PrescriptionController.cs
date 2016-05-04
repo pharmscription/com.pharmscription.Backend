@@ -160,7 +160,7 @@
             return await GetListOrException(_prescriptionManager.GetPrescriptionDrugs, patientid, prescriptionid);
         }
 
-        private async Task<ActionResult> GetListOrException<TDto>(Func<string, string, Task<List<TDto>>> getEntites, string patientId, string prescriptionId) where TDto : class
+        private async Task<ActionResult> GetListOrException<TDto>(Func<string, string, Task<ICollection<TDto>>> getEntites, string patientId, string prescriptionId) where TDto : class
         {
             try
             {

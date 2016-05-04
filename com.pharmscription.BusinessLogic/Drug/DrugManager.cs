@@ -21,7 +21,7 @@ namespace com.pharmscription.BusinessLogic.Drug
             _repository = repository;
         }
 
-        public async Task<List<DrugDto>> SearchPaged(string partialDescription, string pageNumberString, string amountPerPageString)
+        public async Task<ICollection<DrugDto>> SearchPaged(string partialDescription, string pageNumberString, string amountPerPageString)
         {
             if (string.IsNullOrWhiteSpace(partialDescription))
             {

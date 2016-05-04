@@ -11,7 +11,7 @@ namespace com.pharmscription.BusinessLogic.Converter
 
     public static class DispenseConversionExtensions
     {
-        public static List<DispenseDto> ConvertToDtos(this ICollection<Dispense> list)
+        public static ICollection<DispenseDto> ConvertToDtos(this ICollection<Dispense> list)
         {
             if (list == null)
             {
@@ -22,7 +22,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return newList;
         }
 
-        public static ICollection<Dispense> ConvertToEntities(this IReadOnlyCollection<DispenseDto> list)
+        public static ICollection<Dispense> ConvertToEntities(this ICollection<DispenseDto> list)
         {
             if (list == null)
             {
@@ -95,12 +95,12 @@ namespace com.pharmscription.BusinessLogic.Converter
             return DtoEqualsEntity(dispenseDto, dispense);
         }
 
-        public static bool DtoListEqualsEntityList(this IReadOnlyCollection<DispenseDto> dispenseDtos, IReadOnlyCollection<Dispense> dispenses)
+        public static bool DtoListEqualsEntityList(this ICollection<DispenseDto> dispenseDtos, ICollection<Dispense> dispenses)
         {
             return !dispenseDtos.Where((t, i) => !dispenseDtos.ElementAt(i).DtoEqualsEntity(dispenses.ElementAt(i))).Any();
         }
 
-        public static bool EntityListEqualsDtoList(this IReadOnlyCollection<Dispense> dispenses, IReadOnlyCollection<DispenseDto> dispenseDtos)
+        public static bool EntityListEqualsDtoList(this ICollection<Dispense> dispenses, ICollection<DispenseDto> dispenseDtos)
         {
             return DtoListEqualsEntityList(dispenseDtos, dispenses);
         }

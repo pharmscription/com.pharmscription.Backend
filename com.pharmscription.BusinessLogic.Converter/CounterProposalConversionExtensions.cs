@@ -11,7 +11,7 @@ namespace com.pharmscription.BusinessLogic.Converter
 {
     public static class CounterProposalConversionExtensions
     {
-        public static List<CounterProposalDto> ConvertToDtos(this ICollection<CounterProposal> list)
+        public static ICollection<CounterProposalDto> ConvertToDtos(this ICollection<CounterProposal> list)
         {
             if (list == null)
             {
@@ -22,7 +22,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return newList;
         }
 
-        public static ICollection<CounterProposal> ConvertToEntities(this IReadOnlyCollection<CounterProposalDto> list)
+        public static ICollection<CounterProposal> ConvertToEntities(this ICollection<CounterProposalDto> list)
         {
             if (list == null)
             {
@@ -85,12 +85,12 @@ namespace com.pharmscription.BusinessLogic.Converter
             return DtoEqualsEntity(counterproposalDto, counterproposal);
         }
 
-        public static bool DtoListEqualsEntityList(this IReadOnlyCollection<CounterProposalDto> counterproposalDtos, IReadOnlyCollection<CounterProposal> counterproposals)
+        public static bool DtoListEqualsEntityList(this ICollection<CounterProposalDto> counterproposalDtos, ICollection<CounterProposal> counterproposals)
         {
             return !counterproposalDtos.Where((t, i) => !counterproposalDtos.ElementAt(i).DtoEqualsEntity(counterproposals.ElementAt(i))).Any();
         }
 
-        public static bool EntityListEqualsDtoList(this IReadOnlyCollection<CounterProposal> counterproposals, IReadOnlyCollection<CounterProposalDto> counterproposalDtos)
+        public static bool EntityListEqualsDtoList(this ICollection<CounterProposal> counterproposals, ICollection<CounterProposalDto> counterproposalDtos)
         {
             return DtoListEqualsEntityList(counterproposalDtos, counterproposals);
         }

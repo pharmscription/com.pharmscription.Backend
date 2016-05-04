@@ -12,7 +12,7 @@ namespace com.pharmscription.BusinessLogic.Converter
 
     public static class PrescriptionConversionExtensions
     {
-        public static List<PrescriptionDto> ConvertToDtos(this ICollection<Prescription> list)
+        public static ICollection<PrescriptionDto> ConvertToDtos(this ICollection<Prescription> list)
         {
             if (list == null)
             {
@@ -23,7 +23,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return newList;
         }
 
-        public static ICollection<Prescription> ConvertToEntities(this IReadOnlyCollection<PrescriptionDto> list)
+        public static ICollection<Prescription> ConvertToEntities(this ICollection<PrescriptionDto> list)
         {
             if (list == null)
             {
@@ -157,12 +157,12 @@ namespace com.pharmscription.BusinessLogic.Converter
             return DtoEqualsEntity(prescriptionDto, prescription);
         }
 
-        public static bool DtoListEqualsEntityList(this IReadOnlyCollection<PrescriptionDto> prescriptionDtos, IReadOnlyCollection<Prescription> prescriptions)
+        public static bool DtoListEqualsEntityList(this ICollection<PrescriptionDto> prescriptionDtos, ICollection<Prescription> prescriptions)
         {
             return !prescriptionDtos.Where((t, i) => !prescriptionDtos.ElementAt(i).DtoEqualsEntity(prescriptions.ElementAt(i))).Any();
         }
 
-        public static bool EntityListEqualsDtoList(this IReadOnlyCollection<Prescription> prescriptions, IReadOnlyCollection<PrescriptionDto> prescriptionDtos)
+        public static bool EntityListEqualsDtoList(this ICollection<Prescription> prescriptions, ICollection<PrescriptionDto> prescriptionDtos)
         {
             return DtoListEqualsEntityList(prescriptionDtos, prescriptions);
         }
