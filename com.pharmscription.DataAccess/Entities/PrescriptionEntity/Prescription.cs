@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-
+    using System.Diagnostics.CodeAnalysis;
     using BaseEntity;
     using CounterProposalEntity;
     using DispenseEntity;
@@ -10,6 +10,7 @@
     using DrugItemEntity;
     using PatientEntity;
     using SharedInterfaces;
+    [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
     public abstract class Prescription : Entity, ICloneable<Prescription>
     {
         public virtual Patient Patient { get; set; }

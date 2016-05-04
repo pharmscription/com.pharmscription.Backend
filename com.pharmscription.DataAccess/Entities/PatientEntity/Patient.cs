@@ -7,6 +7,9 @@ using com.pharmscription.DataAccess.SharedInterfaces;
 
 namespace com.pharmscription.DataAccess.Entities.PatientEntity
 {
+    using System.Diagnostics.CodeAnalysis;
+
+    [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
     public class Patient : Entity, ICloneable<Patient>
     {
         public string FirstName { get; set; }

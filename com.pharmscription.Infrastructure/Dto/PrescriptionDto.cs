@@ -1,8 +1,10 @@
 namespace com.pharmscription.Infrastructure.Dto
 {
     ﻿using System.Collections.Generic;
-    using System.Runtime.Serialization;
+    ﻿using System.Diagnostics.CodeAnalysis;
+    ﻿using System.Runtime.Serialization;
     [DataContract]
+    [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
     public class PrescriptionDto : BaseDto
     {
         [DataMember]
