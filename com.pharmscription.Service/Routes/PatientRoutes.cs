@@ -1,10 +1,10 @@
 ﻿namespace com.pharmscription.Service.Routes
 {
-    public class PatientRoutes
+    public static class PatientRoutes
     {
-        protected internal const string GetPatientById = "patients/{id}";
-        protected internal const string AddPatient = "patients";
-        protected internal const string GetPatientByAhvNumber = "patients/ahv-number/{ahv}";
-        protected internal const string LookupPatientByAhvNumber = "patients/lookup/{ahv}";
+        internal const string GetPatientById = "patients/{id}";
+        internal const string AddPatient = "patients";
+        internal const string GetPatientByAhvNumber = "patients/ahv-number/{ahv}";
+        internal const string LookupPatientByAhvNumber = "patients/lookup/{ahv}";
     }
 }
