@@ -20,7 +20,7 @@ using System.Web.Mvc;
 using Service.Controllers;
 namespace com.pharmscription.Service.Tests.Controllers
 {
-
+    using DataAccess.Entities.CounterProposalEntity;
     using DataAccess.Repositories.Drug;
 
     [TestClass]
@@ -79,8 +79,8 @@ namespace com.pharmscription.Service.Tests.Controllers
 
                 _puow.Commit();
             }
-            rafi.Prescriptions.Add(prescriptions.First());
-            markus.Prescriptions.Add(prescriptions.Skip(1).FirstOrDefault());
+            rafi?.Prescriptions.Add(prescriptions.First());
+            markus?.Prescriptions.Add(prescriptions.Skip(1).FirstOrDefault());
 
             var dispenses = DispenseTestEnvironment.GetTestDispenses();
             foreach (var dispense in dispenses)
@@ -91,14 +91,17 @@ namespace com.pharmscription.Service.Tests.Controllers
             }
 
             var prescriptionsToConnect = _prescriptionRepository.GetWithAllNavs().OrderBy(e => e.Id).ToList();
-            foreach (var counterProposal in counterProposalsToConnect.Skip(1).ToList())
+            var proposalsToConnect = counterProposalsToConnect as IList<CounterProposal> ?? counterProposalsToConnect.ToList();
+            foreach (var counterProposal in proposalsToConnect.Skip(1).ToList())
             {
                 _puow.Attach(counterProposal);
-                prescriptionsToConnect.FirstOrDefault().CounterProposals.Add(counterProposal);
+                var prescriptionA = prescriptionsToConnect.FirstOrDefault();
+                prescriptionA?.CounterProposals.Add(counterProposal);
                 _puow.Attach(prescriptionsToConnect.FirstOrDefault());
                 _puow.Commit();
             }
-            prescriptionsToConnect.OrderBy(e => e.Id).Skip(1).FirstOrDefault().CounterProposals.Add(counterProposalsToConnect.FirstOrDefault());
+            var prescriptionB = prescriptionsToConnect.OrderBy(e => e.Id).Skip(1).FirstOrDefault();
+            prescriptionB?.CounterProposals.Add(proposalsToConnect.FirstOrDefault());
             _puow.Commit();
         }
 

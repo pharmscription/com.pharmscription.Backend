@@ -52,21 +52,30 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
             }
             var patientA = patientRepository.Object.GetAll().FirstOrDefault();
             var prescriptionA = prescriptionRepository.Object.GetAll().FirstOrDefault();
-            patientA.Prescriptions.Add(prescriptionA);
-            prescriptionA.Patient = patientA;
-            foreach (var counterProposal in counterProposalRepository.Object.GetAll())
+            if (patientA != null)
             {
-                prescriptionA.CounterProposals.Add(counterProposal);
+                patientA.Prescriptions.Add(prescriptionA);
+                if (prescriptionA != null)
+                {
+                    prescriptionA.Patient = patientA;
+                    foreach (var counterProposal in counterProposalRepository.Object.GetAll())
+                    {
+                        prescriptionA.CounterProposals.Add(counterProposal);
 
-            }
-            foreach (var dispense in dispenseRepository.Object.GetAll())
-            {
-                prescriptionA.Dispenses.Add(dispense);
+                    }
+                    foreach (var dispense in dispenseRepository.Object.GetAll())
+                    {
+                        prescriptionA.Dispenses.Add(dispense);
+                    }
+                }
             }
             var patientB = patientRepository.Object.GetAll().Skip(1).FirstOrDefault();
             var prescriptionB = prescriptionRepository.Object.GetAll().Skip(1).FirstOrDefault();
-            patientB.Prescriptions.Add(prescriptionB);
-            prescriptionB.Patient = patientB;
+            if (patientB != null)
+            {
+                patientB.Prescriptions.Add(prescriptionB);
+                if (prescriptionB != null) prescriptionB.Patient = patientB;
+            }
 
             _prescriptionManager = new PrescriptionManager(prescriptionRepository.Object, patientRepository.Object, counterProposalRepository.Object, dispenseRepository.Object, drugRepository.Object);
         }
