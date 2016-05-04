@@ -3,6 +3,7 @@
 namespace Service.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Net;
     using System.Threading.Tasks;
     using System.Web.Mvc;
@@ -91,30 +92,11 @@ namespace Service.Controllers
             }
         }
 
+
         [Route(PrescriptionRoutes.GetCounterProposals)]
         public async Task<ActionResult> GetCounterProposals(string patientid, string prescriptionid)
         {
-            try
-            {
-                var counterproposals = await _prescriptionManager.GetCounterProposals(patientid, prescriptionid);
-                if (counterproposals != null && counterproposals.Any())
-                {
-                    return Json(counterproposals);
-                }
-                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
-            }
-            catch (NotFoundException)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
-            }
-            catch (ArgumentException)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            catch (Exception)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
-            }
+            return await GetListOrException(_prescriptionManager.GetCounterProposals, patientid, prescriptionid);
         }
 
         [Route(PrescriptionRoutes.CreateCounterProposal)]
@@ -145,27 +127,7 @@ namespace Service.Controllers
         [Route(PrescriptionRoutes.GetDispenses)]
         public async Task<ActionResult> GetDispenses(string patientid, string prescriptionid)
         {
-            try
-            {
-                var dispenses = await _prescriptionManager.GetDispenses(patientid, prescriptionid);
-                if (dispenses != null && dispenses.Any())
-                {
-                    return Json(dispenses);
-                }
-                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
-            }
-            catch (NotFoundException)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
-            }
-            catch (ArgumentException)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            catch (Exception)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
-            }
+            return await GetListOrException(_prescriptionManager.GetDispenses, patientid, prescriptionid);
         }
 
         [Route(PrescriptionRoutes.CreateDispense)]
@@ -196,12 +158,17 @@ namespace Service.Controllers
         [Route(PrescriptionRoutes.GetDrugs)]
         public async Task<ActionResult> GetDrugs(string patientid, string prescriptionid)
         {
+            return await GetListOrException(_prescriptionManager.GetPrescriptionDrugs, patientid, prescriptionid);
+        }
+
+        private async Task<ActionResult> GetListOrException<TDto>(Func<string, string, Task<List<TDto>>> getEntites, string patientId, string prescriptionId) where TDto : class
+        {
             try
             {
-                var drugs = await _prescriptionManager.GetPrescriptionDrugs(patientid, prescriptionid);
-                if (drugs != null && drugs.Any())
+                var entites = await getEntites(patientId, prescriptionId);
+                if (entites != null && entites.Any())
                 {
-                    return Json(drugs);
+                    return Json(entites);
                 }
                 return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
