@@ -10,7 +10,6 @@
     using DrugItemEntity;
     using PatientEntity;
     using SharedInterfaces;
-    [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
     public abstract class Prescription : Entity, ICloneable<Prescription>
     {
         public virtual Patient Patient { get; set; }
@@ -18,11 +17,14 @@
         public DateTime EditDate { get; set; }
         public DateTime? SignDate { get; set; }
         public bool IsValid { get; set; }
-        
+        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CounterProposal> CounterProposals { get; set; }
+        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual Doctor Doctor { get; set; }
-        public virtual ICollection<Dispense> Dispenses { get; set; }  
-        public virtual ICollection<DrugItem> DrugItems { get; set; } 
+        public virtual ICollection<Dispense> Dispenses { get; set; }
+        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DrugItem> DrugItems { get; set; }
+        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Prescription> PrescriptionHistory { get; set; }
 
         public abstract Prescription Clone();
