@@ -1,10 +1,10 @@
 ﻿
 namespace com.pharmscription.Service.Routes
 {
-    public static class DrugRoutes
+    public class DrugRoutes
     {
-        public const string GetDrugById = "drugs/{id}";
-        public const string GetDrugsCountBySearchTerm = "drugs/search/count/{keyword}";
-        public const string GetDrugsBySearchTermPaged = "drugs/search/{keyword}/{page}/{amount}";
+        protected internal const string GetDrugById = "drugs/{id}";
+        protected internal const string GetDrugsCountBySearchTerm = "drugs/search/count/{keyword}";
+        protected internal const string GetDrugsBySearchTermPaged = "drugs/search/{keyword}/{page}/{amount}";
     }
 }

@@ -1,22 +1,22 @@
 ﻿namespace com.pharmscription.Service.Routes
 {
-    public static class PrescriptionRoutes
+    public class PrescriptionRoutes
     {
-        public const string GetPrescriptions = "patients/{patientid}/prescriptions/";
+        protected internal const string GetPrescriptions = "patients/{patientid}/prescriptions/";
 
-        public const string GetPrescriptionById = "patients/{patientid}/prescriptions/{id}";
+        protected internal const string GetPrescriptionById = "patients/{patientid}/prescriptions/{id}";
 
-        public const string CreatePrescription = "patients/{patientid}/prescriptions/";
+        protected internal const string CreatePrescription = "patients/{patientid}/prescriptions/";
 
-        public const string GetCounterProposals = "patients/{patientid}/prescriptions/{prescriptionid}/counterproposals";
+        protected internal const string GetCounterProposals = "patients/{patientid}/prescriptions/{prescriptionid}/counterproposals";
 
-        public const string CreateCounterProposal = GetCounterProposals;
+        protected internal const string CreateCounterProposal = GetCounterProposals;
 
-        public const string GetDispenses = "patients/{patientid}/prescriptions/{prescriptionid}/dispenses";
+        protected internal const string GetDispenses = "patients/{patientid}/prescriptions/{prescriptionid}/dispenses";
 
-        public const string CreateDispense = "patients/{patientid}/prescriptions/{prescriptionid}/dispense";
+        protected internal const string CreateDispense = "patients/{patientid}/prescriptions/{prescriptionid}/dispense";
 
-        public const string GetDrugs = "patiens/{patientid}/prescriptions/{prescriptionid}/drugs";
+        protected internal const string GetDrugs = "patiens/{patientid}/prescriptions/{prescriptionid}/drugs";
 
     }
 }
