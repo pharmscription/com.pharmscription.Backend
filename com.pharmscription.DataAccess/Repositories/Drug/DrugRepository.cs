@@ -22,7 +22,7 @@ namespace com.pharmscription.DataAccess.Repositories.Drug
                 throw new InvalidArgumentException("Search Param was empty or null");
             }
             var searchText = name.ToLower();
-            return await GetSet().Where(e => e.DrugDescription.ToLower().Contains(searchText)).ToListAsync();
+            return await Set.Where(e => e.DrugDescription.ToLower().Contains(searchText)).ToListAsync();
         }
 
         public async Task<List<Entities.DrugEntity.Drug>> SearchByNamePaged(string name, int pageNumber, int amountPerPage)
@@ -36,7 +36,7 @@ namespace com.pharmscription.DataAccess.Repositories.Drug
                 throw new InvalidArgumentException("Negative Pagenumber or amountperPage supplied");
             }
             var searchText = name.ToLower();
-            var drugsFitting = await GetSet().Where(e => e.DrugDescription.ToLower().Contains(searchText)).ToListAsync();
+            var drugsFitting = await Set.Where(e => e.DrugDescription.ToLower().Contains(searchText)).ToListAsync();
             var drugsOrdered = drugsFitting.OrderBy(e => e.DrugDescription);
             var drugsWithoutSkipped = drugsOrdered.Skip(pageNumber*amountPerPage);
             var drugsSelected = drugsWithoutSkipped.Take(amountPerPage);
