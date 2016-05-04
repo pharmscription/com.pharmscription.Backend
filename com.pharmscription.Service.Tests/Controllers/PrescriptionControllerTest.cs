@@ -17,11 +17,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
 using System.Web.Mvc;
 
-using Service.Controllers;
 namespace com.pharmscription.Service.Tests.Controllers
 {
     using DataAccess.Entities.CounterProposalEntity;
     using DataAccess.Repositories.Drug;
+    using Service.Controllers;
 
     [TestClass]
     [ExcludeFromCodeCoverage]

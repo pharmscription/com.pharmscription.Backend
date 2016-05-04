@@ -17,7 +17,6 @@ namespace com.pharmscription.Service.Controllers
     public class DrugController : Controller
     {
         private readonly ILog _log = LogManager.GetLogger(typeof(DrugController));
-
         private readonly IDrugManager _drugManager;
 
         public DrugController(IDrugManager drugManager)

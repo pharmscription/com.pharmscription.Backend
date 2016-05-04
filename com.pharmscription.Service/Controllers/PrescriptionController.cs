@@ -1,16 +1,15 @@
-﻿using System.Linq;
-
-namespace Service.Controllers
+﻿namespace com.pharmscription.Service.Controllers
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
     using System.Web.Mvc;
-    using com.pharmscription.BusinessLogic.Prescription;
-    using com.pharmscription.Infrastructure.Dto;
-    using com.pharmscription.Infrastructure.Exception;
-    using com.pharmscription.Service.Routes;
+    using BusinessLogic.Prescription;
+    using Infrastructure.Dto;
+    using Infrastructure.Exception;
+    using Routes;
 
     [RoutePrefix("")]
     public class PrescriptionController : Controller
