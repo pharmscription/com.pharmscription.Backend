@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using BaseEntity;
     using CounterProposalEntity;
     using DispenseEntity;
@@ -17,14 +16,10 @@
         public DateTime EditDate { get; set; }
         public DateTime? SignDate { get; set; }
         public bool IsValid { get; set; }
-        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CounterProposal> CounterProposals { get; set; }
         public virtual Doctor Doctor { get; set; }
-        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Dispense> Dispenses { get; set; }
-        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DrugItem> DrugItems { get; set; }
-        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Prescription> PrescriptionHistory { get; set; }
 
         public abstract Prescription Clone();

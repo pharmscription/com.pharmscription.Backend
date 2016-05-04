@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace com.pharmscription.Service.Models
 {
-    using System.Diagnostics.CodeAnalysis;
 
     public class ExternalLoginConfirmationViewModel
     {
@@ -16,7 +15,6 @@ namespace com.pharmscription.Service.Models
     {
         public string ReturnUrl { get; set; }
     }
-    [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
     public class SendCodeViewModel
     {
         public string SelectedProvider { get; set; }

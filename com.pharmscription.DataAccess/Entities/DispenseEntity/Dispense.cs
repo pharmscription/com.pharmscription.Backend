@@ -4,13 +4,10 @@ namespace com.pharmscription.DataAccess.Entities.DispenseEntity
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-
     using BaseEntity;
     using DrugItemEntity;
     using SharedInterfaces;
-    [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
     public class Dispense : Entity, ICloneable<Dispense>
     {
         public DateTime Date { get; set; }

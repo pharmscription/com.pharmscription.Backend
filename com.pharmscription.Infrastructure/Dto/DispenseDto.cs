@@ -5,10 +5,8 @@ using System.Runtime.Serialization;
 
 namespace com.pharmscription.Infrastructure.Dto
 {
-    using System.Diagnostics.CodeAnalysis;
 
     [DataContract]
-    [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
     public class DispenseDto  : BaseDto
     {
         [DataMember]
