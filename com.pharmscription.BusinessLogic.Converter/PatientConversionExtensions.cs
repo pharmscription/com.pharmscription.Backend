@@ -1,6 +1,4 @@
 ﻿using System;
-using com.pharmscription.DataAccess.Entities.AddressEntity;
-using com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity;
 using com.pharmscription.DataAccess.Entities.PatientEntity;
 using com.pharmscription.Infrastructure.Constants;
 using com.pharmscription.Infrastructure.Dto;
@@ -51,17 +49,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             };
             if (patient.Address != null)
             {
-               
-                patientDto.Address = new AddressDto
-                {
-                    Street = patient.Address.Street,
-                    Number = patient.Address.Number,
-                    Location = patient.Address.Location,
-                    CityCode = patient.Address.CityCode.CityCode,
-                    StreetExtension = patient.Address.StreetExtension,
-                    State = patient.Address.State,
-                    Id = patient.Address.Id.ToString()
-                };   
+                patientDto.Address = patient.Address.ConvertToDto();
             }
             return patientDto;
         }
@@ -86,20 +74,8 @@ namespace com.pharmscription.BusinessLogic.Converter
             }
             if (patientDto.Address != null)
             {
-                
-                patient.Address = new Address
-                {
-                    Street = patientDto.Address.Street,
-                    Number = patientDto.Address.Number,
-                    Location = patientDto.Address.Location,
-                    CityCode = SwissCityCode.CreateInstance(patientDto.Address.CityCode),
-                    StreetExtension = patientDto.Address.StreetExtension,
-                    State = patientDto.Address.State,
-                };
-                if (patientDto.Address.Id != null)
-                {
-                    patient.Address.Id = Guid.Parse(patientDto.Address.Id);
-                }
+
+                patient.Address = patientDto.Address.ConvertToEntity();
             }
             return patient;
         }
