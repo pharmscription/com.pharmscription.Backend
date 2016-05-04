@@ -57,8 +57,11 @@
     <Compile Include="Dto\BaseDto.cs" />
     <Compile Include="Dto\CounterProposalDto.cs" />
     <Compile Include="Dto\DispenseDto.cs" />
+    <Compile Include="Dto\DoctorDto.cs" />
     <Compile Include="Dto\DrugDto.cs" />
     <Compile Include="Dto\DrugItemDto.cs" />
+    <Compile Include="Dto\DrugstoreEmployeeDto.cs" />
+    <Compile Include="Dto\IdentityDto.cs" />
     <Compile Include="Dto\PatientDto.cs" />
     <Compile Include="Dto\PrescriptionDto.cs" />
     <Compile Include="EntityHelper\IdentityGenerator.cs" />
@@ -66,6 +69,7 @@
     <Compile Include="Exception\InvalidArgumentException.cs" />
     <Compile Include="Exception\NotFoundException.cs" />
     <Compile Include="ExternalDto\InsuranceDto\InsurancePatient.cs" />
+    <Compile Include="Identity\IdentityUserDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

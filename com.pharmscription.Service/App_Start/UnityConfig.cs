@@ -13,7 +13,14 @@ using Microsoft.Practices.Unity;
 
 namespace com.pharmscription.Service.App_Start
 {
+    using com.pharmscription.BusinessLogic.Identity;
+    using com.pharmscription.DataAccess.Entities.IdentityUserEntity;
+    using com.pharmscription.DataAccess.Repositories.Identity.Role;
+    using com.pharmscription.DataAccess.Repositories.Identity.User;
+
     using DataAccess.Repositories.Prescription;
+
+    using Microsoft.AspNet.Identity;
 
     /// <summary>
     /// Specifies the Unity configuration for the main container.
@@ -58,6 +65,11 @@ namespace com.pharmscription.Service.App_Start
             container.RegisterType<IPatientRepository, PatientRepository>();
             container.RegisterType<IPrescriptionRepository, PrescriptionRepository>();
             container.RegisterType<IPharmscriptionUnitOfWork, PharmscriptionUnitOfWork>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IUserRepository, UserRepository>();
+            container.RegisterType<IRoleRepository, RoleRepository>();
+            container.RegisterType<IIdentityUserManager, IdentitiyUserManager>();
+            container.RegisterType<IIdentityRoleManager, IdentityRoleManager>();
+            container.RegisterType<IUserStore<IdentityUser, Guid>, UserRepository>();
             /*(new ContainerControlledLifetimeManager());
             // Following code will return a singleton instance of MySingletonObject
             // Container will take over lifetime management of the object

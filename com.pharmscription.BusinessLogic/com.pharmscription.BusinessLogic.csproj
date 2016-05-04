@@ -53,6 +53,8 @@
     <Compile Include="GuidHelper\GuidParser.cs" />
     <Compile Include="Identity\IdentitiyUserManager.cs" />
     <Compile Include="Identity\IdentityRoleManager.cs" />
+    <Compile Include="Identity\IIdentityRoleManager.cs" />
+    <Compile Include="Identity\IIdentityUserManager.cs" />
     <Compile Include="Patient\InsuranceConnector.cs" />
     <Compile Include="Patient\IPatientManager.cs" />
     <Compile Include="Patient\PatientManager.cs" />

@@ -9,15 +9,19 @@ using com.pharmscription.Infrastructure.Exception;
 
 namespace com.pharmscription.BusinessLogic.Patient
 {
-    
+    using com.pharmscription.DataAccess.Entities.IdentityUserEntity;
+    using com.pharmscription.DataAccess.Repositories.Identity.User;
 
     public class PatientManager : CoreWorkflow, IPatientManager
     {
         private readonly IPatientRepository _patientRepository;
 
-        public PatientManager(IPatientRepository patientRepository)
+        private readonly IUserRepository _userRepository;
+
+        public PatientManager(IPatientRepository patientRepository, IUserRepository userRepository)
         {
             _patientRepository = patientRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<PatientDto> Lookup(string ahvNumber)
@@ -36,6 +40,7 @@ namespace com.pharmscription.BusinessLogic.Patient
             {
                 throw new InvalidArgumentException("DTO must not be null");
             }
+
             AhvValidator ahvValidator = new AhvValidator();
             BirthDateValidator birthDateValidator = new BirthDateValidator();
             ahvValidator.Validate(patient);
@@ -44,6 +49,7 @@ namespace com.pharmscription.BusinessLogic.Patient
             {
                 throw new InvalidArgumentException("Patient with such an Ahv Number already exists");
             }
+
             _patientRepository.Add(patient.ConvertToEntity());
             await _patientRepository.UnitOfWork.CommitAsync();
             return (await _patientRepository.GetByAhvNumber(patient.AhvNumber)).ConvertToDto();

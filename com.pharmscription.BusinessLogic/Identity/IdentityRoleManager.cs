@@ -6,11 +6,16 @@ using Microsoft.AspNet.Identity;
 
 namespace com.pharmscription.BusinessLogic.Identity
 {
-    public class IdentityRoleManager : RoleManager<IdentityRole, Guid>
+    using com.pharmscription.DataAccess.Repositories.Identity.Role;
+
+    public class IdentityRoleManager : IIdentityRoleManager
     {
-        public IdentityRoleManager(IRoleStore<IdentityRole, Guid> store)
-            : base(store)
+        public IRoleStore<IdentityRole, Guid> Repository { get; }
+
+        public IdentityRoleManager(IRoleRepository repository)
         {
+            Repository = repository;
         }
+
     }
 }

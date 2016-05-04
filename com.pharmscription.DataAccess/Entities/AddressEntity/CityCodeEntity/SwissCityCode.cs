@@ -1,8 +1,7 @@
 ﻿using System;
-
+using com.pharmscription.Infrastructure.Exception;
 namespace com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity
 {
-
     public class SwissCityCode: AbstractCityCode
     {
         public SwissCityCode()
@@ -20,7 +19,7 @@ namespace com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity
             {
                 return new SwissCityCode(cityCode);
             }
-            throw new ArgumentException("City code is not valid");
+            throw new InvalidArgumentException("City code is not valid");
         }
         public static bool IsValid(string cityCode)
         {

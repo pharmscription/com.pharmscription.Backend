@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using com.pharmscription.DataAccess.Entities.AddressEntity;
 using com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity;
 using com.pharmscription.DataAccess.Entities.PatientEntity;
@@ -8,11 +9,15 @@ using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
 
 namespace com.pharmscription.BusinessLogic.Converter
 {
+    using com.pharmscription.DataAccess.Entities.IdentityUserEntity;
+    using com.pharmscription.Infrastructure.Exception;
+
+    [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501:StatementMustNotBeOnSingleLine", Justification = "Newline would not increase readability of code")]
     public static class PatientConversionExtensions
     {
         public static PatientDto ConvertToDto(this InsurancePatient patient)
         {
-            if (patient == null) return null;
+            if (patient == null) { return null; }
             return new PatientDto
             {
                 PhoneNumber = patient.PhoneNumber,
@@ -34,7 +39,7 @@ namespace com.pharmscription.BusinessLogic.Converter
 
         public static PatientDto ConvertToDto(this Patient patient)
         {
-            if (patient == null) return null;
+            if (patient == null) { return null; }
             var patientDto = new PatientDto
             {
                 PhoneNumber = patient.PhoneNumber,
@@ -49,24 +54,33 @@ namespace com.pharmscription.BusinessLogic.Converter
             };
             if (patient.Address != null)
             {
-               
                 patientDto.Address = new AddressDto
                 {
+                    Id = patient.Address.Id.ToString(),
                     Street = patient.Address.Street,
                     Number = patient.Address.Number,
                     Location = patient.Address.Location,
                     CityCode = patient.Address.CityCode.CityCode,
                     StreetExtension = patient.Address.StreetExtension,
-                    State = patient.Address.State,
-                    Id = patient.Address.Id.ToString()
+                    State = patient.Address.State
                 };   
             }
+
+            if (patient.User != null)
+            {
+                patientDto.Identity = new IdentityDto
+                {
+                    Id = patient.User.Id.ToString(),
+                    UserName = patient.User.UserName
+                };
+            }
+
             return patientDto;
         }
 
         public static Patient ConvertToEntity(this PatientDto patientDto)
         {
-            if (patientDto == null) return null;
+            if (patientDto == null) { return null; }
             var patient = new Patient
             {
                 PhoneNumber = patientDto.PhoneNumber,
@@ -82,11 +96,12 @@ namespace com.pharmscription.BusinessLogic.Converter
             {
                 patient.Id = Guid.Parse(patientDto.Id);
             }
+
             if (patientDto.Address != null)
             {
-                
                 patient.Address = new Address
                 {
+                    Id = Guid.Parse(patientDto.Address.Id),
                     Street = patientDto.Address.Street,
                     Number = patientDto.Address.Number,
                     Location = patientDto.Address.Location,
@@ -99,6 +114,15 @@ namespace com.pharmscription.BusinessLogic.Converter
                     patient.Address.Id = Guid.Parse(patientDto.Address.Id);
                 }
             }
+            if (patientDto.Identity != null && !string.IsNullOrEmpty(patientDto.Identity.UserName))
+            {
+                patient.User = new IdentityUser
+                                   {
+                                       Id = Guid.Parse(patientDto.Identity.Id),
+                                       UserName = patientDto.Identity.UserName
+                                   };
+            }
+
             return patient;
         }
     }

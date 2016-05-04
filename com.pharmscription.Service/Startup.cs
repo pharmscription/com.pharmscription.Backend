@@ -12,7 +12,7 @@ namespace com.pharmscription.Service
     {
         public void Configuration(IAppBuilder app)
         {
-            app.CreatePerOwinContext(IdentitiyUserManager.Create);
+            ConfigureAuth(app);
         }
     }
 }

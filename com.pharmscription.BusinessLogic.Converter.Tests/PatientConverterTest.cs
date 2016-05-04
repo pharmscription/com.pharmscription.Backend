@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+
 using com.pharmscription.DataAccess.Entities.AddressEntity;
 using com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity;
+using com.pharmscription.DataAccess.Entities.IdentityUserEntity;
 using com.pharmscription.DataAccess.Entities.PatientEntity;
 using com.pharmscription.Infrastructure.Constants;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
+
 using DeepEqual.Syntax;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace com.pharmscription.BusinessLogic.Converter.Tests
 {
+
+
     [TestClass]
     [ExcludeFromCodeCoverage]
     public class PatientConverterTest
@@ -126,23 +132,29 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
             Assert.IsNull(patient);
         }
 
-
-
         [TestMethod]
         public void TestPatientDto()
         {
             DateTime birthDate = new DateTime(2000, 10, 10);
+            var addressId = Guid.NewGuid();
+            var identityId = Guid.NewGuid();
             var expectedPatient = new Patient
             {
                 FirstName = "Max",
                 LastName = "Müller",
                 Address = new Address
                 {
+                    Id = addressId,
                     Street = "Bergstrasse",
                     Number = "100",
                     CityCode = SwissCityCode.CreateInstance("8000"),
                     Location = " Zürich",
                     StreetExtension = "Postfach 1234"
+                },
+                User = new IdentityUser
+                {
+                    Id = identityId,
+                    UserName  = "123-1234-1234-12"
                 },
                 AhvNumber = "123-1234-1234-12",
                 BirthDate = birthDate,
@@ -157,11 +169,17 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
                 LastName = "Müller",
                 Address = new AddressDto
                 {
+                    Id = addressId.ToString(),
                     Street = "Bergstrasse",
                     Number = "100",
                     CityCode = "8000",
                     Location = " Zürich",
                     StreetExtension = "Postfach 1234"
+                },
+                Identity = new IdentityDto
+                {
+                    Id = identityId.ToString(),
+                    UserName = "123-1234-1234-12"
                 },
                 AhvNumber = "123-1234-1234-12",
                 BirthDate = birthDate.ToString(PharmscriptionConstants.DateFormat),
