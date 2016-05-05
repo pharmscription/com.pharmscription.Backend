@@ -154,6 +154,32 @@
             }
         }
 
+        [Route(PrescriptionRoutes.EditDispense)]
+        [HttpPost]
+        public async Task<ActionResult> EditDispense(
+            string patientid,
+            string prescriptionid,
+            string dispenseid,
+            DispenseDto dispense)
+        {
+            try
+            {
+                return Json(await _prescriptionManager.ModifyDispense(patientid, prescriptionid, dispenseid, dispense));
+            }
+            catch (NotFoundException)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            catch (ArgumentException)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            }
+        }
+
         [Route(PrescriptionRoutes.GetDrugs)]
         public async Task<ActionResult> GetDrugs(string patientid, string prescriptionid)
         {

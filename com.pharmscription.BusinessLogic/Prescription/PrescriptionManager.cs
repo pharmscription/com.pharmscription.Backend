@@ -14,6 +14,8 @@ using com.pharmscription.Infrastructure.Exception;
 
 namespace com.pharmscription.BusinessLogic.Prescription
 {
+    using com.pharmscription.DataAccess.UnitOfWork;
+
     using DataAccess.Entities.CounterProposalEntity;
     using DataAccess.Entities.DrugItemEntity;
     using DataAccess.Entities.PrescriptionEntity;
@@ -160,25 +162,34 @@ namespace com.pharmscription.BusinessLogic.Prescription
             var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
             await _prescriptionRepository.CheckIfEntityExists(prescriptionGuid);
             var dispense = dispenseDto.ConvertToEntity();
+            //TODO: Date should not be set when adding dispense
             dispense.Date = DateTime.Now;
-            dispense.DrugItems = null;
-            if (dispenseDto.DrugItems != null && dispenseDto.DrugItems.Any())
-            {
-                dispense.DrugItems = new List<DrugItem>();
-                foreach (var drugItemDto in dispenseDto.DrugItems)
-                {
-                    var drugItem = new DrugItem
-                    {
-                        DosageDescription = drugItemDto.DosageDescription,
-                        Drug = await _drugRepository.GetAsyncOrThrow(GuidParser.ParseGuid(drugItemDto.Drug.Id)),
-                        Quantity = drugItemDto.Quantity
-                    };
-                    dispense.DrugItems.Add(drugItem);
-                }
-            }
             _dispenseRepository.Add(dispense);
             var prescription = await _prescriptionRepository.GetAsync(prescriptionGuid);
             prescription.Dispenses.Add(dispense);
+            await _dispenseRepository.UnitOfWork.CommitAsync();
+            return dispense.ConvertToDto();
+        }
+
+        public async Task<DispenseDto> ModifyDispense(
+            string patientId,
+            string prescriptionId,
+            string dispenseId,
+            DispenseDto dispenseDto)
+        {
+            if (dispenseDto == null)
+            {
+                throw new InvalidArgumentException("dispense was null or empty");
+            }
+            var patientGuid = GuidParser.ParseGuid(patientId);
+            await _patientRepository.CheckIfEntityExists(patientGuid);
+            var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
+            await _prescriptionRepository.CheckIfEntityExists(prescriptionGuid);
+            var dispenseGuid = GuidParser.ParseGuid(dispenseId);
+            await _dispenseRepository.CheckIfEntityExists(dispenseGuid);
+            var dispense = dispenseDto.ConvertToEntity();
+            dispense.Date = DateTime.Now;
+            _dispenseRepository.Modify(dispense);
             await _dispenseRepository.UnitOfWork.CommitAsync();
             return dispense.ConvertToDto();
         }

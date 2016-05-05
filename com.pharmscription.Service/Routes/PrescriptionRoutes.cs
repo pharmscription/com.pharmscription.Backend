@@ -14,7 +14,10 @@
 
         internal const string GetDispenses = "patients/{patientid}/prescriptions/{prescriptionid}/dispenses";
 
-        internal const string CreateDispense = "patients/{patientid}/prescriptions/{prescriptionid}/dispense";
+        internal const string CreateDispense = "patients/{patientid}/prescriptions/{prescriptionid}/dispenses";
+
+        internal const string EditDispense =
+            "patients/{patientid}/prescriptions/{prescriptionid}/dispenses/{dispenseid}";
 
         internal const string GetDrugs = "patiens/{patientid}/prescriptions/{prescriptionid}/drugs";
 
