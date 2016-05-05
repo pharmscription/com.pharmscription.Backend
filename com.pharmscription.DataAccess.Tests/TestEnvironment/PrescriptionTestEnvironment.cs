@@ -29,7 +29,6 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                 {
                     Id = Guid.Parse(StandingPrescriptionOneId),
                     IsValid = true,
-                    SignDate = DateTime.Now,
                     IssueDate = DateTime.Now,
                     ValidUntill = DateTime.Now.AddDays(2),
                     EditDate = DateTime.Now,
@@ -52,7 +51,6 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                 {
                     Id = Guid.Parse(StandingPrescriptionTwoId),
                     IsValid = true,
-                    SignDate = DateTime.Now,
                     IssueDate = DateTime.Now,
                     ValidUntill = DateTime.Now.AddDays(2),
                     EditDate = DateTime.Now,

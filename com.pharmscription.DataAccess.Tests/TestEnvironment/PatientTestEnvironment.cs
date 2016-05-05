@@ -7,6 +7,7 @@ using com.pharmscription.DataAccess.Entities.PatientEntity;
 using com.pharmscription.DataAccess.Entities.PrescriptionEntity;
 using com.pharmscription.DataAccess.Repositories.Patient;
 using Moq;
+using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.DataAccess.Tests.TestEnvironment
 {
@@ -44,16 +45,18 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                     AhvNumber = AhvNumberPatientTwo,
                     BirthDate = DateTime.Parse("24.05.1991")
                 },
-                new Patient {
+                new Patient
+                {
                     Id = Guid.Parse(PatientWithNoPrescriptionId),
                     FirstName = "I have no",
-                    LastName =  "Prescriptons",
+                    LastName = "Prescriptons",
                     BirthDate = DateTime.Parse("28.05.1991")
                 },
-                new Patient {
+                new Patient
+                {
                     Id = Guid.Parse(PatientWithEmptyPrescriptionId),
                     FirstName = "I have",
-                    LastName =  "an empty Prescripton",
+                    LastName = "an empty Prescripton",
                     BirthDate = DateTime.Parse("28.05.1991"),
                     Prescriptions = new List<Prescription>
                     {
@@ -64,6 +67,43 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                             EditDate = DateTime.Now
                         }
                     }
+                }
+            };
+        }
+
+        public static List<PatientDto> GetPatientDtos()
+        {
+            return new List<PatientDto>
+            {
+                new PatientDto
+                {
+                    Id = PatientIdOne,
+                    FirstName = "Rafael",
+                    LastName = "Krucker",
+                    AhvNumber = AhvNumberPatientOne,
+                    BirthDate = "17.03.1991"
+                },
+                new PatientDto
+                {
+                    Id = PatientIdTwo,
+                    FirstName = "Markus",
+                    LastName = "Schaden",
+                    AhvNumber = AhvNumberPatientTwo,
+                    BirthDate = "24.05.1991"
+                },
+                new PatientDto
+                {
+                    Id = PatientWithNoPrescriptionId,
+                    FirstName = "I have no",
+                    LastName = "Prescriptons",
+                    BirthDate = "28.05.1991"
+                },
+                new PatientDto
+                {
+                    Id = PatientWithEmptyPrescriptionId,
+                    FirstName = "I have",
+                    LastName = "an empty Prescripton",
+                    BirthDate = "28.05.1991"
                 }
             };
         }
