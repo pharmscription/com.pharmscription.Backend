@@ -246,7 +246,6 @@ namespace com.pharmscription.BusinessLogic.Prescription
                     prescription.DrugItems.Add(drugItem);
                 }
             }
-            prescription.SignDate = DateTime.Now;
             prescription.EditDate = DateTime.Now;
             prescription.IssueDate = DateTime.Now;
             return prescription;
