@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+
 using com.pharmscription.DataAccess.Entities.DrugEntity;
 using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.BusinessLogic.Converter
 {
+
+    [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501:StatementMustNotBeOnSingleLine", Justification = "New line does not increase readability in this class")]
     public static class DrugConversionExtensions
     {
         public static List<DrugDto> ConvertToDtos(this ICollection<Drug> list)
@@ -31,13 +35,13 @@ namespace com.pharmscription.BusinessLogic.Converter
         }
 
         /// <summary>
-        /// 
+        /// Convert entity do dto
         /// </summary>
-        /// <param name="drug"></param>
-        /// <returns>null when it get null as parameter</returns>
+        /// <param name="drug"><see cref="Drug"/> to convert</param>
+        /// <returns><see cref="DrugDto"/> or null when it get null as parameter</returns>
         public static DrugDto ConvertToDto(this Drug drug)
         {
-            if (drug == null) return null;
+            if (drug == null) { return null; }
             var drugDto = new DrugDto
             {
                 DrugDescription = drug.DrugDescription,
@@ -52,13 +56,13 @@ namespace com.pharmscription.BusinessLogic.Converter
         }
 
         /// <summary>
-        /// 
+        /// Convert dto to entity
         /// </summary>
-        /// <param name="drugDto"></param>
-        /// <returns>null when it get null as parameter</returns>
+        /// <param name="drugDto"><see cref="DrugDto"/> to convert</param>
+        /// <returns><see cref="Drug"/> or null when it get null as parameter</returns>
         public static Drug ConvertToEntity(this DrugDto drugDto)
         {
-            if (drugDto == null) return null;
+            if (drugDto == null) { return null; }
             var drug = new Drug
             {
                 DrugDescription = drugDto.DrugDescription,

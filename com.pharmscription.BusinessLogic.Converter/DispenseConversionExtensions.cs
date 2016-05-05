@@ -64,10 +64,10 @@ namespace com.pharmscription.BusinessLogic.Converter
             if (dispenseDto == null) { return null; }
             var dispense = new Dispense
             {
-                Id = Guid.Parse(dispenseDto.Id),
                 Remark = dispenseDto.Remark,
                 DrugItems = dispenseDto.DrugItems.ConvertToEntities()
             };
+            
             if (dispenseDto.Date != null)
             {
                 dispense.Date = DateTime.Parse(dispenseDto.Date, CultureInfo.CurrentCulture);

@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
+
 using com.pharmscription.DataAccess.Entities.PrescriptionEntity;
 using com.pharmscription.Infrastructure.Constants;
 using com.pharmscription.Infrastructure.Dto;
+using com.pharmscription.Infrastructure.Exception;
 
 namespace com.pharmscription.BusinessLogic.Converter
 {
-    using System.Globalization;
-    using Infrastructure.Exception;
-
+    [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501:StatementMustNotBeOnSingleLine", Justification = "New line does not increase readability in this class")]
     public static class PrescriptionConversionExtensions
     {
         public static List<PrescriptionDto> ConvertToDtos(this ICollection<Prescription> list)
@@ -35,13 +37,13 @@ namespace com.pharmscription.BusinessLogic.Converter
         }
 
         /// <summary>
-        /// bla
+        /// Convert entity to dto
         /// </summary>
-        /// <param name="prescription"></param>
-        /// <returns>null when it get null as parameter</returns>
+        /// <param name="prescription"><see cref="Prescription"/> to convert</param>
+        /// <returns><see cref="PrescriptionDto"/> or null when it get null as parameter</returns>
         public static PrescriptionDto ConvertToDto(this Prescription prescription)
         {
-            if (prescription == null) return null;
+            if (prescription == null) { return null; }
             var prescriptionDto = new PrescriptionDto
             {
                 IsValid = prescription.IsValid,
@@ -54,10 +56,6 @@ namespace com.pharmscription.BusinessLogic.Converter
                 CounterProposals = prescription.CounterProposals.ConvertToDtos(),
                 PrescriptionHistory = prescription.PrescriptionHistory.ConvertToDtos()
             };
-            if (prescription.SignDate != null)
-            {
-                prescriptionDto.SignDate = prescription.SignDate.Value.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture);
-            }
             var standingPrescription = prescription as StandingPrescription;
             if (standingPrescription != null)
             {
@@ -68,19 +66,19 @@ namespace com.pharmscription.BusinessLogic.Converter
         }
 
         /// <summary>
-        /// 
+        /// Convert dto to entity
         /// </summary>
-        /// <param name="prescriptionDto"></param>
-        /// <returns>null when it get null as parameter</returns>
+        /// <param name="prescriptionDto"><see cref="PrescriptionDto"/> to convert</param>
+        /// <returns><see cref="Prescription"/> or null when it get null as parameter</returns>
         public static Prescription ConvertToEntity(this PrescriptionDto prescriptionDto)
         {
-            if (prescriptionDto == null) return null;
+            if (prescriptionDto == null) { return null; }
             Prescription prescription;
             if (prescriptionDto.Type == "N")
             {
                 prescription = new SinglePrescription();
             }
-            else if(prescriptionDto.Type == "S")
+            else if (prescriptionDto.Type == "S")
             {
                 prescription = new StandingPrescription
                 {
@@ -91,6 +89,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             {
                 throw new InvalidArgumentException("Invalid type: " + prescriptionDto.Type);
             }
+
             prescription.IsValid = prescriptionDto.IsValid;
             prescription.CounterProposals = prescriptionDto.CounterProposals.ConvertToEntities();
             prescription.DrugItems = prescriptionDto.Drugs.ConvertToEntities();
@@ -101,18 +100,17 @@ namespace com.pharmscription.BusinessLogic.Converter
             {
                 prescription.IssueDate = DateTime.Parse(prescriptionDto.IssueDate, CultureInfo.CurrentCulture);
             }
+
             if (prescriptionDto.EditDate != null)
             {
                 prescription.EditDate = DateTime.Parse(prescriptionDto.EditDate, CultureInfo.CurrentCulture);
             }
-            if (prescriptionDto.SignDate != null)
-            {
-                prescription.SignDate = DateTime.Parse(prescriptionDto.SignDate, CultureInfo.CurrentCulture);
-            }
+
             if (!string.IsNullOrWhiteSpace(prescriptionDto.Id))
             {
                 prescription.Id = new Guid(prescriptionDto.Id);
             }
+
             return prescription;
         }
 

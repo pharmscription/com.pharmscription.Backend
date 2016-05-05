@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+
 using com.pharmscription.DataAccess.Entities.DrugItemEntity;
 using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.BusinessLogic.Converter
 {
+    [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501:StatementMustNotBeOnSingleLine", Justification = "New line does not increase readability in this class")]
     public static class DrugItemConversionExtensions
     {
         public static List<DrugItemDto> ConvertToDtos(this ICollection<DrugItem> list)
@@ -31,13 +34,13 @@ namespace com.pharmscription.BusinessLogic.Converter
         }
 
         /// <summary>
-        /// 
+        /// Convert entity to dto
         /// </summary>
-        /// <param name="drug"></param>
-        /// <returns>null when it get null as parameter</returns>
+        /// <param name="drug"><see cref="DrugItem"/> to convert</param>
+        /// <returns><see cref="DrugItemDto"/>null when it get null as parameter</returns>
         public static DrugItemDto ConvertToDto(this DrugItem drug)
         {
-            if (drug == null) return null;
+            if (drug == null) { return null; }
             var drugItemDto = new DrugItemDto
             {
                 Drug = drug.Drug.ConvertToDto(),
@@ -50,13 +53,13 @@ namespace com.pharmscription.BusinessLogic.Converter
         }
 
         /// <summary>
-        /// 
+        /// Convert dto to entity
         /// </summary>
-        /// <param name="drugItemDto"></param>
-        /// <returns>null when it get null as parameter</returns>
+        /// <param name="drugItemDto"><see cref="DrugItemDto"/> to convert</param>
+        /// <returns><see cref="DrugItem"/> or null when it get null as parameter</returns>
         public static DrugItem ConvertToEntity(this DrugItemDto drugItemDto)
         {
-            if (drugItemDto == null) return null;
+            if (drugItemDto == null) { return null; }
             var drugItem = new DrugItem
             {
                 Drug = drugItemDto.Drug.ConvertToEntity(),
