@@ -14,7 +14,6 @@
                            Patient = Patient,
                            IssueDate = IssueDate,
                            EditDate = EditDate,
-                           SignDate = SignDate,
                            IsValid = IsValid,
                            CounterProposals = CounterProposals.Select(cp => cp.Clone()).ToList(),
                            Doctor = Doctor,

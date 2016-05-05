@@ -16,11 +16,7 @@ namespace com.pharmscription.DataAccess.Entities.DispenseEntity
 
         public virtual StandingPrescription StandingPrescription { get; set; }
         public virtual SinglePrescription SinglePrescription { get; set; }
-        public virtual Prescription Prescription
-        {
-            get;
-            set;
-        }
+        public virtual Prescription Prescription { get; set; }
 
         public Dispense Clone()
         {
