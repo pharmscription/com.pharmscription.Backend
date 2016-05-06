@@ -91,6 +91,27 @@
             }
         }
 
+        [Route(PrescriptionRoutes.CreatePrescription)]
+        [System.Web.Http.HttpPost]
+        public async Task<ActionResult> UpdatePrescription(string patientid, PrescriptionDto dto)
+        {
+            try
+            {
+                return Json(await _prescriptionManager.Add(patientid, dto));
+            }
+            catch (NotFoundException)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+            }
+            catch (ArgumentException)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            }
+        }
 
         [Route(PrescriptionRoutes.GetCounterProposals)]
         public async Task<ActionResult> GetCounterProposals(string patientid, string prescriptionid)

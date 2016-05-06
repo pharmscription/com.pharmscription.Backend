@@ -15,5 +15,6 @@ namespace com.pharmscription.DataAccess.Repositories.Prescription
     {
         Task<List<Prescription>> GetByPatientId(Guid patientId);
         IQueryable<Prescription> GetWithAllNavs();
+        Task<Prescription> GetWithAllNavsAsynv(Guid id);
     }
 }

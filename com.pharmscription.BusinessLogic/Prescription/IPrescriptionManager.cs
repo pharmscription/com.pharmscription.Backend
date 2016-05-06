@@ -8,6 +8,7 @@
         Task<ICollection<PrescriptionDto>> Get(string patientId);
         Task<PrescriptionDto> Get(string patientId, string prescriptionId);
         Task<PrescriptionDto> Add(string patientId, PrescriptionDto prescriptionDto);
+        Task<PrescriptionDto> Update(string patientId, string prescriptionId, PrescriptionDto prescriptionDto);
         Task<ICollection<CounterProposalDto>> GetCounterProposals(string patientId, string prescriptionId);
         Task<CounterProposalDto> GetCounterProposals(string patientId, string prescriptionId, string proposalId);
 

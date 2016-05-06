@@ -295,6 +295,86 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
 
         [TestMethod]
         [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestUpdateTaskPrescriptionThrowsOnNull()
+        {
+            await _prescriptionManager.Update(null, null, null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestUpdatePrescriptionThrowsOnEmpty()
+        {
+            var prescription = new PrescriptionDto();
+            await _prescriptionManager.Update("", PrescriptionTestEnvironment.StandingPrescriptionOneId, prescription);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestUpdatePrescriptionThrowsOnEmptyPrescriptionId()
+        {
+            var prescription = new PrescriptionDto();
+            await _prescriptionManager.Update(PatientTestEnvironment.PatientIdOne, "", prescription);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestUpdatePrescriptionThrowsOnPatientNotFound()
+        {
+            var prescription = new PrescriptionDto();
+            await _prescriptionManager.Update("jksdjksadfksd", PrescriptionTestEnvironment.StandingPrescriptionOneId, prescription);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestUpdatePrescriptionThrowsOnPrescriptionNotFound()
+        {
+            var prescription = new PrescriptionDto();
+            await _prescriptionManager.Update(PatientTestEnvironment.PatientIdOne, "dsjkfkjsdfjksdk", prescription);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestUpdatePrescriptionThrowOnNoCounterProposal()
+        {
+            var prescriptionToInsert = GetTestPrescriptionDto("N");
+            var prescription = await _prescriptionManager.Update(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, prescriptionToInsert);
+            Assert.IsNotNull(prescription);
+            var prescriptions = await _prescriptionManager.Get(PatientTestEnvironment.PatientIdOne);
+
+            var prescriptionInserted = prescriptions.FirstOrDefault(e => e.Id == prescription.Id);
+            Assert.IsNotNull(prescriptionInserted);
+            var insertedDrugs = prescriptionInserted.Drugs;
+            Assert.IsNotNull(insertedDrugs);
+            Assert.IsNotNull(prescriptionInserted.CounterProposals);
+            Assert.AreEqual(DrugTestEnvironment.DrugOneDescription, insertedDrugs.First().Drug.DrugDescription);
+        }
+
+        [TestMethod]
+        public async Task TestUpdatePrescription()
+        {
+            var prescriptionToInsert = GetTestPrescriptionDto("N");
+            prescriptionToInsert.CounterProposals = new List<CounterProposalDto>
+            {
+                new CounterProposalDto
+                {
+                    Message = "Did an Update"
+                }
+            };
+            prescriptionToInsert.PrescriptionHistory = new List<PrescriptionDto>();
+            var prescription = await _prescriptionManager.Update(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, prescriptionToInsert);
+            Assert.IsNotNull(prescription);
+            var prescriptions = await _prescriptionManager.Get(PatientTestEnvironment.PatientIdOne);
+
+            var prescriptionInserted = prescriptions.FirstOrDefault(e => e.Id == prescription.Id);
+            Assert.IsNotNull(prescriptionInserted);
+            var insertedDrugs = prescriptionInserted.Drugs;
+            Assert.IsNotNull(insertedDrugs);
+            Assert.IsNotNull(prescriptionInserted.CounterProposals);
+            Assert.AreEqual(DrugTestEnvironment.DrugOneDescription, insertedDrugs.First().Drug.DrugDescription);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidArgumentException))]
         public async Task TestAddCounterProposalThrowsOnNull()
         {
             await _prescriptionManager.AddCounterProposal(null, null, null);

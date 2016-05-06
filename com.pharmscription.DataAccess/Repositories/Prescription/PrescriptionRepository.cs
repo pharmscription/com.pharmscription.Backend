@@ -8,6 +8,7 @@ namespace com.pharmscription.DataAccess.Repositories.Prescription
 {
     using Entities.PrescriptionEntity;
     using BaseRepository;
+    using Infrastructure.Exception;
     using UnitOfWork;
 
     public class PrescriptionRepository : Repository<Prescription>, IPrescriptionRepository
@@ -25,6 +26,22 @@ namespace com.pharmscription.DataAccess.Repositories.Prescription
         public IQueryable<Prescription> GetWithAllNavs()
         {
             return Set.Include(e => e.Dispenses).Include(e => e.CounterProposals).Include(e => e.Patient);
+        }
+
+        public virtual async Task<Prescription> GetWithAllNavsAsynv(Guid id)
+        {
+            var prescription = 
+                await Set
+                    .Include(e => e.PrescriptionHistory)
+                    .Include(e => e.CounterProposals)
+                    .Include(e => e.Dispenses)
+                    .Include(e => e.DrugItems)
+                    .Include(e => e.Patient).FirstOrDefaultAsync(e => e.Id == id);
+            if (prescription == null)
+            {
+                throw new NotFoundException("No such Prescription");
+            }
+            return prescription;
         }
     }
 }

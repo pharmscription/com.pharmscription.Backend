@@ -22,8 +22,7 @@ namespace com.pharmscription.BusinessLogic.Patient
 
         public async Task<PatientDto> Lookup(string ahvNumber)
         {
-            AhvValidator ahvValidator = new AhvValidator();
-            ahvValidator.Validate(ahvNumber);
+            AhvValidator.Validate(ahvNumber);
             InsurancePatient insurancePatient = await InsuranceConnector.InsuranceConnection.FindPatient(ahvNumber);
             return insurancePatient.ConvertToDto();
         }
@@ -49,8 +48,7 @@ namespace com.pharmscription.BusinessLogic.Patient
 
         public async Task<PatientDto> Find(string ahvNumber)
         {
-            AhvValidator ahvValidator = new AhvValidator();
-            ahvValidator.Validate(ahvNumber);
+            AhvValidator.Validate(ahvNumber);
             if (_patientRepository.Exists(ahvNumber))
             {
                 return (await _patientRepository.GetByAhvNumber(ahvNumber)).ConvertToDto();
