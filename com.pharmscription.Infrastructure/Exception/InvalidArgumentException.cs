@@ -23,7 +23,7 @@
             
         }
 
-        public InvalidArgumentException(SerializationInfo info, StreamingContext context)
+        protected InvalidArgumentException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
             

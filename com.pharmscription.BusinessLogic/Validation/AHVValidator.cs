@@ -8,10 +8,14 @@ namespace com.pharmscription.BusinessLogic.Validation
     {
         public void Validate(PatientDto dto)
         {
+            if (dto == null)
+            {
+                throw new InvalidArgumentException("Dto was null");
+            }
             Validate(dto.AhvNumber);
         }
 
-        public void Validate(string socialNumber)
+        public static void Validate(string socialNumber)
         {
             if (string.IsNullOrWhiteSpace(socialNumber))
             {
