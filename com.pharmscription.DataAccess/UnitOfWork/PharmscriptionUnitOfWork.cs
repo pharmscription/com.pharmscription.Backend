@@ -15,12 +15,17 @@ using com.pharmscription.DataAccess.Entities.PrescriptionEntity;
 
 namespace com.pharmscription.DataAccess.UnitOfWork
 {
+    using com.pharmscription.DataAccess.Entities.DoctorEntity;
+    using com.pharmscription.DataAccess.Entities.DrugistEntity;
+    using com.pharmscription.DataAccess.Entities.DrugstoreEmployeeEntity;
+    using com.pharmscription.DataAccess.Migrations;
+
     public class PharmscriptionUnitOfWork : DbContext, IPharmscriptionUnitOfWork
     {
         static PharmscriptionUnitOfWork()
         {
             //Database.SetInitializer(new MigrateDatabaseToLatestVersion<PharmscriptionUnitOfWork, Configuration>());
-            Database.SetInitializer(new DropCreateDatabaseAlways<PharmscriptionUnitOfWork>());
+            //Database.SetInitializer(new DropCreateDatabaseAlways<PharmscriptionUnitOfWork>());
         }
         #region IPharmscriptionUnitOfWork Members
 
@@ -49,6 +54,22 @@ namespace com.pharmscription.DataAccess.UnitOfWork
         public virtual IDbSet<DrugItem> DrugItems
             => _drugItems ?? (_drugItems
             = base.Set<DrugItem>());
+
+        private IDbSet<Doctor> _doctors;
+        public virtual IDbSet<Doctor> Doctors
+            => _doctors ?? (_doctors
+            = base.Set<Doctor>());
+
+        private IDbSet<Drugist> _drugists;
+        public virtual IDbSet<Drugist> Drugists
+            => _drugists ?? (_drugists
+            = base.Set<Drugist>());
+
+        private IDbSet<DrugstoreEmployee> _drugstoreEmployees;
+        public virtual IDbSet<DrugstoreEmployee> DrugstoreEmployees
+            => _drugstoreEmployees ?? (_drugstoreEmployees
+            = base.Set<DrugstoreEmployee>());
+
         #endregion
 
         #region IQueryableUnitOfWork Members

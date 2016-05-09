@@ -6,6 +6,6 @@ namespace com.pharmscription.DataAccess
 
     public class PharmscriptionDataAccess : IPharmscriptionDataAccess
     {
-        public MyIdentityDbContext IdentityDbContext => new MyIdentityDbContext();
+        public PhaIdentityDbContext IdentityDbContext => new PhaIdentityDbContext();
     }
 }

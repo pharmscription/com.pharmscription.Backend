@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\PharmscriptionConstants.cs" />
+    <Compile Include="Constants\AccountRoles.cs" />
     <Compile Include="Dto\AddressDto.cs" />
     <Compile Include="Dto\BaseDto.cs" />
     <Compile Include="Dto\CounterProposalDto.cs" />

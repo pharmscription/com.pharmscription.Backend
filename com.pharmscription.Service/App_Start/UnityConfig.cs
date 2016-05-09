@@ -15,6 +15,10 @@ namespace com.pharmscription.Service.App_Start
 {
     using com.pharmscription.BusinessLogic.Identity;
     using com.pharmscription.DataAccess;
+    using com.pharmscription.DataAccess.Repositories.Doctor;
+    using com.pharmscription.DataAccess.Repositories.Drugist;
+    using com.pharmscription.DataAccess.Repositories.DrugstoreEmployee;
+    using com.pharmscription.DataAccess.Repositories.DrugStoreEmployee;
 
     using DataAccess.Repositories.Prescription;
 
@@ -59,6 +63,10 @@ namespace com.pharmscription.Service.App_Start
             container.RegisterType<IDispenseRepository, DispenseRepository>();
             container.RegisterType<IDrugRepository, DrugRepository>();
             container.RegisterType<IPatientRepository, PatientRepository>();
+            container.RegisterType<IDoctorRepository, DoctorRepository>();
+            container.RegisterType<IDrugistRepository, DrugistRepository>();
+            container.RegisterType<IDrugstoreEmployeeRepository, DrugstoreEmployeeRepository>();
+            
             container.RegisterType<IPrescriptionRepository, PrescriptionRepository>();
             container.RegisterType<IPharmscriptionUnitOfWork, PharmscriptionUnitOfWork>(new ContainerControlledLifetimeManager());
             /*(new ContainerControlledLifetimeManager());
