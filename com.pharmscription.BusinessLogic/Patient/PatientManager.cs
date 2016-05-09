@@ -76,20 +76,9 @@ namespace com.pharmscription.BusinessLogic.Patient
         public async Task<PatientDto> Update(PatientDto patient)
         {
             var oldPatient = await _patientRepository.GetWithAllNavs(GuidParser.ParseGuid(patient.Id));
-            UpdatePatientInformation(oldPatient, patient);
+            oldPatient.Update(patient.ConvertToEntity());
             await _patientRepository.UnitOfWork.CommitAsync();
             return oldPatient.ConvertToDto();
-        }
-
-        private static void UpdatePatientInformation(Patient oldPatient, PatientDto patient)
-        {
-            oldPatient.EMailAddress = patient.EMailAddress;
-            oldPatient.FirstName = patient.FirstName;
-            oldPatient.Insurance = patient.Insurance;
-            oldPatient.InsuranceNumber = patient.InsuranceNumber;
-            oldPatient.LastName = patient.LastName;
-            oldPatient.PhoneNumber = patient.PhoneNumber;
-            oldPatient.Address = patient.Address.ConvertToEntity();
         }
     }
 }

@@ -51,5 +51,16 @@ namespace com.pharmscription.DataAccess.Entities.PatientEntity
                    && InsuranceNumber == other.InsuranceNumber && BirthDate.Equals(other.BirthDate)
                    && PhoneNumber == other.PhoneNumber;
         }
+
+        public void Update(Patient other)
+        {
+            EMailAddress = other.EMailAddress;
+            FirstName = other.FirstName;
+            Insurance = other.Insurance;
+            InsuranceNumber = other.InsuranceNumber;
+            LastName = other.LastName;
+            PhoneNumber = other.PhoneNumber;
+            Address = other.Address;
+        }
     }
 }
