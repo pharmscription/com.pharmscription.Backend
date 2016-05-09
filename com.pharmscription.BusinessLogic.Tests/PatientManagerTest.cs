@@ -219,9 +219,9 @@ namespace com.pharmscription.BusinessLogic.Tests
                 Insurance = "Lungen"
             };
             var updatedPatient = await _patientManager.Update(patientWithUpdatedInformation);
-            Assert.IsTrue(patientWithUpdatedInformation.ConvertToEntity().IsEqual(updatedPatient.ConvertToEntity()));
+            Assert.IsTrue(patientWithUpdatedInformation.ConvertToEntity().Equals(updatedPatient.ConvertToEntity()));
             var updatedPatientInDatabase = await _patientManager.GetById(patient.Id);
-            Assert.IsTrue(updatedPatientInDatabase.ConvertToEntity().IsEqual(patientWithUpdatedInformation.ConvertToEntity()));
+            Assert.IsTrue(updatedPatientInDatabase.ConvertToEntity().Equals(patientWithUpdatedInformation.ConvertToEntity()));
         }
 
 

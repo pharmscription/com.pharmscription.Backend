@@ -3,7 +3,8 @@ using com.pharmscription.DataAccess.SharedInterfaces;
 
 namespace com.pharmscription.DataAccess.Entities.DrugEntity
 {
-    public class Drug: Entity, ICloneable<Drug>
+    using System;
+    public class Drug: Entity, ICloneable<Drug>, IEquatable<Drug>
     {
         public string DrugDescription { get; set; }
         public string PackageSize { get; set; }
@@ -22,6 +23,17 @@ namespace com.pharmscription.DataAccess.Entities.DrugEntity
                 NarcoticCategory = NarcoticCategory,
                 IsValid = IsValid
             };
+        }
+
+        public bool Equals(Drug other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            return DrugDescription == other.DrugDescription && PackageSize == other.PackageSize && Unit == other.Unit
+                   && Composition == other.Composition && NarcoticCategory == other.NarcoticCategory
+                   && IsValid == other.IsValid;
         }
     }
 }

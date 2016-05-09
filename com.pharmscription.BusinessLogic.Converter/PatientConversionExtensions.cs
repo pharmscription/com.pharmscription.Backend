@@ -79,25 +79,5 @@ namespace com.pharmscription.BusinessLogic.Converter
             }
             return patient;
         }
-
-        public static bool IsEqual(this Patient patientLeft, Patient patientRight)
-        {
-            if (patientLeft == null || patientRight == null)
-            {
-                return false;
-            }
-            var adressessMatch = true;
-            if (patientLeft.Address != null)
-            {
-                adressessMatch = patientLeft.Address.IsEqual(patientRight.Address);
-            }
-            return adressessMatch && patientLeft.FirstName == patientRight.FirstName && patientLeft.LastName == patientRight.LastName &&
-                   patientLeft.AhvNumber == patientRight.AhvNumber && patientLeft.EMailAddress == patientRight.EMailAddress &&
-                   patientLeft.Insurance == patientRight.Insurance &&
-                   patientLeft.InsuranceNumber == patientRight.InsuranceNumber && 
-                   patientLeft.BirthDate.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture) == 
-                            patientRight.BirthDate.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture) &&
-                   patientLeft.PhoneNumber == patientRight.PhoneNumber;
-        }
     }
 }

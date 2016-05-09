@@ -7,7 +7,7 @@ using com.pharmscription.DataAccess.SharedInterfaces;
 
 namespace com.pharmscription.DataAccess.Entities.PatientEntity
 {
-    public class Patient : Entity, ICloneable<Patient>
+    public class Patient : Entity, ICloneable<Patient>, IEquatable<Patient>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -33,6 +33,23 @@ namespace com.pharmscription.DataAccess.Entities.PatientEntity
                 InsuranceNumber = InsuranceNumber,
                 Insurance = Insurance
             };
+        }
+
+        public bool Equals(Patient other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            bool addressEquals = true;
+            if (Address != null && other.Address != null)
+            {
+                addressEquals = Address.Equals(other.Address);
+            }
+            return addressEquals && FirstName == other.FirstName && LastName == other.LastName
+                   && AhvNumber == other.AhvNumber && Insurance == other.Insurance
+                   && InsuranceNumber == other.InsuranceNumber && BirthDate.Equals(other.BirthDate)
+                   && PhoneNumber == other.PhoneNumber;
         }
     }
 }
