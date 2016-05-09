@@ -2,9 +2,9 @@
 {
     public static class PatientRoutes
     {
-        public const string GetPatientById = "patients/{id}";
-        public const string AddPatient = "patients";
-        public const string GetPatientByAhvNumber = "patients/ahv-number/{ahv}";
-        public const string LookupPatientByAhvNumber = "patients/lookup/{ahv}";
+        internal const string GetPatientById = "patients/{id}";
+        internal const string AddPatient = "patients";
+        internal const string GetPatientByAhvNumber = "patients/ahv-number/{ahv}";
+        internal const string LookupPatientByAhvNumber = "patients/lookup/{ahv}";
     }
 }

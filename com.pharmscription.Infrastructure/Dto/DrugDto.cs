@@ -17,5 +17,6 @@ namespace com.pharmscription.Infrastructure.Dto
         public string NarcoticCategory { get; set; }
         [DataMember]
         public bool IsValid { get; set; }
+        
     }
 }

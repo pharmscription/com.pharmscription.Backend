@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace com.pharmscription.Service.Models
 {
+
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
@@ -14,7 +15,6 @@ namespace com.pharmscription.Service.Models
     {
         public string ReturnUrl { get; set; }
     }
-
     public class SendCodeViewModel
     {
         public string SelectedProvider { get; set; }

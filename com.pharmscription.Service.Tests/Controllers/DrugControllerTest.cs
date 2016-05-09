@@ -28,6 +28,7 @@ namespace com.pharmscription.Service.Tests.Controllers
         public static void SetUpClass(TestContext testContext)
         {
             IPharmscriptionUnitOfWork puow = new PharmscriptionUnitOfWork();
+            puow.ExecuteCommand("Delete From DrugItems");
             puow.ExecuteCommand("Delete From Drugs");
         }
 

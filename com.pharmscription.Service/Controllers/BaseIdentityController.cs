@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
+using com.pharmscription.BusinessLogic.Identity;
+using com.pharmscription.DataAccess.Entities.BaseUser;
+using com.pharmscription.DataAccess.Entities.PhaIdentiyUser;
+using com.pharmscription.Infrastructure.Constants;
+
 namespace com.pharmscription.Service.Controllers
 {
-    using System.Security.Claims;
     using System.Web.Mvc;
-
-    using com.pharmscription.BusinessLogic.Identity;
-    using com.pharmscription.DataAccess.Entities.BaseUser;
-    using com.pharmscription.DataAccess.Entities.PhaIdentiyUser;
-    using com.pharmscription.DataAccess.Identity;
-    using com.pharmscription.Infrastructure.Constants;
 
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;

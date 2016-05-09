@@ -24,7 +24,7 @@ namespace com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity
         }
         public static bool IsValid(string cityCode)
         {
-            if (cityCode.Length != 4)
+            if (cityCode == null || cityCode.Length != 4)
             {
                 return false;
             }

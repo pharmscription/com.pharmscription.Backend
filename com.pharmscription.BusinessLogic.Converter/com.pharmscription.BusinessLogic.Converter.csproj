@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddressConversionExtension.cs" />
     <Compile Include="CounterProposalConversionExtensions.cs" />
     <Compile Include="DispenseConversionExtensions.cs" />
     <Compile Include="DrugConversionExtensions.cs" />
@@ -57,6 +58,11 @@
       <Project>{B53CE84A-9F8A-41C2-97FB-8AA14635CCBF}</Project>
       <Name>com.pharmscription.Infrastructure</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\com.pharmscription.Infrastructure\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

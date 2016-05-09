@@ -19,12 +19,12 @@ namespace com.pharmscription.DataAccess.Repositories.Prescription
 
         public virtual Task<List<Prescription>> GetByPatientId(Guid patientId)
         {
-            return GetSet().Where(e => e.Patient.Id == patientId).ToListAsync();
+            return Set.Where(e => e.Patient.Id == patientId).ToListAsync();
         }
 
         public IQueryable<Prescription> GetWithAllNavs()
         {
-            return GetSet().Include(e => e.Dispenses).Include(e => e.CounterProposals).Include(e => e.Patient);
+            return Set.Include(e => e.Dispenses).Include(e => e.CounterProposals).Include(e => e.Patient);
         }
     }
 }

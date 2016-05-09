@@ -16,6 +16,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Drug
     public class DrugManagerTest
     {
         private IDrugManager _drugManager;
+        private IDrugRepository _drugRepository;
 
         [TestInitialize]
         public void SetUp()
@@ -26,8 +27,8 @@ namespace com.pharmscription.BusinessLogic.Tests.Drug
             mockPuow.Setup(m => m.Drugs).Returns(mockSet.Object);
             mockPuow.Setup(m => m.CreateSet<DataAccess.Entities.DrugEntity.Drug>()).Returns(mockSet.Object);
             IPharmscriptionUnitOfWork puow = mockPuow.Object;
-            IDrugRepository repository = new DrugRepository(puow);
-            _drugManager = new DrugManager(repository);
+            _drugRepository = new DrugRepository(puow);
+            _drugManager = new DrugManager(_drugRepository);
 
         }
 
@@ -36,6 +37,27 @@ namespace com.pharmscription.BusinessLogic.Tests.Drug
         public async Task TestSearchPagedThrowsOnNegativeAmountPerPage()
         {
             await _drugManager.SearchPaged("Redimune", "2", "-1");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestSearchPagedThrowsOnEmptySearchTerm()
+        {
+            await _drugManager.SearchPaged("     ", "2", "3");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestSearchPagedThrowsOnPageNumberNotANumber()
+        {
+            await _drugManager.SearchPaged("Aspirin", "Number", "3");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestSearchPagedThrowsOnAmountNotANumber()
+        {
+            await _drugManager.SearchPaged("Aspirin", "2", "Number");
         }
 
         [TestMethod]
@@ -68,6 +90,18 @@ namespace com.pharmscription.BusinessLogic.Tests.Drug
         public async Task TestGetByIdThrowsOnEmpty()
         {
             await _drugManager.GetById("");
+        }
+
+        [TestMethod]
+        public async Task TestCountDoesLazyLoading()
+        {
+            foreach (var drug in _drugRepository.GetAll().ToList())
+            {
+                _drugRepository.Remove(drug);
+            }
+            await _drugRepository.UnitOfWork.CommitAsync();
+            var drugCount = await _drugManager.Count("Redimune");
+            Assert.AreEqual(4, drugCount);
         }
     }
 }

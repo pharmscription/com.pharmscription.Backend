@@ -14,44 +14,72 @@ namespace com.pharmscription.BusinessLogic.Tests.Validation
         [ExpectedException(typeof(InvalidArgumentException))]
         public void ValidatorThrowsOnDefaultDateTime()
         {
-            var patientDto = new PrescriptionDto
+            var prescriptionDto = new PrescriptionDto
             {
+                Type = "N",
                 ValidUntil = "01.01.0001"
             };
             var validator = new PrescriptionValidator();
-            validator.Validate(patientDto);
+            validator.Validate(prescriptionDto);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidArgumentException))]
         public void ValidatorThrowsOnNull()
         {
-            var patientDto = new PrescriptionDto();
+            var prescriptionDto = new PrescriptionDto();
             var validator = new PrescriptionValidator();
-            validator.Validate(patientDto);
+            validator.Validate(prescriptionDto);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidArgumentException))]
         public void ValidatorThrowsOnUnparsableDate()
         {
-            var patientDto = new PrescriptionDto
+            var prescriptionDto = new PrescriptionDto
             {
+                Type = "N",
                 ValidUntil = "sdjksadlksadf"
             };
             var validator = new PrescriptionValidator();
-            validator.Validate(patientDto);
+            validator.Validate(prescriptionDto);
         }
 
         [TestMethod]
         public void ValidatorLetsCorrectDatePass()
         {
-            var patientDto = new PrescriptionDto
+            var prescriptionDto = new PrescriptionDto
             {
+                Type = "N",
                 ValidUntil = "17.03.1991"
             };
             var validator = new PrescriptionValidator();
-            validator.Validate(patientDto);
+            validator.Validate(prescriptionDto);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public void ValidatorThrowOnNotSupportedType()
+        {
+            var prescriptionDto = new PrescriptionDto
+            {
+                Type = "O",
+                ValidUntil = "17.03.1991"
+            };
+            var validator = new PrescriptionValidator();
+            validator.Validate(prescriptionDto);
+        }
+
+        [TestMethod]
+        public void ValidatorLetsCorrectTypePass()
+        {
+            var prescriptionDto = new PrescriptionDto
+            {
+                Type = "S",
+                ValidUntil = "17.03.1991"
+            };
+            var validator = new PrescriptionValidator();
+            validator.Validate(prescriptionDto);
         }
     }
 }

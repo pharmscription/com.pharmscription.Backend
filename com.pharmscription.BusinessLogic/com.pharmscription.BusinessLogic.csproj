@@ -75,6 +75,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+	<CodeAnalysisDictionary Include="..\com.pharmscription.Infrastructure\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\com.pharmscription.BusinessLogic.Converter\com.pharmscription.BusinessLogic.Converter.csproj">

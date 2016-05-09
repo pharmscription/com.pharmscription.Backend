@@ -17,10 +17,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
 using System.Web.Mvc;
 
-using Service.Controllers;
 namespace com.pharmscription.Service.Tests.Controllers
 {
+    using DataAccess.Entities.CounterProposalEntity;
     using DataAccess.Repositories.Drug;
+    using Service.Controllers;
 
     [TestClass]
     [ExcludeFromCodeCoverage]
@@ -52,6 +53,7 @@ namespace com.pharmscription.Service.Tests.Controllers
 
         private void SetupTestData()
         {
+            CleanUp();
             var patients = PatientTestEnvironment.GetTestPatients();
             foreach (var patient in patients)
             {
@@ -77,8 +79,8 @@ namespace com.pharmscription.Service.Tests.Controllers
 
                 _puow.Commit();
             }
-            rafi.Prescriptions.Add(prescriptions.First());
-            markus.Prescriptions.Add(prescriptions.Skip(1).FirstOrDefault());
+            rafi?.Prescriptions.Add(prescriptions.First());
+            markus?.Prescriptions.Add(prescriptions.Skip(1).FirstOrDefault());
 
             var dispenses = DispenseTestEnvironment.GetTestDispenses();
             foreach (var dispense in dispenses)
@@ -88,29 +90,30 @@ namespace com.pharmscription.Service.Tests.Controllers
 
             }
 
-            var prescriptionsToConnect = _prescriptionRepository.GetWithAllNavs().OrderBy(e => e.Id);
-            foreach (var counterProposal in counterProposalsToConnect.Skip(1))
+            var prescriptionsToConnect = _prescriptionRepository.GetWithAllNavs().OrderBy(e => e.Id).ToList();
+            var proposalsToConnect = counterProposalsToConnect as IList<CounterProposal> ?? counterProposalsToConnect.ToList();
+            foreach (var counterProposal in proposalsToConnect.Skip(1).ToList())
             {
-                prescriptionsToConnect.FirstOrDefault().CounterProposals.Add(counterProposal);
+                _puow.Attach(counterProposal);
+                var prescriptionA = prescriptionsToConnect.FirstOrDefault();
+                prescriptionA?.CounterProposals.Add(counterProposal);
+                _puow.Attach(prescriptionsToConnect.FirstOrDefault());
+                _puow.Commit();
             }
-            prescriptionsToConnect.OrderBy(e => e.Id).Skip(1).FirstOrDefault().CounterProposals.Add(counterProposalsToConnect.FirstOrDefault());
+            var prescriptionB = prescriptionsToConnect.OrderBy(e => e.Id).Skip(1).FirstOrDefault();
+            prescriptionB?.CounterProposals.Add(proposalsToConnect.FirstOrDefault());
+            _puow.Commit();
         }
 
         [TestCleanup]
         public void CleanUp()
         {
-            _puow.ExecuteCommand("Delete From DrugItems");
-            _puow.Commit();
-            _puow.ExecuteCommand("Delete From CounterProposals");
-            _puow.Commit();
-            _puow.ExecuteCommand("Delete From Dispenses");
-            _puow.Commit();
-            _puow.ExecuteCommand("Delete From Prescriptions");
-            _puow.Commit();
-            _puow.ExecuteCommand("Delete From Drugs");
-            _puow.Commit();
-            _puow.ExecuteCommand("Delete From Patients");
-            _puow.Commit();
+            foreach (var deleteStatment in TestEnvironmentHelper.DeleteStatments)
+            {
+                var newContext = new PharmscriptionUnitOfWork();
+                newContext.ExecuteCommand(deleteStatment);
+                newContext.Commit();
+            }
         }
 
         [TestMethod]

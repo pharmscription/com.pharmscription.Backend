@@ -11,7 +11,7 @@ namespace com.pharmscription.BusinessLogic.Converter
 
     public static class DispenseConversionExtensions
     {
-        public static List<DispenseDto> ConvertToDtos(this ICollection<Dispense> list)
+        public static ICollection<DispenseDto> ConvertToDtos(this ICollection<Dispense> list)
         {
             if (list == null)
             {
@@ -22,7 +22,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return newList;
         }
 
-        public static ICollection<Dispense> ConvertToEntites(this ICollection<DispenseDto> list)
+        public static ICollection<Dispense> ConvertToEntities(this ICollection<DispenseDto> list)
         {
             if (list == null)
             {
@@ -44,7 +44,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             var dispenseDto = new DispenseDto
             {
                 Remark = dispense.Remark,
-                Date = dispense.Date.ToString(PharmscriptionConstants.DateFormat),
+                Date = dispense.Date.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture),
                 Id = dispense.Id.ToString(),
                 DrugItems = dispense.DrugItems.ConvertToDtos()
             };
@@ -62,9 +62,12 @@ namespace com.pharmscription.BusinessLogic.Converter
             var dispense = new Dispense
             {
                 Remark = dispenseDto.Remark,
-                DrugItems = dispenseDto.DrugItems.ConvertToEntites(),
-                Date = DateTime.Parse(dispenseDto.Date)
+                DrugItems = dispenseDto.DrugItems.ConvertToEntities()
             };
+            if (dispenseDto.Date != null)
+            {
+                dispense.Date = DateTime.Parse(dispenseDto.Date, CultureInfo.CurrentCulture);
+            }
             if (!string.IsNullOrWhiteSpace(dispenseDto.Id))
             {
                 dispense.Id = new Guid(dispenseDto.Id);
@@ -74,21 +77,30 @@ namespace com.pharmscription.BusinessLogic.Converter
 
         public static bool DtoEqualsEntity(this DispenseDto dispenseDto, Dispense dispense)
         {
-            return dispenseDto.Remark == dispense.Remark && dispense.Id.ToString() == dispenseDto.Id &&
-                   dispenseDto.Date == dispense.Date.ToString(CultureInfo.InvariantCulture) &&
-                   dispenseDto.DrugItems.DtoListEqualsEntityList(dispense.DrugItems.ToList());
+            if (dispenseDto == null || dispense == null)
+            {
+                return false;
+            }
+            var ownPropertiesAreEqual = dispenseDto.Remark == dispense.Remark &&
+                                        dispense.Id.ToString() == dispenseDto.Id &&
+                                        dispenseDto.Date == dispense.Date.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture);
+            if (dispense.DrugItems != null)
+            {
+                return ownPropertiesAreEqual && dispenseDto.DrugItems.DtoListEqualsEntityList(dispense.DrugItems.ToList());
+            }
+            return ownPropertiesAreEqual;
         }
         public static bool EntityEqualsDto(this Dispense dispense, DispenseDto dispenseDto)
         {
             return DtoEqualsEntity(dispenseDto, dispense);
         }
 
-        public static bool DtoListEqualsEntityList(this List<DispenseDto> dispenseDtos, List<Dispense> dispenses)
+        public static bool DtoListEqualsEntityList(this ICollection<DispenseDto> dispenseDtos, ICollection<Dispense> dispenses)
         {
             return !dispenseDtos.Where((t, i) => !dispenseDtos.ElementAt(i).DtoEqualsEntity(dispenses.ElementAt(i))).Any();
         }
 
-        public static bool EntityListEqualsDtoList(this List<Dispense> dispenses, List<DispenseDto> dispenseDtos)
+        public static bool EntityListEqualsDtoList(this ICollection<Dispense> dispenses, ICollection<DispenseDto> dispenseDtos)
         {
             return DtoListEqualsEntityList(dispenseDtos, dispenses);
         }

@@ -8,10 +8,9 @@ namespace com.pharmscription.Infrastructure.Dto
         [DataMember]
         public DrugDto Drug { get; set; }
         [DataMember]
-        public DispenseDto Dispense { get; set; }
-        [DataMember]
-        public PrescriptionDto Prescription { get; set; }
-        [DataMember]
         public string DosageDescription { get; set; }
+        [DataMember]
+        public int Quantity { get; set; }
     }
+
 }

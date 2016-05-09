@@ -1,6 +1,4 @@
 ﻿using System;
-using com.pharmscription.DataAccess.Entities.AddressEntity;
-using com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity;
 using com.pharmscription.DataAccess.Entities.PatientEntity;
 using com.pharmscription.Infrastructure.Constants;
 using com.pharmscription.Infrastructure.Dto;
@@ -8,6 +6,8 @@ using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
 
 namespace com.pharmscription.BusinessLogic.Converter
 {
+    using System.Globalization;
+
     public static class PatientConversionExtensions
     {
         public static PatientDto ConvertToDto(this InsurancePatient patient)
@@ -16,7 +16,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return new PatientDto
             {
                 PhoneNumber = patient.PhoneNumber,
-                BirthDate = patient.BirthDate.ToString(PharmscriptionConstants.DateFormat),
+                BirthDate = patient.BirthDate.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture),
                 AhvNumber = patient.AhvNumber,
                 InsuranceNumber = patient.InsuranceNumber,
                 LastName = patient.LastName,
@@ -38,7 +38,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             var patientDto = new PatientDto
             {
                 PhoneNumber = patient.PhoneNumber,
-                BirthDate = patient.BirthDate.ToString(PharmscriptionConstants.DateFormat),
+                BirthDate = patient.BirthDate.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture),
                 AhvNumber = patient.AhvNumber,
                 InsuranceNumber = patient.InsuranceNumber,
                 LastName = patient.LastName,
@@ -49,17 +49,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             };
             if (patient.Address != null)
             {
-               
-                patientDto.Address = new AddressDto
-                {
-                    Street = patient.Address.Street,
-                    Number = patient.Address.Number,
-                    Location = patient.Address.Location,
-                    CityCode = patient.Address.CityCode.CityCode,
-                    StreetExtension = patient.Address.StreetExtension,
-                    State = patient.Address.State,
-                    Id = patient.Address.Id.ToString()
-                };   
+                patientDto.Address = patient.Address.ConvertToDto();
             }
             return patientDto;
         }
@@ -70,7 +60,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             var patient = new Patient
             {
                 PhoneNumber = patientDto.PhoneNumber,
-                BirthDate = DateTime.ParseExact(patientDto.BirthDate, PharmscriptionConstants.DateFormat, System.Globalization.CultureInfo.InvariantCulture),
+                BirthDate = DateTime.ParseExact(patientDto.BirthDate, PharmscriptionConstants.DateFormat, CultureInfo.InvariantCulture),
                 AhvNumber = patientDto.AhvNumber,
                 InsuranceNumber = patientDto.InsuranceNumber,
                 LastName = patientDto.LastName,
@@ -84,20 +74,8 @@ namespace com.pharmscription.BusinessLogic.Converter
             }
             if (patientDto.Address != null)
             {
-                
-                patient.Address = new Address
-                {
-                    Street = patientDto.Address.Street,
-                    Number = patientDto.Address.Number,
-                    Location = patientDto.Address.Location,
-                    CityCode = SwissCityCode.CreateInstance(patientDto.Address.CityCode),
-                    StreetExtension = patientDto.Address.StreetExtension,
-                    State = patientDto.Address.State,
-                };
-                if (patientDto.Address.Id != null)
-                {
-                    patient.Address.Id = Guid.Parse(patientDto.Address.Id);
-                }
+
+                patient.Address = patientDto.Address.ConvertToEntity();
             }
             return patient;
         }

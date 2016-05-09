@@ -4,9 +4,6 @@
 
     public class SwissMedicConnector
     {
-        public ISwissMedic GetSwissMedicConnection()
-        {
-            return new SwissMedicMock();
-        }
+        public static ISwissMedic SwissMedicConnection => new SwissMedicMock();
     }
 }

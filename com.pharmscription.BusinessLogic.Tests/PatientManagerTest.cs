@@ -161,6 +161,13 @@ namespace com.pharmscription.BusinessLogic.Tests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(NotFoundException))]
+        public async Task FindThrowsOnAhvNotFound()
+        {
+            await _patientManager.Find(PatientTestEnvironment.AhvNumberNotInDatabase);
+        }
+
+        [TestMethod]
         public async Task LookupFindTest()
         {
             var patient = await _patientManager.Lookup("756.1234.5678.97");

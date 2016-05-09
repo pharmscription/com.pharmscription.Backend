@@ -10,12 +10,12 @@ using com.pharmscription.Infrastructure.Constants;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.EntityHelper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+using com.pharmscription.BusinessLogic.Converter;
 namespace com.pharmscription.Service.Tests.Controllers
 {
     using System.Net;
     using System.Web.Mvc;
-
+    using DataAccess.Tests.TestEnvironment;
     using Service.Controllers;
 
     [ExcludeFromCodeCoverage]
@@ -120,13 +120,7 @@ namespace com.pharmscription.Service.Tests.Controllers
             var patientInserted = (PatientDto)((JsonResult)await _patientController.GetByAhv(testAhvNumber)).Data;
             Assert.IsNotNull(patientInserted);
             var addressInserted = patientInserted.Address;
-            Assert.IsNotNull(addressInserted);
-            Assert.AreEqual(address.CityCode, addressInserted.CityCode);
-            Assert.AreEqual(address.Location, addressInserted.Location);
-            Assert.AreEqual(address.Number, addressInserted.Number);
-            Assert.AreEqual(address.State, addressInserted.State);
-            Assert.AreEqual(address.Street, addressInserted.Street);
-            Assert.AreEqual(address.StreetExtension, addressInserted.StreetExtension);
+            Assert.IsTrue(address.ConvertToEntity().IsEqual(addressInserted.ConvertToEntity()));
         }
 
         [TestMethod]
@@ -164,6 +158,14 @@ namespace com.pharmscription.Service.Tests.Controllers
             var result = (HttpStatusCodeResult)await _patientController.GetByAhv("1.2333.43.12");
             Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
         }
+
+        [TestMethod]
+        public async Task TestGetByAhvReturnsNoContentOnNotFound()
+        {
+            var result = (HttpStatusCodeResult)await _patientController.GetByAhv(PatientTestEnvironment.AhvNumberNotInDatabase);
+            Assert.AreEqual((int)HttpStatusCode.NoContent, result.StatusCode);
+        }
+
         [TestMethod]
         public async Task TestGetByAhv()
         {
@@ -199,13 +201,7 @@ namespace com.pharmscription.Service.Tests.Controllers
             var patientInserted = (PatientDto)((JsonResult)await _patientController.GetByAhv(testAhvNumber)).Data;
             Assert.IsNotNull(patientInserted);
             var addressInserted = patientInserted.Address;
-            Assert.IsNotNull(addressInserted);
-            Assert.AreEqual(address.CityCode, addressInserted.CityCode);
-            Assert.AreEqual(address.Location, addressInserted.Location);
-            Assert.AreEqual(address.Number, addressInserted.Number);
-            Assert.AreEqual(address.State, addressInserted.State);
-            Assert.AreEqual(address.Street, addressInserted.Street);
-            Assert.AreEqual(address.StreetExtension, addressInserted.StreetExtension);
+            Assert.IsTrue(address.ConvertToEntity().IsEqual(addressInserted.ConvertToEntity()));
         }
 
         [TestMethod]

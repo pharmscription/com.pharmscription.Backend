@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 
 namespace com.pharmscription.Infrastructure.Dto
 {
+
     [DataContract]
     public class DispenseDto  : BaseDto
     {
@@ -13,7 +14,9 @@ namespace com.pharmscription.Infrastructure.Dto
         [DataMember]
         public string Remark { get; set; }
         [DataMember]
-        public List<DrugItemDto> DrugItems { get; set; }
+        public ICollection<DrugItemDto> DrugItems { get; set; }
+
+
 
     }
 }

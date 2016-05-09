@@ -73,10 +73,6 @@
     <Compile Include="Entities\PrescriptionEntity\SinglePrescription.cs" />
     <Compile Include="Entities\PrescriptionEntity\StandingPrescription.cs" />
     <Compile Include="Identity\PhaIdentityDbContext.cs" />
-    <Compile Include="Migrations\201605091210422_Init.cs" />
-    <Compile Include="Migrations\201605091210422_Init.Designer.cs">
-      <DependentUpon>201605091210422_Init.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="IPharmscriptionDataAccess.cs" />
     <Compile Include="PharmscriptionDataAccess.cs" />
@@ -110,6 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -119,9 +116,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605091210422_Init.resx">
-      <DependentUpon>201605091210422_Init.cs</DependentUpon>
-    </EmbeddedResource>
+    <CodeAnalysisDictionary Include="..\com.pharmscription.Infrastructure\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -2,7 +2,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Optimization;
 using System.Web.Routing;
 
 namespace com.pharmscription.Service
@@ -16,8 +15,6 @@ namespace com.pharmscription.Service
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
-
             XmlConfigurator.Configure();
         }
 

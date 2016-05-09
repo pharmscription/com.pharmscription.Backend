@@ -5,7 +5,6 @@ namespace com.pharmscription.DataAccess.Entities.DispenseEntity
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
     using BaseEntity;
     using DrugItemEntity;
     using SharedInterfaces;

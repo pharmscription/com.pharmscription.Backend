@@ -7,11 +7,12 @@ using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.BusinessLogic.Converter
 {
+    using System.Globalization;
     using Infrastructure.Exception;
 
     public static class PrescriptionConversionExtensions
     {
-        public static List<PrescriptionDto> ConvertToDtos(this ICollection<Prescription> list)
+        public static ICollection<PrescriptionDto> ConvertToDtos(this ICollection<Prescription> list)
         {
             if (list == null)
             {
@@ -22,7 +23,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return newList;
         }
 
-        public static List<Prescription> ConvertToEntites(this ICollection<PrescriptionDto> list)
+        public static ICollection<Prescription> ConvertToEntities(this ICollection<PrescriptionDto> list)
         {
             if (list == null)
             {
@@ -45,9 +46,9 @@ namespace com.pharmscription.BusinessLogic.Converter
             {
                 IsValid = prescription.IsValid,
                 Id = prescription.Id.ToString(),
-                IssueDate = prescription.IssueDate.ToString(PharmscriptionConstants.DateFormat),
+                IssueDate = prescription.IssueDate.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture),
                 Type = prescription.GetPrescriptionType(),
-                EditDate = prescription.EditDate.ToString(PharmscriptionConstants.DateFormat),
+                EditDate = prescription.EditDate.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture),
                 Dispenses = prescription.Dispenses.ConvertToDtos(),
                 Drugs = prescription.DrugItems.ConvertToDtos(),
                 CounterProposals = prescription.CounterProposals.ConvertToDtos(),
@@ -55,10 +56,14 @@ namespace com.pharmscription.BusinessLogic.Converter
             };
             if (prescription.SignDate != null)
             {
-                prescriptionDto.SignDate = prescription.SignDate.Value.ToString(PharmscriptionConstants.DateFormat);
+                prescriptionDto.SignDate = prescription.SignDate.Value.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture);
             }
-
-
+            var standingPrescription = prescription as StandingPrescription;
+            if (standingPrescription != null)
+            {
+                prescriptionDto.ValidUntil =
+                    standingPrescription.ValidUntill.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture);
+            }
             return prescriptionDto;
         }
 
@@ -73,58 +78,36 @@ namespace com.pharmscription.BusinessLogic.Converter
             Prescription prescription;
             if (prescriptionDto.Type == "N")
             {
-                prescription = new SinglePrescription
-                {
-                    IsValid = prescriptionDto.IsValid,
-                    CounterProposals = prescriptionDto.CounterProposals.ConvertToEntites(),
-                    DrugItems = prescriptionDto.Drugs.ConvertToEntites(),
-                    Dispenses = prescriptionDto.Dispenses.ConvertToEntites(),
-                    Patient = prescriptionDto.Patient.ConvertToEntity(),
-                    PrescriptionHistory = prescriptionDto.PrescriptionHistory.ConvertToEntites(),
-                };
-                if (prescriptionDto.SignDate != null)
-                {
-                    prescription.SignDate = DateTime.Parse(prescriptionDto.SignDate);
-                }
-                if (prescriptionDto.EditDate != null)
-                {
-                    prescription.EditDate = DateTime.Parse(prescriptionDto.EditDate);
-                }
-                if (prescriptionDto.IssueDate != null)
-                {
-                    prescription.IssueDate = DateTime.Parse(prescriptionDto.IssueDate);
-                }
+                prescription = new SinglePrescription();
             }
             else if(prescriptionDto.Type == "S")
             {
                 prescription = new StandingPrescription
                 {
-                    IsValid = prescriptionDto.IsValid,
-                    CounterProposals = prescriptionDto.CounterProposals.ConvertToEntites(),
-                    DrugItems = prescriptionDto.Drugs.ConvertToEntites(),
-                    Dispenses = prescriptionDto.Dispenses.ConvertToEntites(),
-                    Patient = prescriptionDto.Patient.ConvertToEntity(),
-                    PrescriptionHistory = prescriptionDto.PrescriptionHistory.ConvertToEntites(),
-                    ValidUntill = DateTime.Parse(prescriptionDto.ValidUntil)
+                    ValidUntill = DateTime.Parse(prescriptionDto.ValidUntil, CultureInfo.CurrentCulture)
                 };
-                if (prescriptionDto.SignDate != null)
-                {
-                    prescription.SignDate = DateTime.Parse(prescriptionDto.SignDate);
-                }
-                if (prescriptionDto.EditDate != null)
-                {
-                    prescription.EditDate = DateTime.Parse(prescriptionDto.EditDate);
-                }
-                if (prescriptionDto.IssueDate != null)
-                {
-                    prescription.IssueDate = DateTime.Parse(prescriptionDto.IssueDate);
-                }
-
             }
-
             else
             {
                 throw new InvalidArgumentException("Invalid type: " + prescriptionDto.Type);
+            }
+            prescription.IsValid = prescriptionDto.IsValid;
+            prescription.CounterProposals = prescriptionDto.CounterProposals.ConvertToEntities();
+            prescription.DrugItems = prescriptionDto.Drugs.ConvertToEntities();
+            prescription.Dispenses = prescriptionDto.Dispenses.ConvertToEntities();
+            prescription.Patient = prescriptionDto.Patient.ConvertToEntity();
+            prescription.PrescriptionHistory = prescriptionDto.PrescriptionHistory.ConvertToEntities();
+            if (prescriptionDto.IssueDate != null)
+            {
+                prescription.IssueDate = DateTime.Parse(prescriptionDto.IssueDate, CultureInfo.CurrentCulture);
+            }
+            if (prescriptionDto.EditDate != null)
+            {
+                prescription.EditDate = DateTime.Parse(prescriptionDto.EditDate, CultureInfo.CurrentCulture);
+            }
+            if (prescriptionDto.SignDate != null)
+            {
+                prescription.SignDate = DateTime.Parse(prescriptionDto.SignDate, CultureInfo.CurrentCulture);
             }
             if (!string.IsNullOrWhiteSpace(prescriptionDto.Id))
             {
@@ -135,26 +118,51 @@ namespace com.pharmscription.BusinessLogic.Converter
 
         public static bool DtoEqualsEntity(this PrescriptionDto prescriptionDto, Prescription prescription)
         {
-            return prescriptionDto.IsValid == prescription.IsValid &&
-                   prescriptionDto.CounterProposals.DtoListEqualsEntityList(prescription.CounterProposals.ToList()) &&
-                   prescriptionDto.Dispenses.DtoListEqualsEntityList(prescription.Dispenses.ToList()) &&
-                   prescriptionDto.Drugs.DtoListEqualsEntityList(prescription.DrugItems.ToList()) &&
-                   prescriptionDto.EditDate == prescription.EditDate.ToString(PharmscriptionConstants.DateFormat) &&
-                   prescriptionDto.IssueDate == prescription.IssueDate.ToString(PharmscriptionConstants.DateFormat) &&
-                   prescriptionDto.Type == prescription.GetPrescriptionType() &&
-                   prescriptionDto.PrescriptionHistory.DtoListEqualsEntityList(prescription.PrescriptionHistory.ToList());
+            if (prescriptionDto == null || prescription == null)
+            {
+                return false;
+            }
+            var ownPropertiesAreEqual = prescriptionDto.IsValid == prescription.IsValid
+                                        &&
+                                        prescriptionDto.EditDate ==
+                                        prescription.EditDate.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture) &&
+                                        prescriptionDto.IssueDate ==
+                                        prescription.IssueDate.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture) &&
+                                        prescriptionDto.Type == prescription.GetPrescriptionType();
+            var counterProposalsAreEqual = true;
+            if (prescription.CounterProposals != null)
+            {
+                counterProposalsAreEqual =
+                    prescriptionDto.CounterProposals.DtoListEqualsEntityList(prescription.CounterProposals.ToList());
+            }
+            var dispensesAreEqual = true;
+            if (prescription.Dispenses != null)
+            {
+                dispensesAreEqual = prescriptionDto.Dispenses.DtoListEqualsEntityList(prescription.Dispenses.ToList());
+            }
+            var drugsAreEqual = true;
+            if (prescription.DrugItems != null)
+            {
+                drugsAreEqual = prescriptionDto.Drugs.DtoListEqualsEntityList(prescription.DrugItems.ToList());
+            }
+            var historiesAreEqual = true;
+            if (prescription.PrescriptionHistory != null)
+            {
+                historiesAreEqual = prescriptionDto.PrescriptionHistory.DtoListEqualsEntityList(prescription.PrescriptionHistory.ToList());
+            }
+            return ownPropertiesAreEqual && counterProposalsAreEqual && dispensesAreEqual && drugsAreEqual && historiesAreEqual;
         }
         public static bool EntityEqualsDto(this Prescription prescription, PrescriptionDto prescriptionDto)
         {
             return DtoEqualsEntity(prescriptionDto, prescription);
         }
 
-        public static bool DtoListEqualsEntityList(this List<PrescriptionDto> prescriptionDtos, List<Prescription> prescriptions)
+        public static bool DtoListEqualsEntityList(this ICollection<PrescriptionDto> prescriptionDtos, ICollection<Prescription> prescriptions)
         {
             return !prescriptionDtos.Where((t, i) => !prescriptionDtos.ElementAt(i).DtoEqualsEntity(prescriptions.ElementAt(i))).Any();
         }
 
-        public static bool EntityListEqualsDtoList(this List<Prescription> prescriptions, List<PrescriptionDto> prescriptionDtos)
+        public static bool EntityListEqualsDtoList(this ICollection<Prescription> prescriptions, ICollection<PrescriptionDto> prescriptionDtos)
         {
             return DtoListEqualsEntityList(prescriptionDtos, prescriptions);
         }

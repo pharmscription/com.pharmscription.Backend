@@ -1,13 +1,16 @@
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Web.Mvc;
-using Microsoft.Practices.Unity.Mvc;
+using com.pharmscription.Service;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(com.pharmscription.Service.App_Start.UnityWebActivator), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(com.pharmscription.Service.App_Start.UnityWebActivator), "Shutdown")]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(UnityWebActivator), "Start")]
+[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(UnityWebActivator), "Shutdown")]
 
-namespace com.pharmscription.Service.App_Start
+namespace com.pharmscription.Service
 {
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Web.Mvc;
+
+    using Microsoft.Practices.Unity.Mvc;
+
     /// <summary>Provides the bootstrapping for integrating Unity with ASP.NET MVC.</summary>
     [ExcludeFromCodeCoverage]
     public static class UnityWebActivator

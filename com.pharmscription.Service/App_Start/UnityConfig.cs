@@ -1,26 +1,27 @@
-using System;
-using System.Diagnostics.CodeAnalysis;
-using com.pharmscription.BusinessLogic.Drug;
-using com.pharmscription.BusinessLogic.Patient;
-using com.pharmscription.BusinessLogic.Prescription;
-using com.pharmscription.DataAccess.Repositories.CounterProposal;
-using com.pharmscription.DataAccess.Repositories.Dispense;
-using com.pharmscription.DataAccess.Repositories.Drug;
-using com.pharmscription.DataAccess.Repositories.DrugItem;
-using com.pharmscription.DataAccess.Repositories.Patient;
-using com.pharmscription.DataAccess.UnitOfWork;
-using Microsoft.Practices.Unity;
 
-namespace com.pharmscription.Service.App_Start
+namespace com.pharmscription.Service
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+
+    using com.pharmscription.BusinessLogic.Drug;
     using com.pharmscription.BusinessLogic.Identity;
+    using com.pharmscription.BusinessLogic.Patient;
+    using com.pharmscription.BusinessLogic.Prescription;
     using com.pharmscription.DataAccess;
+    using com.pharmscription.DataAccess.Repositories.CounterProposal;
+    using com.pharmscription.DataAccess.Repositories.Dispense;
     using com.pharmscription.DataAccess.Repositories.Doctor;
+    using com.pharmscription.DataAccess.Repositories.Drug;
     using com.pharmscription.DataAccess.Repositories.Drugist;
+    using com.pharmscription.DataAccess.Repositories.DrugItem;
     using com.pharmscription.DataAccess.Repositories.DrugstoreEmployee;
     using com.pharmscription.DataAccess.Repositories.DrugStoreEmployee;
+    using com.pharmscription.DataAccess.Repositories.Patient;
+    using com.pharmscription.DataAccess.Repositories.Prescription;
+    using com.pharmscription.DataAccess.UnitOfWork;
 
-    using DataAccess.Repositories.Prescription;
+    using Microsoft.Practices.Unity;
 
     /// <summary>
     /// Specifies the Unity configuration for the main container.
@@ -29,20 +30,23 @@ namespace com.pharmscription.Service.App_Start
     public class UnityConfig
     {
         #region Unity Container
-        private static Lazy<IUnityContainer> container = new Lazy<IUnityContainer>(() =>
-        {
-            var container = new UnityContainer();
-            RegisterTypes(container);
-            return container;
-        });
+
+        private static readonly Lazy<IUnityContainer> Container = new Lazy<IUnityContainer>(
+            () =>
+                {
+                    var container = new UnityContainer();
+                    RegisterTypes(container);
+                    return container;
+                });
 
         /// <summary>
         /// Gets the configured Unity container.
         /// </summary>
         public static IUnityContainer GetConfiguredContainer()
         {
-            return container.Value;
+            return Container.Value;
         }
+
         #endregion
 
         /// <summary>Registers the type mappings with the Unity container.</summary>
@@ -51,10 +55,6 @@ namespace com.pharmscription.Service.App_Start
         /// change the defaults), as Unity allows resolving a concrete type even if it was not previously registered.</remarks>
         public static void RegisterTypes(IUnityContainer container)
         {
-            // NOTE: To load from web.config uncomment the line below. Make sure to add a Microsoft.Practices.Unity.Configuration to the using statements.
-            // container.LoadConfiguration();
-
-            // TODO: Register your types here
             container.RegisterType<IPatientManager, PatientManager>();
             container.RegisterType<IPrescriptionManager, PrescriptionManager>();
             container.RegisterType<IDrugManager, DrugManager>();
@@ -66,17 +66,18 @@ namespace com.pharmscription.Service.App_Start
             container.RegisterType<IDoctorRepository, DoctorRepository>();
             container.RegisterType<IDrugistRepository, DrugistRepository>();
             container.RegisterType<IDrugstoreEmployeeRepository, DrugstoreEmployeeRepository>();
-            
+
             container.RegisterType<IPrescriptionRepository, PrescriptionRepository>();
-            container.RegisterType<IPharmscriptionUnitOfWork, PharmscriptionUnitOfWork>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IIdentityManager, IdentityManager>();
+            container.RegisterType<IPharmscriptionDataAccess, PharmscriptionDataAccess>();
+            container.RegisterType<IPharmscriptionUnitOfWork, PharmscriptionUnitOfWork>(
+                new ContainerControlledLifetimeManager());
             /*(new ContainerControlledLifetimeManager());
             // Following code will return a singleton instance of MySingletonObject
             // Container will take over lifetime management of the object
             myContainer.Resolve<IMyObject>();*/
             // container.RegisterType<IProductRepository, ProductRepository>();
-
-            container.RegisterType<IIdentityManager, IdentityManager>();
-            container.RegisterType<IPharmscriptionDataAccess, PharmscriptionDataAccess>();
         }
     }
 }
+

@@ -9,8 +9,6 @@ using com.pharmscription.Infrastructure.Exception;
 
 namespace com.pharmscription.BusinessLogic.Patient
 {
-    
-
     public class PatientManager : CoreWorkflow, IPatientManager
     {
         private readonly IPatientRepository _patientRepository;
@@ -22,11 +20,8 @@ namespace com.pharmscription.BusinessLogic.Patient
 
         public async Task<PatientDto> Lookup(string ahvNumber)
         {
-            AhvValidator ahvValidator = new AhvValidator();
-            ahvValidator.Validate(ahvNumber);
-
-            InsuranceConnector connector = new InsuranceConnector();
-            InsurancePatient insurancePatient = await connector.GetInsuranceConnection().FindPatient(ahvNumber);
+            AhvValidator.Validate(ahvNumber);
+            InsurancePatient insurancePatient = await InsuranceConnector.InsuranceConnection.FindPatient(ahvNumber);
             return insurancePatient.ConvertToDto();
         }
 
@@ -49,15 +44,9 @@ namespace com.pharmscription.BusinessLogic.Patient
             return (await _patientRepository.GetByAhvNumber(patient.AhvNumber)).ConvertToDto();
         }
 
-        public Task<PatientDto> Edit(PatientDto patient)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<PatientDto> Find(string ahvNumber)
         {
-            AhvValidator ahvValidator = new AhvValidator();
-            ahvValidator.Validate(ahvNumber);
+            AhvValidator.Validate(ahvNumber);
             if (_patientRepository.Exists(ahvNumber))
             {
                 return (await _patientRepository.GetByAhvNumber(ahvNumber)).ConvertToDto();
@@ -70,15 +59,14 @@ namespace com.pharmscription.BusinessLogic.Patient
             Guid gid;
             if (Guid.TryParse(id, out gid))
             {
-                var patient = await _patientRepository.GetAsyncOrThrow(gid);
+                if (!await _patientRepository.CheckIfEntityExists(gid))
+                {
+                    throw new NotFoundException("Patient with id: " + id + " not found");
+                }
+                var patient = await _patientRepository.GetWithAllNavs(gid);
                 return patient.ConvertToDto();
             }
             throw new InvalidArgumentException("Id " + id + " not found");
-        }
-
-        public Task<PatientDto> RemoveById(string id)
-        {
-            throw new NotImplementedException();
         }
     }
 }

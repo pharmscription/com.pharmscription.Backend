@@ -98,9 +98,9 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
             _repository.Add(patient);
             await _repository.UnitOfWork.CommitAsync();
             var patients = _repository.GetAll().ToList();
-            var patientFound = patients.FirstOrDefault(e => e.AhvNumber == "2345");
+            var patientFound = patients.FirstOrDefault(e => e.AhvNumber == patient.AhvNumber);
             Assert.IsNotNull(patientFound);
-            Assert.AreEqual("Ueli", patientFound.FirstName);
+            Assert.AreEqual(patient.FirstName, patientFound.FirstName);
 
 
         }
