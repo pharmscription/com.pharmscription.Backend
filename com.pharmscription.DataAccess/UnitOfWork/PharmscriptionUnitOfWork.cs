@@ -15,6 +15,10 @@ using com.pharmscription.DataAccess.Entities.PrescriptionEntity;
 
 namespace com.pharmscription.DataAccess.UnitOfWork
 {
+    using Entities;
+    using Entities.DrugPriceEntity;
+    using Entities.DrugStoreEntity;
+
     public class PharmscriptionUnitOfWork : DbContext, IPharmscriptionUnitOfWork
     {
         static PharmscriptionUnitOfWork()
@@ -54,6 +58,13 @@ namespace com.pharmscription.DataAccess.UnitOfWork
         public virtual IDbSet<DrugItem> DrugItems
             => _drugItems ?? (_drugItems
             = Set<DrugItem>());
+
+        private IDbSet<DrugStore> _drugStores;
+        public virtual IDbSet<DrugStore> DrugStores => _drugStores ?? (_drugStores = Set<DrugStore>());
+
+        private IDbSet<DrugPrice> _drugPrices;
+        public virtual IDbSet<DrugPrice> DrugPrices => _drugPrices ?? (_drugPrices = Set<DrugPrice>());
+
         #endregion
 
         #region IQueryableUnitOfWork Members

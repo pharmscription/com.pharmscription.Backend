@@ -59,6 +59,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.pharmscription.Service"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.pharmscription.Service.Tests", "com.pharmscription.Service.Tests\com.pharmscription.Service.Tests.csproj", "{18AB7001-A417-4D1C-B18F-B24F4F4AADD6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.pharmscription.Reporting.Tests", "com.pharmscription.Reporting.Tests\com.pharmscription.Reporting.Tests.csproj", "{300BBF2B-E8E2-4E79-AE10-998C60F50D4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.pharmscription.Reporting", "com.pharmscription.Reporting\com.pharmscription.Reporting.csproj", "{9915D706-1905-48C5-8391-F511C2CB9B1C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -141,6 +145,14 @@ Global
 		{18AB7001-A417-4D1C-B18F-B24F4F4AADD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18AB7001-A417-4D1C-B18F-B24F4F4AADD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18AB7001-A417-4D1C-B18F-B24F4F4AADD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{300BBF2B-E8E2-4E79-AE10-998C60F50D4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{300BBF2B-E8E2-4E79-AE10-998C60F50D4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{300BBF2B-E8E2-4E79-AE10-998C60F50D4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{300BBF2B-E8E2-4E79-AE10-998C60F50D4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9915D706-1905-48C5-8391-F511C2CB9B1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9915D706-1905-48C5-8391-F511C2CB9B1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9915D706-1905-48C5-8391-F511C2CB9B1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9915D706-1905-48C5-8391-F511C2CB9B1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -168,5 +180,7 @@ Global
 		{5644767B-E426-45B6-8C69-93483AAB88DD} = {8D51527C-39C4-4646-BC4C-708061421FFA}
 		{7779A48C-B148-4671-AE79-27C105A50ACD} = {7D21ADB7-3104-487E-8886-E96ABB6920BA}
 		{18AB7001-A417-4D1C-B18F-B24F4F4AADD6} = {7D21ADB7-3104-487E-8886-E96ABB6920BA}
+		{300BBF2B-E8E2-4E79-AE10-998C60F50D4A} = {F7290322-F539-43BC-92A2-81691D9AA25D}
+		{9915D706-1905-48C5-8391-F511C2CB9B1C} = {F7290322-F539-43BC-92A2-81691D9AA25D}
 	EndGlobalSection
 EndGlobal

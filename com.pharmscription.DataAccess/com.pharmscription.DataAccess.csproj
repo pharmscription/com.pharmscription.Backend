@@ -58,6 +58,8 @@
     <Compile Include="Entities\DoctorEntity\Doctor.cs" />
     <Compile Include="Entities\DrugEntity\DrugEntity.cs" />
     <Compile Include="Entities\DrugItemEntity\DrugItem.cs" />
+    <Compile Include="Entities\DrugPriceEntity\DrugPrice.cs" />
+    <Compile Include="Entities\DrugStoreEntity\DrugStore.cs" />
     <Compile Include="Entities\PatientEntity\Patient.cs" />
     <Compile Include="Entities\PrescriptionEntity\Prescription.cs" />
     <Compile Include="Entities\PrescriptionEntity\SinglePrescription.cs" />
@@ -90,6 +92,10 @@
     <Compile Include="Migrations\201605011228280_Added Quantity to Drug.Designer.cs">
       <DependentUpon>201605011228280_Added Quantity to Drug.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605091443345_Added DrugPrice.cs" />
+    <Compile Include="Migrations\201605091443345_Added DrugPrice.Designer.cs">
+      <DependentUpon>201605091443345_Added DrugPrice.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository\Repository.cs" />
@@ -99,6 +105,10 @@
     <Compile Include="Repositories\Dispense\IDispenseRepository.cs" />
     <Compile Include="Repositories\DrugItem\DrugItemRepository.cs" />
     <Compile Include="Repositories\DrugItem\IDrugItemRepository.cs" />
+    <Compile Include="Repositories\DrugPrice\DrugPriceRepository.cs" />
+    <Compile Include="Repositories\DrugPrice\IDrugPriceRepository.cs" />
+    <Compile Include="Repositories\DrugStore\DrugStoreRepository.cs" />
+    <Compile Include="Repositories\DrugStore\IDrugStoreRepository.cs" />
     <Compile Include="Repositories\Drug\DrugRepository.cs" />
     <Compile Include="Repositories\Drug\IDrugRepository.cs" />
     <Compile Include="Repositories\Patient\IPatientRepository.cs" />
@@ -140,6 +150,9 @@
     <EmbeddedResource Include="Migrations\201605011228280_Added Quantity to Drug.resx">
       <DependentUpon>201605011228280_Added Quantity to Drug.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605091443345_Added DrugPrice.resx">
+      <DependentUpon>201605091443345_Added DrugPrice.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\com.pharmscription.Infrastructure\com.pharmscription.Infrastructure.csproj">
@@ -152,6 +165,7 @@
       <Link>CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

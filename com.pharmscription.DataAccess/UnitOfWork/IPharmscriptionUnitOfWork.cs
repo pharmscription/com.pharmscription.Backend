@@ -9,6 +9,10 @@ using com.pharmscription.DataAccess.SharedInterfaces;
 
 namespace com.pharmscription.DataAccess.UnitOfWork
 {
+    using Entities;
+    using Entities.DrugPriceEntity;
+    using Entities.DrugStoreEntity;
+
     public interface IPharmscriptionUnitOfWork : IQueryableUnitOfWork
     {
         IDbSet<Patient> Patients { get; }
@@ -17,5 +21,7 @@ namespace com.pharmscription.DataAccess.UnitOfWork
         IDbSet<CounterProposal> CounterProposals { get; }
         IDbSet<Dispense> Dispenses { get; }
         IDbSet<DrugItem> DrugItems { get; }
+        IDbSet<DrugStore> DrugStores { get; }
+        IDbSet<DrugPrice> DrugPrices { get; }
     }
 }

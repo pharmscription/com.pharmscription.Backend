@@ -47,7 +47,7 @@ namespace com.pharmscription.DataAccess.Repositories.Patient
         public async Task<Patient> GetWithAllNavs(Guid id)
         {
             var patient = 
-                await Set                    .Where(e => e.Id == id)
+                await Set.Where(e => e.Id == id)
                     .Include(e => e.Prescriptions)
                     .Include(e => e.Address)
                     .Include(e => e.Address.CityCode)
@@ -57,6 +57,22 @@ namespace com.pharmscription.DataAccess.Repositories.Patient
                 throw new NotFoundException("No Patient with such an Id exists");
             }
             return patient;
+        }
+
+        public async Task<ICollection<Patient>> GetAllWithUnreportedDispenses(DateTime lastRespectedDate)
+        {
+            var patients =
+                await
+                    Set.Where(e => e.Prescriptions.SelectMany(a => a.Dispenses).Any(c => !c.Reported) && e.CreatedDate > lastRespectedDate)
+                        .Include(e => e.Address)
+                        .Include(e => e.Prescriptions)
+                        .Include(e => e.Prescriptions.Select(b => b.Dispenses))
+                        .Include(e => e.Prescriptions.Select(a => a.Dispenses.Select(c => c.DrugItems)))
+                        .Include(
+                            e =>
+                                e.Prescriptions.Select(a => a.Dispenses.Select(c => c.DrugItems.Select(d => d.Drug))))
+                        .ToListAsync();
+            return patients;
         }
     }
 }

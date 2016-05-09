@@ -18,5 +18,6 @@ namespace com.pharmscription.DataAccess.Repositories.Patient
         Task<ICollection<Prescription>> GetPrescriptions(Guid id);
         Task<Patient> GetWithAllNavs(Guid id);
 
+        Task<ICollection<Patient>> GetAllWithUnreportedDispenses(DateTime lastRespectedDate);
     }
 }

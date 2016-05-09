@@ -76,6 +76,8 @@
     <Compile Include="TestEnvironment\DbAsyncQueryProviderMock.cs" />
     <Compile Include="TestEnvironment\DispenseTestEnvironment.cs" />
     <Compile Include="TestEnvironment\DrugItemTestEnvironment.cs" />
+    <Compile Include="TestEnvironment\DrugPriceTestEnvironment.cs" />
+    <Compile Include="TestEnvironment\DrugStoreTestEnvironment.cs" />
     <Compile Include="TestEnvironment\DrugTestEnvironment.cs" />
     <Compile Include="TestEnvironment\PatientTestEnvironment.cs" />
     <Compile Include="TestEnvironment\PrescriptionTestEnvironment.cs" />
@@ -105,6 +107,9 @@
     <CodeAnalysisDictionary Include="..\com.pharmscription.Infrastructure\CustomDictionary.xml">
       <Link>CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="script.sql" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
