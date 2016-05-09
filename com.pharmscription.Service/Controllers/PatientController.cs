@@ -22,7 +22,7 @@ namespace com.pharmscription.Service.Controllers
             _patientManager = patientManager;
         }
 
-        [PhaAuthorize[PhaAuthorize(Roles = PharmscriptionConstants.DOCTOR + "," + PharmscriptionConstants.DRUGIST + "," + PharmscriptionConstants.DRUGSTOREEMPLOYEE)]]
+        [PhaAuthorize(Roles = PharmscriptionConstants.DOCTOR + "," + PharmscriptionConstants.DRUGIST + "," + PharmscriptionConstants.DRUGSTOREEMPLOYEE)]
         [Route(PatientRoutes.GetPatientById)]
         public async Task<ActionResult> GetById(string id)
         {
