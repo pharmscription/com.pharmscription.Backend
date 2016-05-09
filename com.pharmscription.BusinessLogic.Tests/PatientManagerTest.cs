@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.BusinessLogic.Patient;
+using com.pharmscription.BusinessLogic.Converter;
 using com.pharmscription.DataAccess.Repositories.Patient;
 using com.pharmscription.DataAccess.Tests.TestEnvironment;
 using com.pharmscription.DataAccess.UnitOfWork;
@@ -117,7 +118,7 @@ namespace com.pharmscription.BusinessLogic.Tests
         [TestMethod]
         public async Task AddPatientTest()
         {
-            DateTime birthDate = new DateTime(2000, 10, 10);
+            var birthDate = new DateTime(2000, 10, 10);
             var patientDto = new PatientDto
             {
                 FirstName = "Max",
@@ -140,11 +141,91 @@ namespace com.pharmscription.BusinessLogic.Tests
             var patient = await _patientManager.Add(patientDto);
 
             Assert.IsNotNull(patient);
+        }
 
+        [TestMethod]
+        [ExpectedException(typeof(NotFoundException))]
+        public async Task TestUpdatePatientThrowsOnPatientNotInDatabase()
+        {
+            var birthDate = new DateTime(2000, 10, 10);
+            var patientDto = new PatientDto
+            {
+                Id = "1baf86b0-3f14-4f4c-b05a-5c9ff00e8e37",
+                FirstName = "Max",
+                LastName = "Müller",
+                Address = new AddressDto
+                {
+                    Street = "Bergstrasse",
+                    Number = "100",
+                    CityCode = "8000",
+                    Location = " Zürich",
+                    StreetExtension = "Postfach 1234"
+                },
+                AhvNumber = "7561234567897",
+                BirthDate = birthDate.ToString(PharmscriptionConstants.DateFormat),
+                InsuranceNumber = "Zurich-12345",
+                PhoneNumber = "056 217 21 21",
+                Insurance = "Zurich"
+            };
+
+            var patient = await _patientManager.Update(patientDto);
+
+            Assert.IsNotNull(patient);
+        }
+
+        [TestMethod]
+        public async Task UpdatePatientTest()
+        {
+            var birthDate = new DateTime(2000, 10, 10);
+            var patientDto = new PatientDto
+            {
+                FirstName = "Max",
+                LastName = "Müller",
+                Address = new AddressDto
+                {
+                    Street = "Bergstrasse",
+                    Number = "100",
+                    CityCode = "8000",
+                    Location = " Zürich",
+                    StreetExtension = "Postfach 1234"
+                },
+                AhvNumber = "7561234567897",
+                BirthDate = birthDate.ToString(PharmscriptionConstants.DateFormat),
+                InsuranceNumber = "Zurich-12345",
+                PhoneNumber = "056 217 21 21",
+                Insurance = "Zurich"
+            };
+
+            var patient = await _patientManager.Add(patientDto);
+
+            Assert.IsNotNull(patient);
+            var patientWithUpdatedInformation = new PatientDto
+            {
+                Id = patient.Id,
+                FirstName = "Thomas",
+                LastName = "Baller",
+                Address = new AddressDto
+                {
+                    Street = "Munzstrasse",
+                    Number = "222",
+                    CityCode = "6085",
+                    Location = " Lingental",
+                    StreetExtension = "Postfach 23"
+                },
+                AhvNumber = "7561234567897",
+                BirthDate = birthDate.ToString(PharmscriptionConstants.DateFormat),
+                InsuranceNumber = "Lungen-12345",
+                PhoneNumber = "056 217 35 35",
+                Insurance = "Lungen"
+            };
+            var updatedPatient = await _patientManager.Update(patientWithUpdatedInformation);
+            Assert.IsTrue(patientWithUpdatedInformation.ConvertToEntity().IsEqual(updatedPatient.ConvertToEntity()));
+            var updatedPatientInDatabase = await _patientManager.GetById(patient.Id);
+            Assert.IsTrue(updatedPatientInDatabase.ConvertToEntity().IsEqual(patientWithUpdatedInformation.ConvertToEntity()));
         }
 
 
-        [TestMethod]
+    [TestMethod]
         public async Task GetByIdTest()
         {
             var patient = await _patientManager.GetById("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37");

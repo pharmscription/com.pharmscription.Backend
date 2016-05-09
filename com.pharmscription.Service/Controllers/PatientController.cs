@@ -64,8 +64,11 @@ namespace com.pharmscription.Service.Controllers
         {
             try
             {
-                return null;
-                //return Json(await _patientManager.Update(patientDto), JsonRequestBehavior.AllowGet);
+                return Json(await _patientManager.Update(patientDto), JsonRequestBehavior.AllowGet);
+            }
+            catch (NotFoundException)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             catch (ArgumentException)
             {
