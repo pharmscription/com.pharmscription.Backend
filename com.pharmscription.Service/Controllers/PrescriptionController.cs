@@ -7,6 +7,7 @@ namespace Service.Controllers
     using System.Threading.Tasks;
     using System.Web.Mvc;
     using com.pharmscription.BusinessLogic.Prescription;
+    using com.pharmscription.Infrastructure.Constants;
     using com.pharmscription.Infrastructure.Dto;
     using com.pharmscription.Infrastructure.Exception;
     using com.pharmscription.Service.Controllers;
@@ -72,7 +73,7 @@ namespace Service.Controllers
             }
         }
 
-        [PhaAuthorizeAttribute]
+        [PhaAuthorize(Roles = PharmscriptionConstants.DOCTOR)]
         [Route(PrescriptionRoutes.CreatePrescription)]
         [System.Web.Http.HttpPut]
         public async Task<ActionResult> CreatePrescription(string patientid, PrescriptionDto dto)
@@ -95,7 +96,7 @@ namespace Service.Controllers
             }
         }
 
-        [PhaAuthorizeAttribute]
+        [PhaAuthorize]
         [Route(PrescriptionRoutes.GetCounterProposals)]
         public async Task<ActionResult> GetCounterProposals(string patientid, string prescriptionid)
         {
@@ -122,7 +123,7 @@ namespace Service.Controllers
             }
         }
 
-        [PhaAuthorizeAttribute]
+        [PhaAuthorize(Roles = PharmscriptionConstants.DRUGIST + "," + PharmscriptionConstants.DRUGSTOREEMPLOYEE)]
         [Route(PrescriptionRoutes.CreateCounterProposal)]
         [System.Web.Http.HttpPut]
         public async Task<ActionResult> CreateCounterProposal(
@@ -148,7 +149,7 @@ namespace Service.Controllers
             }
         }
 
-        [PhaAuthorizeAttribute]
+        [PhaAuthorize]
         [Route(PrescriptionRoutes.GetDispenses)]
         public async Task<ActionResult> GetDispenses(string patientid, string prescriptionid)
         {
@@ -175,7 +176,7 @@ namespace Service.Controllers
             }
         }
 
-        [PhaAuthorizeAttribute]
+        [PhaAuthorize(Roles = PharmscriptionConstants.DRUGIST + "," + PharmscriptionConstants.DRUGSTOREEMPLOYEE)]
         [Route(PrescriptionRoutes.CreateDispense)]
         [System.Web.Http.HttpPut]
         public async Task<ActionResult> CreateDispense(
@@ -201,7 +202,7 @@ namespace Service.Controllers
             }
         }
 
-        [PhaAuthorizeAttribute]
+        [PhaAuthorize]
         [Route(PrescriptionRoutes.GetDrugs)]
         public async Task<ActionResult> GetDrugs(string patientid, string prescriptionid)
         {

@@ -28,7 +28,7 @@ namespace com.pharmscription.Service.Controllers
             _log.Debug("DrugController called");
         }
 
-        [PhaAuthorize]
+        [PhaAuthorize(Roles = PharmscriptionConstants.DOCTOR+","+PharmscriptionConstants.DRUGIST+","+PharmscriptionConstants.DRUGSTOREEMPLOYEE )]
         [Route(DrugRoutes.GetDrugById)]
         public async Task<ActionResult> GetById(string id)
         {
@@ -50,7 +50,7 @@ namespace com.pharmscription.Service.Controllers
             }
         }
 
-        [PhaAuthorize]
+        [PhaAuthorize(Roles = PharmscriptionConstants.DOCTOR + "," + PharmscriptionConstants.DRUGIST + "," + PharmscriptionConstants.DRUGSTOREEMPLOYEE)]
         [Route(DrugRoutes.GetDrugsCountBySearchTerm)]
         public async Task<ActionResult> GetDrugsCountBySearchTerm(string keyword)
         {
@@ -69,7 +69,7 @@ namespace com.pharmscription.Service.Controllers
         }
 
 
-        [PhaAuthorize]
+        [PhaAuthorize(Roles = PharmscriptionConstants.DOCTOR + "," + PharmscriptionConstants.DRUGIST + "," + PharmscriptionConstants.DRUGSTOREEMPLOYEE)]
         [Route(DrugRoutes.GetDrugsBySearchTermPaged)]
         public async Task<ActionResult> GetBySearchTermPaged(string keyword, string page, string amount)
         {

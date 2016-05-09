@@ -81,23 +81,6 @@ namespace com.pharmscription.Service.Controllers
             return Json(user, JsonRequestBehavior.AllowGet);
         }
 
-        [Route("account/secure2")]
-        [PhaAuthorize(Roles = "Doctor")]
-        public ActionResult Secure2()
-        {
-            var user = base.GetCurrentUser();
-            return Json(user, JsonRequestBehavior.AllowGet);
-        }
-
-        [Route("account/secure3")]
-        [Authorize]
-        public ActionResult Secure3()
-        {
-            var user = base.GetCurrentUser();
-            return Json(user, JsonRequestBehavior.AllowGet);
-        }
-
-
         [HttpPost]
         [PhaAuthorize]
         [Route("account/logout")]
@@ -107,8 +90,7 @@ namespace com.pharmscription.Service.Controllers
             authenticationManager.SignOut();
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
-
-
+        
         [HttpGet]
         [AllowAnonymous]
         [Route("account/createtestlogins")]

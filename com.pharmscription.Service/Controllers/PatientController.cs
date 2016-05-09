@@ -9,7 +9,9 @@ using com.pharmscription.Service.Routes;
 namespace com.pharmscription.Service.Controllers
 {
     using System.Web.Mvc;
-    
+
+    using com.pharmscription.Infrastructure.Constants;
+
     [RoutePrefix("")]
     public class PatientController : Controller
     {
@@ -20,7 +22,7 @@ namespace com.pharmscription.Service.Controllers
             _patientManager = patientManager;
         }
 
-        [PhaAuthorize]
+        [PhaAuthorize[PhaAuthorize(Roles = PharmscriptionConstants.DOCTOR + "," + PharmscriptionConstants.DRUGIST + "," + PharmscriptionConstants.DRUGSTOREEMPLOYEE)]]
         [Route(PatientRoutes.GetPatientById)]
         public async Task<ActionResult> GetById(string id)
         {
@@ -42,7 +44,7 @@ namespace com.pharmscription.Service.Controllers
             }
         }
 
-        [PhaAuthorize]
+        [PhaAuthorize(Roles = PharmscriptionConstants.DOCTOR)]
         [Route(PatientRoutes.AddPatient)]
         [HttpPut]
         public async Task<ActionResult> Add(PatientDto patientDto)
@@ -61,7 +63,7 @@ namespace com.pharmscription.Service.Controllers
             }
         }
 
-        [PhaAuthorize]
+        [PhaAuthorize(Roles = PharmscriptionConstants.DOCTOR + "," + PharmscriptionConstants.DRUGIST + "," + PharmscriptionConstants.DRUGSTOREEMPLOYEE)]
         [Route(PatientRoutes.GetPatientByAhvNumber)]
         public async Task<ActionResult> GetByAhv(string ahv)
         {
@@ -83,7 +85,7 @@ namespace com.pharmscription.Service.Controllers
             }
         }
 
-        [PhaAuthorize]
+        [PhaAuthorize(Roles = PharmscriptionConstants.DOCTOR + "," + PharmscriptionConstants.DRUGIST + "," + PharmscriptionConstants.DRUGSTOREEMPLOYEE)]
         [Route(PatientRoutes.LookupPatientByAhvNumber)]
         public async Task<ActionResult> LookupByAhvNumber(string ahv)
         {
