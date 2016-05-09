@@ -9,7 +9,6 @@ using com.pharmscription.Infrastructure.Exception;
 
 namespace com.pharmscription.BusinessLogic.Patient
 {
-    using DataAccess.Entities.PatientEntity;
     using GuidHelper;
 
 
