@@ -72,19 +72,34 @@ namespace com.pharmscription.Service.Controllers
             }
             return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
         }
-
-        [Authorize]
+        
         [Route("account/secure")]
+        [PhaAuthorize]
         public ActionResult Secure()
         {
             var user = base.GetCurrentUser();
-            //IAuthenticationManager authenticationManager = HttpContext.GetOwinContext().Authentication;
+            return Json(user, JsonRequestBehavior.AllowGet);
+        }
+
+        [Route("account/secure2")]
+        [PhaAuthorize(Roles = "Doctor")]
+        public ActionResult Secure2()
+        {
+            var user = base.GetCurrentUser();
+            return Json(user, JsonRequestBehavior.AllowGet);
+        }
+
+        [Route("account/secure3")]
+        [Authorize]
+        public ActionResult Secure3()
+        {
+            var user = base.GetCurrentUser();
             return Json(user, JsonRequestBehavior.AllowGet);
         }
 
 
         [HttpPost]
-        [Authorize]
+        [PhaAuthorize]
         [Route("account/logout")]
         public ActionResult LogOut()
         {

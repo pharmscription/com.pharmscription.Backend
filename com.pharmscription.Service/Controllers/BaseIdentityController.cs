@@ -44,10 +44,14 @@ namespace com.pharmscription.Service.Controllers
                 var phaUser = user as PhaIdentityUser;
                 if (phaUser.Roles.Count == 1)
                 {
-                    var role = this.roleManager.FindById(phaUser.Roles.SingleOrDefault().RoleId);
-                    AccountRoles accountRole;
-                    AccountRoles.TryParse(role.Name, out accountRole);
-                    return _identityManager.GetUser(phaUser.UserId, accountRole);
+                    var identityUserRole = phaUser.Roles.SingleOrDefault();
+                    if (identityUserRole != null)
+                    {
+                        var role = this.roleManager.FindById(identityUserRole.RoleId);
+                        AccountRoles accountRole;
+                        AccountRoles.TryParse(role.Name, out accountRole);
+                        return this._identityManager.GetUser(phaUser.UserId, accountRole);
+                    }
                 }
                 else
                 {
