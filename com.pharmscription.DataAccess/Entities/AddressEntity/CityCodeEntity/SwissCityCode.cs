@@ -3,7 +3,7 @@
 namespace com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity
 {
 
-    public class SwissCityCode: AbstractCityCode
+    public class SwissCityCode : AbstractCityCode
     {
         public SwissCityCode()
         {
@@ -41,6 +41,21 @@ namespace com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity
             return isNumeric;
         }
 
+        public override bool Equals(AbstractCityCode other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            return CityCode == other.CityCode;
+        }
 
+        public override AbstractCityCode Clone()
+        {
+            return new SwissCityCode
+            {
+                CityCode = CityCode
+            };
+        }
     }
 }

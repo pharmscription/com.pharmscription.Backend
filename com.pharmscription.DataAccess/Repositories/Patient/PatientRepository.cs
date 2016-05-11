@@ -34,9 +34,13 @@ namespace com.pharmscription.DataAccess.Repositories.Patient
             return Set.Where(e => e.Id == id).Include(e => e.Prescriptions).FirstOrDefaultAsync();
         }
 
-        public IQueryable<Patient> GetWithAllNavs()
+        public Task<IEnumerable<Patient>> GetWithAllNavs(Func<Patient, bool> predicate)
         {
-            return Set.Include(e => e.Prescriptions).Include(e => e.Address).Include(e => e.Address.CityCode);
+            
+            return Task.Factory.StartNew(() => Set.Include(e => e.Prescriptions)
+                        .Include(e => e.Address)
+                        .Include(e => e.Address.CityCode)
+                        .Where(predicate));
         }
 
         public virtual Task<ICollection<Prescription>> GetPrescriptions(Guid id)
@@ -47,7 +51,7 @@ namespace com.pharmscription.DataAccess.Repositories.Patient
         public async Task<Patient> GetWithAllNavs(Guid id)
         {
             var patient = 
-                await Set                    .Where(e => e.Id == id)
+                await Set.Where(e => e.Id == id)
                     .Include(e => e.Prescriptions)
                     .Include(e => e.Address)
                     .Include(e => e.Address.CityCode)

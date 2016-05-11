@@ -7,9 +7,7 @@ using com.pharmscription.DataAccess.SharedInterfaces;
 
 namespace com.pharmscription.DataAccess.Entities.PatientEntity
 {
-    using Infrastructure.Dto;
-
-    public class Patient : Entity, ICloneable<Patient>
+    public class Patient : Entity, ICloneable<Patient>, IEquatable<Patient>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -37,15 +35,32 @@ namespace com.pharmscription.DataAccess.Entities.PatientEntity
             };
         }
 
-        public void UpdatePatientInformation(PatientDto patient, Address address)
+        public bool Equals(Patient other)
         {
-            EMailAddress = patient.EMailAddress;
-            FirstName = patient.FirstName;
-            Insurance = patient.Insurance;
-            InsuranceNumber = patient.InsuranceNumber;
-            LastName = patient.LastName;
-            PhoneNumber = patient.PhoneNumber;
-            Address = address;
+            if (other == null)
+            {
+                return false;
+            }
+            bool addressEquals = true;
+            if (Address != null && other.Address != null)
+            {
+                addressEquals = Address.Equals(other.Address);
+            }
+            return addressEquals && FirstName == other.FirstName && LastName == other.LastName
+                   && AhvNumber == other.AhvNumber && Insurance == other.Insurance
+                   && InsuranceNumber == other.InsuranceNumber && BirthDate.Equals(other.BirthDate)
+                   && PhoneNumber == other.PhoneNumber;
+        }
+
+        public void Update(Patient other)
+        {
+            EMailAddress = other.EMailAddress;
+            FirstName = other.FirstName;
+            Insurance = other.Insurance;
+            InsuranceNumber = other.InsuranceNumber;
+            LastName = other.LastName;
+            PhoneNumber = other.PhoneNumber;
+            Address = other.Address;
         }
     }
 }

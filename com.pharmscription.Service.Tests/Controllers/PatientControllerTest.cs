@@ -120,7 +120,7 @@ namespace com.pharmscription.Service.Tests.Controllers
             var patientInserted = (PatientDto)((JsonResult)await _patientController.GetByAhv(testAhvNumber)).Data;
             Assert.IsNotNull(patientInserted);
             var addressInserted = patientInserted.Address;
-            Assert.IsTrue(address.ConvertToEntity().IsEqual(addressInserted.ConvertToEntity()));
+            Assert.IsTrue(address.ConvertToEntity().Equals(addressInserted.ConvertToEntity()));
         }
 
         [TestMethod]
@@ -201,7 +201,7 @@ namespace com.pharmscription.Service.Tests.Controllers
             var patientInserted = (PatientDto)((JsonResult)await _patientController.GetByAhv(testAhvNumber)).Data;
             Assert.IsNotNull(patientInserted);
             var addressInserted = patientInserted.Address;
-            Assert.IsTrue(address.ConvertToEntity().IsEqual(addressInserted.ConvertToEntity()));
+            Assert.IsTrue(address.ConvertToEntity().Equals(addressInserted.ConvertToEntity()));
         }
 
         [TestMethod]

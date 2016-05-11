@@ -107,7 +107,7 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.PatientRepository
             var patientInserted = await _repository.GetByAhvNumber(testAhvNumber);
             Assert.IsNotNull(patientInserted);
             var addressInserted = patientInserted.Address;
-            Assert.IsTrue(address.IsEqual(addressInserted));
+            Assert.IsTrue(address.Equals(addressInserted));
         }
         [TestMethod]
         public async Task TestCanFindPatientWithAhvNumber()

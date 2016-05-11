@@ -90,6 +90,10 @@
     <Compile Include="Migrations\201605011228280_Added Quantity to Drug.Designer.cs">
       <DependentUpon>201605011228280_Added Quantity to Drug.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605090902543_implement-equatable.cs" />
+    <Compile Include="Migrations\201605090902543_implement-equatable.Designer.cs">
+      <DependentUpon>201605090902543_implement-equatable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository\Repository.cs" />
@@ -115,7 +119,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="ClassDiagram2.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +142,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605011228280_Added Quantity to Drug.resx">
       <DependentUpon>201605011228280_Added Quantity to Drug.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605090902543_implement-equatable.resx">
+      <DependentUpon>201605090902543_implement-equatable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -12,14 +12,14 @@ using com.pharmscription.DataAccess.Entities.DrugEntity;
 using com.pharmscription.DataAccess.Entities.DrugItemEntity;
 using com.pharmscription.DataAccess.Entities.PatientEntity;
 using com.pharmscription.DataAccess.Entities.PrescriptionEntity;
-
+using com.pharmscription.DataAccess.Migrations;
 namespace com.pharmscription.DataAccess.UnitOfWork
 {
     public class PharmscriptionUnitOfWork : DbContext, IPharmscriptionUnitOfWork
     {
         static PharmscriptionUnitOfWork()
         {
-            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<PharmscriptionUnitOfWork, Configuration>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<PharmscriptionUnitOfWork, Configuration>());
             //Database.SetInitializer(new DropCreateDatabaseAlways<PharmscriptionUnitOfWork>());
         }
 

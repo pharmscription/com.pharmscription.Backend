@@ -14,7 +14,7 @@ namespace com.pharmscription.DataAccess.Repositories.Patient
         Task<Patient> GetByAhvNumber(string ahvNumber);
         bool Exists(string ahvNumber);
         Task<Patient> GetWithPrescriptions(Guid id);
-        IQueryable<Patient> GetWithAllNavs();
+        Task<IEnumerable<Patient>> GetWithAllNavs(Func<Patient, bool> predicate);
         Task<ICollection<Prescription>> GetPrescriptions(Guid id);
         Task<Patient> GetWithAllNavs(Guid id);
 

@@ -48,17 +48,5 @@ namespace com.pharmscription.BusinessLogic.Converter
             };
             return addressDto;
         }
-
-        public static bool IsEqual(this Address addressLeft, Address addressRight)
-        {
-            if (addressLeft == null || addressRight == null)
-            {
-                return false;
-            }
-            return addressLeft.CityCode.CityCode == addressRight.CityCode.CityCode && addressLeft.Location == addressRight.Location &&
-                   addressLeft.Number == addressRight.Number && addressLeft.State == addressRight.State &&
-                   addressLeft.Street == addressRight.Street &&
-                   addressLeft.StreetExtension == addressRight.StreetExtension;
-        }
     }
 }
