@@ -7,7 +7,7 @@ namespace com.pharmscription.DataAccess.Entities.CounterProposalEntity
     using BaseEntity;
     using SharedInterfaces;
 
-    public class CounterProposal : Entity, ICloneable<CounterProposal>
+    public class CounterProposal : Entity, ICloneable<CounterProposal>, IEquatable<CounterProposal>
     {
         public DateTime Date { get; set; } 
         public string Message { get; set; }
@@ -23,6 +23,16 @@ namespace com.pharmscription.DataAccess.Entities.CounterProposalEntity
                            Date = Date,
                            Message = Message
                        };
+        }
+
+        public bool Equals(CounterProposal other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            return Date.Equals(other.Date) && Message == other.Message
+                   && Prescription == other.Prescription;
         }
     }
 }

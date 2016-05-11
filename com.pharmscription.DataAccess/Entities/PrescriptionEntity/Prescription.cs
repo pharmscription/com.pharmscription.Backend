@@ -9,7 +9,7 @@
     using DrugItemEntity;
     using PatientEntity;
     using SharedInterfaces;
-    public abstract class Prescription : Entity, ICloneable<Prescription>
+    public abstract class Prescription : Entity, ICloneable<Prescription>, IEquatable<Prescription>
     {
         public virtual Patient Patient { get; set; }
         public DateTime IssueDate { get; set; }
@@ -25,5 +25,6 @@
 
         public abstract Prescription Clone();
         public abstract string GetPrescriptionType();
+        public abstract bool Equals(Prescription other);
     }
 }

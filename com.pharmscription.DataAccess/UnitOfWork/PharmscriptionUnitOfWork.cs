@@ -22,7 +22,7 @@ namespace com.pharmscription.DataAccess.UnitOfWork
     {
         static PharmscriptionUnitOfWork()
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<PharmscriptionUnitOfWork, Configuration>());
+            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<PharmscriptionUnitOfWork, Configuration>());
             //Database.SetInitializer(new DropCreateDatabaseAlways<PharmscriptionUnitOfWork>());
         }
 
@@ -33,30 +33,30 @@ namespace com.pharmscription.DataAccess.UnitOfWork
         #region IPharmscriptionUnitOfWork Members
 
         private IDbSet<Patient> _patients;
-        public virtual IDbSet<Patient> Patients => _patients ?? (_patients = base.Set<Patient>());
+        public virtual IDbSet<Patient> Patients => _patients ?? (_patients = Set<Patient>());
 
         private IDbSet<Drug> _drugs;
-        public virtual IDbSet<Drug> Drugs => _drugs ?? (_drugs = base.Set<Drug>());
+        public virtual IDbSet<Drug> Drugs => _drugs ?? (_drugs = Set<Drug>());
 
         private IDbSet<Prescription> _prescriptions;
         public virtual IDbSet<Prescription> Prescriptions
-            => _prescriptions ?? (_prescriptions = base.Set<Prescription>());
+            => _prescriptions ?? (_prescriptions = Set<Prescription>());
 
         private IDbSet<CounterProposal> _counterProposals;
 
         public virtual IDbSet<CounterProposal> CounterProposals
             => _counterProposals ?? (_counterProposals
-            = base.Set<CounterProposal>());
+            = Set<CounterProposal>());
 
         private IDbSet<Dispense> _dispenses;
         public virtual IDbSet<Dispense> Dispenses
             => _dispenses ?? (_dispenses
-            = base.Set<Dispense>());
+            = Set<Dispense>());
 
         private IDbSet<DrugItem> _drugItems;
         public virtual IDbSet<DrugItem> DrugItems
             => _drugItems ?? (_drugItems
-            = base.Set<DrugItem>());
+            = Set<DrugItem>());
         #endregion
 
         #region IQueryableUnitOfWork Members
@@ -64,7 +64,7 @@ namespace com.pharmscription.DataAccess.UnitOfWork
         public virtual IDbSet<TEntity> CreateSet<TEntity>()
             where TEntity : class
         {
-            return base.Set<TEntity>();
+            return Set<TEntity>();
         }
 
         public void Attach<TEntity>(TEntity item)
@@ -114,7 +114,7 @@ namespace com.pharmscription.DataAccess.UnitOfWork
 
         public void CommitAndRefreshChanges()
         {
-            bool saveFailed = false;
+            var saveFailed = false;
 
             do
             {

@@ -60,8 +60,12 @@ namespace com.pharmscription.Service.Tests.Controllers
                 _patientRepository.Add(patient);
             }
             _puow.Commit();
-            var rafi = _patientRepository.GetWithAllNavs().FirstOrDefault(e => e.FirstName == "Rafael");
-            var markus = _patientRepository.GetWithAllNavs().FirstOrDefault(e => e.FirstName == "Markus");
+            var rafiTask = _patientRepository.GetWithAllNavs(e => e.FirstName == "Rafael");
+            var markusTask = _patientRepository.GetWithAllNavs(e => e.FirstName == "Markus");
+            rafiTask.Wait();
+            markusTask.Wait();
+            var rafi = rafiTask.Result.FirstOrDefault();
+            var markus = markusTask.Result.FirstOrDefault();
 
             var counterProposals = CounterProposalTestEnvironment.GetTestCounterProposals();
             foreach (var counterProposal in counterProposals)

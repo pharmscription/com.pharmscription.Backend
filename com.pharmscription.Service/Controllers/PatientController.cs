@@ -58,6 +58,28 @@ namespace com.pharmscription.Service.Controllers
             }
         }
 
+        [Route(PatientRoutes.AddPatient)]
+        [HttpPost]
+        public async Task<ActionResult> Update(PatientDto patientDto)
+        {
+            try
+            {
+                return Json(await _patientManager.Update(patientDto), JsonRequestBehavior.AllowGet);
+            }
+            catch (NotFoundException)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            catch (ArgumentException)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            }
+        }
+
         [Route(PatientRoutes.GetPatientByAhvNumber)]
         public async Task<ActionResult> GetByAhv(string ahv)
         {

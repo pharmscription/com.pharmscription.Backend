@@ -12,7 +12,7 @@ namespace com.pharmscription.BusinessLogic.Converter
     [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501:StatementMustNotBeOnSingleLine", Justification = "New line does not increase readability in this class")]
     public static class DrugConversionExtensions
     {
-        public static List<DrugDto> ConvertToDtos(this ICollection<Drug> list)
+        public static ICollection<DrugDto> ConvertToDtos(this ICollection<Drug> list)
         {
             if (list == null)
             {
@@ -23,7 +23,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return newList;
         }
 
-        public static ICollection<Drug> ConvertToEntities(this IReadOnlyCollection<DrugDto> list)
+        public static ICollection<Drug> ConvertToEntities(this ICollection<DrugDto> list)
         {
             if (list == null)
             {

@@ -40,7 +40,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             _dispenseRepository = dispenseRepository;
             _drugRepository = drugRepository;
         }
-        public async Task<List<PrescriptionDto>> Get(string patientId)
+        public async Task<ICollection<PrescriptionDto>> Get(string patientId)
         {
             var patientGuid = GuidParser.ParseGuid(patientId);
             if (await _patientRepository.GetAsync(patientGuid) == null)
@@ -83,7 +83,35 @@ namespace com.pharmscription.BusinessLogic.Prescription
             return prescription.ConvertToDto();
         }
 
-        public async Task<List<CounterProposalDto>> GetCounterProposals(string patientId, string prescriptionId)
+        public async Task<PrescriptionDto> Update(string patientId, string prescriptionId, PrescriptionDto prescriptionDto)
+        {
+            if (prescriptionDto == null)
+            {
+                throw new InvalidArgumentException("prescriptionDto was null or empty");
+            }
+            var prescriptionValidator = new PrescriptionValidator();
+            prescriptionValidator.Validate(prescriptionDto);
+            if (prescriptionDto.CounterProposals == null || !prescriptionDto.CounterProposals.Any())
+            {
+                throw new InvalidArgumentException("Updated Prescription must at least have one counterproposal");
+            }
+
+            var patientGuid = GuidParser.ParseGuid(patientId);
+            await _patientRepository.CheckIfEntityExists(patientGuid);
+            var patient = await _patientRepository.GetWithPrescriptions(patientGuid);
+            var newPrescription = await MapNewPrescriptionToEntity(prescriptionDto);
+            var oldPrecription =
+                await _prescriptionRepository.GetWithAllNavsAsynv(GuidParser.ParseGuid(prescriptionId));
+            newPrescription.PrescriptionHistory.Add(oldPrecription);
+            _prescriptionRepository.Add(newPrescription);
+            patient.Prescriptions.Add(newPrescription);
+            await _prescriptionRepository.UnitOfWork.CommitAsync();
+
+            await _prescriptionRepository.UnitOfWork.CommitAsync();
+            return newPrescription.ConvertToDto();
+        }
+
+        public async Task<ICollection<CounterProposalDto>> GetCounterProposals(string patientId, string prescriptionId)
         {
             await _patientRepository.CheckIfEntityExists(GuidParser.ParseGuid(patientId));
             var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
@@ -134,7 +162,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             return counterProposal.ConvertToDto();
         }
 
-        public async Task<List<DispenseDto>> GetDispenses(string patientId, string prescriptionId)
+        public async Task<ICollection<DispenseDto>> GetDispenses(string patientId, string prescriptionId)
         {
             await _patientRepository.CheckIfEntityExists(GuidParser.ParseGuid(patientId));
             var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
@@ -194,7 +222,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             return dispense.ConvertToDto();
         }
 
-        public async Task<List<DrugItemDto>> GetPrescriptionDrugs(string patientId, string prescriptionId)
+        public async Task<ICollection<DrugItemDto>> GetPrescriptionDrugs(string patientId, string prescriptionId)
         {
             var patientGuid = GuidParser.ParseGuid(patientId);
             var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
@@ -246,6 +274,16 @@ namespace com.pharmscription.BusinessLogic.Prescription
                     prescription.DrugItems.Add(drugItem);
                 }
             }
+            if (prescriptionDto.PrescriptionHistory != null)
+            {
+                prescription.PrescriptionHistory = new List<Prescription>();
+                foreach (var oldPrescription in prescriptionDto.PrescriptionHistory)
+                {
+                    var oldPrescriptionInDatabase = await _prescriptionRepository.GetAsyncOrThrow(GuidParser.ParseGuid(oldPrescription.Id));
+                    prescription.PrescriptionHistory.Add(oldPrescriptionInDatabase);
+                }
+            }
+            prescription.SignDate = DateTime.Now;
             prescription.EditDate = DateTime.Now;
             prescription.IssueDate = DateTime.Now;
             return prescription;

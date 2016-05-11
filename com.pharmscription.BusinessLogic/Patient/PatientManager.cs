@@ -9,7 +9,8 @@ using com.pharmscription.Infrastructure.Exception;
 
 namespace com.pharmscription.BusinessLogic.Patient
 {
-    
+    using GuidHelper;
+
 
     public class PatientManager : CoreWorkflow, IPatientManager
     {
@@ -22,8 +23,7 @@ namespace com.pharmscription.BusinessLogic.Patient
 
         public async Task<PatientDto> Lookup(string ahvNumber)
         {
-            AhvValidator ahvValidator = new AhvValidator();
-            ahvValidator.Validate(ahvNumber);
+            AhvValidator.Validate(ahvNumber);
             InsurancePatient insurancePatient = await InsuranceConnector.InsuranceConnection.FindPatient(ahvNumber);
             return insurancePatient.ConvertToDto();
         }
@@ -49,8 +49,7 @@ namespace com.pharmscription.BusinessLogic.Patient
 
         public async Task<PatientDto> Find(string ahvNumber)
         {
-            AhvValidator ahvValidator = new AhvValidator();
-            ahvValidator.Validate(ahvNumber);
+            AhvValidator.Validate(ahvNumber);
             if (_patientRepository.Exists(ahvNumber))
             {
                 return (await _patientRepository.GetByAhvNumber(ahvNumber)).ConvertToDto();
@@ -71,6 +70,14 @@ namespace com.pharmscription.BusinessLogic.Patient
                 return patient.ConvertToDto();
             }
             throw new InvalidArgumentException("Id " + id + " not found");
+        }
+
+        public async Task<PatientDto> Update(PatientDto patient)
+        {
+            var oldPatient = await _patientRepository.GetWithAllNavs(GuidParser.ParseGuid(patient.Id));
+            oldPatient.Update(patient.ConvertToEntity());
+            await _patientRepository.UnitOfWork.CommitAsync();
+            return oldPatient.ConvertToDto();
         }
     }
 }

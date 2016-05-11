@@ -11,7 +11,7 @@ namespace com.pharmscription.BusinessLogic.Converter
     [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501:StatementMustNotBeOnSingleLine", Justification = "New line does not increase readability in this class")]
     public static class DrugItemConversionExtensions
     {
-        public static List<DrugItemDto> ConvertToDtos(this ICollection<DrugItem> list)
+        public static ICollection<DrugItemDto> ConvertToDtos(this ICollection<DrugItem> list)
         {
             if (list == null)
             {
@@ -22,7 +22,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             return newList;
         }
 
-        public static ICollection<DrugItem> ConvertToEntities(this IReadOnlyCollection<DrugItemDto> list)
+        public static ICollection<DrugItem> ConvertToEntities(this ICollection<DrugItemDto> list)
         {
             if (list == null)
             {
@@ -89,12 +89,12 @@ namespace com.pharmscription.BusinessLogic.Converter
             return DtoEqualsEntity(drugItemDto, drugItem);
         }
 
-        public static bool DtoListEqualsEntityList(this IReadOnlyCollection<DrugItemDto> drugItemDtos, IReadOnlyCollection<DrugItem> drugItems)
+        public static bool DtoListEqualsEntityList(this ICollection<DrugItemDto> drugItemDtos, ICollection<DrugItem> drugItems)
         {
             return !drugItemDtos.Where((t, i) => !drugItemDtos.ElementAt(i).DtoEqualsEntity(drugItems.ElementAt(i))).Any();
         }
 
-        public static bool EntityListEqualsDtoList(this IReadOnlyCollection<DrugItem> drugItems, IReadOnlyCollection<DrugItemDto> drugItemDtos)
+        public static bool EntityListEqualsDtoList(this ICollection<DrugItem> drugItems, ICollection<DrugItemDto> drugItemDtos)
         {
             return DtoListEqualsEntityList(drugItemDtos, drugItems);
         }
