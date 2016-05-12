@@ -38,9 +38,9 @@
                 return false;
             }
             return Patient.Equals(other.Patient) && IssueDate.Equals(other.IssueDate) && EditDate.Equals(other.EditDate)
-                   && SignDate.Equals(other.SignDate) && IsValid == other.IsValid
-                   && CounterProposals.SequenceEqual(other.CounterProposals) && Doctor.Equals(other.Doctor)
-                   && Dispenses.SequenceEqual(other.Dispenses) && DrugItems.SequenceEqual(other.DrugItems)
+                   && IsValid == other.IsValid && CounterProposals.SequenceEqual(other.CounterProposals)
+                   && Doctor.Equals(other.Doctor) && Dispenses.SequenceEqual(other.Dispenses)
+                   && DrugItems.SequenceEqual(other.DrugItems)
                    && PrescriptionHistory.SequenceEqual(other.PrescriptionHistory) && ValidUntill.Equals(ValidUntill);
         }
     }
