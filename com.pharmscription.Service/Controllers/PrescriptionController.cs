@@ -49,6 +49,7 @@
         }
 
         [Route(PrescriptionRoutes.GetPrescriptionById)]
+        [HttpGet]
         public async Task<ActionResult> GetPrescriptionById(string patientid, string id)
         {
             try
@@ -70,7 +71,7 @@
         }
 
         [Route(PrescriptionRoutes.CreatePrescription)]
-        [System.Web.Http.HttpPut]
+        [HttpPut]
         public async Task<ActionResult> CreatePrescription(string patientid, PrescriptionDto dto)
         {
             try
@@ -92,7 +93,7 @@
         }
 
         [Route(PrescriptionRoutes.UpdatePrescription)]
-        [System.Web.Http.HttpPost]
+        [HttpPost]
         public async Task<ActionResult> UpdatePrescription(string patientid, PrescriptionDto dto)
         {
             try
@@ -114,13 +115,14 @@
         }
 
         [Route(PrescriptionRoutes.GetCounterProposals)]
+        [HttpGet]
         public async Task<ActionResult> GetCounterProposals(string patientid, string prescriptionid)
         {
             return await GetListOrException(_prescriptionManager.GetCounterProposals, patientid, prescriptionid);
         }
 
         [Route(PrescriptionRoutes.CreateCounterProposal)]
-        [System.Web.Http.HttpPut]
+        [HttpPut]
         public async Task<ActionResult> CreateCounterProposal(
             string patientid,
             string prescriptionid,
@@ -145,13 +147,14 @@
         }
 
         [Route(PrescriptionRoutes.GetDispenses)]
+        [HttpGet]
         public async Task<ActionResult> GetDispenses(string patientid, string prescriptionid)
         {
             return await GetListOrException(_prescriptionManager.GetDispenses, patientid, prescriptionid);
         }
 
         [Route(PrescriptionRoutes.CreateDispense)]
-        [System.Web.Http.HttpPut]
+        [HttpPut]
         public async Task<ActionResult> CreateDispense(
             string patientid,
             string prescriptionid,
@@ -176,6 +179,7 @@
         }
 
         [Route(PrescriptionRoutes.GetDrugs)]
+        [HttpGet]
         public async Task<ActionResult> GetDrugs(string patientid, string prescriptionid)
         {
             return await GetListOrException(_prescriptionManager.GetPrescriptionDrugs, patientid, prescriptionid);
