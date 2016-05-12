@@ -98,6 +98,10 @@
     <Compile Include="Migrations\201605051256077_remove-signdate.Designer.cs">
       <DependentUpon>201605051256077_remove-signdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605120753424_merge-develop.cs" />
+    <Compile Include="Migrations\201605120753424_merge-develop.Designer.cs">
+      <DependentUpon>201605120753424_merge-develop.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository\Repository.cs" />
@@ -152,6 +156,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605051256077_remove-signdate.resx">
       <DependentUpon>201605051256077_remove-signdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605120753424_merge-develop.resx">
+      <DependentUpon>201605120753424_merge-develop.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

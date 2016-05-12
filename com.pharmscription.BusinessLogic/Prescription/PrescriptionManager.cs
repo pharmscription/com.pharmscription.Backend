@@ -2,16 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using com.pharmscription.BusinessLogic.Converter;
 using com.pharmscription.BusinessLogic.GuidHelper;
 using com.pharmscription.BusinessLogic.Validation;
-using com.pharmscription.DataAccess.Entities.CounterProposalEntity;
-using com.pharmscription.DataAccess.Entities.DrugItemEntity;
-using com.pharmscription.DataAccess.Entities.PrescriptionEntity;
 using com.pharmscription.DataAccess.Repositories.CounterProposal;
 using com.pharmscription.DataAccess.Repositories.Dispense;
-using com.pharmscription.DataAccess.Repositories.Drug;
 using com.pharmscription.DataAccess.Repositories.Patient;
 using com.pharmscription.DataAccess.Repositories.Prescription;
 using com.pharmscription.Infrastructure.Dto;
@@ -19,7 +14,11 @@ using com.pharmscription.Infrastructure.Exception;
 
 namespace com.pharmscription.BusinessLogic.Prescription
 {
- 
+
+    using DataAccess.Entities.CounterProposalEntity;
+    using DataAccess.Entities.DrugItemEntity;
+    using DataAccess.Entities.PrescriptionEntity;
+    using DataAccess.Repositories.Drug;
 
     public class PrescriptionManager : IPrescriptionManager
     {
