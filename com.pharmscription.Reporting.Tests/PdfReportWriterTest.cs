@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace com.pharmscription.Reporting.Tests
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
     using BusinessLogic.DrugPrice;
     using DataAccess.Entities.AddressEntity;
@@ -24,6 +25,7 @@ namespace com.pharmscription.Reporting.Tests
     using Infrastructure.EntityHelper;
 
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class PdfReportWriterTest
     {
         [TestInitialize]
@@ -41,6 +43,7 @@ namespace com.pharmscription.Reporting.Tests
             puow.ExecuteCommand("Delete From DrugPrices");
             puow.ExecuteCommand("Delete From DrugItems");
             puow.ExecuteCommand("Delete From Drugs");
+
         }
 
         [TestMethod]
@@ -210,6 +213,8 @@ namespace com.pharmscription.Reporting.Tests
             await patientRepo.UnitOfWork.CommitAsync();
             var reporter = new Reporter(new PdfReportWriter(new DrugPriceManager(new DrugPriceRepository(puow),new DrugStoreRepository(puow), new DrugRepository(puow) )), new PrescriptionCrawler(new PatientRepository(puow)), new DispenseRepository(puow));
             await reporter.WriteReports();
+            patientRepo.Remove(patient);
+            await patientRepo.UnitOfWork.CommitAsync();
         }
     }
 }
