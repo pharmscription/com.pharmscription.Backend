@@ -9,7 +9,6 @@ using com.pharmscription.DataAccess.SharedInterfaces;
 
 namespace com.pharmscription.DataAccess.UnitOfWork
 {
-    using Entities;
     using Entities.DrugPriceEntity;
     using Entities.DrugStoreEntity;
 

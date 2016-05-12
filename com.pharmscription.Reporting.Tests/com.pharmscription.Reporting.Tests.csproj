@@ -63,6 +63,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\com.pharmscription.BusinessLogic\com.pharmscription.BusinessLogic.csproj">
+      <Project>{68EA9BAD-339D-49B4-A604-54EA4DA0952A}</Project>
+      <Name>com.pharmscription.BusinessLogic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\com.pharmscription.DataAccess.Tests\com.pharmscription.DataAccess.Tests.csproj">
       <Project>{25EDDAC0-9246-4CD7-BDC4-98F437AE5849}</Project>
       <Name>com.pharmscription.DataAccess.Tests</Name>

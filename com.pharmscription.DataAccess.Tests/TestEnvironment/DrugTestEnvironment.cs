@@ -4,8 +4,11 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Threading.Tasks;
     using DataAccess.Entities.DrugEntity;
     using DataAccess.Repositories.Drug;
+    using DataAccess.UnitOfWork;
     using Moq;
 
     [ExcludeFromCodeCoverage]
@@ -88,6 +91,24 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
             mockPuow.Setup(m => m.Drugs).Returns(mockSet.Object);
             var mockedRepository = TestEnvironmentHelper.CreateMockedRepository<Drug, DrugRepository>(mockPuow, mockSet, drugItems);
             return mockedRepository;
+        }
+
+        public static async Task SeedDrugsAsync()
+        {
+            var puow = new PharmscriptionUnitOfWork();
+            if (!puow.Drugs.Any())
+            {
+                await DatabaseSeeder.SeedDataTableAsync(Seeds.Drugs);
+            }
+        }
+
+        public static void SeedDrugs()
+        {
+            var puow = new PharmscriptionUnitOfWork();
+            if (!puow.Drugs.Any())
+            {
+                DatabaseSeeder.SeedDataTable(Seeds.Drugs);
+            }
         }
     }
 }

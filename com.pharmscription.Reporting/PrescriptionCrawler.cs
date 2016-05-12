@@ -32,21 +32,24 @@ namespace com.pharmscription.Reporting
         {
             var patients = await GetAllToReport();
             var list = new List<DispenseInformation>(patients.Count);
-            foreach (var patient in patients)
-            {
-                var dispenseInformation = new DispenseInformation
-                {
-                    Patient = patient
-                };
-                var prescriptionDispenses = new List<PrescriptionDispenses>(patient.Prescriptions.Count);
-                prescriptionDispenses.AddRange(patient.Prescriptions.Select(prescription => new PrescriptionDispenses
-                {
-                    Prescription = prescription, Dispenses = prescription.Dispenses
-                }));
-                dispenseInformation.PrescriptionDispenseses = prescriptionDispenses;
-                list.Add(dispenseInformation);
-            }
+            list.AddRange(patients.Select(CreateDispenseInformation));
             return list;
+        }
+
+        private static DispenseInformation CreateDispenseInformation(Patient patient)
+        {
+            var dispenseInformation = new DispenseInformation
+            {
+                Patient = patient
+            };
+            var prescriptionDispenses = new List<PrescriptionDispenses>(patient.Prescriptions.Count);
+            prescriptionDispenses.AddRange(patient.Prescriptions.Select(prescription => new PrescriptionDispenses
+            {
+                Prescription = prescription,
+                Dispenses = prescription.Dispenses
+            }));
+            dispenseInformation.PrescriptionDispenseses = prescriptionDispenses;
+            return dispenseInformation;
         }
     }
 }

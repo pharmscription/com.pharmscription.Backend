@@ -73,6 +73,7 @@
     <Compile Include="Repositories\DrugRepository\DrugRepositoryTest.cs" />
     <Compile Include="Repositories\PatientRepository\PatientRepositoryTest.cs" />
     <Compile Include="TestEnvironment\CounterProposalTestEnvironment.cs" />
+    <Compile Include="TestEnvironment\DatabaseSeeder.cs" />
     <Compile Include="TestEnvironment\DbAsyncQueryProviderMock.cs" />
     <Compile Include="TestEnvironment\DispenseTestEnvironment.cs" />
     <Compile Include="TestEnvironment\DrugItemTestEnvironment.cs" />
@@ -110,6 +111,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="script.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="seedDrugPrices.sql" />
+    <EmbeddedResource Include="seedDrugs.sql" />
+    <EmbeddedResource Include="seedDrugStores.sql" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

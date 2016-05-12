@@ -15,7 +15,6 @@ using com.pharmscription.DataAccess.Entities.PrescriptionEntity;
 
 namespace com.pharmscription.DataAccess.UnitOfWork
 {
-    using Entities;
     using Entities.DrugPriceEntity;
     using Entities.DrugStoreEntity;
 

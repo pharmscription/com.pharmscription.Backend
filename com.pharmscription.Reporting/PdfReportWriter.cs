@@ -2,21 +2,32 @@
 namespace com.pharmscription.Reporting
 {
     using System.IO;
+    using System.Threading.Tasks;
+    using BusinessLogic.DrugPrice;
     using iTextSharp.text.pdf;
+    using Infrastructure.Exception;
 
     public class PdfReportWriter
     {
-        public void WriteReport(DispenseInformation dispenseInformation)
+        private readonly IDrugPriceManager _drugPriceManager;
+
+        public PdfReportWriter(IDrugPriceManager drugPriceManager)
         {
-            var fileStream = new FileStream("Chapter1_Example1.pdf", FileMode.Create, FileAccess.Write, FileShare.None);
-            var generator = new PdfGenerator();
+            if (drugPriceManager == null)
+            {
+                throw new InvalidArgumentException("Not all Dependencies were fullfilled");
+            }
+            _drugPriceManager = drugPriceManager;
+        }
+        public async Task WriteReport(DispenseInformation dispenseInformation, string path)
+        {
+            var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
+            var generator = new PdfGenerator(_drugPriceManager);
             var document = generator.GetBaseDocument(
                 $"Abrechnung für {dispenseInformation.Patient.FirstName} {dispenseInformation.Patient.LastName}",
                 "Abrechnung");
-            PdfWriter reportWriter = PdfWriter.GetInstance(document, fileStream);
-             generator.FormatReport(document, dispenseInformation);
-
-            var x = reportWriter;
+            var reportWriter = PdfWriter.GetInstance(document, fileStream);
+            await generator.FormatReport(document, dispenseInformation);
             reportWriter.Close();
 
         }

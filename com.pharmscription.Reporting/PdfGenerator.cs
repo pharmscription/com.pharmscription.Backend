@@ -4,12 +4,15 @@ namespace com.pharmscription.Reporting
 {
     using System;
     using System.Globalization;
+    using System.Threading.Tasks;
+    using BusinessLogic.DrugPrice;
     using DataAccess.Entities.DispenseEntity;
     using DataAccess.Entities.PatientEntity;
     using iTextSharp.text;
     using iTextSharp.text.pdf;
     using iTextSharp.text.pdf.draw;
     using Infrastructure.Constants;
+    using Infrastructure.Exception;
 
     internal class PdfGenerator
     {
@@ -18,8 +21,18 @@ namespace com.pharmscription.Reporting
         private int _chapterNumber;
 
         private int ChapterNumber => _chapterNumber++;
+        private readonly IDrugPriceManager _drugPriceManager;
 
-        private Document GetBaseLayout()
+        public PdfGenerator(IDrugPriceManager drugPriceManagerManager)
+        {
+            if (drugPriceManagerManager == null)
+            {
+                throw new InvalidArgumentException("Not all Dependencies were fullfilled");
+            }
+            _drugPriceManager = drugPriceManagerManager;
+        }
+
+        private static Document GetBaseLayout()
         {
             var baseLayout = new Rectangle(PageSize.A4);
             var document = new Document(baseLayout, SideMargin, SideMargin, SideMargin, SideMargin);
@@ -38,7 +51,6 @@ namespace com.pharmscription.Reporting
 
         private void FormatPatientInformation(IDocListener document, Patient patient)
         {
-            document.Open();
             document.Add(GetChapterTitle("Patienteninformation", 18, Font.NORMAL));
             document.Add(GetStandardParagraph($"{patient.FirstName} {patient.LastName}"));
             document.Add(GetStandardParagraph($"AHV: {patient.AhvNumber}"));
@@ -49,9 +61,9 @@ namespace com.pharmscription.Reporting
         private Chapter GetChapterTitle(string text, int fontSize, int fontStyle)
         {
             var titleParagraph = new Paragraph(text, GetFontConfiguration(fontSize, fontStyle));
-            return new Chapter(titleParagraph, ChapterNumber) {NumberDepth = 0};
+            return new Chapter(titleParagraph, ChapterNumber) {NumberDepth = 0, TriggerNewPage = false};
         }
-        private Paragraph GetStandardParagraph(string text)
+        private static Paragraph GetStandardParagraph(string text)
         {
             return new Paragraph(text, GetStandardFontConfiguration());
         }
@@ -70,7 +82,6 @@ namespace com.pharmscription.Reporting
 
         private void FormatReportTitle(IDocListener document)
         {
-            document.Open();
             var now = DateTime.Now.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture);
             var aMonthAgo = DateTime.Now.AddMonths(-1)
                 .ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture);
@@ -81,11 +92,10 @@ namespace com.pharmscription.Reporting
 
         private void FormatPrescriptionTitle(IDocListener document)
         {
-            document.Open();
             document.Add(GetChapterTitle("Rezepte:", 18, Font.NORMAL));
         }
 
-        public Document FormatReport(Document document, DispenseInformation dispenseInformation)
+        public async Task<Document> FormatReport(Document document, DispenseInformation dispenseInformation)
         {
             document.Open();
             FormatReportTitle(document);
@@ -93,15 +103,14 @@ namespace com.pharmscription.Reporting
             FormatPrescriptionTitle(document);
             foreach (var prescriptionDispensese in dispenseInformation.PrescriptionDispenseses)
             {
-                FormatPrescriptionDispenses(document, prescriptionDispensese);
+                await FormatPrescriptionDispenses(document, prescriptionDispensese);
             }
             document.Close();
             return document;
         }
 
-        private void FormatPrescriptionDispenses(IDocListener document, PrescriptionDispenses prescriptionDispenses)
+        private async Task FormatPrescriptionDispenses(IDocListener document, PrescriptionDispenses prescriptionDispenses)
         {
-            document.Open();
             var title = $"Rezept {prescriptionDispenses.Prescription.Id}:";
             document.Add(GetChapterTitle(title, 16, Font.NORMAL));
             if (prescriptionDispenses.Prescription.CreatedDate != null)
@@ -112,36 +121,58 @@ namespace com.pharmscription.Reporting
             }
             foreach (var dispense in prescriptionDispenses.Dispenses)
             {
-                FormatDispenses(document, dispense);
+                await FormatDispenses(document, dispense);
             }
 
         }
 
         private static void AddSeperator(IDocListener document)
         {
-            document.Open();
             var separator = new LineSeparator();
             var linebreak = new Chunk(separator);
             document.Add(linebreak);
             document.Add(new Paragraph(""));
         }
 
-        private void FormatDispenses(IDocListener document, Dispense dispense)
+        private async Task FormatDispenses(IDocListener document, Dispense dispense)
         {
-            document.Open();
             AddSeperator(document);
-            document.Open();
             var title = $"Ausgabe vom {dispense.Date.ToString(PharmscriptionConstants.DateFormat)}";
             document.Add(GetChapterTitle(title, 14, Font.BOLD));
             if (!string.IsNullOrWhiteSpace(dispense.Remark))
             {
                 document.Add(GetStandardParagraph($"Bemerkung: {dispense.Remark}"));
             }
+            var table = new PdfPTable(4) {SpacingBefore = 20f,  PaddingTop = 20f};
+            var cell = new PdfPCell(new Phrase("Abrechnung"))
+            {
+                Colspan = 4,
+                HorizontalAlignment = 1
+            };
+            table.AddCell(cell);
+
+            table.AddCell("Anzahl");
+
+            table.AddCell("Beschreibung");
+
+            table.AddCell("Preis");
+
+            table.AddCell("Preis Total");
+            var total = 0.0;
             foreach (var drugItem in dispense.DrugItems)
             {
-                document.Add(GetStandardParagraph($"Menge: {drugItem.Quantity}, Bezeichnung: {drugItem.Drug.DrugDescription}"));
-
+                var reportDrugItem = await  _drugPriceManager.GenerateDrugItemReport(drugItem);
+                table.AddCell(reportDrugItem.Quantity.ToString());
+                table.AddCell(reportDrugItem.Description);
+                table.AddCell(reportDrugItem.FormattedPrice());
+                table.AddCell(reportDrugItem.TotalPrice());
+                total += reportDrugItem.Quantity * reportDrugItem.Price;
             }
+            table.AddCell("");
+            table.AddCell("");
+            table.AddCell("");
+            table.AddCell(total.ToString("F"));
+            document.Add(table);
             AddSeperator(document);
         }
     }

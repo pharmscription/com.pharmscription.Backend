@@ -2,34 +2,26 @@
 
 namespace com.pharmscription.DataAccess.Tests.TestEnvironment
 {
-    using System.IO;
-    using System.Reflection;
+    using System.Linq;
     using DataAccess.UnitOfWork;
 
     public class DrugPriceTestEnvironment
     {
-        public static async Task LoadTestDrugPrices()
+        public static async Task SeedDrugPricesAsync()
         {
-
-            var assembly = Assembly.GetExecutingAssembly();
-            const string resourceName = "com.pharmscription.DataAccess.Tests.script.sql";
-
-            using (var stream = assembly.GetManifestResourceStream(resourceName))
+            var puow = new PharmscriptionUnitOfWork();
+            if (!puow.DrugPrices.Any())
             {
-                if (stream != null)
-                {
-                    using (var reader = new StreamReader(stream))
-                    {
-                        while (!reader.EndOfStream)
-                        {
-                            var command = await reader.ReadToEndAsync();
-                            var puow = new PharmscriptionUnitOfWork();
-                            puow.ExecuteCommand(command);
-                            await puow.CommitAsync();
+                await DatabaseSeeder.SeedDataTableAsync(Seeds.DrugPrices);
+            }
+        }
 
-                        }
-                    }
-                }
+        public static void SeedDrugPrices()
+        {
+            var puow = new PharmscriptionUnitOfWork();
+            if (!puow.DrugPrices.Any())
+            {
+                DatabaseSeeder.SeedDataTable(Seeds.DrugPrices);
             }
         }
     }

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace com.pharmscription.Reporting
 {
-    using DataAccess.Entities.DispenseEntity;
     using DataAccess.Entities.PatientEntity;
 
     public class DispenseInformation
