@@ -8,6 +8,8 @@
 
         internal const string CreatePrescription = "patients/{patientid}/prescriptions/";
 
+        internal const string UpdatePrescription = "patients/{patientid}/prescriptions/{prescriptionid}";
+
         internal const string GetCounterProposals = "patients/{patientid}/prescriptions/{prescriptionid}/counterproposals";
 
         internal const string CreateCounterProposal = GetCounterProposals;
