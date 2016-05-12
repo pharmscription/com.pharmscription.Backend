@@ -91,7 +91,7 @@
             }
         }
 
-        [Route(PrescriptionRoutes.CreatePrescription)]
+        [Route(PrescriptionRoutes.UpdatePrescription)]
         [System.Web.Http.HttpPost]
         public async Task<ActionResult> UpdatePrescription(string patientid, PrescriptionDto dto)
         {

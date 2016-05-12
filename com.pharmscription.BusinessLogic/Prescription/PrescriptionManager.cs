@@ -73,12 +73,10 @@ namespace com.pharmscription.BusinessLogic.Prescription
             await _patientRepository.CheckIfEntityExists(patientGuid);
             var patient = await _patientRepository.GetWithPrescriptions(patientGuid);
             var prescription = await MapNewPrescriptionToEntity(prescriptionDto);
-            _prescriptionRepository.Add(prescription);
-            patient.Prescriptions.Add(prescription);
+            var addedPrescription = _prescriptionRepository.Add(prescription);
+            patient.Prescriptions.Add(addedPrescription);
             await _prescriptionRepository.UnitOfWork.CommitAsync();
-
-            await _prescriptionRepository.UnitOfWork.CommitAsync();
-            return prescription.ConvertToDto();
+            return addedPrescription.ConvertToDto();
         }
 
         public async Task<PrescriptionDto> Update(string patientId, string prescriptionId, PrescriptionDto prescriptionDto)
@@ -103,8 +101,6 @@ namespace com.pharmscription.BusinessLogic.Prescription
             newPrescription.PrescriptionHistory.Add(oldPrecription);
             _prescriptionRepository.Add(newPrescription);
             patient.Prescriptions.Add(newPrescription);
-            await _prescriptionRepository.UnitOfWork.CommitAsync();
-
             await _prescriptionRepository.UnitOfWork.CommitAsync();
             return newPrescription.ConvertToDto();
         }

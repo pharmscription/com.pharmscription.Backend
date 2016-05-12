@@ -46,12 +46,12 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
         /// <see cref="IRepository{TEntity}"/>
         /// </summary>
         /// <param name="item"><see cref="IRepository{TEntity}"/></param>
-        public virtual void Add(TEntity item)
+        public virtual TEntity Add(TEntity item)
         {
 
             if (item != null)
             {
-                Set.Add(item);
+                return Set.Add(item);
             }
             else
             {

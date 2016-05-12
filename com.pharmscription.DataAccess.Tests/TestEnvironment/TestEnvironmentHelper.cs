@@ -46,7 +46,12 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                 .Returns<Guid>(e => Task.FromResult(initialData.FirstOrDefault(a => a.Id == e)));
             mockedRepository.Setup(m => m.UnitOfWork).Returns(mockPuow.Object);
             mockedRepository.Setup(m => m.Add(It.IsAny<TEntity>()))
-                .Callback<TEntity>(e => mockSet.Object.Add(e));
+                .Returns<TEntity>(
+                    e =>
+                        {
+                            mockSet.Object.Add(e);
+                            return e;
+                        });
             mockedRepository.Setup(m => m.GetAsyncOrThrow(It.IsAny<Guid>())).Returns<Guid>(e =>
             {
                 var entity = initialData.FirstOrDefault(a => a.Id == e);
@@ -92,10 +97,11 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
             mockSet.As<IQueryable<TEntity>>().Setup(m => m.ElementType).Returns(sampleData.AsQueryable().ElementType);
             mockSet.As<IQueryable<TEntity>>().Setup(m => m.GetEnumerator()).Returns(() => sampleData.GetEnumerator());
 
-            mockSet.Setup(d => d.Add(It.IsAny<TEntity>())).Callback<TEntity>(e =>
+            mockSet.Setup(d => d.Add(It.IsAny<TEntity>())).Returns<TEntity>(e =>
             {
                 e.Id = IdentityGenerator.NewSequentialGuid();
                 sampleData.Add(e);
+                return e;
             });
             mockSet.Setup(d => d.AddRange(It.IsAny<IEnumerable<TEntity>>()))
                 .Callback((IEnumerable<TEntity> list) => sampleData.AddRange(list));
