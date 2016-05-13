@@ -16,7 +16,7 @@ namespace com.pharmscription.DataAccess.SharedInterfaces
         /// Add item into repository
         /// </summary>
         /// <param name="item">Item to add to repository</param>
-        void Add(TEntity item);
+        TEntity Add(TEntity item);
 
         /// <summary>
         /// Delete item 
