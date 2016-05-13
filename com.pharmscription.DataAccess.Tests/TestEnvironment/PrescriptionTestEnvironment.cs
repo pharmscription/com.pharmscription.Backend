@@ -80,7 +80,7 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
             mockPuow.Setup(m => m.Prescriptions).Returns(mockSet.Object);
             var mockedRepository = TestEnvironmentHelper.CreateMockedRepository<Prescription, PrescriptionRepository>(mockPuow, mockSet, prescriptions);
             mockedRepository.Setup(m => m.GetByPatientId(It.IsAny<Guid>())).Returns<Guid>(e => Task.FromResult(prescriptions.Where(a => a.Patient.Id == e).ToList()));
-            mockedRepository.Setup(m => m.GetWithAllNavsAsynv(It.IsAny<Guid>())).Returns<Guid>(e => Task.FromResult(prescriptions.FirstOrDefault(a => a.Id == e)));
+            mockedRepository.Setup(m => m.GetWithAllNavsAsync(It.IsAny<Guid>())).Returns<Guid>(e => Task.FromResult(prescriptions.FirstOrDefault(a => a.Id == e)));
             return mockedRepository;
         }
     }

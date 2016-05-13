@@ -98,7 +98,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             var patient = await _patientRepository.GetWithPrescriptions(patientGuid);
             var newPrescription = await MapNewPrescriptionToEntity(prescriptionDto);
             var oldPrecription =
-                await _prescriptionRepository.GetWithAllNavsAsynv(GuidParser.ParseGuid(prescriptionId));
+                await _prescriptionRepository.GetWithAllNavsAsync(GuidParser.ParseGuid(prescriptionId));
             newPrescription.PrescriptionHistory.Add(oldPrecription);
             _prescriptionRepository.Add(newPrescription);
             patient.Prescriptions.Add(newPrescription);

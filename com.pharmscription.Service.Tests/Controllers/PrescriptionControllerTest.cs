@@ -93,8 +93,9 @@ namespace com.pharmscription.Service.Tests.Controllers
                 _puow.Commit();
 
             }
-
-            var prescriptionsToConnect = _prescriptionRepository.GetWithAllNavs().OrderBy(e => e.Id).ToList();
+            var prescriptionTask = _prescriptionRepository.GetWithAllNavs(prescription => true);
+            prescriptionTask.Wait();
+            var prescriptionsToConnect = prescriptionTask.Result;
             var proposalsToConnect = counterProposalsToConnect as IList<CounterProposal> ?? counterProposalsToConnect.ToList();
             foreach (var counterProposal in proposalsToConnect.Skip(1).ToList())
             {

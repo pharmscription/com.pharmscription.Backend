@@ -14,7 +14,7 @@ namespace com.pharmscription.DataAccess.Repositories.Prescription
     public interface IPrescriptionRepository: IRepository<Prescription>
     {
         Task<List<Prescription>> GetByPatientId(Guid patientId);
-        IQueryable<Prescription> GetWithAllNavs();
-        Task<Prescription> GetWithAllNavsAsynv(Guid id);
+        Task<IEnumerable<Prescription>> GetWithAllNavs(Func<Prescription, bool> predicate);
+        Task<Prescription> GetWithAllNavsAsync(Guid id);
     }
 }
