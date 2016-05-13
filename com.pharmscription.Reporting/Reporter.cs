@@ -4,6 +4,7 @@
     using System.IO;
     using System.Threading.Tasks;
     using DataAccess.Repositories.Dispense;
+    using Infrastructure.Exception;
 
     public class Reporter
     {
@@ -14,6 +15,10 @@
 
         public Reporter(PdfReportWriter pdfReportWriter, PrescriptionCrawler prescriptionCrawler, IDispenseRepository dispenseRepository)
         {
+            if (pdfReportWriter == null || prescriptionCrawler == null || dispenseRepository == null)
+            {
+                throw new InvalidArgumentException("Dependecies not fullfilled");
+            }
             _pdfReportWriter = pdfReportWriter;
             _prescriptionCrawler = prescriptionCrawler;
             _dispenseRepository = dispenseRepository;

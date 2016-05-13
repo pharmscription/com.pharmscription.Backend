@@ -59,7 +59,7 @@ namespace com.pharmscription.DataAccess.Repositories.Patient
             return patient;
         }
 
-        public async Task<ICollection<Patient>> GetAllWithUnreportedDispenses(DateTime lastRespectedDate)
+        public virtual async Task<ICollection<Patient>> GetAllWithUnreportedDispenses(DateTime lastRespectedDate)
         {
             var patients =
                 await

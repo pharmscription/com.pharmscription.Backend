@@ -35,6 +35,13 @@ namespace com.pharmscription.Service.Tests.Controllers
             AhvNumber = TestAhvNumber
         };
 
+        [ClassInitialize]
+        public static void CleanDatabase(TestContext context)
+        {
+            var puow = new PharmscriptionUnitOfWork();
+            puow.ExecuteCommand("Delete From Patients");
+            puow.Commit();
+        }
         [TestInitialize]
         public void SetUp()
         {

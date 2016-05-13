@@ -28,14 +28,6 @@ namespace com.pharmscription.Reporting
             return await _patientRepository.GetAllWithUnreportedDispenses(aMonthAgo);
         }
 
-        public async Task<ICollection<DispenseInformation>> GetRawDataForReport()
-        {
-            var patients = await GetAllToReport();
-            var list = new List<DispenseInformation>(patients.Count);
-            list.AddRange(patients.Select(CreateDispenseInformation));
-            return list;
-        }
-
         private static DispenseInformation CreateDispenseInformation(Patient patient)
         {
             var dispenseInformation = new DispenseInformation
@@ -50,6 +42,14 @@ namespace com.pharmscription.Reporting
             }));
             dispenseInformation.PrescriptionDispenseses = prescriptionDispenses;
             return dispenseInformation;
+        }
+
+        public async Task<ICollection<DispenseInformation>> GetRawDataForReport()
+        {
+            var patients = await GetAllToReport();
+            var list = new List<DispenseInformation>(patients.Count);
+            list.AddRange(patients.Select(CreateDispenseInformation));
+            return list;
         }
     }
 }

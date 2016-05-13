@@ -29,7 +29,6 @@ namespace com.pharmscription.Reporting
             var reportWriter = PdfWriter.GetInstance(document, fileStream);
             await generator.FormatReport(document, dispenseInformation);
             reportWriter.Close();
-
         }
 
 

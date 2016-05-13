@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseSeeder\DatabaseSeeder.cs" />
     <Compile Include="Entities\AddressEntity\Address.cs" />
     <Compile Include="Entities\AddressEntity\CityCodeEntity\AbstractCityCode.cs" />
     <Compile Include="Entities\AddressEntity\CityCodeEntity\SwissCityCode.cs" />
@@ -165,7 +166,13 @@
       <Link>CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="drugs.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="drugPrices.sql" />
+    <EmbeddedResource Include="drugStores.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

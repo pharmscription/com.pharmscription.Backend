@@ -14,7 +14,7 @@ namespace com.pharmscription.Reporting
     using Infrastructure.Constants;
     using Infrastructure.Exception;
 
-    internal class PdfGenerator
+    public class PdfGenerator
     {
         private const int SideMargin = 36;
 

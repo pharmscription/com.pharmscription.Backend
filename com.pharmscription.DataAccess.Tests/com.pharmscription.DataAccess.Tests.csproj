@@ -73,10 +73,10 @@
     <Compile Include="Repositories\DrugRepository\DrugRepositoryTest.cs" />
     <Compile Include="Repositories\PatientRepository\PatientRepositoryTest.cs" />
     <Compile Include="TestEnvironment\CounterProposalTestEnvironment.cs" />
-    <Compile Include="TestEnvironment\DatabaseSeeder.cs" />
     <Compile Include="TestEnvironment\DbAsyncQueryProviderMock.cs" />
     <Compile Include="TestEnvironment\DispenseTestEnvironment.cs" />
     <Compile Include="TestEnvironment\DrugItemTestEnvironment.cs" />
+    <Compile Include="TestEnvironment\DrugPriceMock.cs" />
     <Compile Include="TestEnvironment\DrugPriceTestEnvironment.cs" />
     <Compile Include="TestEnvironment\DrugStoreTestEnvironment.cs" />
     <Compile Include="TestEnvironment\DrugTestEnvironment.cs" />
@@ -91,6 +91,10 @@
       <Project>{7BE7799A-2AB7-4A59-BE2B-6364EA6C9BD0}</Project>
       <Name>com.pharmscription.BusinessLogic.Converter</Name>
     </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.BusinessLogic\com.pharmscription.BusinessLogic.csproj">
+      <Project>{68EA9BAD-339D-49B4-A604-54EA4DA0952A}</Project>
+      <Name>com.pharmscription.BusinessLogic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\com.pharmscription.DataAccess\com.pharmscription.DataAccess.csproj">
       <Project>{45E80FD3-39D7-4112-AF49-BB25B67E0FEE}</Project>
       <Name>com.pharmscription.DataAccess</Name>
@@ -98,6 +102,10 @@
     <ProjectReference Include="..\com.pharmscription.Infrastructure\com.pharmscription.Infrastructure.csproj">
       <Project>{B53CE84A-9F8A-41C2-97FB-8AA14635CCBF}</Project>
       <Name>com.pharmscription.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.Reporting\com.pharmscription.Reporting.csproj">
+      <Project>{9915d706-1905-48c5-8391-f511c2cb9b1c}</Project>
+      <Name>com.pharmscription.Reporting</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -108,14 +116,6 @@
     <CodeAnalysisDictionary Include="..\com.pharmscription.Infrastructure\CustomDictionary.xml">
       <Link>CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="script.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="seedDrugPrices.sql" />
-    <EmbeddedResource Include="seedDrugs.sql" />
-    <EmbeddedResource Include="seedDrugStores.sql" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

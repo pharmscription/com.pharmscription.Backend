@@ -9,6 +9,7 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
     using DataAccess.Entities.DrugEntity;
     using DataAccess.Repositories.Drug;
     using DataAccess.UnitOfWork;
+    using DatabaseSeeder;
     using Moq;
 
     [ExcludeFromCodeCoverage]
@@ -105,7 +106,8 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
         public static void SeedDrugs()
         {
             var puow = new PharmscriptionUnitOfWork();
-            if (!puow.Drugs.Any())
+            var repo = new DrugRepository(puow);
+            if (!repo.GetAll().Any())
             {
                 DatabaseSeeder.SeedDataTable(Seeds.Drugs);
             }

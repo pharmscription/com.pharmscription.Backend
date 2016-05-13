@@ -2,8 +2,9 @@
 
 namespace com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity
 {
+    using SharedInterfaces;
 
-    public class SwissCityCode: AbstractCityCode
+    public class SwissCityCode: AbstractCityCode, ICloneable<AbstractCityCode>
     {
         public SwissCityCode()
         {
@@ -42,5 +43,9 @@ namespace com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity
         }
 
 
+        public override AbstractCityCode Clone()
+        {
+            return CreateInstance(CityCode);
+        }
     }
 }
