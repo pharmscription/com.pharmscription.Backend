@@ -66,10 +66,7 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
         {
             if (item != null)
             {
-                //attach item if not exist
                 _unitOfWork.Attach(item);
-
-                //set as "removed"
                 Set.Remove(item);
             }
             else
@@ -197,12 +194,6 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
             return Set.Count(predicate);
         }
 
-        //TODO: Implement Specification-Pattern
-        //public virtual IEnumerable<TEntity> AllMatching(Domain.Seedwork.Specification.ISpecification<TEntity> specification)
-        //{
-        //    return GetSet().Where(specification.SatisfiedBy())
-        //                   .AsEnumerable();
-        //}
         /// <summary>
         /// <see cref="IRepository{TEntity}"/>
         /// </summary>
