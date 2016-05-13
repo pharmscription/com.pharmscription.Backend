@@ -7,6 +7,8 @@ using com.pharmscription.DataAccess.SharedInterfaces;
 
 namespace com.pharmscription.DataAccess.Entities.PatientEntity
 {
+    using Infrastructure.Dto;
+
     public class Patient : Entity, ICloneable<Patient>
     {
         public string FirstName { get; set; }
@@ -33,6 +35,17 @@ namespace com.pharmscription.DataAccess.Entities.PatientEntity
                 InsuranceNumber = InsuranceNumber,
                 Insurance = Insurance
             };
+        }
+
+        public void UpdatePatientInformation(PatientDto patient, Address address)
+        {
+            EMailAddress = patient.EMailAddress;
+            FirstName = patient.FirstName;
+            Insurance = patient.Insurance;
+            InsuranceNumber = patient.InsuranceNumber;
+            LastName = patient.LastName;
+            PhoneNumber = patient.PhoneNumber;
+            Address = address;
         }
     }
 }
