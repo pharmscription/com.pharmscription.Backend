@@ -62,8 +62,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="BaseRestTest.cs" />
-    <Compile Include="PatientBaseRestTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -105,10 +103,6 @@
     <ProjectReference Include="..\com.pharmscription.Infrastructure\com.pharmscription.Infrastructure.csproj">
       <Project>{b53ce84a-9f8a-41c2-97fb-8aa14635ccbf}</Project>
       <Name>com.pharmscription.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\com.pharmscription.Service\com.pharmscription.Service.csproj">
-      <Project>{79905079-7E37-4081-A70E-0FFE616966C8}</Project>
-      <Name>com.pharmscription.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

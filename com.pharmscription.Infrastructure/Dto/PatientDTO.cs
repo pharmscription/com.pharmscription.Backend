@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace com.pharmscription.Infrastructure.Dto
 {
@@ -16,18 +15,8 @@ namespace com.pharmscription.Infrastructure.Dto
         public string AhvNumber { get; set; }
         [DataMember]
         public AddressDto Address { get; set; }
-        
-        public DateTime BirthDate { get; set; }
         [DataMember]
-        public string BirthDateStr
-        {
-            get { return BirthDate.ToString(@"dd.MM.yyyy"); }
-            set
-            {
-                BirthDate=DateTime.ParseExact(value, @"dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture);
-            }
-        }
-
+        public string BirthDate { get; set; }
         [DataMember]
         public string PhoneNumber { get; set; }
         [DataMember]

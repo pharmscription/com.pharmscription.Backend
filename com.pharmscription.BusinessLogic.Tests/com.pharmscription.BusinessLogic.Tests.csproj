@@ -65,10 +65,18 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Drug\DrugManagerTest.cs" />
+    <Compile Include="GuidHelper\GuidParserTest.cs" />
     <Compile Include="PatientManagerTest.cs" />
+    <Compile Include="Prescription\PrescriptionManagerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\BirthDateValidatorTest.cs" />
+    <Compile Include="Validation\PrescriptionValidatorTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\com.pharmscription.BusinessLogic.Converter\com.pharmscription.BusinessLogic.Converter.csproj">
+      <Project>{7be7799a-2ab7-4a59-be2b-6364ea6c9bd0}</Project>
+      <Name>com.pharmscription.BusinessLogic.Converter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\com.pharmscription.BusinessLogic\com.pharmscription.BusinessLogic.csproj">
       <Project>{68EA9BAD-339D-49B4-A604-54EA4DA0952A}</Project>
       <Name>com.pharmscription.BusinessLogic</Name>
@@ -89,6 +97,11 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\com.pharmscription.Infrastructure\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

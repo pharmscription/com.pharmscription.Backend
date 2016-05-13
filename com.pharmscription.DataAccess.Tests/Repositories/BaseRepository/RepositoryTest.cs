@@ -7,6 +7,7 @@ using com.pharmscription.DataAccess.Repositories.BaseRepository;
 using com.pharmscription.DataAccess.SharedInterfaces;
 using com.pharmscription.DataAccess.Tests.TestEnvironment;
 using com.pharmscription.DataAccess.UnitOfWork;
+using com.pharmscription.Infrastructure.EntityHelper;
 using com.pharmscription.Infrastructure.Exception;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -54,7 +55,7 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
                     BirthDate = new DateTime(1983, 03, 17)
                 }
             };
-            var mockSet = TestEnvironmentHelper.GetMockedDbSet(patients);
+            var mockSet = TestEnvironmentHelper.GetMockedAsyncProviderDbSet(patients);
 
             var mockPuow = TestEnvironmentHelper.GetMockedDataContext();
             mockPuow.Setup(m => m.Patients).Returns(mockSet.Object);
@@ -97,9 +98,9 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
             _repository.Add(patient);
             await _repository.UnitOfWork.CommitAsync();
             var patients = _repository.GetAll().ToList();
-            var patientFound = patients.FirstOrDefault(e => e.AhvNumber == "2345");
+            var patientFound = patients.FirstOrDefault(e => e.AhvNumber == patient.AhvNumber);
             Assert.IsNotNull(patientFound);
-            Assert.AreEqual("Ueli", patientFound.FirstName);
+            Assert.AreEqual(patient.FirstName, patientFound.FirstName);
 
 
         }
@@ -160,7 +161,41 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.BaseRepository
             await _repository.UnitOfWork.CommitAsync();
             var patientFound = _repository.Get(patientToFind.Id);
             Assert.AreEqual(patientToFind, patientFound);
+        }
 
+        [TestMethod]
+        [ExpectedException(typeof(NotFoundException))]
+        public async Task TestGetOrThrowThrowsOnNotFound()
+        { 
+            await _repository.GetAsyncOrThrow(IdentityGenerator.NewSequentialGuid());
+        }
+
+        [TestMethod]
+        public async Task TestDoesGetOrThrowById()
+        {
+            var patientToFind = _repository.GetAll().FirstOrDefault();
+            Assert.IsNotNull(patientToFind);
+            patientToFind.Id = Guid.NewGuid();
+            await _repository.UnitOfWork.CommitAsync();
+            var patientFound = await _repository.GetAsyncOrThrow(patientToFind.Id);
+            Assert.AreEqual(patientToFind, patientFound);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NotFoundException))]
+        public async Task TestCheckIfEntityExistsThrowsOnNotFound()
+        {
+            await _repository.CheckIfEntityExists(IdentityGenerator.NewSequentialGuid());
+        }
+
+        [TestMethod]
+        public async Task TestCheckIfEntityExists()
+        {
+            var patientToFind = _repository.GetAll().FirstOrDefault();
+            Assert.IsNotNull(patientToFind);
+            patientToFind.Id = Guid.NewGuid();
+            await _repository.UnitOfWork.CommitAsync();
+            await _repository.CheckIfEntityExists(patientToFind.Id);
         }
 
         [TestMethod]

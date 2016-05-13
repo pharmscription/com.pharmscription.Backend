@@ -42,17 +42,29 @@
   <ItemGroup>
     <Compile Include="Context.cs" />
     <Compile Include="CoreWorkflow.cs" />
+    <Compile Include="DrugPrice\DrugPriceManager.cs" />
+    <Compile Include="DrugPrice\IDrugPriceManager.cs" />
+    <Compile Include="DrugPrice\ReportDrugItem.cs" />
     <Compile Include="Drug\DrugManager.cs" />
     <Compile Include="Drug\IDrugManager.cs" />
     <Compile Include="Drug\SwissMedicConnector.cs" />
+    <Compile Include="GuidHelper\GuidParser.cs" />
     <Compile Include="Patient\InsuranceConnector.cs" />
     <Compile Include="Patient\IPatientManager.cs" />
     <Compile Include="Patient\PatientManager.cs" />
+    <Compile Include="Prescription\IPrescriptionManager.cs" />
+    <Compile Include="Prescription\PrescriptionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\AHVValidator.cs" />
+    <Compile Include="Validation\BirthDateValidator.cs" />
     <Compile Include="Validation\IValidator.cs" />
+    <Compile Include="Validation\PrescriptionValidator.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\com.pharmscription.Infrastructure\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\com.pharmscription.BusinessLogic.Converter\com.pharmscription.BusinessLogic.Converter.csproj">
       <Project>{7BE7799A-2AB7-4A59-BE2B-6364EA6C9BD0}</Project>

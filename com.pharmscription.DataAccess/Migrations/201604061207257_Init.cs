@@ -1,8 +1,9 @@
 namespace com.pharmscription.DataAccess.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+    using System.Diagnostics.CodeAnalysis;
+
+    [ExcludeFromCodeCoverage]
     public partial class Init : DbMigration
     {
         public override void Up()

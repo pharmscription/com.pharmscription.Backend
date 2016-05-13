@@ -65,6 +65,20 @@ namespace com.pharmscription.DataAccess.SharedInterfaces
         /// <param name="id"></param>
         /// <returns></returns>
         Task<TEntity> GetAsync(Guid id);
+
+        /// <summary>
+        /// Get element by entity key async, But throws NotFoundException when no element is Present
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<TEntity> GetAsyncOrThrow(Guid id);
+
+        /// <summary>
+        /// Checks if Entity exists, But throws NotFoundException when no element is Present
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<bool> CheckIfEntityExists(Guid id);
         IEnumerable<TEntity> Find(Guid id);
 
         /// <summary>

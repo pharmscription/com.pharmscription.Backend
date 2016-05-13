@@ -2,7 +2,7 @@ namespace com.pharmscription.DataAccess.Migrations
 {
     using System.Data.Entity.Migrations;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<com.pharmscription.DataAccess.UnitOfWork.PharmscriptionUnitOfWork>
+    internal sealed class Configuration : DbMigrationsConfiguration<UnitOfWork.PharmscriptionUnitOfWork>
     {
         public Configuration()
         {
@@ -10,7 +10,7 @@ namespace com.pharmscription.DataAccess.Migrations
             AutomaticMigrationDataLossAllowed = true;
         }
 
-        protected override void Seed(com.pharmscription.DataAccess.UnitOfWork.PharmscriptionUnitOfWork context)
+        protected override void Seed(UnitOfWork.PharmscriptionUnitOfWork context)
         {
             //  This method will be called after migrating to the latest version.
 

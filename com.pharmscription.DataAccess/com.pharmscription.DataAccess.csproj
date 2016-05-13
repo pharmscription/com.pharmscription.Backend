@@ -49,26 +49,73 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseSeeder\DatabaseSeeder.cs" />
     <Compile Include="Entities\AddressEntity\Address.cs" />
-    <Compile Include="Entities\AddressEntity\CityCodeEntity\ICityCode.cs" />
+    <Compile Include="Entities\AddressEntity\CityCodeEntity\AbstractCityCode.cs" />
     <Compile Include="Entities\AddressEntity\CityCodeEntity\SwissCityCode.cs" />
     <Compile Include="Entities\BaseEntity\Entity.cs" />
+    <Compile Include="Entities\CounterProposalEntity\CounterProposal.cs" />
+    <Compile Include="Entities\DispenseEntity\Dispense.cs" />
     <Compile Include="Entities\DoctorEntity\Doctor.cs" />
     <Compile Include="Entities\DrugEntity\DrugEntity.cs" />
+    <Compile Include="Entities\DrugItemEntity\DrugItem.cs" />
+    <Compile Include="Entities\DrugPriceEntity\DrugPrice.cs" />
+    <Compile Include="Entities\DrugStoreEntity\DrugStore.cs" />
     <Compile Include="Entities\PatientEntity\Patient.cs" />
-    <Compile Include="EntityHelper\IdentityGenerator.cs" />
+    <Compile Include="Entities\PrescriptionEntity\Prescription.cs" />
+    <Compile Include="Entities\PrescriptionEntity\SinglePrescription.cs" />
+    <Compile Include="Entities\PrescriptionEntity\StandingPrescription.cs" />
     <Compile Include="Migrations\201604061207257_Init.cs" />
     <Compile Include="Migrations\201604061207257_Init.Designer.cs">
       <DependentUpon>201604061207257_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604201147449_drugs.cs" />
+    <Compile Include="Migrations\201604201147449_drugs.Designer.cs">
+      <DependentUpon>201604201147449_drugs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604251313556_init3.cs" />
+    <Compile Include="Migrations\201604251313556_init3.Designer.cs">
+      <DependentUpon>201604251313556_init3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604251325330_init6.cs" />
+    <Compile Include="Migrations\201604251325330_init6.Designer.cs">
+      <DependentUpon>201604251325330_init6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604251637458_MAde Signdate optional.cs" />
+    <Compile Include="Migrations\201604251637458_MAde Signdate optional.Designer.cs">
+      <DependentUpon>201604251637458_MAde Signdate optional.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604281132334_Connected City Code to Patients.cs" />
+    <Compile Include="Migrations\201604281132334_Connected City Code to Patients.Designer.cs">
+      <DependentUpon>201604281132334_Connected City Code to Patients.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605011228280_Added Quantity to Drug.cs" />
+    <Compile Include="Migrations\201605011228280_Added Quantity to Drug.Designer.cs">
+      <DependentUpon>201605011228280_Added Quantity to Drug.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605091443345_Added DrugPrice.cs" />
+    <Compile Include="Migrations\201605091443345_Added DrugPrice.Designer.cs">
+      <DependentUpon>201605091443345_Added DrugPrice.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="PharmscriptionDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository\Repository.cs" />
+    <Compile Include="Repositories\CounterProposal\CounterProposalRepository.cs" />
+    <Compile Include="Repositories\CounterProposal\ICounterProposalRepository.cs" />
+    <Compile Include="Repositories\Dispense\DispenseRepository.cs" />
+    <Compile Include="Repositories\Dispense\IDispenseRepository.cs" />
+    <Compile Include="Repositories\DrugItem\DrugItemRepository.cs" />
+    <Compile Include="Repositories\DrugItem\IDrugItemRepository.cs" />
+    <Compile Include="Repositories\DrugPrice\DrugPriceRepository.cs" />
+    <Compile Include="Repositories\DrugPrice\IDrugPriceRepository.cs" />
+    <Compile Include="Repositories\DrugStore\DrugStoreRepository.cs" />
+    <Compile Include="Repositories\DrugStore\IDrugStoreRepository.cs" />
     <Compile Include="Repositories\Drug\DrugRepository.cs" />
     <Compile Include="Repositories\Drug\IDrugRepository.cs" />
     <Compile Include="Repositories\Patient\IPatientRepository.cs" />
     <Compile Include="Repositories\Patient\PatientRepository.cs" />
+    <Compile Include="Repositories\Prescription\IPrescriptionRepository.cs" />
+    <Compile Include="Repositories\Prescription\PrescriptionRepository.cs" />
     <Compile Include="SharedInterfaces\IEntity.cs" />
     <Compile Include="SharedInterfaces\IQueryableUnitOfWork.cs" />
     <Compile Include="SharedInterfaces\IRepository.cs" />
@@ -79,11 +126,33 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201604061207257_Init.resx">
       <DependentUpon>201604061207257_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604201147449_drugs.resx">
+      <DependentUpon>201604201147449_drugs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604251313556_init3.resx">
+      <DependentUpon>201604251313556_init3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604251325330_init6.resx">
+      <DependentUpon>201604251325330_init6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604251637458_MAde Signdate optional.resx">
+      <DependentUpon>201604251637458_MAde Signdate optional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604281132334_Connected City Code to Patients.resx">
+      <DependentUpon>201604281132334_Connected City Code to Patients.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605011228280_Added Quantity to Drug.resx">
+      <DependentUpon>201605011228280_Added Quantity to Drug.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605091443345_Added DrugPrice.resx">
+      <DependentUpon>201605091443345_Added DrugPrice.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +160,18 @@
       <Project>{B53CE84A-9F8A-41C2-97FB-8AA14635CCBF}</Project>
       <Name>com.pharmscription.Infrastructure</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\com.pharmscription.Infrastructure\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="drugs.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="drugPrices.sql" />
+    <EmbeddedResource Include="drugStores.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

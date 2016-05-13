@@ -1,0 +1,99 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using com.pharmscription.DataAccess.Entities.DrugItemEntity;
+using com.pharmscription.Infrastructure.Dto;
+
+namespace com.pharmscription.BusinessLogic.Converter
+{
+    public static class DrugItemConversionExtensions
+    {
+        public static ICollection<DrugItemDto> ConvertToDtos(this ICollection<DrugItem> list)
+        {
+            if (list == null)
+            {
+                return null;
+            }
+            var newList = new List<DrugItemDto>(list.Count);
+            newList.AddRange(list.Select(drugItem => drugItem.ConvertToDto()));
+            return newList;
+        }
+
+        public static ICollection<DrugItem> ConvertToEntities(this ICollection<DrugItemDto> list)
+        {
+            if (list == null)
+            {
+                return null;
+            }
+            var newList = new List<DrugItem>(list.Count);
+            newList.AddRange(list.Select(drug => drug.ConvertToEntity()));
+            return newList;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="drug"></param>
+        /// <returns>null when it get null as parameter</returns>
+        public static DrugItemDto ConvertToDto(this DrugItem drug)
+        {
+            if (drug == null) return null;
+            var drugItemDto = new DrugItemDto
+            {
+                Drug = drug.Drug.ConvertToDto(),
+                DosageDescription = drug.DosageDescription,
+                Quantity = drug.Quantity,
+                Id = drug.Id.ToString()
+                
+            }; 
+            return drugItemDto;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="drugItemDto"></param>
+        /// <returns>null when it get null as parameter</returns>
+        public static DrugItem ConvertToEntity(this DrugItemDto drugItemDto)
+        {
+            if (drugItemDto == null) return null;
+            var drugItem = new DrugItem
+            {
+                Drug = drugItemDto.Drug.ConvertToEntity(),
+                DosageDescription = drugItemDto.DosageDescription,
+                Quantity = drugItemDto.Quantity
+            };
+            if (!string.IsNullOrWhiteSpace(drugItemDto.Id))
+            {
+                drugItem.Id = new Guid(drugItemDto.Id);
+            }
+            return drugItem;
+        }
+
+        public static bool DtoEqualsEntity(this DrugItemDto drugItemDto, DrugItem drugItem)
+        {
+            if (drugItemDto == null || drugItem == null)
+            {
+                return false;
+            }
+            return drugItemDto.DosageDescription == drugItem.DosageDescription &&
+                   drugItemDto.Drug.DtoEqualsEntity(drugItem.Drug)
+                   && drugItemDto.Id == drugItem.Id.ToString()
+                   && drugItemDto.Quantity == drugItem.Quantity;
+        }
+        public static bool EntityEqualsDto(this DrugItem drugItem, DrugItemDto drugItemDto)
+        {
+            return DtoEqualsEntity(drugItemDto, drugItem);
+        }
+
+        public static bool DtoListEqualsEntityList(this ICollection<DrugItemDto> drugItemDtos, ICollection<DrugItem> drugItems)
+        {
+            return !drugItemDtos.Where((t, i) => !drugItemDtos.ElementAt(i).DtoEqualsEntity(drugItems.ElementAt(i))).Any();
+        }
+
+        public static bool EntityListEqualsDtoList(this ICollection<DrugItem> drugItems, ICollection<DrugItemDto> drugItemDtos)
+        {
+            return DtoListEqualsEntityList(drugItemDtos, drugItems);
+        }
+    }
+}
