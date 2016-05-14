@@ -219,7 +219,9 @@ namespace com.pharmscription.BusinessLogic.Prescription
             var dispenseGuid = GuidParser.ParseGuid(dispenseId);
             await _dispenseRepository.CheckIfEntityExists(dispenseGuid);
             var dispense = dispenseDto.ConvertToEntity();
-            _dispenseRepository.Modify(dispense);
+            var oldDispense = await _dispenseRepository.GetAsync(dispenseGuid);
+            oldDispense.Update(dispense);
+            _dispenseRepository.Modify(oldDispense);
             await _dispenseRepository.UnitOfWork.CommitAsync();
             return dispense.ConvertToDto();
         }
