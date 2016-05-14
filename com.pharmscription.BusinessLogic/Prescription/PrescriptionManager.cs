@@ -14,6 +14,7 @@ using com.pharmscription.Infrastructure.Exception;
 
 namespace com.pharmscription.BusinessLogic.Prescription
 {
+    using com.pharmscription.DataAccess.Entities.DispenseEntity;
 
     using DataAccess.Entities.CounterProposalEntity;
     using DataAccess.Entities.DrugItemEntity;
@@ -162,7 +163,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             await _patientRepository.CheckIfEntityExists(GuidParser.ParseGuid(patientId));
             var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
             await _prescriptionRepository.CheckIfEntityExists(prescriptionGuid);
-            return (await _prescriptionRepository.GetAsync(prescriptionGuid)).Dispenses.ConvertToDtos();
+            return (await _prescriptionRepository.GetWithAllNavsAsync(prescriptionGuid)).Dispenses.ConvertToDtos();
         }
 
         public async Task<DispenseDto> GetDispenses(string patientId, string prescriptionId, string dispenseId)
@@ -185,10 +186,13 @@ namespace com.pharmscription.BusinessLogic.Prescription
             var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
             await _prescriptionRepository.CheckIfEntityExists(prescriptionGuid);
             var dispense = dispenseDto.ConvertToEntity();
-            //TODO: Date should not be set when adding dispense
-            dispense.Date = DateTime.Now;
             _dispenseRepository.Add(dispense);
-            var prescription = await _prescriptionRepository.GetAsync(prescriptionGuid);
+            var prescription = await _prescriptionRepository.GetWithAllNavsAsync(prescriptionGuid);
+            if (prescription.Dispenses == null)
+            {
+                prescription.Dispenses = new List<Dispense>();
+            }
+
             prescription.Dispenses.Add(dispense);
             await _dispenseRepository.UnitOfWork.CommitAsync();
             return dispense.ConvertToDto();
@@ -204,6 +208,10 @@ namespace com.pharmscription.BusinessLogic.Prescription
             {
                 throw new InvalidArgumentException("dispense was null or empty");
             }
+            if (dispenseId != dispenseDto.Id)
+            {
+                throw new InvalidArgumentException("dispenseid does not match DispenseDto");
+            }
             var patientGuid = GuidParser.ParseGuid(patientId);
             await _patientRepository.CheckIfEntityExists(patientGuid);
             var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
@@ -211,7 +219,6 @@ namespace com.pharmscription.BusinessLogic.Prescription
             var dispenseGuid = GuidParser.ParseGuid(dispenseId);
             await _dispenseRepository.CheckIfEntityExists(dispenseGuid);
             var dispense = dispenseDto.ConvertToEntity();
-            dispense.Date = DateTime.Now;
             _dispenseRepository.Modify(dispense);
             await _dispenseRepository.UnitOfWork.CommitAsync();
             return dispense.ConvertToDto();
@@ -281,7 +288,6 @@ namespace com.pharmscription.BusinessLogic.Prescription
             prescription.EditDate = DateTime.Now;
             prescription.IssueDate = DateTime.Now;
             return prescription;
-
         }
     }
 }

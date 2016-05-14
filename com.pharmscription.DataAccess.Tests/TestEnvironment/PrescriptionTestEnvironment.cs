@@ -10,6 +10,8 @@ using Moq;
 
 namespace com.pharmscription.DataAccess.Tests.TestEnvironment
 {
+    using com.pharmscription.DataAccess.Entities.DispenseEntity;
+
     public static class PrescriptionTestEnvironment
     {
         public const string StandingPrescriptionOneId = "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37";
@@ -45,7 +47,8 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                             },
                             DosageDescription = "2/3/2"
                         }
-                    }
+                    },
+                    Dispenses = new List<Dispense>()
                 },
                 new StandingPrescription
                 {
@@ -67,7 +70,8 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                             },
                             DosageDescription = "2/3/2"
                         }
-                    }
+                    },
+                    Dispenses = new List<Dispense>()
                 }
             };
         }
