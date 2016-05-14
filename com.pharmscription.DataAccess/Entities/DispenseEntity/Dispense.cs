@@ -12,7 +12,7 @@ namespace com.pharmscription.DataAccess.Entities.DispenseEntity
     using SharedInterfaces;
     public class Dispense : Entity, ICloneable<Dispense>, IEquatable<Dispense>
     {
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
         public string Remark { get; set; }
         public virtual ICollection<DrugItem> DrugItems { get; set; }
 

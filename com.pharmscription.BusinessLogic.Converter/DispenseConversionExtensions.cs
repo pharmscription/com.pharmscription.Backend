@@ -47,7 +47,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             var dispenseDto = new DispenseDto
             {
                 Remark = dispense.Remark,
-                Date = dispense.Date.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture),
+                Date = dispense.Date?.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture),
                 Id = dispense.Id.ToString(),
                 DrugItems = dispense.DrugItems.ConvertToDtos()
             };
@@ -88,7 +88,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             }
             var ownPropertiesAreEqual = dispenseDto.Remark == dispense.Remark &&
                                         dispense.Id.ToString() == dispenseDto.Id &&
-                                        dispenseDto.Date == dispense.Date.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture);
+                                        dispenseDto.Date == dispense.Date?.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture);
             if (dispense.DrugItems != null)
             {
                 return ownPropertiesAreEqual && dispenseDto.DrugItems.DtoListEqualsEntityList(dispense.DrugItems.ToList());
