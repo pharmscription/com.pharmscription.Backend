@@ -1,10 +1,9 @@
-﻿namespace com.pharmscription.DataAccess.Repositories.Dispense
-{
-    using Entities.DispenseEntity;
-    using BaseRepository;
-    using UnitOfWork;
+﻿using com.pharmscription.DataAccess.Repositories.BaseRepository;
+using com.pharmscription.DataAccess.UnitOfWork;
 
-    public class DispenseRepository : Repository<Dispense>, IDispenseRepository
+namespace com.pharmscription.DataAccess.Repositories.Dispense
+{
+    public class DispenseRepository : Repository<Entities.DispenseEntity.Dispense>, IDispenseRepository
     {
         public DispenseRepository(IPharmscriptionUnitOfWork unitOfWork)
             : base(unitOfWork)

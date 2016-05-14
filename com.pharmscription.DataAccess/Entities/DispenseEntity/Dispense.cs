@@ -1,15 +1,15 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using com.pharmscription.DataAccess.Entities.BaseEntity;
+using com.pharmscription.DataAccess.Entities.DrugItemEntity;
 using com.pharmscription.DataAccess.Entities.PrescriptionEntity;
+using com.pharmscription.DataAccess.SharedInterfaces;
 
 namespace com.pharmscription.DataAccess.Entities.DispenseEntity
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using BaseEntity;
-    using DrugItemEntity;
-    using SharedInterfaces;
+    
     public class Dispense : Entity, ICloneable<Dispense>, IEquatable<Dispense>
     {
         public DateTime? Date { get; set; }
@@ -36,9 +36,30 @@ namespace com.pharmscription.DataAccess.Entities.DispenseEntity
             {
                 return false;
             }
-            return Date.Equals(other.Date) && Remark == other.Remark && DrugItems.SequenceEqual(other.DrugItems)
+            bool equal = false;
+            if (DrugItems != null && other.DrugItems != null)
+            {
+                equal = DrugItems.SequenceEqual(other.DrugItems);
+            }
+            return equal && Nullable.Equals(Date, other.Date) && Remark == other.Remark
                    && Prescription == other.Prescription;
+        }
 
+        public void Update(Dispense other)
+        {
+            if (other != null)
+            {
+                if (Id != other.Id)
+                {
+                    throw new NotSupportedException("Dispenses with different IDs cannot be merged");
+                }
+                Date = other.Date;
+                Remark = other.Remark;
+                DrugItems = other.DrugItems;
+                Prescription = other.Prescription;
+                SinglePrescription = other.SinglePrescription;
+                StandingPrescription = other.StandingPrescription;
+            }
         }
     }
 }
