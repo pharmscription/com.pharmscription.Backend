@@ -14,7 +14,10 @@ using com.pharmscription.Infrastructure.Exception;
 
 namespace com.pharmscription.BusinessLogic.Prescription
 {
+    using System.Globalization;
+
     using com.pharmscription.DataAccess.Entities.DispenseEntity;
+    using com.pharmscription.Infrastructure.Constants;
 
     using DataAccess.Entities.CounterProposalEntity;
     using DataAccess.Entities.DrugItemEntity;
@@ -216,7 +219,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
                 throw new InvalidArgumentException("dispenseid does not match DispenseDto");
             }
 
-            if (dispenseDto.Date != null)
+            if (dispenseDto.Date == DateTime.MinValue.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture))
             {
                 throw new InvalidArgumentException("Dispense already signed. Cannot edit");
             }

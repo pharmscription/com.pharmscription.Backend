@@ -20,7 +20,7 @@ using Moq;
 
 namespace com.pharmscription.BusinessLogic.Tests.Prescription
 {
-    
+    using System.Globalization;
 
     [TestClass]
     [ExcludeFromCodeCoverage]
@@ -739,6 +739,21 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
             var dispenseDto = await _prescriptionManager.AddDispense(patientId, prescriptiondto.Id, dispense.ConvertToDto());
             await _prescriptionManager.ModifyDispense(patientId, prescriptiondto.Id, dispenseId, dispenseDto);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestEditDispenseAlreadySigned()
+        {
+            var prescription = PrescriptionTestEnvironment.GetTestPrescriptions().FirstOrDefault();
+            var patientId = PatientTestEnvironment.PatientIdOne;
+            var dispense = DispenseTestEnvironment.GetTestDispenses().FirstOrDefault();
+            dispense.Date = DateTime.Now.AddDays(-1);
+            var dispenseId = DispenseTestEnvironment.DispenseTwoId;
+            var prescriptiondto = await _prescriptionManager.Add(patientId, prescription.ConvertToDto());
+            var dispenseDto = await _prescriptionManager.AddDispense(patientId, prescriptiondto.Id, dispense.ConvertToDto());
+            await _prescriptionManager.ModifyDispense(patientId, prescriptiondto.Id, dispenseId, dispenseDto);
+        }
+
         private static List<DrugItemDto> GetTestDrugItems()
         {
             var drugs = new List<DrugItemDto>
