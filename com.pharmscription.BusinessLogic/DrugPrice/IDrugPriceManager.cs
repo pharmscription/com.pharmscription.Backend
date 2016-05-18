@@ -10,6 +10,6 @@ namespace com.pharmscription.BusinessLogic.DrugPrice
         Task<double> GetPrice(Guid drugStoreId, Guid drugId);
         Task<double> GetPrice(Guid drugId);
         Task<ReportDrugItem> GenerateDrugItemReport(DrugItem drugItem);
-
+        Task SeedDataTables();
     }
 }

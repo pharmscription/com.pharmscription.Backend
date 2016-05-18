@@ -20,7 +20,7 @@
             var puow = new PharmscriptionUnitOfWork();
             if (!puow.DrugStores.Any())
             {
-                await DatabaseSeeder.SeedDataTableAsync(Seeds.DrugStores);
+                await DatabaseSeeder.SeedDataTableAsync(Seed.DrugStore);
             }
         }
 
@@ -29,7 +29,7 @@
             var puow = new PharmscriptionUnitOfWork();
             if (!puow.DrugStores.Any())
             {
-                DatabaseSeeder.SeedDataTable(Seeds.DrugStores);
+                DatabaseSeeder.SeedDataTable(Seed.DrugStore);
             }
         }
 

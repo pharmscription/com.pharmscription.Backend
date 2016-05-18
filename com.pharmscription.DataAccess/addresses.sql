@@ -1,0 +1,2 @@
+USE [Pharmscription]
+INSERT [dbo].[Addresses]([Id], [Location], [Number], [State], [Street], [StreetExtension]) Values(N'0d32ba77-092a-ca5c-fb19-08d37a6605f6', N'Wil', N'18', N'Thurgau', N'Steigstrasse', N'AB')

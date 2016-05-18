@@ -105,7 +105,7 @@
             var puow = new PharmscriptionUnitOfWork();
             if (!puow.DrugPrices.Any())
             {
-                await DatabaseSeeder.SeedDataTableAsync(Seeds.DrugPrices);
+                await DatabaseSeeder.SeedDataTableAsync(Seed.DrugPrice);
             }
         }
 
@@ -114,7 +114,7 @@
             var puow = new PharmscriptionUnitOfWork();
             if (!puow.DrugPrices.Any())
             {
-                DatabaseSeeder.SeedDataTable(Seeds.DrugPrices);
+                DatabaseSeeder.SeedDataTable(Seed.DrugPrice);
             }
         }
 

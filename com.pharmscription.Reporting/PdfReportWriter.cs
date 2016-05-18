@@ -21,17 +21,16 @@ namespace com.pharmscription.Reporting
         }
         public async Task WriteReport(DispenseInformation dispenseInformation, string path)
         {
-            var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
-            var generator = new PdfGenerator(_drugPriceManager);
-            var document = generator.GetBaseDocument(
-                $"Abrechnung für {dispenseInformation.Patient.FirstName} {dispenseInformation.Patient.LastName}",
-                "Abrechnung");
-            var reportWriter = PdfWriter.GetInstance(document, fileStream);
-            await generator.FormatReport(document, dispenseInformation);
-            reportWriter.Close();
+            using (var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                var generator = new PdfGenerator(_drugPriceManager);
+                var document = generator.GetBaseDocument(
+                    $"Abrechnung für {dispenseInformation.Patient.FirstName} {dispenseInformation.Patient.LastName}",
+                    "Abrechnung");
+                var reportWriter = PdfWriter.GetInstance(document, fileStream);
+                await generator.FormatReport(document, dispenseInformation);
+                reportWriter.Close();
+            }   
         }
-
-
-
     }
 }

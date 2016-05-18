@@ -257,6 +257,7 @@
     <Compile Include="Controllers\DrugController.cs" />
     <Compile Include="Controllers\PatientController.cs" />
     <Compile Include="Controllers\PrescriptionController.cs" />
+    <Compile Include="Controllers\ReportingController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -305,6 +306,10 @@
     <ProjectReference Include="..\com.pharmscription.Infrastructure\com.pharmscription.Infrastructure.csproj">
       <Project>{B53CE84A-9F8A-41C2-97FB-8AA14635CCBF}</Project>
       <Name>com.pharmscription.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.Reporting\com.pharmscription.Reporting.csproj">
+      <Project>{9915D706-1905-48C5-8391-F511C2CB9B1C}</Project>
+      <Name>com.pharmscription.Reporting</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

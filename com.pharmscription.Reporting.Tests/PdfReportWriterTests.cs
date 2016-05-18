@@ -43,6 +43,10 @@ namespace com.pharmscription.Reporting.Tests
             var testDispenseInformation = DrugPriceTestEnvironment.SimpleDispenseInformation;
             await _pdfReportWriter.WriteReport(testDispenseInformation, path);
             Assert.IsTrue(File.Exists(path));
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
         }
 
 

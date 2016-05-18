@@ -3,16 +3,20 @@ namespace com.pharmscription.Service
     using System;
     using System.Diagnostics.CodeAnalysis;
     using BusinessLogic.Drug;
+    using BusinessLogic.DrugPrice;
     using BusinessLogic.Patient;
     using BusinessLogic.Prescription;
     using DataAccess.Repositories.CounterProposal;
     using DataAccess.Repositories.Dispense;
     using DataAccess.Repositories.Drug;
     using DataAccess.Repositories.DrugItem;
+    using DataAccess.Repositories.DrugPrice;
+    using DataAccess.Repositories.DrugStore;
     using DataAccess.Repositories.Patient;
     using DataAccess.Repositories.Prescription;
     using DataAccess.UnitOfWork;
     using Microsoft.Practices.Unity;
+    using Reporting;
 
     /// <summary>
     /// Specifies the Unity configuration for the main container.
@@ -44,8 +48,14 @@ namespace com.pharmscription.Service
         public static void RegisterTypes(IUnityContainer container)
         {
             container.RegisterType<IPatientManager, PatientManager>();
+            container.RegisterType<IDrugPriceManager, DrugPriceManager>();
+            container.RegisterType<Reporter, Reporter>();
+            container.RegisterType<PdfReportWriter, PdfReportWriter>();
+            container.RegisterType<PrescriptionCrawler, PrescriptionCrawler>();
             container.RegisterType<IPrescriptionManager, PrescriptionManager>();
             container.RegisterType<IDrugManager, DrugManager>();
+            container.RegisterType<IDrugPriceRepository, DrugPriceRepository>();
+            container.RegisterType<IDrugStoreRepository, DrugStoreRepository>();
             container.RegisterType<ICounterProposalRepository, CounterProposalRepository>();
             container.RegisterType<IDrugItemRepository, DrugItemRepository>();
             container.RegisterType<IDispenseRepository, DispenseRepository>();
