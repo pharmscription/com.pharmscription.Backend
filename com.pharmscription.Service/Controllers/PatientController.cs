@@ -21,6 +21,7 @@ namespace com.pharmscription.Service.Controllers
         }
 
         [Route(PatientRoutes.GetPatientById)]
+        [HttpGet]
         public async Task<ActionResult> GetById(string id)
         {
             try
@@ -58,7 +59,7 @@ namespace com.pharmscription.Service.Controllers
             }
         }
 
-        [Route(PatientRoutes.AddPatient)]
+        [Route(PatientRoutes.GetPatientById)]
         [HttpPost]
         public async Task<ActionResult> Update(PatientDto patientDto)
         {
@@ -74,7 +75,7 @@ namespace com.pharmscription.Service.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
