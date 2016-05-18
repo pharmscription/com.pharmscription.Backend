@@ -62,54 +62,6 @@
     <Compile Include="Entities\PrescriptionEntity\Prescription.cs" />
     <Compile Include="Entities\PrescriptionEntity\SinglePrescription.cs" />
     <Compile Include="Entities\PrescriptionEntity\StandingPrescription.cs" />
-    <Compile Include="Migrations\201604061207257_Init.cs" />
-    <Compile Include="Migrations\201604061207257_Init.Designer.cs">
-      <DependentUpon>201604061207257_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201604201147449_drugs.cs" />
-    <Compile Include="Migrations\201604201147449_drugs.Designer.cs">
-      <DependentUpon>201604201147449_drugs.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201604251313556_init3.cs" />
-    <Compile Include="Migrations\201604251313556_init3.Designer.cs">
-      <DependentUpon>201604251313556_init3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201604251325330_init6.cs" />
-    <Compile Include="Migrations\201604251325330_init6.Designer.cs">
-      <DependentUpon>201604251325330_init6.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201604251637458_MAde Signdate optional.cs" />
-    <Compile Include="Migrations\201604251637458_MAde Signdate optional.Designer.cs">
-      <DependentUpon>201604251637458_MAde Signdate optional.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201604281132334_Connected City Code to Patients.cs" />
-    <Compile Include="Migrations\201604281132334_Connected City Code to Patients.Designer.cs">
-      <DependentUpon>201604281132334_Connected City Code to Patients.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605011228280_Added Quantity to Drug.cs" />
-    <Compile Include="Migrations\201605011228280_Added Quantity to Drug.Designer.cs">
-      <DependentUpon>201605011228280_Added Quantity to Drug.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605090902543_implement-equatable.cs" />
-    <Compile Include="Migrations\201605090902543_implement-equatable.Designer.cs">
-      <DependentUpon>201605090902543_implement-equatable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605051256077_remove-signdate.cs" />
-    <Compile Include="Migrations\201605051256077_remove-signdate.Designer.cs">
-      <DependentUpon>201605051256077_remove-signdate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605120753424_merge-develop.cs" />
-    <Compile Include="Migrations\201605120753424_merge-develop.Designer.cs">
-      <DependentUpon>201605120753424_merge-develop.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605141009165_dispense-date-optional.cs" />
-    <Compile Include="Migrations\201605141009165_dispense-date-optional.Designer.cs">
-      <DependentUpon>201605141009165_dispense-date-optional.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605181206121_fix-validuntil-typo.cs" />
-    <Compile Include="Migrations\201605181206121_fix-validuntil-typo.Designer.cs">
-      <DependentUpon>201605181206121_fix-validuntil-typo.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository\Repository.cs" />
@@ -136,44 +88,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201604061207257_Init.resx">
-      <DependentUpon>201604061207257_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604201147449_drugs.resx">
-      <DependentUpon>201604201147449_drugs.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604251313556_init3.resx">
-      <DependentUpon>201604251313556_init3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604251325330_init6.resx">
-      <DependentUpon>201604251325330_init6.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604251637458_MAde Signdate optional.resx">
-      <DependentUpon>201604251637458_MAde Signdate optional.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604281132334_Connected City Code to Patients.resx">
-      <DependentUpon>201604281132334_Connected City Code to Patients.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605011228280_Added Quantity to Drug.resx">
-      <DependentUpon>201605011228280_Added Quantity to Drug.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605090902543_implement-equatable.resx">
-      <DependentUpon>201605090902543_implement-equatable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605051256077_remove-signdate.resx">
-      <DependentUpon>201605051256077_remove-signdate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605120753424_merge-develop.resx">
-      <DependentUpon>201605120753424_merge-develop.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605141009165_dispense-date-optional.resx">
-      <DependentUpon>201605141009165_dispense-date-optional.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605181206121_fix-validuntil-typo.resx">
-      <DependentUpon>201605181206121_fix-validuntil-typo.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\com.pharmscription.Infrastructure\com.pharmscription.Infrastructure.csproj">
