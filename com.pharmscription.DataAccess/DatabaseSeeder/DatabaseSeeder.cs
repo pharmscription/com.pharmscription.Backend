@@ -9,27 +9,27 @@ namespace com.pharmscription.DataAccess.DatabaseSeeder
     using Infrastructure.Exception;
     using UnitOfWork;
 
-    public enum Seeds
+    public enum Seed
     {
-        Addresses,
-        Drugs,
-        DrugPrices,
-        DrugStores
+        Address,
+        Drug,
+        DrugPrice,
+        DrugStore
     }
 
     public class DatabaseSeeder
     {
-        private static readonly Dictionary<Seeds, string> FileNames = new Dictionary<Seeds, string>
+        private static readonly Dictionary<Seed, string> FileNames = new Dictionary<Seed, string>
         {
-            {Seeds.Addresses, "addresses.sql" },
-            { Seeds.Drugs, "drugs.sql"},
-            { Seeds.DrugStores, "drugStores.sql"},
-            { Seeds.DrugPrices, "drugPrices.sql"}
+            {Seed.Address, "addresses.sql" },
+            { Seed.Drug, "drugs.sql"},
+            { Seed.DrugStore, "drugStores.sql"},
+            { Seed.DrugPrice, "drugPrices.sql"}
         };
 
         private const string ResourceFolder = "com.pharmscription.DataAccess.";
 
-        private static string GetRessourceName(Seeds seed)
+        private static string GetRessourceName(Seed seed)
         {
             if (!FileNames.ContainsKey(seed))
             {
@@ -39,7 +39,7 @@ namespace com.pharmscription.DataAccess.DatabaseSeeder
             return resourceName;
         }
 
-        public static async Task SeedDataTableAsync(Seeds seed)
+        public static async Task SeedDataTableAsync(Seed seed)
         {
             var resourceName = GetRessourceName(seed);
             var assembly = Assembly.GetExecutingAssembly();
@@ -61,7 +61,7 @@ namespace com.pharmscription.DataAccess.DatabaseSeeder
             }
         }
 
-        public static void SeedDataTable(Seeds seed)
+        public static void SeedDataTable(Seed seed)
         {
             var resourceName = GetRessourceName(seed);
             var assembly = Assembly.GetExecutingAssembly();

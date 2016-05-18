@@ -99,7 +99,7 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
             var puow = new PharmscriptionUnitOfWork();
             if (!puow.Drugs.Any())
             {
-                await DatabaseSeeder.SeedDataTableAsync(Seeds.Drugs);
+                await DatabaseSeeder.SeedDataTableAsync(Seed.Drug);
             }
         }
 
@@ -109,7 +109,7 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
             var repo = new DrugRepository(puow);
             if (!repo.GetAll().Any())
             {
-                DatabaseSeeder.SeedDataTable(Seeds.Drugs);
+                DatabaseSeeder.SeedDataTable(Seed.Drug);
             }
         }
     }

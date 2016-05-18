@@ -10,6 +10,7 @@ namespace com.pharmscription.BusinessLogic.DrugPrice
     using DataAccess.Repositories.Drug;
     using DataAccess.Repositories.DrugPrice;
     using DataAccess.Repositories.DrugStore;
+    using Infrastructure.Constants;
     using Infrastructure.Exception;
 
     public class DrugPriceManager: IDrugPriceManager
@@ -34,16 +35,16 @@ namespace com.pharmscription.BusinessLogic.DrugPrice
         {
             if (!_drugRepository.GetAll().Any())
             {
-                await DatabaseSeeder.SeedDataTableAsync(Seeds.Drugs);
+                await DatabaseSeeder.SeedDataTableAsync(Seed.Drug);
             }
             if (!_drugStoreRepository.GetAll().Any())
             {
-                await DatabaseSeeder.SeedDataTableAsync(Seeds.Addresses);
-                await DatabaseSeeder.SeedDataTableAsync(Seeds.DrugStores);
+                await DatabaseSeeder.SeedDataTableAsync(Seed.Address);
+                await DatabaseSeeder.SeedDataTableAsync(Seed.DrugStore);
             }
             if (!_drugPriceRepository.GetAll().Any())
             {
-                await DatabaseSeeder.SeedDataTableAsync(Seeds.DrugPrices);
+                await DatabaseSeeder.SeedDataTableAsync(Seed.DrugPrice);
             }
         }
 
@@ -63,7 +64,7 @@ namespace com.pharmscription.BusinessLogic.DrugPrice
         public async Task<double> GetPrice(Guid drugId)
         {
             await CheckOrSeedPrices();
-            return await _drugPriceRepository.GetPrice(drugId, new Guid("d7b84f98-d923-ca54-d1b0-08d3783e0110"));
+            return await _drugPriceRepository.GetPrice(drugId, new Guid(PharmscriptionConstants.DefaultDrugStoreId));
         }
 
         public async  Task<ReportDrugItem> GenerateDrugItemReport(DrugItem drugItem)

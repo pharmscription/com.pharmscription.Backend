@@ -18,6 +18,8 @@
         private readonly IDrugStoreRepository _drugStoreRepository;
         private readonly IDrugPriceRepository _drugPriceRepository;
         private readonly IDrugManager _drugManager;
+        private const string AllDrugsSelector = "a";
+
         public DrugPriceMock(IDrugRepository drugRepository, IDrugStoreRepository drugStoreRepository,
             IDrugPriceRepository drugPriceRepository)
         {
@@ -33,7 +35,7 @@
 
         public async Task PreloadDrugs()
         {
-            await _drugManager.Count("a");
+            await _drugManager.Count(AllDrugsSelector);
         }
 
         public async Task CreateTestDrugStore()
