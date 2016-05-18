@@ -60,7 +60,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             if (standingPrescription != null)
             {
                 prescriptionDto.ValidUntil =
-                    standingPrescription.ValidUntill.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture);
+                    standingPrescription.ValidUntil.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture);
             }
             return prescriptionDto;
         }
@@ -82,7 +82,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             {
                 prescription = new StandingPrescription
                 {
-                    ValidUntill = DateTime.Parse(prescriptionDto.ValidUntil, CultureInfo.CurrentCulture)
+                    ValidUntil = DateTime.Parse(prescriptionDto.ValidUntil, CultureInfo.CurrentCulture)
                 };
             }
             else
@@ -121,12 +121,15 @@ namespace com.pharmscription.BusinessLogic.Converter
                 return false;
             }
             var ownPropertiesAreEqual = prescriptionDto.IsValid == prescription.IsValid
-                                        &&
-                                        prescriptionDto.EditDate ==
-                                        prescription.EditDate.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture) &&
-                                        prescriptionDto.IssueDate ==
-                                        prescription.IssueDate.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture) &&
-                                        prescriptionDto.Type == prescription.GetPrescriptionType();
+                                        && prescriptionDto.EditDate
+                                        == prescription.EditDate.ToString(
+                                            PharmscriptionConstants.DateFormat,
+                                            CultureInfo.CurrentCulture)
+                                        && prescriptionDto.IssueDate
+                                        == prescription.IssueDate.ToString(
+                                            PharmscriptionConstants.DateFormat,
+                                            CultureInfo.CurrentCulture)
+                                        && prescriptionDto.Type == prescription.GetPrescriptionType();
             var counterProposalsAreEqual = true;
             if (prescription.CounterProposals != null)
             {

@@ -7,7 +7,7 @@
 
     public class StandingPrescription : Prescription
     {
-        public DateTime ValidUntill { get; set; }
+        public DateTime ValidUntil { get; set; }
 
         public override Prescription Clone()
         {
@@ -22,7 +22,7 @@
                            Dispenses = Dispenses.Select(d => d.Clone()).ToList(),
                            DrugItems = DrugItems.Select(d => d.Clone()).ToList(),
                            PrescriptionHistory = PrescriptionHistory.Select(ph => ph.Clone()).ToList(),
-                           ValidUntill = ValidUntill
+                           ValidUntil = ValidUntil
                        };
         }
 
@@ -41,7 +41,7 @@
                    && IsValid == other.IsValid && CounterProposals.SequenceEqual(other.CounterProposals)
                    && Doctor.Equals(other.Doctor) && Dispenses.SequenceEqual(other.Dispenses)
                    && DrugItems.SequenceEqual(other.DrugItems)
-                   && PrescriptionHistory.SequenceEqual(other.PrescriptionHistory) && ValidUntill.Equals(ValidUntill);
+                   && PrescriptionHistory.SequenceEqual(other.PrescriptionHistory) && ValidUntil.Equals(ValidUntil);
         }
     }
 }

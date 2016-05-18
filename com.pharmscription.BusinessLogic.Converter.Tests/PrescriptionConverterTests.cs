@@ -144,7 +144,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
                 ModifiedDate = DateTime.Now,
                 EditDate = DateTime.Now,
                 IssueDate = DateTime.Now,
-                ValidUntill = DateTime.Now,
+                ValidUntil = DateTime.Now,
                 Patient = new Patient
                 {
                     AhvNumber = "123",

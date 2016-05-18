@@ -32,7 +32,7 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                     Id = Guid.Parse(StandingPrescriptionOneId),
                     IsValid = true,
                     IssueDate = DateTime.Now,
-                    ValidUntill = DateTime.Now.AddDays(2),
+                    ValidUntil = DateTime.Now.AddDays(2),
                     EditDate = DateTime.Now,
                     DrugItems = new List<DrugItem>
                     {
@@ -55,7 +55,7 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                     Id = Guid.Parse(StandingPrescriptionTwoId),
                     IsValid = true,
                     IssueDate = DateTime.Now,
-                    ValidUntill = DateTime.Now.AddDays(2),
+                    ValidUntil = DateTime.Now.AddDays(2),
                     EditDate = DateTime.Now,
                     DrugItems = new List<DrugItem>
                     {

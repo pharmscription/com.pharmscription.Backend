@@ -246,7 +246,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             {
                 prescription = new StandingPrescription 
                 {
-                    ValidUntill = DateTime.Parse(prescriptionDto.ValidUntil)
+                    ValidUntil = DateTime.Parse(prescriptionDto.ValidUntil)
                 };
             }
 
