@@ -41,7 +41,6 @@ namespace com.pharmscription.DataAccess.Repositories.Drug
             var drugsWithoutSkipped = drugsOrdered.Skip(pageNumber*amountPerPage);
             var drugsSelected = drugsWithoutSkipped.Take(amountPerPage);
             return drugsSelected.ToList();
-            //return await GetSet().Where(e => e.DrugDescription.ToLower().Contains(searchText)).OrderBy(e => e.DrugDescription).Skip(pageNumber * amountPerPage).Take(amountPerPage).ToListAsync();
         }
     }
 }

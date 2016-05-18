@@ -59,8 +59,11 @@ namespace com.pharmscription.BusinessLogic.Converter
             var standingPrescription = prescription as StandingPrescription;
             if (standingPrescription != null)
             {
-                prescriptionDto.ValidUntil =
-                    standingPrescription.ValidUntil.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture);
+                prescriptionDto.ValidUntil = standingPrescription.ValidUntill.ToString(PharmscriptionConstants.DateFormat,CultureInfo.CurrentCulture);
+            }
+            else
+            {
+                prescriptionDto.ValidUntil = prescription.CreatedDate?.AddYears(1).ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture);
             }
             return prescriptionDto;
         }

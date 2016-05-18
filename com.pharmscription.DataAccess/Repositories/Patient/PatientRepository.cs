@@ -8,6 +8,7 @@ using com.pharmscription.DataAccess.UnitOfWork;
 
 namespace com.pharmscription.DataAccess.Repositories.Patient
 {
+    using System.Collections;
     using System.Collections.Generic;
     using Entities.PrescriptionEntity;
     using Infrastructure.Exception;
@@ -43,9 +44,14 @@ namespace com.pharmscription.DataAccess.Repositories.Patient
                         .Where(predicate));
         }
 
-        public virtual Task<ICollection<Prescription>> GetPrescriptions(Guid id)
+        public virtual async Task<ICollection<Prescription>> GetPrescriptions(Guid id)
         {
-            return Set.Where(e => e.Id == id).Include(e => e.Prescriptions).Select(e => e.Prescriptions).FirstOrDefaultAsync();
+            var ret =  await Set.Where(e => e.Id == id).Include(e => e.Prescriptions).Select(e => e.Prescriptions.Where(a => a.IsValid)).FirstOrDefaultAsync();
+            if (ret != null)
+            {
+                return ret.ToList();
+            }
+            return new List<Prescription>();
         }
 
         public async Task<Patient> GetWithAllNavs(Guid id)
@@ -61,6 +67,22 @@ namespace com.pharmscription.DataAccess.Repositories.Patient
                 throw new NotFoundException("No Patient with such an Id exists");
             }
             return patient;
+        }
+
+        public virtual async Task<ICollection<Patient>> GetAllWithUnreportedDispenses(DateTime lastRespectedDate)
+        {
+            var patients =
+                await
+                    Set.Where(e => e.Prescriptions.SelectMany(a => a.Dispenses).Any(c => !c.Reported) && e.CreatedDate > lastRespectedDate)
+                        .Include(e => e.Address)
+                        .Include(e => e.Prescriptions)
+                        .Include(e => e.Prescriptions.Select(b => b.Dispenses))
+                        .Include(e => e.Prescriptions.Select(a => a.Dispenses.Select(c => c.DrugItems)))
+                        .Include(
+                            e =>
+                                e.Prescriptions.Select(a => a.Dispenses.Select(c => c.DrugItems.Select(d => d.Drug))))
+                        .ToListAsync();
+            return patients;
         }
     }
 }

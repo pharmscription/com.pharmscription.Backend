@@ -14,6 +14,7 @@ namespace com.pharmscription.DataAccess.Entities.DispenseEntity
     {
         public DateTime? Date { get; set; }
         public string Remark { get; set; }
+        public bool Reported { get; set; }
         public virtual ICollection<DrugItem> DrugItems { get; set; }
 
         public virtual StandingPrescription StandingPrescription { get; set; }

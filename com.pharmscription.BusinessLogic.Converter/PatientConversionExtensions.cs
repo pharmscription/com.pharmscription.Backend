@@ -9,6 +9,10 @@ using com.pharmscription.Infrastructure.ExternalDto.InsuranceDto;
 
 namespace com.pharmscription.BusinessLogic.Converter
 {
+    using System.Globalization;
+
+    using com.pharmscription.Infrastructure.EntityHelper;
+
     [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501:StatementMustNotBeOnSingleLine", Justification = "New line does not increase readability of this class")]
     public static class PatientConversionExtensions
     {
@@ -78,10 +82,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             if (patientDto.Address != null)
             {
                 patient.Address = patientDto.Address.ConvertToEntity();
-                if (!string.IsNullOrWhiteSpace(patientDto.Address.Id))
-                {
-                    patient.Address.Id = Guid.Parse(patientDto.Address.Id);
-                }
+                patient.Address.Id = IdentityGenerator.NewSequentialGuid();
             }
 
             return patient;

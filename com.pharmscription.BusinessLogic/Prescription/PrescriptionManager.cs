@@ -75,6 +75,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             await _patientRepository.CheckIfEntityExists(patientGuid);
             var patient = await _patientRepository.GetWithPrescriptions(patientGuid);
             var prescription = await MapNewPrescriptionToEntity(prescriptionDto);
+            prescription.IsValid = true;
             var addedPrescription = _prescriptionRepository.Add(prescription);
             patient.Prescriptions.Add(addedPrescription);
             await _prescriptionRepository.UnitOfWork.CommitAsync();
@@ -101,6 +102,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             var oldPrecription =
                 await _prescriptionRepository.GetWithAllNavsAsync(GuidParser.ParseGuid(prescriptionId));
             newPrescription.PrescriptionHistory.Add(oldPrecription);
+            oldPrecription.IsValid = false;
             _prescriptionRepository.Add(newPrescription);
             patient.Prescriptions.Add(newPrescription);
             await _prescriptionRepository.UnitOfWork.CommitAsync();
@@ -278,12 +280,13 @@ namespace com.pharmscription.BusinessLogic.Prescription
                     prescription.DrugItems.Add(drugItem);
                 }
             }
+            prescription.PrescriptionHistory = new List<Prescription>();
             if (prescriptionDto.PrescriptionHistory != null)
             {
-                prescription.PrescriptionHistory = new List<Prescription>();
                 foreach (var oldPrescription in prescriptionDto.PrescriptionHistory)
                 {
-                    var oldPrescriptionInDatabase = await _prescriptionRepository.GetAsyncOrThrow(GuidParser.ParseGuid(oldPrescription.Id));
+                    var oldPrescriptionInDatabase =
+                        await _prescriptionRepository.GetAsyncOrThrow(GuidParser.ParseGuid(oldPrescription.Id));
                     prescription.PrescriptionHistory.Add(oldPrescriptionInDatabase);
                 }
             }

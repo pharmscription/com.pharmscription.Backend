@@ -94,11 +94,11 @@
 
         [Route(PrescriptionRoutes.UpdatePrescription)]
         [HttpPost]
-        public async Task<ActionResult> UpdatePrescription(string patientid, PrescriptionDto dto)
+        public async Task<ActionResult> UpdatePrescription(string patientid, string id, PrescriptionDto dto)
         {
             try
             {
-                return Json(await _prescriptionManager.Add(patientid, dto));
+                return Json(await _prescriptionManager.Update(patientid, id, dto));
             }
             catch (NotFoundException)
             {

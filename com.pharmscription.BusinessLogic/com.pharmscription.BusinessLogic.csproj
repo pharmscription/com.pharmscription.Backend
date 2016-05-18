@@ -42,6 +42,9 @@
   <ItemGroup>
     <Compile Include="Context.cs" />
     <Compile Include="CoreWorkflow.cs" />
+    <Compile Include="DrugPrice\DrugPriceManager.cs" />
+    <Compile Include="DrugPrice\IDrugPriceManager.cs" />
+    <Compile Include="DrugPrice\ReportDrugItem.cs" />
     <Compile Include="Drug\DrugManager.cs" />
     <Compile Include="Drug\IDrugManager.cs" />
     <Compile Include="Drug\SwissMedicConnector.cs" />

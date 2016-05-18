@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseSeeder\DatabaseSeeder.cs" />
     <Compile Include="Entities\AddressEntity\Address.cs" />
     <Compile Include="Entities\AddressEntity\CityCodeEntity\AbstractCityCode.cs" />
     <Compile Include="Entities\AddressEntity\CityCodeEntity\SwissCityCode.cs" />
@@ -58,6 +59,8 @@
     <Compile Include="Entities\DoctorEntity\Doctor.cs" />
     <Compile Include="Entities\DrugEntity\DrugEntity.cs" />
     <Compile Include="Entities\DrugItemEntity\DrugItem.cs" />
+    <Compile Include="Entities\DrugPriceEntity\DrugPrice.cs" />
+    <Compile Include="Entities\DrugStoreEntity\DrugStore.cs" />
     <Compile Include="Entities\PatientEntity\Patient.cs" />
     <Compile Include="Entities\PrescriptionEntity\Prescription.cs" />
     <Compile Include="Entities\PrescriptionEntity\SinglePrescription.cs" />
@@ -71,6 +74,10 @@
     <Compile Include="Repositories\Dispense\IDispenseRepository.cs" />
     <Compile Include="Repositories\DrugItem\DrugItemRepository.cs" />
     <Compile Include="Repositories\DrugItem\IDrugItemRepository.cs" />
+    <Compile Include="Repositories\DrugPrice\DrugPriceRepository.cs" />
+    <Compile Include="Repositories\DrugPrice\IDrugPriceRepository.cs" />
+    <Compile Include="Repositories\DrugStore\DrugStoreRepository.cs" />
+    <Compile Include="Repositories\DrugStore\IDrugStoreRepository.cs" />
     <Compile Include="Repositories\Drug\DrugRepository.cs" />
     <Compile Include="Repositories\Drug\IDrugRepository.cs" />
     <Compile Include="Repositories\Patient\IPatientRepository.cs" />
@@ -99,6 +106,13 @@
     <CodeAnalysisDictionary Include="..\com.pharmscription.Infrastructure\CustomDictionary.xml">
       <Link>CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="drugs.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="drugPrices.sql" />
+    <EmbeddedResource Include="drugStores.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
