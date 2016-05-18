@@ -210,10 +210,17 @@ namespace com.pharmscription.BusinessLogic.Prescription
             {
                 throw new InvalidArgumentException("dispense was null or empty");
             }
+
             if (dispenseId != dispenseDto.Id)
             {
                 throw new InvalidArgumentException("dispenseid does not match DispenseDto");
             }
+
+            if (dispenseDto.Date != null)
+            {
+                throw new InvalidArgumentException("Dispense already signed. Cannot edit");
+            }
+
             var patientGuid = GuidParser.ParseGuid(patientId);
             await _patientRepository.CheckIfEntityExists(patientGuid);
             var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
