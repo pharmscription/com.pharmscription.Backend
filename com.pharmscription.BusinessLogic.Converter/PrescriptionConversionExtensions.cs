@@ -61,8 +61,11 @@ namespace com.pharmscription.BusinessLogic.Converter
             var standingPrescription = prescription as StandingPrescription;
             if (standingPrescription != null)
             {
-                prescriptionDto.ValidUntil =
-                    standingPrescription.ValidUntill.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture);
+                prescriptionDto.ValidUntil = standingPrescription.ValidUntill.ToString(PharmscriptionConstants.DateFormat,CultureInfo.CurrentCulture);
+            }
+            else
+            {
+                prescriptionDto.ValidUntil = prescription.CreatedDate?.AddYears(1).ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture);
             }
             return prescriptionDto;
         }
@@ -80,7 +83,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             {
                 prescription = new SinglePrescription();
             }
-            else if(prescriptionDto.Type == "S")
+            else if (prescriptionDto.Type == "S")
             {
                 prescription = new StandingPrescription
                 {

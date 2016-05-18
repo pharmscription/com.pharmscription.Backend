@@ -8,6 +8,8 @@ namespace com.pharmscription.BusinessLogic.Converter
 {
     using System.Globalization;
 
+    using com.pharmscription.Infrastructure.EntityHelper;
+
     public static class PatientConversionExtensions
     {
         public static PatientDto ConvertToDto(this InsurancePatient patient)
@@ -74,8 +76,8 @@ namespace com.pharmscription.BusinessLogic.Converter
             }
             if (patientDto.Address != null)
             {
-
                 patient.Address = patientDto.Address.ConvertToEntity();
+                patient.Address.Id = IdentityGenerator.NewSequentialGuid();
             }
             return patient;
         }
