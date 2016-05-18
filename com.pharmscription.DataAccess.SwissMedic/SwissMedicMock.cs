@@ -42,6 +42,8 @@ namespace com.pharmscription.DataAccess.SwissMedic
             {
                 DrugDescription = line[2],
                 IsValid = true,
+                Composition = line[4],
+                Unit = line[1],
                 NarcoticCategory = line[5]
             };
         }

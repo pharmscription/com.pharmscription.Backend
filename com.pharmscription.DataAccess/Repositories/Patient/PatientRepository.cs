@@ -68,5 +68,21 @@ namespace com.pharmscription.DataAccess.Repositories.Patient
             }
             return patient;
         }
+
+        public virtual async Task<ICollection<Patient>> GetAllWithUnreportedDispenses(DateTime lastRespectedDate)
+        {
+            var patients =
+                await
+                    Set.Where(e => e.Prescriptions.SelectMany(a => a.Dispenses).Any(c => !c.Reported) && e.CreatedDate > lastRespectedDate)
+                        .Include(e => e.Address)
+                        .Include(e => e.Prescriptions)
+                        .Include(e => e.Prescriptions.Select(b => b.Dispenses))
+                        .Include(e => e.Prescriptions.Select(a => a.Dispenses.Select(c => c.DrugItems)))
+                        .Include(
+                            e =>
+                                e.Prescriptions.Select(a => a.Dispenses.Select(c => c.DrugItems.Select(d => d.Drug))))
+                        .ToListAsync();
+            return patients;
+        }
     }
 }

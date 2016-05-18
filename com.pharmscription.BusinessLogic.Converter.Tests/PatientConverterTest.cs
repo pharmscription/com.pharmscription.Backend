@@ -171,6 +171,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
             };
 
             var patient = patientDto.ConvertToEntity();
+            expectedPatient.Address.Id = patient.Address.Id;
 
             Assert.IsTrue(expectedPatient.IsDeepEqual(patient));
 
