@@ -5,6 +5,9 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Threading.Tasks;
+
+    using com.pharmscription.Infrastructure.Dto;
+
     using DataAccess.Entities.AddressEntity;
     using DataAccess.Entities.AddressEntity.CityCodeEntity;
     using DataAccess.Entities.CounterProposalEntity;
