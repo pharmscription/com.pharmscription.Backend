@@ -30,7 +30,7 @@ namespace com.pharmscription.BusinessLogic.DrugPrice
             _drugStoreRepository = drugStoreRepository;
         }
 
-        private async Task SeedDataTables()
+        public async Task SeedDataTables()
         {
             if (!_drugRepository.GetAll().Any())
             {
