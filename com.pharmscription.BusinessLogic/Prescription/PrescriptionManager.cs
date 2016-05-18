@@ -65,7 +65,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
 
         public async Task<PrescriptionDto> Add(string patientId, PrescriptionDto prescriptionDto)
         {
-            if (prescriptionDto == null)
+             if (prescriptionDto == null)
             {
                 throw new InvalidArgumentException("prescriptionDto was null or empty");
             }
