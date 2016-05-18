@@ -11,6 +11,7 @@ namespace com.pharmscription.DataAccess.DatabaseSeeder
 
     public enum Seeds
     {
+        Addresses,
         Drugs,
         DrugPrices,
         DrugStores
@@ -20,6 +21,7 @@ namespace com.pharmscription.DataAccess.DatabaseSeeder
     {
         private static readonly Dictionary<Seeds, string> FileNames = new Dictionary<Seeds, string>
         {
+            {Seeds.Addresses, "addresses.sql" },
             { Seeds.Drugs, "drugs.sql"},
             { Seeds.DrugStores, "drugStores.sql"},
             { Seeds.DrugPrices, "drugPrices.sql"}

@@ -38,6 +38,7 @@ namespace com.pharmscription.BusinessLogic.DrugPrice
             }
             if (!_drugStoreRepository.GetAll().Any())
             {
+                await DatabaseSeeder.SeedDataTableAsync(Seeds.Addresses);
                 await DatabaseSeeder.SeedDataTableAsync(Seeds.DrugStores);
             }
             if (!_drugPriceRepository.GetAll().Any())
