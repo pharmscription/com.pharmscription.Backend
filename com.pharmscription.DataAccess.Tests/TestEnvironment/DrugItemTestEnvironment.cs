@@ -29,10 +29,13 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                         DrugDescription = "Aspirin"
                     },
                     DosageDescription = "2/3/2",
-                    Dispense = new Dispense
+                    Dispenses = new List<Dispense>
                     {
-                        Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e41"),
-                        Remark = "Did it"
+                        new Dispense
+                        {
+                            Id = Guid.Parse("1baf86b0-1e14-4f4c-b05a-5c9dd00e8e41"),
+                            Remark = "Did it"
+                        }
                     }
                 }
             };

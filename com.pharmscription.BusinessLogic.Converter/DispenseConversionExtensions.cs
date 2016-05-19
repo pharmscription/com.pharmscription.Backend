@@ -29,7 +29,7 @@ namespace com.pharmscription.BusinessLogic.Converter
         {
             if (list == null)
             {
-                return null;
+                return new List<Dispense>();
             }
             var newList = new List<Dispense>(list.Count);
             newList.AddRange(list.Select(dispense => dispense.ConvertToEntity()));
@@ -39,8 +39,8 @@ namespace com.pharmscription.BusinessLogic.Converter
         /// <summary>
         /// Convert Entity to Dto
         /// </summary>
-        /// <param name="dispense">Dispense to convert</param>
-        /// <returns>Dispense entity or null when it get null as parameter</returns>
+        /// <param name="dispense">Dispenses to convert</param>
+        /// <returns>Dispenses entity or null when it get null as parameter</returns>
         public static DispenseDto ConvertToDto(this Dispense dispense)
         {
             if (dispense == null) { return null; }

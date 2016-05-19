@@ -1,6 +1,7 @@
 ﻿namespace com.pharmscription.DataAccess.Entities.DrugItemEntity
 {
     using System;
+    using System.Collections.Generic;
 
     using BaseEntity;
     using DispenseEntity;
@@ -10,7 +11,7 @@
     public class DrugItem : Entity, ICloneable<DrugItem>, IEquatable<DrugItem>
     {
         public virtual Drug Drug { get; set; }
-        public virtual Dispense Dispense { get; set; }
+        public virtual ICollection<Dispense> Dispenses { get; set; }
         public virtual Prescription Prescription { get; set; }
         public virtual StandingPrescription StandingPrescription { get; set; }
         public virtual SinglePrescription SinglePrescription { get; set; }
@@ -22,7 +23,7 @@
             return new DrugItem
             {
                 Drug = Drug,
-                Dispense = Dispense,
+                Dispenses = Dispenses,
                 Prescription = Prescription,
                 DosageDescription = DosageDescription,
                 Quantity = Quantity
@@ -35,7 +36,7 @@
             {
                 return false;
             }
-            return Drug.Equals(other.Drug) && Dispense.Equals(other.Dispense) && Prescription.Equals(other.Prescription)
+            return Drug.Equals(other.Drug) && Dispenses.Equals(other.Dispenses) && Prescription.Equals(other.Prescription)
                    && DosageDescription == other.DosageDescription && Quantity == other.Quantity;
         }
     }

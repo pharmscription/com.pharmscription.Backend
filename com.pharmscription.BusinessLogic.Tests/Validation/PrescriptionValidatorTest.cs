@@ -38,7 +38,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Validation
         {
             var prescriptionDto = new PrescriptionDto
             {
-                Type = "N",
+                Type = "S",
                 ValidUntil = "sdjksadlksadf"
             };
             var validator = new PrescriptionValidator();
