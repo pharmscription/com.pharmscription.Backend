@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+
 using com.pharmscription.DataAccess.Entities.PatientEntity;
 using com.pharmscription.Infrastructure.Constants;
 using com.pharmscription.Infrastructure.Dto;
@@ -10,11 +13,12 @@ namespace com.pharmscription.BusinessLogic.Converter
 
     using com.pharmscription.Infrastructure.EntityHelper;
 
+    [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501:StatementMustNotBeOnSingleLine", Justification = "New line does not increase readability of this class")]
     public static class PatientConversionExtensions
     {
         public static PatientDto ConvertToDto(this InsurancePatient patient)
         {
-            if (patient == null) return null;
+            if (patient == null) { return null; }
             return new PatientDto
             {
                 PhoneNumber = patient.PhoneNumber,
@@ -36,7 +40,7 @@ namespace com.pharmscription.BusinessLogic.Converter
 
         public static PatientDto ConvertToDto(this Patient patient)
         {
-            if (patient == null) return null;
+            if (patient == null) { return null; }
             var patientDto = new PatientDto
             {
                 PhoneNumber = patient.PhoneNumber,
@@ -53,16 +57,17 @@ namespace com.pharmscription.BusinessLogic.Converter
             {
                 patientDto.Address = patient.Address.ConvertToDto();
             }
+
             return patientDto;
         }
 
         public static Patient ConvertToEntity(this PatientDto patientDto)
         {
-            if (patientDto == null) return null;
+            if (patientDto == null) { return null; }
             var patient = new Patient
             {
                 PhoneNumber = patientDto.PhoneNumber,
-                BirthDate = DateTime.ParseExact(patientDto.BirthDate, PharmscriptionConstants.DateFormat, CultureInfo.InvariantCulture),
+                BirthDate = DateTime.Parse(patientDto.BirthDate, CultureInfo.CurrentCulture),
                 AhvNumber = patientDto.AhvNumber,
                 InsuranceNumber = patientDto.InsuranceNumber,
                 LastName = patientDto.LastName,
@@ -70,7 +75,7 @@ namespace com.pharmscription.BusinessLogic.Converter
                 Insurance = patientDto.Insurance, 
                 EMailAddress = patientDto.EMailAddress
             };
-            if (patientDto.Id != null)
+            if (!string.IsNullOrWhiteSpace(patientDto.Id))
             {
                 patient.Id = Guid.Parse(patientDto.Id);
             }
@@ -79,6 +84,7 @@ namespace com.pharmscription.BusinessLogic.Converter
                 patient.Address = patientDto.Address.ConvertToEntity();
                 patient.Address.Id = IdentityGenerator.NewSequentialGuid();
             }
+
             return patient;
         }
     }

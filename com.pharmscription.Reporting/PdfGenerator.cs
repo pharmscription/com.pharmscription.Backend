@@ -137,7 +137,7 @@ namespace com.pharmscription.Reporting
         private async Task FormatDispenses(IDocListener document, Dispense dispense)
         {
             AddSeperator(document);
-            var title = $"Ausgabe vom {dispense.Date.ToString(PharmscriptionConstants.DateFormat)}";
+            var title = $"Ausgabe vom {dispense.Date?.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture)}";
             document.Add(GetChapterTitle(title, 14, Font.BOLD));
             if (!string.IsNullOrWhiteSpace(dispense.Remark))
             {

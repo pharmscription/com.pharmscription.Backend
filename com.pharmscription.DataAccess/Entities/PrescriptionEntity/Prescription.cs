@@ -14,7 +14,6 @@
         public virtual Patient Patient { get; set; }
         public DateTime IssueDate { get; set; }
         public DateTime EditDate { get; set; }
-        public DateTime? SignDate { get; set; }
         public bool IsValid { get; set; }
         public virtual ICollection<CounterProposal> CounterProposals { get; set; }
         public virtual Doctor Doctor { get; set; }

@@ -5,6 +5,9 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Threading.Tasks;
+
+    using com.pharmscription.Infrastructure.Dto;
+
     using DataAccess.Entities.AddressEntity;
     using DataAccess.Entities.AddressEntity.CityCodeEntity;
     using DataAccess.Entities.CounterProposalEntity;
@@ -160,6 +163,43 @@
                             Dispenses = new List<Dispense>()
                         }
                     }
+                }
+            };
+        }
+
+        public static List<PatientDto> GetPatientDtos()
+        {
+            return new List<PatientDto>
+            {
+                new PatientDto
+                {
+                    Id = PatientIdOne,
+                    FirstName = "Rafael",
+                    LastName = "Krucker",
+                    AhvNumber = AhvNumberPatientOne,
+                    BirthDate = "17.03.1991"
+                },
+                new PatientDto
+                {
+                    Id = PatientIdTwo,
+                    FirstName = "Markus",
+                    LastName = "Schaden",
+                    AhvNumber = AhvNumberPatientTwo,
+                    BirthDate = "24.05.1991"
+                },
+                new PatientDto
+                {
+                    Id = PatientWithNoPrescriptionId,
+                    FirstName = "I have no",
+                    LastName = "Prescriptons",
+                    BirthDate = "28.05.1991"
+                },
+                new PatientDto
+                {
+                    Id = PatientWithEmptyPrescriptionId,
+                    FirstName = "I have",
+                    LastName = "an empty Prescripton",
+                    BirthDate = "28.05.1991"
                 }
             };
         }

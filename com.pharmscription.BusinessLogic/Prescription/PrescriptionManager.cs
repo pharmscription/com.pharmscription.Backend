@@ -14,6 +14,11 @@ using com.pharmscription.Infrastructure.Exception;
 
 namespace com.pharmscription.BusinessLogic.Prescription
 {
+    using System.Globalization;
+
+    using com.pharmscription.DataAccess.Entities.DispenseEntity;
+    using com.pharmscription.Infrastructure.Constants;
+
     using DataAccess.Entities.CounterProposalEntity;
     using DataAccess.Entities.DrugItemEntity;
     using DataAccess.Entities.PrescriptionEntity;
@@ -63,7 +68,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
 
         public async Task<PrescriptionDto> Add(string patientId, PrescriptionDto prescriptionDto)
         {
-            if (prescriptionDto == null)
+             if (prescriptionDto == null)
             {
                 throw new InvalidArgumentException("prescriptionDto was null or empty");
             }
@@ -98,7 +103,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             var patient = await _patientRepository.GetWithPrescriptions(patientGuid);
             var newPrescription = await MapNewPrescriptionToEntity(prescriptionDto);
             var oldPrecription =
-                await _prescriptionRepository.GetWithAllNavsAsynv(GuidParser.ParseGuid(prescriptionId));
+                await _prescriptionRepository.GetWithAllNavsAsync(GuidParser.ParseGuid(prescriptionId));
             newPrescription.PrescriptionHistory.Add(oldPrecription);
             oldPrecription.IsValid = false;
             _prescriptionRepository.Add(newPrescription);
@@ -163,7 +168,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             await _patientRepository.CheckIfEntityExists(GuidParser.ParseGuid(patientId));
             var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
             await _prescriptionRepository.CheckIfEntityExists(prescriptionGuid);
-            return (await _prescriptionRepository.GetAsync(prescriptionGuid)).Dispenses.ConvertToDtos();
+            return (await _prescriptionRepository.GetWithAllNavsAsync(prescriptionGuid)).Dispenses.ConvertToDtos();
         }
 
         public async Task<DispenseDto> GetDispenses(string patientId, string prescriptionId, string dispenseId)
@@ -186,25 +191,49 @@ namespace com.pharmscription.BusinessLogic.Prescription
             var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
             await _prescriptionRepository.CheckIfEntityExists(prescriptionGuid);
             var dispense = dispenseDto.ConvertToEntity();
-            dispense.Date = DateTime.Now;
-            dispense.DrugItems = null;
-            if (dispenseDto.DrugItems != null && dispenseDto.DrugItems.Any())
-            {
-                dispense.DrugItems = new List<DrugItem>();
-                foreach (var drugItemDto in dispenseDto.DrugItems)
-                {
-                    var drugItem = new DrugItem
-                    {
-                        DosageDescription = drugItemDto.DosageDescription,
-                        Drug = await _drugRepository.GetAsyncOrThrow(GuidParser.ParseGuid(drugItemDto.Drug.Id)),
-                        Quantity = drugItemDto.Quantity
-                    };
-                    dispense.DrugItems.Add(drugItem);
-                }
-            }
             _dispenseRepository.Add(dispense);
-            var prescription = await _prescriptionRepository.GetAsync(prescriptionGuid);
+            var prescription = await _prescriptionRepository.GetWithAllNavsAsync(prescriptionGuid);
+            if (prescription.Dispenses == null)
+            {
+                prescription.Dispenses = new List<Dispense>();
+            }
+
             prescription.Dispenses.Add(dispense);
+            await _dispenseRepository.UnitOfWork.CommitAsync();
+            return dispense.ConvertToDto();
+        }
+
+        public async Task<DispenseDto> ModifyDispense(
+            string patientId,
+            string prescriptionId,
+            string dispenseId,
+            DispenseDto dispenseDto)
+        {
+            if (dispenseDto == null)
+            {
+                throw new InvalidArgumentException("dispense was null or empty");
+            }
+
+            if (dispenseId != dispenseDto.Id)
+            {
+                throw new InvalidArgumentException("dispenseid does not match DispenseDto");
+            }
+
+            if (dispenseDto.Date == DateTime.MinValue.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture))
+            {
+                throw new InvalidArgumentException("Dispense already signed. Cannot edit");
+            }
+
+            var patientGuid = GuidParser.ParseGuid(patientId);
+            await _patientRepository.CheckIfEntityExists(patientGuid);
+            var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
+            await _prescriptionRepository.CheckIfEntityExists(prescriptionGuid);
+            var dispenseGuid = GuidParser.ParseGuid(dispenseId);
+            await _dispenseRepository.CheckIfEntityExists(dispenseGuid);
+            var dispense = dispenseDto.ConvertToEntity();
+            var oldDispense = await _dispenseRepository.GetAsync(dispenseGuid);
+            oldDispense.Update(dispense);
+            _dispenseRepository.Modify(oldDispense);
             await _dispenseRepository.UnitOfWork.CommitAsync();
             return dispense.ConvertToDto();
         }
@@ -229,7 +258,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             {
                 prescription = new StandingPrescription 
                 {
-                    ValidUntill = DateTime.Parse(prescriptionDto.ValidUntil)
+                    ValidUntil = DateTime.Parse(prescriptionDto.ValidUntil)
                 };
             }
 
@@ -271,11 +300,9 @@ namespace com.pharmscription.BusinessLogic.Prescription
                     prescription.PrescriptionHistory.Add(oldPrescriptionInDatabase);
                 }
             }
-            prescription.SignDate = DateTime.Now;
             prescription.EditDate = DateTime.Now;
             prescription.IssueDate = DateTime.Now;
             return prescription;
-
         }
     }
 }

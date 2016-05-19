@@ -12,10 +12,15 @@ using com.pharmscription.Infrastructure.Constants;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.Exception;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using com.pharmscription.Infrastructure.EntityHelper;
+using com.pharmscription.BusinessLogic.Converter;
+using com.pharmscription.DataAccess.Repositories.Dispense;
+
+using Moq;
 
 namespace com.pharmscription.BusinessLogic.Tests.Prescription
 {
-    using Infrastructure.EntityHelper;
+    using System.Globalization;
 
     [TestClass]
     [ExcludeFromCodeCoverage]
@@ -23,12 +28,14 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
     {
         private IPrescriptionManager _prescriptionManager;
 
+        private Mock<DispenseRepository> _dispenseRepository;
+
         [TestInitialize]
         public void SetUp()
         {
 
             var counterProposalRepository = CounterProposalTestEnvironment.GetMockedCounterProposalRepository();
-            var dispenseRepository = DispenseTestEnvironment.GetMockedDispenseRepository();
+            _dispenseRepository = DispenseTestEnvironment.GetMockedDispenseRepository();
             var prescriptionRepository = PrescriptionTestEnvironment.GetMockedPrescriptionRepository();
             var drugRepository = DrugTestEnvironment.GetMockedDrugsRepository();
             foreach (var prescription in prescriptionRepository.Object.GetAll())
@@ -63,7 +70,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
                         prescriptionA.CounterProposals.Add(counterProposal);
 
                     }
-                    foreach (var dispense in dispenseRepository.Object.GetAll())
+                    foreach (var dispense in _dispenseRepository.Object.GetAll())
                     {
                         prescriptionA.Dispenses.Add(dispense);
                     }
@@ -74,50 +81,10 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
             if (patientB != null)
             {
                 patientB.Prescriptions.Add(prescriptionB);
-                if (prescriptionB != null) prescriptionB.Patient = patientB;
+                if (prescriptionB != null) { prescriptionB.Patient = patientB; }
             }
 
-            _prescriptionManager = new PrescriptionManager(prescriptionRepository.Object, patientRepository.Object, counterProposalRepository.Object, dispenseRepository.Object, drugRepository.Object);
-        }
-
-        private static List<DrugItemDto> GetTestDrugItems()
-        {
-            var drugs = new List<DrugItemDto>
-            {
-                new DrugItemDto
-                {
-                    Drug = new DrugDto
-                    {
-                        Id = DrugTestEnvironment.DrugOneId,
-                        IsValid = true,
-                        DrugDescription = DrugTestEnvironment.DrugOneDescription
-                    }
-                },
-                new DrugItemDto
-                {
-                    Drug = new DrugDto
-                    {
-                        Id = DrugTestEnvironment.DrugTwoId,
-                        IsValid = true,
-                        DrugDescription = DrugTestEnvironment.DrugTwoDescription
-                    }
-                }
-            };
-            return drugs;
-        }
-
-        private static PrescriptionDto GetTestPrescriptionDto(string prescriptionType)
-        {
-            var prescriptionToInsert = new PrescriptionDto
-            {
-                EditDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
-                IssueDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
-                IsValid = true,
-                Type = prescriptionType,
-                ValidUntil = DateTime.Now.AddDays(2).ToString(PharmscriptionConstants.DateFormat),
-                Drugs = GetTestDrugItems()
-            };
-            return prescriptionToInsert;
+            _prescriptionManager = new PrescriptionManager(prescriptionRepository.Object, patientRepository.Object, counterProposalRepository.Object, _dispenseRepository.Object, drugRepository.Object);
         }
 
         [TestMethod]
@@ -647,7 +614,7 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
         {
             var dispenses = await _prescriptionManager.GetDispenses(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId);
             Assert.IsNotNull(dispenses);
-            Assert.AreEqual(1, dispenses.Count);
+            Assert.AreEqual(2, dispenses.Count);
             Assert.AreEqual(DispenseTestEnvironment.DispenseOneRemark, dispenses.First().Remark);
         }
 
@@ -728,6 +695,103 @@ namespace com.pharmscription.BusinessLogic.Tests.Prescription
             var drugs = await _prescriptionManager.GetPrescriptionDrugs(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId);
             Assert.IsNotNull(drugs);
             Assert.AreEqual(PrescriptionTestEnvironment.DrugDescriptionOne, drugs.First().Drug.DrugDescription);
+        }
+
+        [TestMethod]
+        public async Task TestEditDispense()
+        {
+            var prescription = PrescriptionTestEnvironment.GetTestPrescriptions().FirstOrDefault();
+            var patientId = PatientTestEnvironment.PatientIdOne;
+            var dispense = DispenseTestEnvironment.GetTestDispenses().FirstOrDefault();
+            var prescriptiondto = await _prescriptionManager.Add(patientId, prescription.ConvertToDto());
+            var dispenseDto = await _prescriptionManager.AddDispense(patientId, prescriptiondto.Id, dispense.ConvertToDto());
+            var dateString = DateTime.Now.ToString(PharmscriptionConstants.DateFormat);
+            dispenseDto.Date = dateString;
+            var newDispenseDto =
+                await _prescriptionManager.ModifyDispense(patientId, prescriptiondto.Id, dispenseDto.Id, dispenseDto);
+            Assert.IsNotNull(newDispenseDto);
+            Assert.AreNotEqual(dispenseDto, newDispenseDto);
+            _dispenseRepository.Verify(repository => repository.Modify(It.IsAny<Dispense>()), Times.Once);
+            
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestEditDispenseWithNullObject()
+        {
+            var prescription = PrescriptionTestEnvironment.GetTestPrescriptions().FirstOrDefault();
+            var patientId = PatientTestEnvironment.PatientIdOne;
+            var dispense = DispenseTestEnvironment.GetTestDispenses().FirstOrDefault();
+            var prescriptiondto = await _prescriptionManager.Add(patientId, prescription.ConvertToDto());
+            var dispenseDto = await _prescriptionManager.AddDispense(patientId, prescriptiondto.Id, dispense.ConvertToDto());
+            await _prescriptionManager.ModifyDispense(patientId, prescriptiondto.Id, dispenseDto.Id, null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestEditDispenseWithWrongId()
+        {
+            var prescription = PrescriptionTestEnvironment.GetTestPrescriptions().FirstOrDefault();
+            var patientId = PatientTestEnvironment.PatientIdOne;
+            var dispense = DispenseTestEnvironment.GetTestDispenses().FirstOrDefault();
+            var dispenseId = DispenseTestEnvironment.DispenseTwoId;
+            var prescriptiondto = await _prescriptionManager.Add(patientId, prescription.ConvertToDto());
+            var dispenseDto = await _prescriptionManager.AddDispense(patientId, prescriptiondto.Id, dispense.ConvertToDto());
+            await _prescriptionManager.ModifyDispense(patientId, prescriptiondto.Id, dispenseId, dispenseDto);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidArgumentException))]
+        public async Task TestEditDispenseAlreadySigned()
+        {
+            var prescription = PrescriptionTestEnvironment.GetTestPrescriptions().FirstOrDefault();
+            var patientId = PatientTestEnvironment.PatientIdOne;
+            var dispense = DispenseTestEnvironment.GetTestDispenses().FirstOrDefault();
+            dispense.Date = DateTime.Now.AddDays(-1);
+            var dispenseId = DispenseTestEnvironment.DispenseTwoId;
+            var prescriptiondto = await _prescriptionManager.Add(patientId, prescription.ConvertToDto());
+            var dispenseDto = await _prescriptionManager.AddDispense(patientId, prescriptiondto.Id, dispense.ConvertToDto());
+            await _prescriptionManager.ModifyDispense(patientId, prescriptiondto.Id, dispenseId, dispenseDto);
+        }
+
+        private static List<DrugItemDto> GetTestDrugItems()
+        {
+            var drugs = new List<DrugItemDto>
+            {
+                new DrugItemDto
+                {
+                    Drug = new DrugDto
+                    {
+                        Id = DrugTestEnvironment.DrugOneId,
+                        IsValid = true,
+                        DrugDescription = DrugTestEnvironment.DrugOneDescription
+                    }
+                },
+                new DrugItemDto
+                {
+                    Drug = new DrugDto
+                    {
+                        Id = DrugTestEnvironment.DrugTwoId,
+                        IsValid = true,
+                        DrugDescription = DrugTestEnvironment.DrugTwoDescription
+                    }
+                }
+            };
+            return drugs;
+        }
+
+        private static PrescriptionDto GetTestPrescriptionDto(string prescriptionType)
+        {
+            var prescriptionToInsert = new PrescriptionDto
+            {
+                EditDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
+                IssueDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
+                IsValid = true,
+                Type = prescriptionType,
+                ValidUntil = DateTime.Now.AddDays(2).ToString(PharmscriptionConstants.DateFormat),
+                Drugs = GetTestDrugItems()
+            };
+            return prescriptionToInsert;
         }
     }
 }

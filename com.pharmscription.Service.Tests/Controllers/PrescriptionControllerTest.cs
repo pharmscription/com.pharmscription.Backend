@@ -19,6 +19,10 @@ using System.Web.Mvc;
 
 namespace com.pharmscription.Service.Tests.Controllers
 {
+    using System.Globalization;
+
+    using com.pharmscription.BusinessLogic.Converter;
+
     using DataAccess.Entities.CounterProposalEntity;
     using DataAccess.Repositories.Drug;
     using Service.Controllers;
@@ -93,8 +97,9 @@ namespace com.pharmscription.Service.Tests.Controllers
                 _puow.Commit();
 
             }
-
-            var prescriptionsToConnect = _prescriptionRepository.GetWithAllNavs().OrderBy(e => e.Id).ToList();
+            var prescriptionTask = _prescriptionRepository.GetWithAllNavs(prescription => true);
+            prescriptionTask.Wait();
+            var prescriptionsToConnect = prescriptionTask.Result;
             var proposalsToConnect = counterProposalsToConnect as IList<CounterProposal> ?? counterProposalsToConnect.ToList();
             foreach (var counterProposal in proposalsToConnect.Skip(1).ToList())
             {
@@ -528,7 +533,6 @@ namespace com.pharmscription.Service.Tests.Controllers
             const string remark = "Dieses Rezept ist gemein gefährlich";
             var dispenseToInsert = new DispenseDto
             {
-                Date = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
                 Remark = remark
             };
             var dispense = (DispenseDto)((JsonResult)await _prescriptionController.CreateDispense(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, dispenseToInsert)).Data;
@@ -538,6 +542,98 @@ namespace com.pharmscription.Service.Tests.Controllers
             Assert.AreEqual(remark, dispenseInserted.Remark);
         }
 
+        [TestMethod]
+        public async Task TestEditDispense()
+        {
+            const string remark = "Dieses Rezept ist gemein gefährlich";
+            var dispenseToInsert = new DispenseDto
+            {
+                Remark = remark
+            };
+            var dispense = (DispenseDto)((JsonResult)await _prescriptionController.CreateDispense(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, dispenseToInsert)).Data;
+            dispenseToInsert.Id = dispense.Id;
+            dispenseToInsert.Date = DateTime.Now.ToString(
+                PharmscriptionConstants.DateFormat,
+                CultureInfo.InvariantCulture);
+            dispense =
+                (DispenseDto)
+                ((JsonResult)
+                 await
+                 _prescriptionController.EditDispense(
+                     PatientTestEnvironment.PatientIdOne,
+                     PrescriptionTestEnvironment.StandingPrescriptionOneId,
+                     dispenseToInsert.Id,
+                     dispenseToInsert)).Data;
+            Assert.IsNotNull(dispense);
+        }
+
+        [TestMethod]
+        public async Task TestEditDispenseEmptyDispenseId()
+        {
+            var result = (HttpStatusCodeResult)
+                await _prescriptionController.EditDispense(
+                PatientTestEnvironment.PatientIdOne,
+                PrescriptionTestEnvironment.StandingPrescriptionOneId,
+                string.Empty,
+                DispenseTestEnvironment.GetTestDispenses().First().ConvertToDto());
+            Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task TestEditDispensePatientNotFound()
+        {
+            var result =
+                (HttpStatusCodeResult)
+                await
+                _prescriptionController.EditDispense(
+                    new Guid().ToString(), 
+                    PrescriptionTestEnvironment.StandingPrescriptionOneId,
+                    DispenseTestEnvironment.DispenseOneId,
+                    DispenseTestEnvironment.GetTestDispenses().First().ConvertToDto());
+            Assert.AreEqual((int)HttpStatusCode.NotFound, result.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task TestEditDispensePrescriptionNotFound()
+        {
+            var result =
+                (HttpStatusCodeResult)
+                await
+                _prescriptionController.EditDispense(
+                    PatientTestEnvironment.PatientIdOne,
+                    new Guid().ToString(), 
+                    DispenseTestEnvironment.DispenseOneId,
+                    DispenseTestEnvironment.GetTestDispenses().First().ConvertToDto());
+            Assert.AreEqual((int)HttpStatusCode.NotFound, result.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task TestEditDispenseBadPatientId()
+        {
+            var result =
+                (HttpStatusCodeResult)
+                await
+                _prescriptionController.EditDispense(
+                    string.Empty,
+                    PrescriptionTestEnvironment.StandingPrescriptionOneId,
+                    DispenseTestEnvironment.DispenseOneId,
+                    DispenseTestEnvironment.GetTestDispenses().First().ConvertToDto());
+            Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task TestEditDispenseBadPrescriptionId()
+        {
+            var result =
+                (HttpStatusCodeResult)
+                await
+                _prescriptionController.EditDispense(
+                    PatientTestEnvironment.PatientIdOne,
+                    string.Empty,
+                    DispenseTestEnvironment.DispenseOneId,
+                    DispenseTestEnvironment.GetTestDispenses().First().ConvertToDto());
+            Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
+        }
         [TestMethod]
         public async Task TestGetDispensesThrowsOnNull()
         {

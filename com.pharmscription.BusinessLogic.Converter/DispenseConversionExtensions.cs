@@ -7,8 +7,11 @@ using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.BusinessLogic.Converter
 {
+    using System.Diagnostics.CodeAnalysis;
+
     using Infrastructure.Constants;
 
+    [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501:StatementMustNotBeOnSingleLine", Justification = "Rule does not increase readability in this class.")]
     public static class DispenseConversionExtensions
     {
         public static ICollection<DispenseDto> ConvertToDtos(this ICollection<Dispense> list)
@@ -34,17 +37,17 @@ namespace com.pharmscription.BusinessLogic.Converter
         }
 
         /// <summary>
-        /// 
+        /// Convert Entity to Dto
         /// </summary>
-        /// <param name="dispense"></param>
-        /// <returns>null when it get null as parameter</returns>
+        /// <param name="dispense">Dispense to convert</param>
+        /// <returns>Dispense entity or null when it get null as parameter</returns>
         public static DispenseDto ConvertToDto(this Dispense dispense)
         {
-            if (dispense == null) return null;
+            if (dispense == null) { return null; }
             var dispenseDto = new DispenseDto
             {
                 Remark = dispense.Remark,
-                Date = dispense.Date.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture),
+                Date = dispense.Date?.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture),
                 Id = dispense.Id.ToString(),
                 DrugItems = dispense.DrugItems.ConvertToDtos()
             };
@@ -52,22 +55,24 @@ namespace com.pharmscription.BusinessLogic.Converter
         }
 
         /// <summary>
-        /// 
+        /// Convert Dto to Entity
         /// </summary>
-        /// <param name="dispenseDto"></param>
-        /// <returns>null when it get null as parameter</returns>
+        /// <param name="dispenseDto">Dto to be converted</param>
+        /// <returns>Entity object or null when it get null as parameter</returns>
         public static Dispense ConvertToEntity(this DispenseDto dispenseDto)
         {
-            if (dispenseDto == null) return null;
+            if (dispenseDto == null) { return null; }
             var dispense = new Dispense
             {
                 Remark = dispenseDto.Remark,
                 DrugItems = dispenseDto.DrugItems.ConvertToEntities()
             };
+            
             if (dispenseDto.Date != null)
             {
                 dispense.Date = DateTime.Parse(dispenseDto.Date, CultureInfo.CurrentCulture);
             }
+
             if (!string.IsNullOrWhiteSpace(dispenseDto.Id))
             {
                 dispense.Id = new Guid(dispenseDto.Id);
@@ -83,7 +88,7 @@ namespace com.pharmscription.BusinessLogic.Converter
             }
             var ownPropertiesAreEqual = dispenseDto.Remark == dispense.Remark &&
                                         dispense.Id.ToString() == dispenseDto.Id &&
-                                        dispenseDto.Date == dispense.Date.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture);
+                                        dispenseDto.Date == dispense.Date?.ToString(PharmscriptionConstants.DateFormat, CultureInfo.CurrentCulture);
             if (dispense.DrugItems != null)
             {
                 return ownPropertiesAreEqual && dispenseDto.DrugItems.DtoListEqualsEntityList(dispense.DrugItems.ToList());

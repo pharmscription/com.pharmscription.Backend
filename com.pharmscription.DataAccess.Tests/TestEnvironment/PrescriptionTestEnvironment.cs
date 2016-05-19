@@ -10,6 +10,8 @@ using Moq;
 
 namespace com.pharmscription.DataAccess.Tests.TestEnvironment
 {
+    using com.pharmscription.DataAccess.Entities.DispenseEntity;
+
     public static class PrescriptionTestEnvironment
     {
         public const string StandingPrescriptionOneId = "1baf86b0-1e14-4f4c-b05a-5c9dd00e8e37";
@@ -29,9 +31,8 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                 {
                     Id = Guid.Parse(StandingPrescriptionOneId),
                     IsValid = true,
-                    SignDate = DateTime.Now,
                     IssueDate = DateTime.Now,
-                    ValidUntill = DateTime.Now.AddDays(2),
+                    ValidUntil = DateTime.Now.AddDays(2),
                     EditDate = DateTime.Now,
                     DrugItems = new List<DrugItem>
                     {
@@ -46,15 +47,15 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                             },
                             DosageDescription = "2/3/2"
                         }
-                    }
+                    },
+                    Dispenses = new List<Dispense>()
                 },
                 new StandingPrescription
                 {
                     Id = Guid.Parse(StandingPrescriptionTwoId),
                     IsValid = true,
-                    SignDate = DateTime.Now,
                     IssueDate = DateTime.Now,
-                    ValidUntill = DateTime.Now.AddDays(2),
+                    ValidUntil = DateTime.Now.AddDays(2),
                     EditDate = DateTime.Now,
                     DrugItems = new List<DrugItem>
                     {
@@ -69,7 +70,8 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
                             },
                             DosageDescription = "2/3/2"
                         }
-                    }
+                    },
+                    Dispenses = new List<Dispense>()
                 }
             };
         }
@@ -82,7 +84,7 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
             mockPuow.Setup(m => m.Prescriptions).Returns(mockSet.Object);
             var mockedRepository = TestEnvironmentHelper.CreateMockedRepository<Prescription, PrescriptionRepository>(mockPuow, mockSet, prescriptions);
             mockedRepository.Setup(m => m.GetByPatientId(It.IsAny<Guid>())).Returns<Guid>(e => Task.FromResult(prescriptions.Where(a => a.Patient.Id == e).ToList()));
-            mockedRepository.Setup(m => m.GetWithAllNavsAsynv(It.IsAny<Guid>())).Returns<Guid>(e => Task.FromResult(prescriptions.FirstOrDefault(a => a.Id == e)));
+            mockedRepository.Setup(m => m.GetWithAllNavsAsync(It.IsAny<Guid>())).Returns<Guid>(e => Task.FromResult(prescriptions.FirstOrDefault(a => a.Id == e)));
             return mockedRepository;
         }
     }
