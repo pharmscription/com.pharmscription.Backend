@@ -22,14 +22,19 @@ namespace com.pharmscription.BusinessLogic.Validation
             {
                 throw new InvalidArgumentException("No valid ValidUntil Date was supplied");
             }
-            try
+    
+            if (dto.Type == "S")
             {
-                DateTime.Parse(dto.ValidUntil, CultureInfo.CurrentCulture);
+                try
+                {
+                    DateTime.Parse(dto.ValidUntil, CultureInfo.CurrentCulture);
+                }
+                catch (Exception)
+                {
+                    throw new InvalidArgumentException("No valid ValidUntil Date was supplied");
+                }
             }
-            catch (Exception)
-            {
-                throw new InvalidArgumentException("No valid ValidUntil Date was supplied");
-            }
+
         }
     }
 }
