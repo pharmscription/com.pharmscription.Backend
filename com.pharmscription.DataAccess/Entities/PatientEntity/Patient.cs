@@ -54,13 +54,16 @@ namespace com.pharmscription.DataAccess.Entities.PatientEntity
 
         public void Update(Patient other)
         {
+            
             EMailAddress = other.EMailAddress;
             FirstName = other.FirstName;
+            BirthDate = other.BirthDate;
             Insurance = other.Insurance;
             InsuranceNumber = other.InsuranceNumber;
             LastName = other.LastName;
             PhoneNumber = other.PhoneNumber;
             Address = other.Address;
+            
         }
     }
 }
