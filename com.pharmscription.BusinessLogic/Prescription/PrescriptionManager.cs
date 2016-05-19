@@ -196,6 +196,11 @@ namespace com.pharmscription.BusinessLogic.Prescription
             var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
             await _prescriptionRepository.CheckIfEntityExists(prescriptionGuid);
             var dispense = dispenseDto.ConvertToEntity();
+            if (dispenseDto.DrugItems == null)
+            {
+                dispense.DrugItems = new List<DrugItem>();
+                dispenseDto.DrugItems = new List<DrugItemDto>();
+            }
             dispense.DrugItems.Clear();
             foreach (var drugItem in dispenseDto.DrugItems)
             {
