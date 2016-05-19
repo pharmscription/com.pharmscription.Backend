@@ -16,13 +16,15 @@ namespace com.pharmscription.BusinessLogic.Prescription
 {
     using System.Globalization;
 
-    using com.pharmscription.DataAccess.Entities.DispenseEntity;
-    using com.pharmscription.Infrastructure.Constants;
+    using DataAccess.Entities.DispenseEntity;
+    using Infrastructure.Constants;
 
     using DataAccess.Entities.CounterProposalEntity;
     using DataAccess.Entities.DrugItemEntity;
     using DataAccess.Entities.PrescriptionEntity;
     using DataAccess.Repositories.Drug;
+    using DataAccess.Repositories.DrugItem;
+    using Infrastructure.EntityHelper;
 
     public class PrescriptionManager : IPrescriptionManager
     {
@@ -31,9 +33,11 @@ namespace com.pharmscription.BusinessLogic.Prescription
         private readonly ICounterProposalRepository _counterProposalRepository;
         private readonly IDispenseRepository _dispenseRepository;
         private readonly IDrugRepository _drugRepository;
-        public PrescriptionManager(IPrescriptionRepository prescriptionRepository, IPatientRepository patientRepository, ICounterProposalRepository counterproposalRepository, IDispenseRepository dispenseRepository, IDrugRepository drugRepository)
+        private readonly IDrugItemRepository _drugItemRepository;
+
+        public PrescriptionManager(IPrescriptionRepository prescriptionRepository, IPatientRepository patientRepository, ICounterProposalRepository counterproposalRepository, IDispenseRepository dispenseRepository, IDrugRepository drugRepository, IDrugItemRepository drugItemRepository)
         {
-            if (prescriptionRepository == null || patientRepository == null || counterproposalRepository == null || dispenseRepository == null || drugRepository == null)
+            if (prescriptionRepository == null || patientRepository == null || counterproposalRepository == null || dispenseRepository == null || drugRepository == null || drugItemRepository == null)
             {
                 throw new InvalidArgumentException("Depended Upon Arguments were null");
             }
@@ -42,6 +46,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             _counterProposalRepository = counterproposalRepository;
             _dispenseRepository = dispenseRepository;
             _drugRepository = drugRepository;
+            _drugItemRepository = drugItemRepository;
         }
         public async Task<ICollection<PrescriptionDto>> Get(string patientId)
         {
@@ -191,6 +196,11 @@ namespace com.pharmscription.BusinessLogic.Prescription
             var prescriptionGuid = GuidParser.ParseGuid(prescriptionId);
             await _prescriptionRepository.CheckIfEntityExists(prescriptionGuid);
             var dispense = dispenseDto.ConvertToEntity();
+            foreach (var drugItem in dispense.DrugItems)
+            {
+                drugItem.Id = IdentityGenerator.NewSequentialGuid();
+                drugItem.Drug = await _drugRepository.GetAsyncOrThrow(drugItem.Drug.Id);
+            }
             _dispenseRepository.Add(dispense);
             var prescription = await _prescriptionRepository.GetWithAllNavsAsync(prescriptionGuid);
             if (prescription.Dispenses == null)

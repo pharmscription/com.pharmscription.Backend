@@ -172,7 +172,7 @@
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
@@ -198,7 +198,7 @@
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }

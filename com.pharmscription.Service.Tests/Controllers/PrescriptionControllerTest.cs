@@ -25,6 +25,7 @@ namespace com.pharmscription.Service.Tests.Controllers
 
     using DataAccess.Entities.CounterProposalEntity;
     using DataAccess.Repositories.Drug;
+    using DataAccess.Repositories.DrugItem;
     using Service.Controllers;
 
     [TestClass]
@@ -40,6 +41,7 @@ namespace com.pharmscription.Service.Tests.Controllers
         private IDispenseRepository _dispenseRepository;
         private IPrescriptionManager _prescriptionManager;
         private IDrugRepository _drugRepository;
+        private IDrugItemRepository _drugItemRepository;
         
         [TestInitialize]
         public void SetUp()
@@ -50,7 +52,8 @@ namespace com.pharmscription.Service.Tests.Controllers
             _counterProposalRepository = new CounterProposalRepository(_puow);
             _dispenseRepository = new DispenseRepository(_puow);
             _drugRepository = new DrugRepository(_puow);
-            _prescriptionManager= new PrescriptionManager(_prescriptionRepository, _patientRepository, _counterProposalRepository, _dispenseRepository, _drugRepository);
+            _drugItemRepository = new DrugItemRepository(_puow);
+            _prescriptionManager= new PrescriptionManager(_prescriptionRepository, _patientRepository, _counterProposalRepository, _dispenseRepository, _drugRepository, _drugItemRepository);
             _prescriptionController = new PrescriptionController(_prescriptionManager);
             SetupTestData();
         }

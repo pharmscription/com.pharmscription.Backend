@@ -20,7 +20,13 @@ namespace com.pharmscription.DataAccess.Repositories.Prescription
 
         public virtual Task<List<Prescription>> GetByPatientId(Guid patientId)
         {
-            return Set.Where(e => e.Patient.Id == patientId).ToListAsync();
+            return Set.Where(e => e.Patient.Id == patientId)
+                .Include(e => e.CounterProposals)
+                .Include(e => e.Dispenses)
+                .Include(e => e.DrugItems)
+                .Include(e => e.PrescriptionHistory)
+                .Include(e => e.Dispenses.Select(a => a.DrugItems))
+                .ToListAsync();
         }
 
         public Task<IEnumerable<Prescription>> GetWithAllNavs(Func<Prescription, bool> predicate)
@@ -31,6 +37,7 @@ namespace com.pharmscription.DataAccess.Repositories.Prescription
                 .Include(e => e.Dispenses)
                 .Include(e => e.DrugItems)
                 .Include(e => e.Patient)
+                .Include(e => e.Dispenses.Select(a => a.DrugItems))
                 .Where(predicate));
 
         }
