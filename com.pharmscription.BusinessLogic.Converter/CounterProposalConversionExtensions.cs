@@ -1,14 +1,18 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
+
 using com.pharmscription.DataAccess.Entities.CounterProposalEntity;
 using com.pharmscription.Infrastructure.Constants;
 using com.pharmscription.Infrastructure.Dto;
 
 namespace com.pharmscription.BusinessLogic.Converter
 {
+    
+
+    [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501:StatementMustNotBeOnSingleLine", Justification = "This rule does not increase readability in this class")]
     public static class CounterProposalConversionExtensions
     {
         public static ICollection<CounterProposalDto> ConvertToDtos(this ICollection<CounterProposal> list)
@@ -34,13 +38,13 @@ namespace com.pharmscription.BusinessLogic.Converter
         }
 
         /// <summary>
-        /// 
+        /// Convert entity to dto
         /// </summary>
-        /// <param name="counterproposal"></param>
-        /// <returns>null when it get null as parameter</returns>
+        /// <param name="counterproposal"><see cref="CounterProposal"/> to convert</param>
+        /// <returns><see cref="CounterProposalDto"/> or null when it get null as parameter</returns>
         public static CounterProposalDto ConvertToDto(this CounterProposal counterproposal)
         {
-            if (counterproposal == null) return null;
+            if (counterproposal == null) { return null; }
             var counterproposalDto = new CounterProposalDto
             {
                 Message = counterproposal.Message,
@@ -51,13 +55,13 @@ namespace com.pharmscription.BusinessLogic.Converter
         }
 
         /// <summary>
-        /// 
+        /// Convert dto to entity
         /// </summary>
-        /// <param name="counterproposalDto"></param>
-        /// <returns>null when it get null as parameter</returns>
+        /// <param name="counterproposalDto"><see cref="CounterProposalDto"/> to convert</param>
+        /// <returns><see cref="CounterProposal"/> or null when it get null as parameter</returns>
         public static CounterProposal ConvertToEntity(this CounterProposalDto counterproposalDto)
         {
-            if (counterproposalDto == null) return null;
+            if (counterproposalDto == null) { return null; }
             var counterproposal = new CounterProposal
             {
                 Message = counterproposalDto.Message,

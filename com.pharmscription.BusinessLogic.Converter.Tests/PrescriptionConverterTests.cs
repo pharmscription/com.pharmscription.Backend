@@ -34,7 +34,6 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
                 ModifiedDate = DateTime.Now,
                 EditDate = DateTime.Now,
                 IssueDate = DateTime.Now,
-                SignDate = DateTime.Now,
                 Patient = new Patient
                 {
                     AhvNumber = "123",
@@ -145,8 +144,7 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
                 ModifiedDate = DateTime.Now,
                 EditDate = DateTime.Now,
                 IssueDate = DateTime.Now,
-                SignDate = DateTime.Now,
-                ValidUntill = DateTime.Now,
+                ValidUntil = DateTime.Now,
                 Patient = new Patient
                 {
                     AhvNumber = "123",
@@ -255,7 +253,6 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
                 IsValid = true,
                 EditDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
                 IssueDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
-                SignDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
                 Type = "N",
                 Patient = new PatientDto
                 {
@@ -349,7 +346,6 @@ namespace com.pharmscription.BusinessLogic.Converter.Tests
                 IsValid = true,
                 EditDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
                 IssueDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
-                SignDate = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
                 Type = "S",
                 ValidUntil = DateTime.Now.ToString(PharmscriptionConstants.DateFormat),
                 Patient = new PatientDto

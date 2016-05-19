@@ -23,12 +23,19 @@ namespace com.pharmscription.DataAccess.Repositories.Prescription
             return Set.Where(e => e.Patient.Id == patientId).ToListAsync();
         }
 
-        public IQueryable<Prescription> GetWithAllNavs()
+        public Task<IEnumerable<Prescription>> GetWithAllNavs(Func<Prescription, bool> predicate)
         {
-            return Set.Include(e => e.Dispenses).Include(e => e.CounterProposals).Include(e => e.Patient);
+            return Task.Factory.StartNew(() => Set.Include(e => e.Dispenses)
+                .Include(e => e.PrescriptionHistory)
+                .Include(e => e.CounterProposals)
+                .Include(e => e.Dispenses)
+                .Include(e => e.DrugItems)
+                .Include(e => e.Patient)
+                .Where(predicate));
+
         }
 
-        public virtual async Task<Prescription> GetWithAllNavsAsynv(Guid id)
+        public virtual async Task<Prescription> GetWithAllNavsAsync(Guid id)
         {
             var prescription = 
                 await Set
