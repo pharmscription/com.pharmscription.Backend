@@ -204,7 +204,7 @@ namespace com.pharmscription.BusinessLogic.Prescription
             dispense.DrugItems.Clear();
             foreach (var drugItem in dispenseDto.DrugItems)
             {
-                dispense.DrugItems.Add(await this._drugItemRepository.GetWithDrugAsync(new Guid(drugItem.Id)));
+                dispense.DrugItems.Add(await _drugItemRepository.GetWithDrugAsync(new Guid(drugItem.Id)));
             }
             _dispenseRepository.Add(dispense);
             var prescription = await _prescriptionRepository.GetWithAllNavsAsync(prescriptionGuid);
@@ -248,6 +248,16 @@ namespace com.pharmscription.BusinessLogic.Prescription
             var dispense = dispenseDto.ConvertToEntity();
             var oldDispense = await _dispenseRepository.GetAsync(dispenseGuid);
             oldDispense.Update(dispense);
+            if (dispenseDto.DrugItems != null)
+            {
+                oldDispense.DrugItems = new List<DrugItem>();
+                dispenseDto.DrugItems = new List<DrugItemDto>();
+            }
+            dispense.DrugItems.Clear();
+            foreach (var drugItem in dispenseDto.DrugItems)
+            {
+                oldDispense.DrugItems.Add(await _drugItemRepository.GetWithDrugAsync(new Guid(drugItem.Id)));
+            }
             _dispenseRepository.Modify(oldDispense);
             await _dispenseRepository.UnitOfWork.CommitAsync();
             return dispense.ConvertToDto();
