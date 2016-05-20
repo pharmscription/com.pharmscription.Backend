@@ -37,13 +37,18 @@ namespace com.pharmscription.DataAccess.Entities.DispenseEntity
             {
                 return false;
             }
-            bool equal = false;
+            bool isEqual = false;
             if (DrugItems != null && other.DrugItems != null)
             {
-                equal = DrugItems.SequenceEqual(other.DrugItems);
+                isEqual = DrugItems.SequenceEqual(other.DrugItems);
             }
-            return equal && Nullable.Equals(Date, other.Date) && Remark == other.Remark
-                   && Prescription == other.Prescription;
+
+            if (Prescription != null && other.Prescription != null)
+            {
+                isEqual = isEqual && Prescription.Equals(other.Prescription);
+            }
+
+            return isEqual && Nullable.Equals(Date, other.Date) && Remark == other.Remark;
         }
 
         public void Update(Dispense other)
@@ -56,7 +61,7 @@ namespace com.pharmscription.DataAccess.Entities.DispenseEntity
                 }
                 Date = other.Date;
                 Remark = other.Remark;
-                DrugItems = other.DrugItems;
+                DrugItems = new List<DrugItem>(other.DrugItems);
                 Prescription = other.Prescription;
                 SinglePrescription = other.SinglePrescription;
                 StandingPrescription = other.StandingPrescription;

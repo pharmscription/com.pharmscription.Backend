@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using BaseEntity;
     using DispenseEntity;
@@ -36,8 +37,21 @@
             {
                 return false;
             }
-            return Drug.Equals(other.Drug) && Dispenses.Equals(other.Dispenses) && Prescription.Equals(other.Prescription)
+            bool isEqual = false;
+            if (Dispenses != null)
+            {
+                isEqual = Dispenses.SequenceEqual(other.Dispenses);
+            }
+
+            if (Prescription != null)
+            {
+                isEqual = isEqual && Prescription.Equals(other.Prescription);
+            }
+
+            return isEqual && Id.Equals(other.Id) && Drug.Equals(other.Drug)
                    && DosageDescription == other.DosageDescription && Quantity == other.Quantity;
         }
+
+
     }
 }
