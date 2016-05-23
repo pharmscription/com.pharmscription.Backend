@@ -15,7 +15,7 @@ namespace com.pharmscription.BusinessLogic.Converter
         {
             if (list == null)
             {
-                return null;
+                return new List<DrugItemDto>();
             }
             var newList = new List<DrugItemDto>(list.Count);
             newList.AddRange(list.Select(drugItem => drugItem.ConvertToDto()));

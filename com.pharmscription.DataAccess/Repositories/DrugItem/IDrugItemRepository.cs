@@ -1,5 +1,8 @@
 ﻿namespace com.pharmscription.DataAccess.Repositories.DrugItem
 {
+    using System;
+    using System.Threading.Tasks;
+
     using Entities.DrugItemEntity;
     using SharedInterfaces;
 
@@ -8,6 +11,6 @@
     /// </summary>
     public interface IDrugItemRepository : IRepository<DrugItem>
     {
-         
+        Task<DrugItem> GetWithDrugAsync(Guid drugItemId);
     }
 }
