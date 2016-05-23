@@ -26,7 +26,7 @@ namespace com.pharmscription.BusinessLogic.Converter
         {
             if (list == null)
             {
-                return null;
+                return new List<DrugItem>();
             }
             var newList = new List<DrugItem>(list.Count);
             newList.AddRange(list.Select(drug => drug.ConvertToEntity()));
@@ -91,7 +91,21 @@ namespace com.pharmscription.BusinessLogic.Converter
 
         public static bool DtoListEqualsEntityList(this ICollection<DrugItemDto> drugItemDtos, ICollection<DrugItem> drugItems)
         {
-            return !drugItemDtos.Where((t, i) => !drugItemDtos.ElementAt(i).DtoEqualsEntity(drugItems.ElementAt(i))).Any();
+            if (drugItems == null && drugItemDtos == null)
+            {
+                return true;
+            }
+            if ((drugItems == null && !drugItemDtos.Any()) || (drugItemDtos == null && !drugItems.Any()))
+            {
+                return true;
+            }
+
+            if (drugItems != null && drugItemDtos != null)
+            {
+                return !drugItemDtos.Where((t, i) => !drugItemDtos.ElementAt(i).DtoEqualsEntity(drugItems.ElementAt(i))).Any();
+
+            }
+            return false;
         }
 
         public static bool EntityListEqualsDtoList(this ICollection<DrugItem> drugItems, ICollection<DrugItemDto> drugItemDtos)

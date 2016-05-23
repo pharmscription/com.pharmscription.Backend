@@ -29,7 +29,7 @@ namespace com.pharmscription.BusinessLogic.Converter
         {
             if (list == null)
             {
-                return null;
+                return new List<Dispense>();
             }
             var newList = new List<Dispense>(list.Count);
             newList.AddRange(list.Select(dispense => dispense.ConvertToEntity()));
