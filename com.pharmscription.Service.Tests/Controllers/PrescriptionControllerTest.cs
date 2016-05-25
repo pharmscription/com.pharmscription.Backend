@@ -27,7 +27,7 @@ namespace com.pharmscription.Service.Tests.Controllers
     using DataAccess.Repositories.Drug;
     using DataAccess.Repositories.DrugItem;
     using Service.Controllers;
-
+    using Controllers;
     [TestClass]
     [ExcludeFromCodeCoverage]
     [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1202:ElementsMustBeOrderedByAccess", Justification = "Rule makes no sense in tests.")]
@@ -553,6 +553,33 @@ namespace com.pharmscription.Service.Tests.Controllers
             {
                 Remark = remark
             };
+            var dispense = (DispenseDto)((JsonResult)await _prescriptionController.CreateDispense(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, dispenseToInsert)).Data;
+            dispenseToInsert.Id = dispense.Id;
+            dispenseToInsert.Date = DateTime.Now.ToString(
+                PharmscriptionConstants.DateFormat,
+                CultureInfo.InvariantCulture);
+            dispense =
+                (DispenseDto)
+                ((JsonResult)
+                 await
+                 _prescriptionController.EditDispense(
+                     PatientTestEnvironment.PatientIdOne,
+                     PrescriptionTestEnvironment.StandingPrescriptionOneId,
+                     dispenseToInsert.Id,
+                     dispenseToInsert)).Data;
+            Assert.IsNotNull(dispense);
+        }
+
+        [TestMethod]
+        public async Task TestEditDispensWithDrugItem()
+        {
+            const string remark = "Dieses Rezept ist gemein gefährlich";
+            var dispenseToInsert = new DispenseDto
+            {
+                Remark = remark
+            };
+            dispenseToInsert.DrugItems = new List<DrugItemDto>();
+            DrugItemTestEnvironment.GetTestDrugItems().ForEach(item => dispenseToInsert.DrugItems.Add(item.ConvertToDto()));
             var dispense = (DispenseDto)((JsonResult)await _prescriptionController.CreateDispense(PatientTestEnvironment.PatientIdOne, PrescriptionTestEnvironment.StandingPrescriptionOneId, dispenseToInsert)).Data;
             dispenseToInsert.Id = dispense.Id;
             dispenseToInsert.Date = DateTime.Now.ToString(
