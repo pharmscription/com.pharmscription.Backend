@@ -1,6 +1,6 @@
 ﻿using System;
-using com.pharmscription.DataAccess.EntityHelper;
 using com.pharmscription.DataAccess.SharedInterfaces;
+using com.pharmscription.Infrastructure.EntityHelper;
 
 namespace com.pharmscription.DataAccess.Entities.BaseEntity
 {

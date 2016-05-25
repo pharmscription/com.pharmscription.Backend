@@ -7,10 +7,9 @@ namespace com.pharmscription.BusinessLogic.Patient
     {
         Task<PatientDto> Lookup(string ahvNumber);
         Task<PatientDto> Add(PatientDto patient);
-        Task<PatientDto> Edit(PatientDto patient);
         Task<PatientDto> Find(string ahvNumber);
         Task<PatientDto> GetById(string id);
-        Task<PatientDto> RemoveById(string id);
+        Task<PatientDto> Update(PatientDto patient);
     }
 }
 

@@ -66,15 +66,35 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Entities\AdressEntitiy\CityCodeEntity\SwissCityCodeTest.cs" />
+    <Compile Include="Entities\DispenseEntity\DispenseEntityTest.cs" />
+    <Compile Include="Entities\PrescriptionEntity\StandingPrescriptionTest.cs" />
+    <Compile Include="Entities\PrescriptionEntity\SinglePrescriptionTest.cs" />
     <Compile Include="Repositories\BaseRepository\RepositoryTest.cs" />
     <Compile Include="Repositories\DrugRepository\DrugRepositoryTest.cs" />
     <Compile Include="Repositories\PatientRepository\PatientRepositoryTest.cs" />
+    <Compile Include="TestEnvironment\CounterProposalTestEnvironment.cs" />
     <Compile Include="TestEnvironment\DbAsyncQueryProviderMock.cs" />
+    <Compile Include="TestEnvironment\DispenseTestEnvironment.cs" />
+    <Compile Include="TestEnvironment\DrugItemTestEnvironment.cs" />
+    <Compile Include="TestEnvironment\DrugPriceMock.cs" />
+    <Compile Include="TestEnvironment\DrugPriceTestEnvironment.cs" />
+    <Compile Include="TestEnvironment\DrugStoreTestEnvironment.cs" />
+    <Compile Include="TestEnvironment\DrugTestEnvironment.cs" />
+    <Compile Include="TestEnvironment\PatientTestEnvironment.cs" />
+    <Compile Include="TestEnvironment\PrescriptionTestEnvironment.cs" />
     <Compile Include="TestEnvironment\TestEnvironmentHelper.cs" />
     <Compile Include="UnitOfWork\PharmscriptionUnitOfWorkTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\com.pharmscription.BusinessLogic.Converter\com.pharmscription.BusinessLogic.Converter.csproj">
+      <Project>{7BE7799A-2AB7-4A59-BE2B-6364EA6C9BD0}</Project>
+      <Name>com.pharmscription.BusinessLogic.Converter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.BusinessLogic\com.pharmscription.BusinessLogic.csproj">
+      <Project>{68EA9BAD-339D-49B4-A604-54EA4DA0952A}</Project>
+      <Name>com.pharmscription.BusinessLogic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\com.pharmscription.DataAccess\com.pharmscription.DataAccess.csproj">
       <Project>{45E80FD3-39D7-4112-AF49-BB25B67E0FEE}</Project>
       <Name>com.pharmscription.DataAccess</Name>
@@ -83,10 +103,19 @@
       <Project>{B53CE84A-9F8A-41C2-97FB-8AA14635CCBF}</Project>
       <Name>com.pharmscription.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\com.pharmscription.Reporting\com.pharmscription.Reporting.csproj">
+      <Project>{9915d706-1905-48c5-8391-f511c2cb9b1c}</Project>
+      <Name>com.pharmscription.Reporting</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\com.pharmscription.Infrastructure\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

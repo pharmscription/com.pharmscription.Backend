@@ -4,18 +4,75 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading.Tasks;
 using com.pharmscription.DataAccess.SharedInterfaces;
 using com.pharmscription.DataAccess.UnitOfWork;
+using com.pharmscription.Infrastructure.EntityHelper;
+using com.pharmscription.Infrastructure.Exception;
 using Moq;
 
 namespace com.pharmscription.DataAccess.Tests.TestEnvironment
 {
+
     [ExcludeFromCodeCoverage]
     public class TestEnvironmentHelper
     {
+
+        public static ICollection<string> DeleteStatments => new List<string>
+        {
+            "Delete From DrugItems",
+            "Delete From CounterProposals",
+            "Delete From Dispenses",
+            "Delete From Prescriptions",
+            "Delete From Drugs",
+            "Delete From Patients"
+        };
+
         public static Mock<PharmscriptionUnitOfWork> GetMockedDataContext()
         {
             return new Mock<PharmscriptionUnitOfWork>();
+        }
+
+        public static Mock<TRepository> CreateMockedRepository<TEntity, TRepository>(
+    Mock<PharmscriptionUnitOfWork> mockPuow, Mock<DbSet<TEntity>> mockSet, List<TEntity> initialData)
+    where TEntity : class, IEntity, ICloneable<TEntity> where TRepository : class, IRepository<TEntity>
+        {
+            mockPuow.Setup(m => m.CreateSet<TEntity>()).Returns(mockSet.Object);
+            var mockedRepository = new Mock<TRepository>(mockPuow.Object);
+            mockedRepository.Setup(m => m.GetAsync(It.IsAny<Guid>()))
+                .Returns<Guid>(e => Task.FromResult(initialData.FirstOrDefault(a => a.Id == e)));
+            mockedRepository.Setup(m => m.GetAll()).Returns(initialData);
+            mockedRepository.Setup(m => m.GetAsync(It.IsAny<Guid>()))
+                .Returns<Guid>(e => Task.FromResult(initialData.FirstOrDefault(a => a.Id == e)));
+            mockedRepository.Setup(m => m.UnitOfWork).Returns(mockPuow.Object);
+            mockedRepository.Setup(m => m.Add(It.IsAny<TEntity>()))
+                .Returns<TEntity>(
+                    e =>
+                        {
+                            mockSet.Object.Add(e);
+                            return e;
+                        });
+            mockedRepository.Setup(m => m.GetAsyncOrThrow(It.IsAny<Guid>())).Returns<Guid>(e =>
+            {
+                var entity = initialData.FirstOrDefault(a => a.Id == e);
+                if (entity == null)
+                {
+                    throw new NotFoundException("No Such Entity");
+                }
+                return Task.FromResult(entity);
+            });
+            mockedRepository.Setup(m => m.CheckIfEntityExists(It.IsAny<Guid>())).Returns<Guid>(e =>
+            {
+                {
+                    var entity = initialData.FirstOrDefault(a => a.Id == e);
+                    if (entity == null)
+                    {
+                        throw new NotFoundException("No Such Entity");
+                    }
+                    return Task.FromResult(true);
+                }
+            });
+            return mockedRepository;
         }
 
         public static Mock<DbSet<TEntity>> GetMockedAsyncProviderDbSet<TEntity>(List<TEntity> sampleData)
@@ -40,7 +97,12 @@ namespace com.pharmscription.DataAccess.Tests.TestEnvironment
             mockSet.As<IQueryable<TEntity>>().Setup(m => m.ElementType).Returns(sampleData.AsQueryable().ElementType);
             mockSet.As<IQueryable<TEntity>>().Setup(m => m.GetEnumerator()).Returns(() => sampleData.GetEnumerator());
 
-            mockSet.Setup(d => d.Add(It.IsAny<TEntity>())).Callback<TEntity>(sampleData.Add);
+            mockSet.Setup(d => d.Add(It.IsAny<TEntity>())).Returns<TEntity>(e =>
+            {
+                e.Id = IdentityGenerator.NewSequentialGuid();
+                sampleData.Add(e);
+                return e;
+            });
             mockSet.Setup(d => d.AddRange(It.IsAny<IEnumerable<TEntity>>()))
                 .Callback((IEnumerable<TEntity> list) => sampleData.AddRange(list));
             mockSet.Setup(d => d.Remove(It.IsAny<TEntity>()))

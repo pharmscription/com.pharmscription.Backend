@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
@@ -48,10 +52,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\PharmscriptionConstants.cs" />
     <Compile Include="Dto\AddressDto.cs" />
     <Compile Include="Dto\BaseDto.cs" />
+    <Compile Include="Dto\CounterProposalDto.cs" />
+    <Compile Include="Dto\DispenseDto.cs" />
     <Compile Include="Dto\DrugDto.cs" />
+    <Compile Include="Dto\DrugItemDto.cs" />
     <Compile Include="Dto\PatientDto.cs" />
+    <Compile Include="Dto\PrescriptionDto.cs" />
+    <Compile Include="EntityHelper\IdentityGenerator.cs" />
     <Compile Include="Exception\InvalidAHVNumberException.cs" />
     <Compile Include="Exception\InvalidArgumentException.cs" />
     <Compile Include="Exception\NotFoundException.cs" />
@@ -62,7 +72,9 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

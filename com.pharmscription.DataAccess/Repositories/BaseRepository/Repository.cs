@@ -28,7 +28,7 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
         public Repository(IQueryableUnitOfWork unitOfWork)
         {
             if (unitOfWork == null)
-                throw new InvalidArgumentException(nameof(unitOfWork));
+                throw new InvalidArgumentException("Repository was not given a valid Data Context to work on");
 
             _unitOfWork = unitOfWork;
         }
@@ -40,18 +40,18 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
         /// <summary>
         /// <see cref="IRepository{TEntity}"/>
         /// </summary>
-        public IUnitOfWork UnitOfWork => _unitOfWork;
+        public virtual IUnitOfWork UnitOfWork => _unitOfWork;
 
         /// <summary>
         /// <see cref="IRepository{TEntity}"/>
         /// </summary>
         /// <param name="item"><see cref="IRepository{TEntity}"/></param>
-        public virtual void Add(TEntity item)
+        public virtual TEntity Add(TEntity item)
         {
 
             if (item != null)
             {
-                GetSet().Add(item);
+                return Set.Add(item);
             }
             else
             {
@@ -66,11 +66,8 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
         {
             if (item != null)
             {
-                //attach item if not exist
                 _unitOfWork.Attach(item);
-
-                //set as "removed"
-                GetSet().Remove(item);
+                Set.Remove(item);
             }
             else
             {
@@ -131,7 +128,7 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
         {
             if (id != Guid.Empty)
             {
-                return GetSet().Find(id);
+                return Set.Find(id);
             }
             throw new InvalidArgumentException("Guid was empty");
         }
@@ -140,15 +137,36 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
         {
             if (id != Guid.Empty)
             {
-                return GetSet().FirstOrDefaultAsync(e => e.Id == id);
+                return Set.FirstOrDefaultAsync(e => e.Id == id);
             }
             return null;
         }
+
+        public virtual async Task<TEntity> GetAsyncOrThrow(Guid id)
+        {
+            var entity = await Set.FirstOrDefaultAsync(e => e.Id == id);
+            if (entity == null)
+            {
+                throw new NotFoundException("No Entity with such an Id");
+            }
+            return entity;
+        }
+
+        public async Task<bool> CheckIfEntityExists(Guid id)
+        {
+            var entity = await Set.FirstOrDefaultAsync(e => e.Id == id);
+            if (entity == null)
+            {
+                throw new NotFoundException("No Such Entity was found");
+            }
+            return true;
+        }
+
         public virtual IEnumerable<TEntity> Find(Guid id)
         {
             if (id != Guid.Empty)
             {
-                return GetSet().Where(e => e.Id == id);
+                return Set.Where(e => e.Id == id);
             }
             throw new InvalidArgumentException("Guid was empty");
         }
@@ -158,30 +176,24 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
         /// <returns><see cref="IRepository{TEntity}"/></returns>
         public virtual IEnumerable<TEntity> GetAll()
         {
-            return GetSet().AsEnumerable();
+            return Set.AsEnumerable();
         }
 
         public virtual IEnumerable<TEntity> GetAllAsNoTracking()
         {
-            return GetSet().AsNoTracking().AsEnumerable();
+            return Set.AsNoTracking().AsEnumerable();
         }
 
         public virtual int Count()
         {
-            return GetSet().Count();
+            return Set.Count();
         }
 
         public virtual int Count(Func<TEntity, bool> predicate)
         {
-            return GetSet().Count(predicate);
+            return Set.Count(predicate);
         }
 
-        //TODO: Implement Specification-Pattern
-        //public virtual IEnumerable<TEntity> AllMatching(Domain.Seedwork.Specification.ISpecification<TEntity> specification)
-        //{
-        //    return GetSet().Where(specification.SatisfiedBy())
-        //                   .AsEnumerable();
-        //}
         /// <summary>
         /// <see cref="IRepository{TEntity}"/>
         /// </summary>
@@ -197,7 +209,7 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
         /// <returns><see cref="IRepository{TEntity}"/></returns>
         public virtual IEnumerable<TEntity> GetPaged<TKProperty>(int pageIndex, int pageCount, System.Linq.Expressions.Expression<Func<TEntity, TKProperty>> orderByExpression, bool ascending)
         {
-            var set = GetSet();
+            var set = Set;
 
             if (ascending)
             {
@@ -218,7 +230,7 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
         /// <returns><see cref="IRepository{TEntity}"/></returns>
         public virtual IEnumerable<TEntity> GetFiltered(System.Linq.Expressions.Expression<Func<TEntity, bool>> filter)
         {
-            return GetSet().Where(filter)
+            return Set.Where(filter)
                            .AsEnumerable();
         }
 
@@ -233,14 +245,10 @@ namespace com.pharmscription.DataAccess.Repositories.BaseRepository
             _unitOfWork.ApplyCurrentValues(persisted, current);
         }
 
-        #endregion
 
-        #region Private Methods
 
-        protected IDbSet<TEntity> GetSet()
-        {
-            return _unitOfWork.CreateSet<TEntity>();
-        }
+        protected IDbSet<TEntity> Set => _unitOfWork.CreateSet<TEntity>();
+
         #endregion
     }
 }

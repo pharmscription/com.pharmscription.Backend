@@ -1,27 +1,27 @@
 ﻿
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.BusinessLogic.Converter;
+using com.pharmscription.BusinessLogic.GuidHelper;
 using com.pharmscription.DataAccess.Repositories.Drug;
 using com.pharmscription.Infrastructure.Dto;
 using com.pharmscription.Infrastructure.Exception;
 
 namespace com.pharmscription.BusinessLogic.Drug
 {
+    using DataAccess.Entities.DrugEntity;
+
     public class DrugManager : IDrugManager
     {
         private readonly IDrugRepository _repository;
-        private readonly SwissMedicConnector _swissMedicConnector;
 
         public DrugManager(IDrugRepository repository)
         {
             _repository = repository;
-            _swissMedicConnector = new SwissMedicConnector();
         }
 
-        public async Task<List<DrugDto>> SearchPaged(string partialDescription, string pageNumberString, string amountPerPageString)
+        public async Task<ICollection<DrugDto>> SearchPaged(string partialDescription, string pageNumberString, string amountPerPageString)
         {
             if (string.IsNullOrWhiteSpace(partialDescription))
             {
@@ -30,7 +30,7 @@ namespace com.pharmscription.BusinessLogic.Drug
             int pageNumber, amountPerPage;
             bool page = int.TryParse(pageNumberString, out pageNumber);
             bool amount = int.TryParse(amountPerPageString, out amountPerPage);
-            if (!page && !amount)
+            if (!page || !amount)
             {
                 throw new InvalidArgumentException("Either page number or amount per page are not numbers. page: " + pageNumberString + " , amount: " + amountPerPageString + ".");
             }
@@ -48,7 +48,7 @@ namespace com.pharmscription.BusinessLogic.Drug
             return drugsFittingSearch.ConvertToDtos();
         }
 
-        public async Task<int> Search(string partialDescription)
+        public async Task<int> Count(string partialDescription)
         {
             if (string.IsNullOrWhiteSpace(partialDescription))
             {
@@ -65,13 +65,13 @@ namespace com.pharmscription.BusinessLogic.Drug
 
         private async Task LoadDrugsFromSwissMedic()
         {
-            var drugsFromSwissMedic = (await _swissMedicConnector.GetSwissMedicConnection().GetAll()).ToList();
+            var drugsFromSwissMedic = (await SwissMedicConnector.SwissMedicConnection.GetAll()).ToList();
             await CacheSwissMedicLocally(drugsFromSwissMedic);
         }
 
-        private async Task CacheSwissMedicLocally(IEnumerable<DataAccess.Entities.DrugEntity.Drug> drugsFromSwissMedic)
+        private async Task CacheSwissMedicLocally(IEnumerable<Drug> drugsFromSwissMedic)
         {
-            foreach (var drug in drugsFromSwissMedic)
+            foreach (var drug in drugsFromSwissMedic.ToList())
             {
                 _repository.Add(drug);
             }
@@ -80,11 +80,7 @@ namespace com.pharmscription.BusinessLogic.Drug
 
         public async Task<DrugDto> GetById(string id)
         {
-            if (string.IsNullOrWhiteSpace(id))
-            {
-                throw new InvalidArgumentException("Id was empty");
-            }
-            return (await _repository.GetAsync(new Guid(id))).ConvertToDto();
+            return (await _repository.GetAsyncOrThrow(GuidParser.ParseGuid(id))).ConvertToDto();
         }
     }
 }

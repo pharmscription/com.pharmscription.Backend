@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using com.pharmscription.DataAccess.Entities.DrugEntity;
@@ -21,41 +20,7 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.DrugRepository
         [TestInitialize]
         public void Initialize()
         {
-            var patients = new List<Drug>
-            {
-                new Drug
-                {
-                    DrugDescription = "1001 Blattgrün Dragées",
-                    NarcoticCategory = "D",
-                    IsValid = true
-                },
-                new Drug
-                {
-                    DrugDescription = "1001 Blattgrün Tabletten",
-                    NarcoticCategory = "D",
-                    IsValid = true
-                },
-                new Drug
-                {
-                    DrugDescription = "Abilify 1 mg/ml, Sirup",
-                    NarcoticCategory = "B",
-                    IsValid = true
-                },
-                new Drug
-                {
-                    DrugDescription = "Abilify 10 mg, Schmerztabletten",
-                    NarcoticCategory = "B",
-                    IsValid = true
-                },
-                new Drug
-                {
-                    DrugDescription = "Advagraf 5 mg, Retardkapseln",
-                    NarcoticCategory = "A",
-                    IsValid = true
-                }
-            };
-            var mockSet = TestEnvironmentHelper.GetMockedAsyncProviderDbSet(patients);
-
+            var mockSet = TestEnvironmentHelper.GetMockedAsyncProviderDbSet(DrugTestEnvironment.GetTestDrugs());
             var mockPuow = TestEnvironmentHelper.GetMockedDataContext();
             mockPuow.Setup(m => m.Drugs).Returns(mockSet.Object);
             mockPuow.Setup(m => m.CreateSet<Drug>()).Returns(mockSet.Object);
@@ -66,7 +31,7 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.DrugRepository
         [TestCleanup]
         public void Cleanup()
         {
-            foreach (var id in _puow.Drugs.Select(e => e.Id))
+            foreach (var id in _puow.Drugs.Select(e => e.Id).ToList())
             {
                 var entity = new Drug { Id = id };
                 _puow.Drugs.Attach(entity);
@@ -82,7 +47,7 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.DrugRepository
             Assert.AreEqual(2, drugs.Count);
             var drug = drugs.FirstOrDefault();
             Assert.IsNotNull(drug);
-            Assert.AreEqual("1001 Blattgrün Dragées", drug.DrugDescription);
+            Assert.AreEqual(DrugTestEnvironment.DrugThreeDescription, drug.DrugDescription);
         }
 
         [TestMethod]
@@ -113,7 +78,7 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.DrugRepository
             Assert.AreEqual(2, drugs.Count);
             var drug = drugs.FirstOrDefault();
             Assert.IsNotNull(drug);
-            Assert.AreEqual("1001 Blattgrün Dragées", drug.DrugDescription);
+            Assert.AreEqual(DrugTestEnvironment.DrugThreeDescription, drug.DrugDescription);
         }
 
         [TestMethod]
@@ -136,11 +101,11 @@ namespace com.pharmscription.DataAccess.Tests.Repositories.DrugRepository
             Assert.IsNotNull(drug3);
             Assert.IsNotNull(drug4);
             Assert.IsNotNull(drug5);
-            Assert.AreEqual("1001 Blattgrün Dragées", drug1.DrugDescription);
-            Assert.AreEqual("1001 Blattgrün Tabletten", drug2.DrugDescription);
-            Assert.AreEqual("Abilify 1 mg/ml, Sirup", drug3.DrugDescription);
-            Assert.AreEqual("Abilify 10 mg, Schmerztabletten", drug4.DrugDescription);
-            Assert.AreEqual("Advagraf 5 mg, Retardkapseln", drug5.DrugDescription);
+            Assert.AreEqual(DrugTestEnvironment.DrugThreeDescription, drug1.DrugDescription);
+            Assert.AreEqual(DrugTestEnvironment.DrugFourDescription, drug2.DrugDescription);
+            Assert.AreEqual(DrugTestEnvironment.DrugFiveDescription, drug3.DrugDescription);
+            Assert.AreEqual(DrugTestEnvironment.DrugSixDescription, drug4.DrugDescription);
+            Assert.AreEqual(DrugTestEnvironment.DrugSevenDescription, drug5.DrugDescription);
         }
 
         [TestMethod]

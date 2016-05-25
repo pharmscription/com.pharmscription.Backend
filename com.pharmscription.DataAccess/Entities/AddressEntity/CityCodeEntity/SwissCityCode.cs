@@ -2,9 +2,14 @@
 
 namespace com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity
 {
-    public class SwissCityCode: ICityCode
+    using SharedInterfaces;
+
+    public class SwissCityCode : AbstractCityCode
     {
-        public string CityCode { get; set; }
+        public SwissCityCode()
+        {
+            
+        }
         private SwissCityCode(string cityCode)
         {
             CityCode = cityCode;
@@ -20,7 +25,7 @@ namespace com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity
         }
         public static bool IsValid(string cityCode)
         {
-            if (cityCode.Length != 4)
+            if (cityCode == null || cityCode.Length != 4)
             {
                 return false;
             }
@@ -35,6 +40,23 @@ namespace com.pharmscription.DataAccess.Entities.AddressEntity.CityCodeEntity
                 return false;
             }
             return isNumeric;
+        }
+
+        public override bool Equals(AbstractCityCode other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            return CityCode == other.CityCode;
+        }
+
+        public override AbstractCityCode Clone()
+        {
+            return new SwissCityCode
+            {
+                CityCode = CityCode
+            };
         }
     }
 }
