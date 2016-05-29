@@ -4,6 +4,9 @@ using com.pharmscription.Infrastructure.EntityHelper;
 
 namespace com.pharmscription.DataAccess.Entities.BaseEntity
 {
+    using System.Diagnostics.CodeAnalysis;
+
+    [ExcludeFromCodeCoverage]
     public abstract class Entity : IEntity
     {
         #region Members

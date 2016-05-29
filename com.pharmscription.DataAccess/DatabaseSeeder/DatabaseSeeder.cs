@@ -3,6 +3,7 @@
 namespace com.pharmscription.DataAccess.DatabaseSeeder
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Reflection;
     using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace com.pharmscription.DataAccess.DatabaseSeeder
         DrugStore
     }
 
+    [ExcludeFromCodeCoverage]
     public class DatabaseSeeder
     {
         private static readonly Dictionary<Seed, string> FileNames = new Dictionary<Seed, string>
