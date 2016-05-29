@@ -204,7 +204,11 @@ namespace com.pharmscription.BusinessLogic.Prescription
             dispense.DrugItems.Clear();
             foreach (var drugItem in dispenseDto.DrugItems)
             {
-                dispense.DrugItems.Add(await this._drugItemRepository.GetWithDrugAsync(new Guid(drugItem.Id)));
+                //dispense.DrugItems.Add(await this._drugItemRepository.GetWithDrugAsync(new Guid(drugItem.Id)));
+                var newDrugItem = drugItem.ConvertToEntity();
+                newDrugItem.Id = IdentityGenerator.NewSequentialGuid();
+                newDrugItem.Drug = await _drugRepository.GetAsync(newDrugItem.Drug.Id);
+                dispense.DrugItems.Add(newDrugItem);
             }
             _dispenseRepository.Add(dispense);
             var prescription = await _prescriptionRepository.GetWithAllNavsAsync(prescriptionGuid);
