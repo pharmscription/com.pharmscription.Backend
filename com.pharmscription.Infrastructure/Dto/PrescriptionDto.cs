@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Runtime.Serialization;
+
 namespace com.pharmscription.Infrastructure.Dto
 {
     public class PrescriptionDto : BaseDto

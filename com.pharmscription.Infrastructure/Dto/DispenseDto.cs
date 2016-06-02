@@ -1,19 +1,11 @@
-﻿
-
-using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
 
 namespace com.pharmscription.Infrastructure.Dto
 {
-
-    [DataContract]
     public class DispenseDto  : BaseDto
     {
-        [DataMember]
         public string Date { get; set; }
-        [DataMember]
         public string Remark { get; set; }
-        [DataMember]
         public ICollection<DrugItemDto> DrugItems { get; set; }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace com.pharmscription.Infrastructure.Dto
+﻿namespace com.pharmscription.Infrastructure.Dto
 {
     public class PatientDto : BaseDto
     {
